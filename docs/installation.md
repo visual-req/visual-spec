@@ -1,37 +1,37 @@
-## 安装到支持 Skill 的 AI 编辑器
+## Install into Skill-Enabled AI Editors
 
-本包通过脚本把内置的 Skill 目录复制到你的 AI 编辑器配置目录下（Trae/Qwen/Kiro 等）。不同编辑器的“配置目录”位置可能不同，但安装逻辑一致：把 `visual-spec-skill` 安装到对应的 `skills/` 目录下。
+This package uses a script to copy the built-in Skill directory into your AI editor configuration directory (Trae / Qwen / Kiro, etc.). The exact config path differs by editor, but the installation logic is the same: install `visual-spec-skill` into the target `skills/` directory.
 
-### 前置条件
+### Prerequisites
 
 - Node.js >= 14
 
-### 安装/更新（npm）
+### Install / Update (npm)
 
 ```bash
 npm install -g visual-spec
 ```
 
-### 安装/更新（pnpm）
+### Install / Update (pnpm)
 
 ```bash
 pnpm add -g visual-spec
 ```
 
-### 安装/更新（yarn）
+### Install / Update (yarn)
 
-Yarn Classic：
+Yarn Classic:
 
 ```bash
 yarn global add visual-spec
 ```
 
-Yarn Berry（v2+）：
+Yarn Berry (v2+):
 
 ```bash
 yarn dlx -p visual-spec vspec
 ```
 
-### 下一步
+### Next
 
-- 快速上手指南：`docs/getting-started.md`
+- Getting started: `docs/getting-started.md`

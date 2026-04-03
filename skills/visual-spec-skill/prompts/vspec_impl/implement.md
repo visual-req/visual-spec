@@ -26,6 +26,10 @@
 2. 生成“接口契约”并据此实现：
    - 定义 endpoints、method、path、request/response schema、错误码
    - 若仓库已有 OpenAPI/DTO/类型定义，必须复用并补齐
+3. 实现顺序（必须）：
+   - 先生成后端可运行的代码框架/工程骨架（按 `scheme.yaml` 与仓库事实），确保能启动并提供健康检查
+   - 再按接口契约逐个实现后端：实体/DTO、Repository、Service、Controller/API 与必要的校验/权限/状态流转
+   - 后端接口可用后，再生成/改造前端页面与 API 调用，完成前后端集成联调
 3. 外部依赖接入（必须，按 dependencies 落地到代码）：
    - 必须读取并解析 `/specs/background/dependencies.md`，把每个外部系统/第三方服务映射到业务链路中的“必要环节”（例如：提交申请、审批通过、执行开始/结束、支付成功、通知发送等）
    - 对每个依赖必须生成可替换的接入层（adapter/gateway/client，按仓库分层习惯放置）：

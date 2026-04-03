@@ -2,7 +2,7 @@
 
 输入信息包含：
 - 原始需求与 background 分析（/specs/background/original.md 或等价内容）
-- 干系人与角色任务（/specs/background/stakeholder.md、/specs/background/roles.md 或等价内容）
+- 干系人与角色任务（/specs/background/stakeholders.md、/specs/background/roles.md 或等价内容）
 - 术语表（/specs/background/terms.md 或等价内容）
 - 流程泳道图（/specs/flows/*.puml 或等价内容）
 
@@ -77,6 +77,14 @@
 
 3. 场景粒度与数量控制：
    - 以“业务可讨论、可验证”为粒度，不要把同类场景无限拆分
+
+4. 需求范围补齐与用户确认（必须）：
+   - 在梳理场景时，必须主动识别原始需求（original）与现有流程图（flows）中可能未提及但常见且必要的能力缺口，并以“待确认范围”方式让用户确认是否纳入本期范围
+   - 常见候选能力（按需命中、不要生搬硬套）：预约/排期、回访/跟进、汇总/对账、归档/留存、批量导入导出、通知提醒、到期/超时处理、数据权限/脱敏、异常补救、统计报表
+   - 对每个候选能力，必须给出：
+     - 为什么可能需要（对应哪个角色/干系人关注点、哪个流程节点的缺口）
+     - 如果纳入，需要补哪些场景节点链条（使用本文件的节点类型清单表达）
+   - 以上“待确认范围”不得直接当作已确定需求写入主场景表；必须将对应问题补充到 `/specs/background/questions.md`，并等待业务确认后再在后续迭代中纳入场景表
 
 输出与写入要求：
 1. 将结果写入：`/specs/background/scenarios.md`

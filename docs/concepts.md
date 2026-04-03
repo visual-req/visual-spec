@@ -1,36 +1,36 @@
-## 设计理念
+## Design Principles
 
-### 1. 以产物驱动协作
+### 1. Collaborate Through Artifacts
 
-- 把“讨论”转化为“可评审产物”，减少口头对齐成本
-- 产物按层次递进：原始需求 → 规格（/specs）→ 模型（/specs/models）→ 原型（/specs/prototypes）→ 细节（/specs/details）→ 验收/测试/代码
+- Turn “discussion” into “reviewable artifacts” to reduce alignment cost
+- Artifacts progress by layers: raw requirement → specs (`/specs`) → models (`/specs/models`) → prototype (`/specs/prototypes`) → details (`/specs/details`) → acceptance/tests/code
 
-### 2. 场景化拆解，而不是功能堆砌
+### 2. Scenario-Driven Decomposition (Not Feature Piling)
 
-- 场景使用节点组合（apply/approve/cancel/change/execute-start/execute-end 等）覆盖主流程与回退路径
-- 通过场景驱动细节：每个功能点最终都能落到“可执行的用户动作 + 可验证的期望结果”
+- Use node chains (apply/approve/cancel/change/execute-start/execute-end, etc.) to cover the happy path and rollback paths
+- Drive details from scenarios: every function point should map to “executable user actions + verifiable expected outcomes”
 
-### 3. 权限与数据权限前置
+### 3. RBAC and Data Permissions First
 
-- RBAC 精确到页面区域与控件，避免“页面能看但按钮不该点”的灰区
-- 数据权限独立建模（行/列/范围/状态/组织），并与 RBAC 形成组合关系（先鉴权再过滤）
+- RBAC down to page sections and controls to avoid “page is visible but buttons shouldn’t be clickable”
+- Model data permissions independently (row/column/scope/status/org) and compose them with RBAC (authorize first, then filter)
 
-### 4. 可实现的细节表达
+### 4. Implementation-Friendly Detail
 
-- 页面加载逻辑、交互逻辑、提交后处理都用步骤清单/表格输出，便于工程实现与评审
-- 校验、日志、通知等采用“矩阵形式”，保证覆盖完整、方便回溯与对齐
+- Express page load, interactions, and post-submit behavior as checklists/tables for engineering implementation and review
+- Use “matrices” for validation/logging/notifications to ensure complete coverage and traceability
 
-### 5. 最终一致性与可观测性是默认能力
+### 5. Consistency and Observability by Default
 
-- 对外部依赖、MQ、重试、DLQ、补偿等给出明确规格
-- 默认要求关键事件可追踪（trace_id/request_id）、可审计（操作日志）、可告警（失败与堆积）
+- Provide explicit specs for external dependencies, MQ, retries, DLQ, compensations, etc.
+- Require traceability (trace_id/request_id), auditability (activity logs), and alertability (failures/backlogs) by default
 
-### 6. 从验收到自动化再到集成实现
+### 6. Acceptance → Automation → Integration
 
-- 验收用例作为开发与测试共同语言
-- 自动化测试优先复用仓库既有框架与目录约定，减少维护成本
-- 生成代码强调最小可评审差异与可运行闭环
+- Use acceptance cases as a shared language for dev and QA
+- Prefer reusing existing test frameworks and directory conventions to reduce maintenance
+- Generated code focuses on minimal reviewable diffs and a runnable end-to-end loop
 
-### 7. 便于变更的需求文档
+### 7. Requirements That Are Easy to Change
 
-- 生成的需求文档强调可编辑、可阅读、易发现问题、易修正，并能快速适配需求变更。
+- Generated requirement docs should be editable, readable, easy to spot issues, easy to fix, and quick to adapt to changes.
