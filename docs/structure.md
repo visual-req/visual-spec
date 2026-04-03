@@ -67,3 +67,7 @@ skill 会在目标项目根目录生成 `/specs/` 产物（按命令阶段逐步
 补充说明：
 - `docs/`：用于存放与本需求相关的业务材料与交付对齐资料；建议统一放入 `legacy/current/change/refine/templates/texts/assets` 等子目录，并在文件名中体现来源与版本。
 - `scheme.yaml`：用于指定 `/vspec:verify` 生成“可运行原型工程”时采用的技术栈与选项；优先读取项目根目录 `scheme.yaml`，若不存在才读取 `/specs/scheme.yaml`，两者都不存在则会创建默认的 `scheme.yaml`。
+
+下一步：
+
+- 阅读 `docs/commands.md`，了解每个 `/vspec:*` 命令的输入、输出与使用场景

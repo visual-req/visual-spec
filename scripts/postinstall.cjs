@@ -12,6 +12,8 @@ function parseArgs(argv) {
     dryRun: args.has("--dry-run"),
     force: args.has("--force"),
     target: getValue("--target"),
+    skillDir: getValue("--skill-dir") || getValue("--target-skill-dir"),
+    skillsDir: getValue("--skills-dir") || getValue("--target-skills-dir"),
   };
 }
 
@@ -71,12 +73,20 @@ async function copyDirRecursive(fromDir, toDir) {
 }
 
 async function main() {
-  const { dryRun, force, target } = parseArgs(process.argv.slice(2));
+  const { dryRun, force, target, skillDir, skillsDir } = parseArgs(process.argv.slice(2));
 
   const packageRoot = path.resolve(__dirname, "..");
   const sourceSkillDir = path.join(packageRoot, ".trae", "skills", "starter-skill");
   const initCwd = target || process.env.INIT_CWD || process.cwd();
-  const targetSkillDir = path.join(initCwd, ".trae", "skills", "starter-skill");
+  const resolvedSkillsDir =
+    skillsDir && path.resolve(initCwd, skillsDir);
+  const resolvedSkillDir =
+    skillDir && path.resolve(initCwd, skillDir);
+  const targetSkillDir =
+    resolvedSkillDir ||
+    (resolvedSkillsDir
+      ? path.join(resolvedSkillsDir, "starter-skill")
+      : path.join(initCwd, ".trae", "skills", "starter-skill"));
 
   if (!(await pathExists(sourceSkillDir))) {
     throw new Error(`Skill source directory not found: ${sourceSkillDir}`);
