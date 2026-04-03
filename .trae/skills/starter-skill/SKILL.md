@@ -28,6 +28,11 @@ Invoke this skill when:
 Use this command to create a new requirement analysis session.
 
 Flow:
+0. Ensure `/docs/` exists, and ensure subfolders exist:
+   - `/docs/legacy/`
+   - `/docs/current/`
+   - `/docs/change/`
+   - `/docs/refine/`
 1. Ask the user to input the original requirement.
 2. When the user presses Enter, treat the input as the raw requirement source.
 3. Load the prompt file at `prompts/vspec_new/background.md`.
@@ -60,12 +65,15 @@ Flow:
 
 ### `/vspec:refine`
 
-Use this command to refine and update the requirement based on a `refine.md` file, or based on one or more input files/directories provided as command arguments.
+Use this command to refine and update the requirement based on refine materials stored under `/docs/refine/`, or based on one or more input files/directories provided as command arguments.
 
 Flow:
-1. If command arguments are provided, treat them as refine input sources (files/directories); otherwise ensure the refine instruction file exists at `/specs/background/refine.md` (or `/refine.md`).
-2. Load `prompts/vspec_refine/refine.md` to apply the refinement and update the canonical requirement.
-3. Append the refinement result to `/specs/background/original.md`.
+0. Ensure `/specs/details/` exists and is non-empty; if missing, stop and ask the user to run `/vspec:detail` first.
+1. Read refine inputs:
+   - If command arguments are provided, treat them as refine input sources (files/directories).
+   - Otherwise, read `/docs/refine/` (prefer `/docs/refine/file_list.md` as the entry if present; else read files in name order).
+2. Load `prompts/vspec_refine/refine.md` to apply the refinement, update the canonical requirement, and update impacted artifacts.
+3. Append the refinement result to `/specs/background/original.md`, and update impacted `/specs/details/` and `/specs/prototypes/` accordingly.
 
 ### `/vspec:refine-q`
 
@@ -202,17 +210,29 @@ Use this command to generate integrated frontend/backend code based on the specs
 Flow:
 1. Read `/specs/functions/*`, `/specs/details/`, `/specs/models/*.md`, `/specs/background/dependencies.md`, and detect the current frontend/backend stacks and code conventions.
 2. Load `prompts/vspec_impl/implement.md` to generate API contracts, backend endpoints/services, and frontend integration (API calls, pages, state) following repo patterns.
-3. Write changes directly into the repository source code with minimal diffs and keep it reviewable.
+3. Write code only under `/specs/prototypes/` (the prototype project) with minimal diffs and keep it reviewable; do not create extra top-level directories.
+
+### `/vspec:upgrade`
+
+Use this command to upgrade/retrofit requirements based on materials stored under `/docs/` (`/docs/legacy` for legacy system, `/docs/current` for new inputs), and regenerate the `/specs/` artifacts in the same structure as `/vspec:new`.
+
+Flow:
+1. Ensure the input entry file exists at `/docs/current/file_list.md`; if missing, generate it with the expected input list template.
+2. Read `/docs/current/file_list.md`, then read the listed sources under `/docs/` (typically `/docs/legacy/*`, `/docs/current/*`, optionally `/docs/templates/*`, `/docs/texts/*`, `/docs/assets/*`) in order and extract structured information (functions, dependencies, UI style, roles/permissions, technical spec).
+3. If `/specs/background/original.md` exists, treat it as the current canonical requirement and use it as baseline for diff (inherit/new/change/deprecate).
+4. Load `prompts/vspec_upgrade/upgrade.md` and generate/update artifacts under `/specs/`, reusing `/vspec:new` output conventions.
+5. Sync extracted technical spec into `/scheme.yaml` so it can be used by `/vspec:verify` and `/vspec:impl`.
 
 ### `/vspec:change`
 
 Use this command to respond to requirement changes and update impacted artifacts.
 
 Flow:
-1. Ask the user to provide the change description and scope.
-2. Read existing artifacts under `/specs/` (including `/specs/models/` and `/specs/prototypes/`) if present.
-3. Load `prompts/vspec_change/change.md` to analyze impact, update affected documents, and generate a change log.
-4. Write updated artifacts and a change log to `/specs/change_log.md`.
+1. Read change inputs under `/docs/change/` (prefer `/docs/change/file_list.md` as the entry if present; if only `/docs/changes/` exists, read from there for compatibility).
+2. If the target repository is a git repo, create a pre-change snapshot commit before writing any updates, so diffs are reviewable.
+3. Read existing artifacts under `/specs/` (including `/specs/details/`, `/specs/models/`, `/specs/prototypes/`) if present.
+4. Load `prompts/vspec_change/change.md` to analyze impact and update affected documents, focusing on updating impacted module detail docs under `/specs/details/<module_slug>/`.
+5. Write updated artifacts and a change log to `/specs/change_log.md`.
 
 ### `/vspec:plan`
 
@@ -269,6 +289,7 @@ Flow:
 - `prompts/vspec_accept/accept.md`: the prompt used by `/vspec:accept` to generate acceptance test cases.
 - `prompts/vspec_test/test.md`: the prompt used by `/vspec:test` to generate automation test code.
 - `prompts/vspec_impl/implement.md`: the prompt used by `/vspec:impl` to generate integrated frontend/backend code.
+- `prompts/vspec_upgrade/upgrade.md`: the prompt used by `/vspec:upgrade` to generate upgraded specs from `/docs/` inputs.
 - `prompts/vspec_change/change.md`: the prompt used by `/vspec:change` to handle requirement changes.
 - `prompts/vspec_plan/estimate.md`: the prompt used by `/vspec:plan` to generate `/specs/plan_estimate.md`.
 - `prompts/vspec_plan/schedule.md`: the prompt used by `/vspec:plan` to generate `/specs/plan_schedule.html`.
