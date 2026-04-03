@@ -1,6 +1,6 @@
 ## 安装到支持 Skill 的 AI 编辑器
 
-本包通过脚本把内置的 Skill 目录复制到你的 AI 编辑器配置目录下（Trae/Qwen/Kiro 等）。不同编辑器的“配置目录”位置可能不同，但安装逻辑一致：把 `starter-skill` 安装到对应的 `skills/` 目录下。
+本包通过脚本把内置的 Skill 目录复制到你的 AI 编辑器配置目录下（Trae/Qwen/Kiro 等）。不同编辑器的“配置目录”位置可能不同，但安装逻辑一致：把 `visual-spec-skill` 安装到对应的 `skills/` 目录下。
 
 ### 前置条件
 

@@ -3,7 +3,7 @@
 ### 0. 准备
 
 - 在你的项目根目录（包含 `.trae/`）安装该 skill
-- 确保 `.trae/skills/starter-skill/` 已出现在项目内（安装方式见下方“安装”）
+- 确保 `.trae/skills/visual-spec-skill/` 已出现在项目内（安装方式见下方“安装”）
 
 ### 1. 需求分析（/vspec:new）
 
@@ -65,5 +65,5 @@
 ## 安装（npm）
 
 - 推荐在你的项目根目录执行：`npm install <git-url>`
-- 安装完成后会将 skill 复制到：`<你的项目>/.trae/skills/starter-skill/`
+- 安装完成后会将 skill 复制到：`<你的项目>/.trae/skills/visual-spec-skill/`
 - 如需手动执行安装：`npx vspec --force`

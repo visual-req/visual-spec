@@ -13,7 +13,7 @@
     "dry-run": "node scripts/postinstall.cjs --dry-run"
   },
   "files": [
-    ".trae/skills/starter-skill/",
+    "skills/visual-spec-skill/",
     "bin/",
     "docs/",
     "scripts/",

@@ -27,5 +27,5 @@
 
 ## 目录结构
 
-- `.trae/skills/starter-skill/SKILL.md`：Skill 定义与命令流程
-- `.trae/skills/starter-skill/prompts/`：各命令对应的提示词文件
+- `skills/visual-spec-skill/SKILL.md`：Skill 定义与命令流程
+- `skills/visual-spec-skill/prompts/`：各命令对应的提示词文件
