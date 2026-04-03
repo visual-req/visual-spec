@@ -12,7 +12,7 @@
 
 ```bash
 npm install -g visual-spec
-vreq-skill --force --target "$HOME"
+vspec --force --target "$HOME"
 ```
 
 ### 2. 推荐工作流

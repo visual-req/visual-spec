@@ -101,7 +101,7 @@ async function main() {
   if (dryRun) {
     process.stdout.write(
       [
-        "[vreq-skill] dry-run",
+        "[vspec] dry-run",
         `- source: ${sourceSkillDir}`,
         `- target: ${targetSkillDir}`,
       ].join("\n") + "\n",
@@ -117,10 +117,10 @@ async function main() {
   }
 
   await copyDirRecursive(sourceSkillDir, targetSkillDir);
-  process.stdout.write(`[vreq-skill] installed to ${targetSkillDir}\n`);
+  process.stdout.write(`[vspec] installed to ${targetSkillDir}\n`);
 }
 
 main().catch((error) => {
-  process.stderr.write(`[vreq-skill] install failed: ${error?.message || error}\n`);
+  process.stderr.write(`[vspec] install failed: ${error?.message || error}\n`);
   process.exitCode = 1;
 });

@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "commonjs",
   "bin": {
-    "vreq-skill": "bin/vreq-skill.cjs"
+    "vspec": "bin/vspec.cjs"
   },
   "scripts": {
     "postinstall": "node scripts/postinstall.cjs",

@@ -29,7 +29,7 @@ yarn global add visual-spec
 Yarn Berry（v2+）：
 
 ```bash
-yarn dlx -p visual-spec vreq-skill
+yarn dlx -p visual-spec vspec
 ```
 
 ### 下一步

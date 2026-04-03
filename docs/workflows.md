@@ -66,4 +66,4 @@
 
 - 推荐在你的项目根目录执行：`npm install <git-url>`
 - 安装完成后会将 skill 复制到：`<你的项目>/.trae/skills/starter-skill/`
-- 如需手动执行安装：`npx vreq-skill --force`
+- 如需手动执行安装：`npx vspec --force`
