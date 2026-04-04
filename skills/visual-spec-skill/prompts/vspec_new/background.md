@@ -58,14 +58,6 @@ catalog:
       notes: default_for_vspec_verify
 
   prototype_backend_stacks:
-    - id: none
-      name: No backend (frontend mock only)
-      language: none
-      framework: none
-      api_style: none
-      auth: none
-      orm: none
-
     - id: java17_springboot3
       name: Java 17 + Spring Boot 3
       language: java
