@@ -42,6 +42,7 @@
 - 适用场景：尽快验证数据结构与页面形态，降低沟通误差
 - 关键输出：模型文件（实体拆分/关系/状态机等）、可运行原型、场景评审页
 - UI 规范：生成或复用 `/prototype_ui_convention.md`（与 `/scheme.yaml` 同级），并以其作为唯一口径约束原型 UI 风格与交互
+- Note：执行 `/vspec:verify` 之前务必先审核 `/specs/functions/*` 的功能清单，确保覆盖完整；否则原型与模型将仅基于现有 functions 生成，可能出现功能缺失。
 
 ## `/vspec:detail`
 

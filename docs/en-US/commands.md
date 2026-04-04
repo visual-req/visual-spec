@@ -42,6 +42,7 @@
 - When to use: you want to validate the data structure and page shape quickly and reduce misunderstanding risk
 - Key outputs: model files (entity splitting), runnable prototype, scenario review page
 - UI spec: generates or reuses `/prototype_ui_convention.md` (same directory as `/scheme.yaml`) and uses it as the single source of truth to constrain prototype UI style and interactions
+- Note: before running `/vspec:verify`, review `/specs/functions/*` to ensure the function list is complete; otherwise models and prototypes will be generated only from the current functions and may miss features.
 
 ## `/vspec:detail`
 

@@ -54,14 +54,6 @@ catalog:
       e2e_test: playwright
 
   prototype_backend_stacks:
-    - id: none
-      name: No backend (frontend mock only)
-      language: none
-      framework: none
-      api_style: none
-      auth: none
-      orm: none
-
     - id: java17_springboot3
       name: Java 17 + Spring Boot 3
       language: java
@@ -77,4 +69,3 @@ catalog:
       api_style: rest
       auth: jwt
       orm: prisma
-

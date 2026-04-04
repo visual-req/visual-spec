@@ -492,6 +492,9 @@ CRUD 页面生成偏好（必须）：
 
 实现约束：
 - 必须严格按 `scheme.yaml` 的 `selected.prototype_frontend_stack` 与其 `catalog.prototype_frontend_stacks` 定义生成工程；禁止只生成单个 HTML 文件。
+- 生成任何代码前，必须先读取 `scheme.yaml` 并解析 `selected.prototype_frontend_framework`：
+  - 若为 `vue`：必须生成 Vue 工程（工程结构与依赖按 `catalog.prototype_frontend_stacks` 对应条目执行），禁止只生成 `index.html`。
+  - 若为 `react`：必须生成 React 工程（同上）。
 - 若 `selected.prototype_frontend_stack` 为未知/不支持 id：必须停止并输出错误，要求用户修正 `scheme.yaml` 后重跑；禁止静默回退为 html-only。
 - 框架与路由必须随栈切换：
   - Vue 栈：必须使用 `vue-router@4` 生成路由；路由 path 必须逐条匹配 functions 的 `入口=/...`（Web）与 `/m/...`（Mobile）。
@@ -593,6 +596,7 @@ Landing（落地页）生成要求（必须）：
 移动端增强页面生成要求（按需裁剪，命中条件则必须）：
 1. 购物车/支付/协议/商品/瀑布流/信息流/日历等移动端页面：若命中对应域或用户明确需要，必须按以下规则文件生成并确保 Landing 金刚区可进入：
    - 工作台：`prompts/vspec_verify/prototype_mobile_dashboard.md`（`/m/dashboard`）
+   - 综合查询（酒店/机票/商品等复杂筛选 + 详情联动）：`prompts/vspec_verify/prototype_mobile_comprehensive_search.md`（`/m/search`）
    - 购物车：`prompts/vspec_verify/prototype_mobile_cart.md`（`/m/cart`）
    - 订单：`prompts/vspec_verify/prototype_order.md`（`/m/orders`、`/m/orders/:id`）
    - 结算/支付：`prompts/vspec_verify/prototype_mobile_payment.md`（`/m/payment`）
@@ -600,6 +604,7 @@ Landing（落地页）生成要求（必须）：
    - 商品：`prompts/vspec_verify/prototype_mobile_product.md`（`/m/products`、`/m/product/:id`）
    - 瀑布流：`prompts/vspec_verify/prototype_mobile_waterfall.md`（`/m/waterfall`）
    - 信息流：`prompts/vspec_verify/prototype_mobile_feed.md`（`/m/feed`）
+   - 视频学课：`prompts/vspec_verify/prototype_mobile_video_course.md`（`/m/courses`、`/m/course/:id`）
    - 日历：`prompts/vspec_verify/prototype_mobile_calendar.md`（`/m/calendar`）
 2. 二维码展示与手写签名（命中则必须）：
    - 二维码展示：`prompts/vspec_verify/prototype_mobile_qr.md`（`/m/qr-code`）
@@ -609,7 +614,14 @@ Landing（落地页）生成要求（必须）：
    - 商品评论（Web + Mobile）：`prompts/vspec_verify/prototype_product_reviews.md`
    - 视频展示（Web + Mobile）：`prompts/vspec_verify/prototype_video.md`
    - 音乐播放（Web + Mobile）：`prompts/vspec_verify/prototype_music.md`
-4. 优惠/券/促销（命中则必须）：
+   - 视频学课（Mobile）：`prompts/vspec_verify/prototype_mobile_video_course.md`（`/m/courses`、`/m/course/:id`）
+4. 做题/测评（命中则必须）：
+   - `prompts/vspec_verify/prototype_quiz.md`（Web：`/quiz`、`/quiz/result`；Mobile：`/m/quiz`、`/m/quiz/result`）
+5. 内容发布（命中则必须）：
+   - `prompts/vspec_verify/prototype_richtext_publish.md`（Web：`/content`、`/content/publish`；Mobile 可选）
+6. 超级表单/表单搭建（命中则必须）：
+   - `prompts/vspec_verify/prototype_super_form_builder.md`（Web：`/tools/form-builder`、`/tools/form-preview`；Mobile 可选）
+7. 优惠/券/促销（命中则必须）：
    - `prompts/vspec_verify/prototype_promotion.md`
 
 订单与支付（必须，命中则生成且以订单列表为入口）：
@@ -908,16 +920,18 @@ Steps（步骤条）使用要求（必须）：
 输出与写入要求：
 1. 输出目录：`/specs/prototypes/`
 2. 如果目录不存在，请先创建
-3. 生成一个可启动的工程结构（至少包含）：
-   - `package.json`
-   - `vite.config.*`
-   - `index.html`
-   - `src/main.*`
-   - `src/assets/*`
-   - `src/components/*`
-   - `src/router/*`
-   - `src/pages/*`
-   - `src/mock/*`
+3. 生成一个可启动的工程结构（必须按 `scheme.yaml` 对应栈生成）：
+   - 必须根据 `selected.prototype_frontend_stack` 找到对应 `catalog.prototype_frontend_stacks` 条目，按其 `framework` 与 `build_tool` 生成等价的可启动工程骨架。
+   - 若 `build_tool=vite`（Vue/React 常见）：至少包含：
+     - `package.json`
+     - `vite.config.*`
+     - `index.html`
+     - `src/main.*`
+     - `src/assets/*`
+     - `src/components/*`
+     - `src/router/*`
+     - `src/pages/*`
+     - `src/mock/*`
 4. 严格性（必须）：
    - 不允许只生成 `index.html` 或少量静态文件冒充“可运行原型工程”
    - 必须生成可安装依赖并启动的工程（以 `scheme.yaml.selected.package_manager` 的脚本习惯为准）

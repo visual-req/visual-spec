@@ -23,4 +23,5 @@
 联动要求（必须）：
 1. Toolbox 必须与现有工具页路由打通，至少包含并可跳转到：
    - `/tools/introduction`、`/tools/data-dict`、`/tools/config`、`/tools/qr-code`、`/tools/video`、`/profile`、`/agreement/confirm`
+   - `/tools/form-builder`、`/tools/form-preview`（若生成了超级表单/表单搭建相关页面）
 2. 若原型已实现：`/tools/notify-center`、`/weather`、`/report`、`/big-screen`，则 Toolbox 必须自动补齐对应入口卡片。
