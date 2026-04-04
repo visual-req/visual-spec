@@ -1,2 +1,3 @@
 .tmp-npm8/
 *.tgz
+/skills/visual-spec-skill/prompts/harness/

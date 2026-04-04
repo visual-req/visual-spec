@@ -23,7 +23,7 @@ This repo provides a requirements analysis and delivery assistant Skill. It offe
 - `/vspec:upgrade`: Upgrade/redesign based on legacy + new inputs under `/docs/` (legacy/current/templates/texts/assets), generate/update `/specs/`, and sync technical selections to `/scheme.yaml`
 - `/vspec:change`: Analyze and apply change inputs from `/docs/change/`, update artifacts, and write `/specs/change_log.md` (requires a git snapshot commit before updating)
 - `/vspec:qc`: Run artifact quality checks and write a report (writes to `/specs/qc_report.md`)
-- `/vspec:plan`: Generate estimation and schedule (writes to `/specs/plan_estimate.md`, `/specs/plan_schedule.html`)
+- `/vspec:plan`: Generate estimation and schedule (writes to `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html`)
 
 ## Directory Structure
 

@@ -8,11 +8,30 @@ Install the npm package, then install the Skill into your AI editor configuratio
 
 - Installation and verification: `docs/installation.md`
 
-Common setup (npm):
+Install / update (npm):
 
 ```bash
 npm install -g visual-spec
-vspec --force --target "$HOME"
+```
+
+Install / update (pnpm):
+
+```bash
+pnpm add -g visual-spec
+```
+
+Install / update (yarn):
+
+Yarn Classic:
+
+```bash
+yarn global add visual-spec
+```
+
+Yarn Berry (v2+):
+
+```bash
+yarn dlx -p visual-spec vspec
 ```
 
 ### 2. Recommended Workflow

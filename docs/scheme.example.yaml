@@ -1,0 +1,80 @@
+schema_version: 1
+
+selected:
+  prototype_frontend_stack: vue3_vite_ts_antdv
+  prototype_frontend_framework: vue
+  prototype_frontend_ui_library: ant-design-vue
+  prototype_backend_stack: java17_springboot3
+  prototype_database: mysql8
+  package_manager: npm
+  language: zh-CN
+
+prototype_options:
+  calendar_view:
+    enabled: auto
+    view_default: month
+    resource_dimension: auto
+
+catalog:
+  prototype_frontend_stacks:
+    - id: vue3_vite_ts_antdv
+      name: Vue 3 + Vite + TypeScript + Ant Design Vue
+      framework: vue
+      framework_version: "3"
+      build_tool: vite
+      language: typescript
+      ui_library: ant-design-vue
+      router: vue-router@4
+      state: pinia
+      http_client: axios
+      charting: echarts
+      date_library: dayjs
+      styling: less
+      lint: eslint
+      formatter: prettier
+      unit_test: vitest
+      e2e_test: playwright
+
+    - id: react18_vite_ts_antd
+      name: React 18 + Vite + TypeScript + Ant Design
+      framework: react
+      framework_version: "18"
+      build_tool: vite
+      language: typescript
+      ui_library: antd
+      router: react-router@6
+      state: redux-toolkit
+      http_client: axios
+      charting: echarts-for-react
+      date_library: dayjs
+      styling: less
+      lint: eslint
+      formatter: prettier
+      unit_test: vitest
+      e2e_test: playwright
+
+  prototype_backend_stacks:
+    - id: none
+      name: No backend (frontend mock only)
+      language: none
+      framework: none
+      api_style: none
+      auth: none
+      orm: none
+
+    - id: java17_springboot3
+      name: Java 17 + Spring Boot 3
+      language: java
+      framework: spring-boot
+      api_style: rest
+      auth: spring-security-jwt
+      orm: jpa_or_mybatis
+
+    - id: node18_nestjs10_ts
+      name: Node.js 18 + NestJS 10 + TypeScript
+      language: typescript
+      framework: nestjs
+      api_style: rest
+      auth: jwt
+      orm: prisma
+

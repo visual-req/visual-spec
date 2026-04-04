@@ -12,6 +12,8 @@
    - 若不存在，再读取：`/specs/scheme.yaml`
 2. 如果两个路径都不存在：必须先创建默认文件 `/scheme.yaml`（不要覆盖已存在文件），并写入“默认值 + 可选技术栈清单（详细）”，然后继续用默认值生成工程。
 3. 生成工程时必须严格按 `scheme.yaml` 的 `selected.prototype_frontend_stack` 执行；若用户填写了未知/不支持的 id：必须停止并输出错误，要求用户修正 `scheme.yaml` 后重试；禁止私自回退到其他栈。
+4. `selected` 中与前端工程结构相关的字段（如 `prototype_frontend_framework`、`prototype_frontend_ui_library`）用于约束生成目录结构与依赖组合：
+   - 若这些字段存在，则必须与 `selected.prototype_frontend_stack` 在 `catalog.prototype_frontend_stacks` 中的定义一致，否则必须停止并要求用户修正 `scheme.yaml`
 
 默认 `/scheme.yaml` 内容模板（必须按此生成，可直接复制；用户可自行修改 selected 值后重跑 /vspec:verify）：
 ```yaml
@@ -19,6 +21,8 @@ schema_version: 1
 
 selected:
   prototype_frontend_stack: vue3_vite_ts_antdv
+  prototype_frontend_framework: vue
+  prototype_frontend_ui_library: ant-design-vue
   prototype_backend_stack: java17_springboot3
   prototype_database: mysql8
   package_manager: npm
@@ -349,7 +353,7 @@ Session 用户信息复用（必须）：
 整体布局（必须）：
 1. 原型必须包含“顶部 Header + 左侧 Menu + 主内容区”的三段式布局：
    - Header：Logo/系统名、角色切换、全局搜索、常用入口（例如新建/待办）、用户菜单（设置/退出占位）
-   - 左侧 Menu：按模块分组的导航菜单，支持折叠（collapsible），适配窄屏
+   - 左侧 Menu：按模块种类分组的导航菜单（例如：流程类/交易类/营销类/报表类/工具类），支持折叠（collapsible），适配窄屏
    - 主内容区：router-view 渲染页面
 2. 适配手机/窄屏（必须）：
    - 左侧 Menu 在窄屏时默认收起（或变为抽屉式侧边栏），Header 保留
@@ -410,9 +414,19 @@ Session 用户信息复用（必须）：
      - 未审批阶段的按钮文案优先使用“撤回/取消、修改”
      - 已审批阶段的按钮文案优先使用“终止/作废、变更申请”
 
+审批/执行的菜单与操作入口（必须）：
+1. 左侧菜单的审批与执行只允许以“列表页”作为入口：
+   - 审批：`/approve`（审批列表）
+   - 执行：`/execute`（执行列表）
+2. “通过/驳回/开始/结束/紧急叫停”等动作必须出现在列表行 Action 或详情页操作区；禁止作为左侧菜单项入口。
+
 CRUD 页面生成偏好（必须）：
 1. 所有 CRUD（配置/主数据/字典类）功能必须以“列表页”作为唯一入口页面：
    - 列表页包含查询区（可折叠）+ Table + 工具栏（新建/导出占位/刷新等）
+2. 导出（必须）：
+   - 禁止“无条件直接导出”；导出必须基于当前查询条件（至少包含时间范围/状态/组织等与业务相关的条件）
+   - 必须在导出前明确展示导出条件（可用确认弹窗/抽屉），并把条件写入导出记录（mock）
+   - 若需求/材料提供了导出模板（例如 `/docs/templates/*`、`/docs/current/*` 或需求中声明的模板字段顺序）：导出格式必须严格按模板，不允许自定义字段顺序/自造列名
 2. 新建：
    - 只能通过列表页工具栏“新建”按钮打开 Drawer 表单完成创建
    - 禁止单独生成“新建路由/新建页面”
@@ -428,7 +442,25 @@ CRUD 页面生成偏好（必须）：
 - `/apply`：申请管理（申请列表 + 新建申请 + 变更/取消入口）
 - `/approve`：审批列表 + 审批详情（通过/驳回）
 - `/execute`：执行列表 + 执行详情（开始/结束/紧急叫停）
+- `/orders`：订单列表（支付/交易类命中时必须；支付动作必须从订单进入）
+- `/orders/:id`：订单详情（含去支付/退款等操作区）
 - `/m/list`：移动端通用列表演示页（必须，提供 list/grid/card 多方案）
+- `/m/feed`：移动端信息流/信息呈现页（内容/商品/通知等演示）
+- `/m/products`：移动端商品列表（商品域命中时必须）
+- `/m/product/:id`：移动端商品详情（与商品列表联动）
+- `/m/cart`：移动端购物车（商品域命中时建议生成）
+- `/m/orders`：移动端订单列表（支付类命中时必须；支付入口必须从订单进入）
+- `/m/orders/:id`：移动端订单详情（含去支付）
+- `/m/payment`：移动端结算/支付页（必须从订单详情进入）
+- `/m/waterfall`：移动端瀑布流（商品/内容域命中时建议生成）
+- `/m/calendar`：移动端日历（资源/排期/预约等场景命中时建议生成）
+- `/m/agreement`：移动端协议阅读/确认页（支付/签署等关键动作前）
+- `/m/qr-code`：移动端二维码展示页（付款码/核销码/签到码等）
+- `/m/signature`：移动端手写签名页（签署/确认等场景命中时建议生成）
+- `/m/articles`：移动端文章列表（内容域命中时建议生成）
+- `/m/article/:id`：移动端文章阅读页（与文章列表联动）
+- `/m/video`：移动端视频展示页（培训/教程/演示等场景命中时建议生成）
+- `/m/music`：移动端音乐播放页（音乐/播客/语音等场景命中时建议生成）
 - `/apply?view=change`：变更记录（可作为申请管理内的视图切换/Tab，不单独做左侧菜单）
 - `/apply?view=cancel`：取消/作废记录（可作为申请管理内的视图切换/Tab，不单独做左侧菜单）
 - `/calendar`：资源日历/排班视图（资源申请类系统必须；否则可不生成）
@@ -466,8 +498,43 @@ CRUD 页面生成偏好（必须）：
 
 UI 规范（必须，用于约束原型风格，避免随意发挥）：
 1. 规范优先级：
-   - 若存在 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md`：必须优先遵守其中的 UI 风格约束
-   - 否则使用本节默认规范
+   - 必须优先读取并遵守项目根目录 `/原型UI规范.md`（与 `/scheme.yaml` 同级）
+   - 若 `/原型UI规范.md` 不存在：必须先创建该文件（不要覆盖已存在文件）并写入默认模板，然后再继续生成原型
+   - 若存在 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md`：必须把其中“更具体/更严格”的约束合并进 `/原型UI规范.md`（作为最终口径），并以最终合并后的 `/原型UI规范.md` 约束生成
+2. `/原型UI规范.md` 默认模板（必须生成，允许用户后续手动修改后重跑 /vspec:verify 生效）：
+
+```md
+# 原型 UI 规范
+
+## 目标
+- 统一视觉语言与交互口径，确保 Web 与 Mobile 演示一致、可评审、可复用
+
+## 全局布局
+- Web：左侧导航（可折叠）+ 顶部 Header + 内容区（三段式）
+- Mobile：顶部栏 + 内容区 +（按需）底部吸底操作栏
+
+## 色彩与层级
+- 主色：保持 Ant Design 默认主色系
+- 强调色/危险色：仅用于关键动作与风险提示，避免滥用
+- 状态色（示例口径，可按模块裁剪但必须一致）：待处理=蓝、成功=绿、失败/驳回=红、取消/终止=灰
+
+## 字体与间距
+- 标题/正文/辅助文字使用清晰层级，避免同屏字号过多
+- Web 默认内容 padding 16~24，区块间距 16；Mobile 默认 padding 12~16，区块间距 12
+
+## 组件规范
+- 表单：一律用 Drawer 承载；必填用校验规则，不靠 placeholder
+- 日期：一律用日期控件（DatePicker/RangePicker），禁止文本输入日期
+- 金额：右对齐；千分位；两位小数
+- 敏感信息：默认脱敏，按权限可触发展示全量
+
+## 交互反馈
+- 所有关键动作必须有成功/失败反馈；提交中禁重复提交并显示 loading
+- 无权限：隐藏不可见项；不可操作项置灰并提示原因
+
+## 本地化
+- 日期/时间与状态/枚举显示必须中文化；禁止直接展示英文 code
+```
 2. 全局布局：
    - 桌面端统一使用：左侧导航（可折叠）+ 顶部 Header + 内容区
    - 内容区统一：白底 Card/区块分组，默认 padding 16~24，区块间距 16
@@ -506,11 +573,46 @@ UI 规范（必须，用于约束原型风格，避免随意发挥）：
 10. 响应式与移动端：
    - 移动端页面遵循各自规则文件（landing/mobile_list 等），但视觉语言（字号/间距/按钮层级）需与桌面端保持一致
 
+优惠/券/促销（必须，命中则生成并覆盖多样性）：
+1. 若需求出现“优惠/促销/优惠券/折扣/满减/免邮/券码/叠加/客群”等：必须按 `prompts/vspec_verify/prototype_promotion.md` 生成对应页面与联动能力。
+2. 金额/优惠口径必须可追溯：购物车/支付必须提供“优惠明细”展开，包含每条优惠的类型、是否可叠加、有效期、客群限制与抵扣金额。
+3. 有效期强制：任何优惠（券/活动）都必须具备有效期字段，并在 UI 中体现“未开始/进行中/已结束”状态与不可用原因。
+4. 叠加规则强制：至少覆盖“可叠加/不可叠加”两类，并在选择时真实限制（不可只写文案）。
+
 Landing（落地页）生成要求（必须）：
 1. Landing 规则必须按 `prompts/vspec_verify/prototype_landing.md` 执行。
 
 移动端通用 List 页面生成要求（必须）：
 1. 移动端列表页规则必须按 `prompts/vspec_verify/prototype_mobile_list.md` 执行。
+
+移动端增强页面生成要求（按需裁剪，命中条件则必须）：
+1. 购物车/支付/协议/商品/瀑布流/信息流/日历等移动端页面：若命中对应域或用户明确需要，必须按以下规则文件生成并确保 Landing 金刚区可进入：
+   - 工作台：`prompts/vspec_verify/prototype_mobile_dashboard.md`（`/m/dashboard`）
+   - 购物车：`prompts/vspec_verify/prototype_mobile_cart.md`（`/m/cart`）
+   - 订单：`prompts/vspec_verify/prototype_order.md`（`/m/orders`、`/m/orders/:id`）
+   - 结算/支付：`prompts/vspec_verify/prototype_mobile_payment.md`（`/m/payment`）
+   - 协议阅读：`prompts/vspec_verify/prototype_mobile_agreement.md`（`/m/agreement`）
+   - 商品：`prompts/vspec_verify/prototype_mobile_product.md`（`/m/products`、`/m/product/:id`）
+   - 瀑布流：`prompts/vspec_verify/prototype_mobile_waterfall.md`（`/m/waterfall`）
+   - 信息流：`prompts/vspec_verify/prototype_mobile_feed.md`（`/m/feed`）
+   - 日历：`prompts/vspec_verify/prototype_mobile_calendar.md`（`/m/calendar`）
+2. 二维码展示与手写签名（命中则必须）：
+   - 二维码展示：`prompts/vspec_verify/prototype_mobile_qr.md`（`/m/qr-code`）
+   - 手写签名：`prompts/vspec_verify/prototype_mobile_signature.md`（`/m/signature`）
+3. 文章/评论/媒体类页面（命中则必须）：
+   - 文章阅读（Web + Mobile）：`prompts/vspec_verify/prototype_article.md`
+   - 商品评论（Web + Mobile）：`prompts/vspec_verify/prototype_product_reviews.md`
+   - 视频展示（Web + Mobile）：`prompts/vspec_verify/prototype_video.md`
+   - 音乐播放（Web + Mobile）：`prompts/vspec_verify/prototype_music.md`
+4. 优惠/券/促销（命中则必须）：
+   - `prompts/vspec_verify/prototype_promotion.md`
+
+订单与支付（必须，命中则生成且以订单列表为入口）：
+1. 若需求出现“订单/支付/退款/交易/结算/收款/付款”等：必须按 `prompts/vspec_verify/prototype_order.md` 生成订单列表与详情（Web + Mobile）。
+2. 支付/退款等动作只能在订单列表 Action 或订单详情操作区出现；禁止把“支付/退款”作为左侧菜单入口或移动端金刚区直达入口。
+
+驾驶舱/大屏生成要求（用户明确需要则必须）：
+1. 必须按 `prompts/vspec_verify/prototype_big_screen.md` 执行，并保证 `/big-screen` 稳定可访问。
 
 Toolbox（工具箱）生成要求（建议；若存在多个工具页则必须）：
 1. Toolbox 规则必须按 `prompts/vspec_verify/prototype_toolbox.md` 执行。
@@ -757,6 +859,9 @@ Steps（步骤条）使用要求（必须）：
    - 饼图/环形图（占比）
    - 堆叠柱状图或雷达图（结构/能力维度）
 3. 必须提供筛选条件（Form + 查询按钮），至少包含：时间范围、组织/城市、状态（按本需求字段裁剪）
+4. 导出（必须）：
+   - 必须基于筛选条件导出，时间范围为必填查询条件；未选择时间范围时禁止导出并提示原因
+   - 若需求/材料提供了导出模板：导出格式必须严格按模板，不允许自定义
 
 会员余额管理页面生成要求（按需裁剪，命中条件则必须）：
 1. 判定口径（满足任一视为命中）：

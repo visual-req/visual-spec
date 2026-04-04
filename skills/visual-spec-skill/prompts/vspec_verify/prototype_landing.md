@@ -31,6 +31,6 @@
    - Banner 点击可跳转到对应演示入口（例如：工作台/日历/商品列表等）
 3. 必须提供金刚区：
    - 8~12 个快捷入口，使用宫格布局（4~5 列）
-   - 入口按 functions 与 roles 裁剪：工作台、申请、新建、审批、执行、日历、商品、报表、大屏、工具页、列表演示（/m/list）等
+   - 入口按 functions 与 roles 裁剪：工作台（/m/dashboard）、申请、新建、审批、执行、日历（/m/calendar）、商品（/m/products）、购物车（/m/cart）、订单（/m/orders）、信息流（/m/feed）、瀑布流（/m/waterfall）、文章（/m/articles）、视频（/m/video）、音乐（/m/music）、二维码（/m/qr-code）、签名（/m/signature）、报表、大屏、工具页、列表演示（/m/list）等
    - 不可用入口置灰并提示原因（基于 session/角色）
 4. 同一路由 `/landing` 下做自适应即可，不要求单独的 `/m/landing`。

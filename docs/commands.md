@@ -13,7 +13,7 @@
 | `/vspec:upgrade` | Analyze and generate new specs based on legacy materials | `/docs/current/file_list.md` + `/docs/legacy/*` (optional templates/texts/assets) + existing `/specs/background/original.md` (if any) | Generate/update `/specs/` in `/vspec:new` structure + sync technical selections to `/scheme.yaml` |
 | `/vspec:change` | Apply change inputs, do impact analysis, and update artifacts | `/docs/change/*` (optional file_list.md) + existing `/specs/` | Update impacted files (prefers `/specs/details/<module_slug>/`) + `/specs/change_log.md` (requires git snapshot commit before updating) |
 | `/vspec:qc` | Run quality checks on `/specs/` artifacts | built-in standard + optional project `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
-| `/vspec:plan` | Estimation and scheduling | functions/roles/flows/dependencies/details | `/specs/plan_estimate.md`, `/specs/plan_schedule.html` |
+| `/vspec:plan` | Estimation and scheduling | functions/roles/flows/dependencies/details | `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html` |
 
 ## `/vspec:new`
 
@@ -41,6 +41,7 @@
 
 - When to use: you want to validate the data structure and page shape quickly and reduce misunderstanding risk
 - Key outputs: model files (entity splitting), runnable prototype, scenario review page
+- UI spec: generates or reuses `/原型UI规范.md` (same directory as `/scheme.yaml`) and uses it as the single source of truth to constrain prototype UI style and interactions
 
 ## `/vspec:detail`
 

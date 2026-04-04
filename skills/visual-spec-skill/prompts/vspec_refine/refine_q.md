@@ -2,7 +2,7 @@
 
 输入信息包含：
 - 现有需求归档与分析：`/specs/background/original.md`
-- 问答表：`/specs/background/questions.md`（包含“回答/状态/回答者/回答时间”等列）
+- 问答列表：`/specs/background/questions.md`（包含“回答/状态/回答者/回答时间”等字段）
 - 如需核对上下游影响，可参考：`/specs/background/*.md`、`/specs/flows/*.puml`、`/specs/functions/*`
 
 采纳规则（必须）：
@@ -36,4 +36,13 @@
 ## 当前生效需求（Canonical）
 
 ## 仍待确认的问题
-- 汇总 questions 表里仍未回答/需修改的关键问题（只列重要的 5-15 条）
+- 汇总 questions 列表里仍未回答/需修改的关键问题（只列重要的 5-15 条）
+
+格式增强（必须）：
+1. 在本次追加到 `original.md` 的“采纳的问答条目”表格中：
+   - 对“回答”单元格内容使用 markdown 可渲染的背景色标记（例如用 `<mark>...</mark>` 包裹），以便一眼区分“已采纳的回答”。
+2. 同时更新 `/specs/background/questions.md`（不要新增字段，不要改动编号与字段名/顺序）：
+   - 对所有被本次采纳的条目（满足采纳规则的条目），必须将其状态规范化为“已回答”并标记背景色：
+     - `- 回答：<mark>...</mark>`
+     - `- 状态：<mark>已回答</mark>`
+   - 其他条目保持原样（例如“未回答/已跳过/需修改”）。

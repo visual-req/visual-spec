@@ -14,6 +14,103 @@
 
      建议按主题或日期建立子目录，并在文件名中体现来源与版本。
 
+0.5 创建可编辑的工程约束文件（必须）
+   - 目的：让用户在后续 `/vspec:verify` 与 `/vspec:impl` 前即可手动调整技术栈与 UI 风格
+   - 若 `/scheme.yaml` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板：
+
+```yaml
+schema_version: 1
+
+selected:
+  prototype_frontend_stack: vue3_vite_ts_antdv
+  prototype_frontend_framework: vue
+  prototype_frontend_ui_library: ant-design-vue
+  prototype_backend_stack: java17_springboot3
+  prototype_database: mysql8
+  package_manager: npm
+  language: zh-CN
+
+prototype_options:
+  calendar_view:
+    enabled: auto
+    view_default: month
+    resource_dimension: auto
+
+catalog:
+  prototype_frontend_stacks:
+    - id: vue3_vite_ts_antdv
+      name: Vue 3 + Vite + TypeScript + Ant Design Vue
+      framework: vue
+      framework_version: "3"
+      build_tool: vite
+      language: typescript
+      ui_library: ant-design-vue
+      router: vue-router@4
+      state: pinia
+      http_client: axios
+      charting: echarts
+      date_library: dayjs
+      styling: less
+      lint: eslint
+      formatter: prettier
+      unit_test: vitest
+      e2e_test: playwright
+      notes: default_for_vspec_verify
+
+  prototype_backend_stacks:
+    - id: none
+      name: No backend (frontend mock only)
+      language: none
+      framework: none
+      api_style: none
+      auth: none
+      orm: none
+
+    - id: java17_springboot3
+      name: Java 17 + Spring Boot 3
+      language: java
+      framework: spring-boot
+      api_style: rest
+      auth: spring-security-jwt
+      orm: jpa_or_mybatis
+      notes: enterprise_standard
+```
+
+   - 若 `/原型UI规范.md` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板：
+
+```md
+# 原型 UI 规范
+
+## 目标
+- 统一视觉语言与交互口径，确保 Web 与 Mobile 演示一致、可评审、可复用
+
+## 全局布局
+- Web：左侧导航（可折叠）+ 顶部 Header + 内容区（三段式）
+- Mobile：顶部栏 + 内容区 +（按需）底部吸底操作栏
+
+## 色彩与层级
+- 主色：保持 Ant Design 默认主色系
+- 强调色/危险色：仅用于关键动作与风险提示，避免滥用
+- 状态色（示例口径，可按模块裁剪但必须一致）：待处理=蓝、成功=绿、失败/驳回=红、取消/终止=灰
+
+## 字体与间距
+- 标题/正文/辅助文字使用清晰层级，避免同屏字号过多
+- Web 默认内容 padding 16~24，区块间距 16；Mobile 默认 padding 12~16，区块间距 12
+
+## 组件规范
+- 表单：一律用 Drawer 承载；必填用校验规则，不靠 placeholder
+- 日期：一律用日期控件（DatePicker/RangePicker），禁止文本输入日期
+- 金额：右对齐；千分位；两位小数
+- 敏感信息：默认脱敏，按权限可触发展示全量
+
+## 交互反馈
+- 所有关键动作必须有成功/失败反馈；提交中禁重复提交并显示 loading
+- 无权限：隐藏不可见项；不可操作项置灰并提示原因
+
+## 本地化
+- 日期/时间与状态/枚举显示必须中文化；禁止直接展示英文 code
+```
+
 1. 归档原始需求
    - 将用户输入的原始需求原文保存到：`/specs/background/original.md`
    - 如果 `/specs/background` 不存在，请先创建目录

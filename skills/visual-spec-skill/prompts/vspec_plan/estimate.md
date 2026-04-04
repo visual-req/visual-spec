@@ -28,5 +28,5 @@
    - 表中行顺序保持与对应 functions 文件一致
 
 输出与写入要求：
-1. 写入估算 markdown：`/specs/plan_estimate.md`
-2. 若 `/specs` 不存在，请先创建目录
+1. 写入估算 markdown：`/specs/plan/plan_estimate.md`
+2. 若 `/specs/plan` 不存在，请先创建目录

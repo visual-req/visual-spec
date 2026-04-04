@@ -2,7 +2,7 @@
 
 输入信息包含：
 - 功能清单（`/specs/functions/*`）
-- 功能估算（`/specs/plan_estimate.md`）
+- 功能估算（`/specs/plan/plan_estimate.md`）
 - 角色与任务（`/specs/background/roles.md`）
 - 场景与流程（`/specs/background/scenarios.md`、`/specs/flows/*.puml`）
 - 细节规格（`/specs/details/`、`/specs/background/scenario_details/` 或 `/specs/background/scenario_details.md`（旧版））
@@ -23,7 +23,7 @@
    - 风险与依赖（若有）
 
 输出要求（HTML：排期用户故事地图，必须）：
-1. 写入 `/specs/plan_schedule.html`，必须是可直接打开的完整 HTML（包含 basic CSS），无需外部资源依赖
+1. 写入 `/specs/plan/plan_schedule.html`，必须是可直接打开的完整 HTML（包含 basic CSS），无需外部资源依赖
 2. 输出内容必须同时满足：
    - 以“用户故事地图”的呈现方式输出（但不要生成用户故事文本）
    - 明确每个迭代的“迭代目标”与“迭代任务”（任务以卡片呈现）
@@ -36,8 +36,8 @@
 4. 卡片内容要求（每张卡片必须包含）：
    - 标题：功能（必要时带子功能）
    - 说明：取 functions 的“说明”（可截断但要保留关键信息）
-   - 估算：引用 `/specs/plan_estimate.md` 中同一行的估算（含合计人天）
+   - 估算：引用 `/specs/plan/plan_estimate.md` 中同一行的估算（含合计人天）
    - 依赖/阻塞：如有则展示（外部系统、口径、权限、资源等）
 5. 去重与一致性：
    - 同一个功能清单行只能出现在一个迭代里
-   - 估算数字必须与 `/specs/plan_estimate.md` 保持一致
+   - 估算数字必须与 `/specs/plan/plan_estimate.md` 保持一致

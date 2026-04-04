@@ -27,30 +27,34 @@
    - 定义 endpoints、method、path、request/response schema、错误码
    - 若仓库已有 OpenAPI/DTO/类型定义，必须复用并补齐
 3. 实现顺序（必须）：
-   - 先生成后端可运行的代码框架/工程骨架（按 `scheme.yaml` 与仓库事实），确保能启动并提供健康检查
+   - 必须后端优先：在生成任何前端页面/API 调用之前，先在 `/specs/backend/` 生成可编译、可启动的后端工程骨架，并提供健康检查接口
    - 再按接口契约逐个实现后端：实体/DTO、Repository、Service、Controller/API 与必要的校验/权限/状态流转
-   - 后端接口可用后，再生成/改造前端页面与 API 调用，完成前后端集成联调
-3. 外部依赖接入（必须，按 dependencies 落地到代码）：
+   - 禁止只做前端 mock 或只写接口契约不落后端代码
+   - 后端接口可用后，再生成/改造前端页面与 API 调用，完成前后端集成联调（前端不得绕过后端直接 mock 业务数据）
+4. 外部依赖接入（必须，按 dependencies 落地到代码）：
    - 必须读取并解析 `/specs/background/dependencies.md`，把每个外部系统/第三方服务映射到业务链路中的“必要环节”（例如：提交申请、审批通过、执行开始/结束、支付成功、通知发送等）
    - 对每个依赖必须生成可替换的接入层（adapter/gateway/client，按仓库分层习惯放置）：
      - 真实外部接口已明确（域名/path/鉴权方式/字段）时：必须在关键环节调用真实接口，并对超时/失败做兜底处理
-     - 外部接口暂不明确时：必须先调用 mock 接口（本地 stub / fake service / mock server），并在调用点用 `TODO(external-api): <dependency_name> <purpose>` 做显式标记，后续可替换为真实调用
-   - 禁止跳过依赖：不能因为“没有接口”就不调用；必须做到“可运行的 mock 调用 + TODO 标记”
+     - 外部接口暂不明确时：必须先提供可运行的本地 stub / fake service / mock server，并确保后续可无侵入替换为真实实现
+   - 禁止跳过依赖：不能因为“没有接口”就不调用；必须做到“可运行的 mock 调用 + 明确的替换点（配置/实现类/注入方式）”
    - 依赖失败注入必须可测：
      - 至少为 1 个外部依赖提供失败注入开关（复用 `/tools/config` 或仓库既有配置），并在代码与测试中覆盖该失败路径
-4. 后端实现要求（按需裁剪）：
+5. 后端实现要求（按需裁剪）：
    - 数据模型/迁移（不破坏既有迁移系统）
    - Service/Repository
    - Controller/API
    - RBAC + 数据权限校验（引用 `/specs/details/<module_slug>/rbac/<function_slug>.md` 与 `/specs/details/<module_slug>/data_permission/<function_slug>.md`）
    - 状态机流转与校验（引用 `validation_matrix.md`）
    - 日志/通知/MQ（引用对应矩阵与 `mq.md`）
-5. 前端实现要求（按需裁剪）：
+   - Java（Spring Boot）代码生成约束（`selected.prototype_backend_stack=java17_springboot3` 时必须）：
+     - 必须引入 Lombok 依赖并启用注解处理（Maven/Gradle 按仓库事实选择）
+     - 禁止为每个字段显式生成大量 getter/setter；必须优先使用 Lombok 注解（例如 DTO 用 `@Data/@Builder`，实体用 `@Getter/@Setter`，日志用 `@Slf4j`，构造器用 `@NoArgsConstructor/@AllArgsConstructor`）
+6. 前端实现要求（按需裁剪）：
    - 页面与路由入口（列表/详情/表单）
    - 表单校验与交互（引用 `/specs/details/<module_slug>/interaction/<function_slug>.md`、`/specs/details/<module_slug>/validation_matrix/<function_slug>.md`）
    - API 集成与错误处理
    - 权限控制到区域/控件级（引用 RBAC 产物）
-6. 启动与联调（必须，输出必须“可运行”而不是只生成代码片段）：
+7. 启动与联调（必须，输出必须“可运行”而不是只生成代码片段）：
    - 必须实现可启动的后端服务：
      - 提供可用的启动脚本（复用仓库既有脚本；如果不存在则补齐最小脚本）
      - 提供健康检查能力（例如 `/health` 或等价），用于本地联调与 CI 验证
@@ -60,7 +64,7 @@
      - 后端必须处理本地跨域/鉴权占位（按仓库约定），确保页面可以完成至少 1 条端到端主流程
    - 必须提供最小数据初始化能力：
      - 至少提供一套可复现的种子数据/fixture（按仓库习惯放置），保证“启动→打开页面→看到列表→可操作”能演示
-7. 自动化测试（必须，目标：全面覆盖验收口径）：
+8. 自动化测试（必须，目标：全面覆盖验收口径）：
    - 优先复用仓库既有测试框架与目录约定，禁止引入不必要的新框架
    - 测试覆盖必须与验收用例对齐：
      - 若存在 `/specs/acceptance/`：必须逐条映射到自动化测试用例（允许合并同类项，但必须说明映射关系并确保覆盖）
@@ -76,13 +80,15 @@
    - 必须确保测试可在项目现有脚本中运行：
      - 自动识别并执行仓库已有 `lint/typecheck/test/e2e` 脚本（名称不固定，需先探测）
      - 如需新增脚本，仅在缺失且必要时新增，并保持最小变更
-8. 代码写入策略：
-   - 代码写入位置必须限定在原型工程目录：只允许写入 `/specs/prototypes/` 之下；禁止在项目根目录额外新建 `backend/`、`server/`、`api/`、`frontend/` 等并列目录
-   - 若 `/specs/prototypes/` 不存在：必须先生成或补齐原型工程骨架（等价于先完成 `/vspec:verify` 的工程初始化），再在该目录内进行端到端实现
-   - 优先在 `/specs/prototypes/` 的既有模块内扩展，避免在其下新建不必要的目录
+9. 代码写入策略：
+   - 代码写入位置必须限定在 `/specs/` 之下；禁止在项目根目录额外新建 `backend/`、`server/`、`api/`、`frontend/` 等并列目录
+   - `/vspec:impl` 生成的后端代码必须放在 `/specs/backend/` 目录下（Controller/API、Service、Repository、Entity/DTO、配置、迁移、测试等）
+   - 前端代码放在 `/specs/prototypes/`（若原型工程已存在既有前端结构，则以既有结构为准）
+   - 若 `/specs/prototypes/` 不存在：必须先生成或补齐原型工程骨架（等价于先完成 `/vspec:verify` 的工程初始化），再进行端到端实现
+   - 优先复用 `/specs/prototypes/` 的既有模块与目录结构，避免新建不必要的目录
    - 不添加注释
    - 提交点保持可评审：按功能点分批次生成，确保每批可独立运行/编译
-9. 最终输出（必须可验证）：
+10. 最终输出（必须可验证）：
    - 至少完成 1-3 个核心功能点的端到端集成（优先 P0 主流程）
    - 同步更新或新增最小必要的路由、API、页面与权限点
    - 以可复现方式验证：

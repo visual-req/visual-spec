@@ -44,5 +44,9 @@
 
 输出与写入要求：
 1. 将页面代码与工程改动写入到 `/specs/prototypes/` 目录下的原型工程中
-2. 确保 `scenario.html` 可访问，并从首页提供入口跳转到 `scenario.html`（不要要求在左侧菜单新增名为“场景”的菜单项）
+2. 确保 `scenario.html` 可访问，但不要把它集成进任何菜单/导航：
+   - 不要出现在左侧菜单
+   - 不要出现在首页/工作台的任何默认展示区域
+   - 不要在 Header/Toolbox 等位置增加入口链接
+   - 访问方式仅保留“直接访问 URL（/scenario.html）”
 3. 若使用 Vite 多入口（multi-page）方式，必须同步更新 `vite.config.*` 以支持 `index.html` 与 `scenario.html` 同时构建与开发访问

@@ -59,8 +59,9 @@ The Skill generates artifacts under `/specs/` (incrementally by command stage) a
    │  ├─ index.md
    │  └─ ...
    ├─ qc_report.md                         # Quality report (/vspec:qc output)
-   ├─ plan_estimate.md                     # Estimation (/vspec:plan output)
-   ├─ plan_schedule.html                   # Schedule page (/vspec:plan output)
+   ├─ plan/                                # Planning outputs (/vspec:plan output)
+   │  ├─ plan_estimate.md                  # Estimation
+   │  └─ plan_schedule.html                # Schedule page
    └─ change_log.md                        # Change log (/vspec:change output)
 ```
 

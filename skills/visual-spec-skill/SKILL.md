@@ -33,6 +33,9 @@ Flow:
    - `/docs/current/`
    - `/docs/change/`
    - `/docs/refine/`
+0.5 Create editable project constraints so the user can tweak them early (do not overwrite if they already exist):
+   - Create `/scheme.yaml` with defaults (prototype stack selection + catalog) if missing
+   - Create `/原型UI规范.md` (same directory as `/scheme.yaml`) if missing
 1. Ask the user to input the original requirement.
 2. When the user presses Enter, treat the input as the raw requirement source.
 3. Load the prompt file at `prompts/vspec_new/background.md`.
@@ -60,7 +63,7 @@ Flow:
 25. Load `prompts/vspec_new/functions.md` to generate feature/function lists grouped by modules and external dependency systems.
 26. Write the function lists to `/specs/functions/`.
 27. Load `prompts/vspec_new/questions.md` to generate question lists and required business materials.
-28. Write the questions result to `/specs/background/questions.md` (markdown table).
+28. Write the questions result to `/specs/background/questions.md` (markdown list).
 29. Return the structured analysis result and continue to the next requirement-design step.
 
 ### `/vspec:refine`
@@ -80,9 +83,11 @@ Flow:
 Use this command to refine and update the requirement based on answered questions.
 
 Flow:
-1. Read `/specs/background/questions.md` and pick answered rows.
+1. Read `/specs/background/questions.md` and pick answered items.
 2. Load `prompts/vspec_refine/refine_q.md` to merge answers into the canonical requirement.
 3. Append the refinement result to `/specs/background/original.md`.
+4. Update `/specs/background/questions.md` to mark items that are treated as answered in this run:
+   - Wrap the `回答` and `状态` values with `<mark>...</mark>` so the answered items are visually highlighted.
 
 ### `/vspec:verify`
 
@@ -96,46 +101,6 @@ Flow:
 4. Write the prototype to `/specs/prototypes/`.
 5. Load `prompts/vspec_verify/validation.md` to generate a scenario validation web page.
 6. Write the validation page to `/specs/prototypes/` and provide a `scenario.html` entry for access.
-
-### `/vspec:proto-apply`
-
-Use this command to generate/update the prototype focusing on “申请（Apply）” flow and pages.
-
-Flow:
-0. If `/specs/background/questions.md` exists and contains unanswered questions, ask the user to answer them before continuing (allow skip per question, but ensure none remains unanswered).
-1. Ensure `/specs/models/` exists; if missing, load `prompts/vspec_verify/model.md` to generate models first.
-2. Load `prompts/vspec_verify/prototype_apply.md` to generate/update the prototype.
-3. Write changes to `/specs/prototypes/`.
-
-### `/vspec:proto-approve`
-
-Use this command to generate/update the prototype focusing on “审批（Approve）” flow and pages.
-
-Flow:
-0. If `/specs/background/questions.md` exists and contains unanswered questions, ask the user to answer them before continuing (allow skip per question, but ensure none remains unanswered).
-1. Ensure `/specs/models/` exists; if missing, load `prompts/vspec_verify/model.md` to generate models first.
-2. Load `prompts/vspec_verify/prototype_approve.md` to generate/update the prototype.
-3. Write changes to `/specs/prototypes/`.
-
-### `/vspec:proto-execute`
-
-Use this command to generate/update the prototype focusing on “执行（Execute）” flow and pages (including mobile `/m/*` when applicable).
-
-Flow:
-0. If `/specs/background/questions.md` exists and contains unanswered questions, ask the user to answer them before continuing (allow skip per question, but ensure none remains unanswered).
-1. Ensure `/specs/models/` exists; if missing, load `prompts/vspec_verify/model.md` to generate models first.
-2. Load `prompts/vspec_verify/prototype_execute.md` to generate/update the prototype.
-3. Write changes to `/specs/prototypes/`.
-
-### `/vspec:proto-crud`
-
-Use this command to generate/update the prototype focusing on generic CRUD admin pages (list/detail/create/edit) for configuration/master-data modules.
-
-Flow:
-0. If `/specs/background/questions.md` exists and contains unanswered questions, ask the user to answer them before continuing (allow skip per question, but ensure none remains unanswered).
-1. Ensure `/specs/models/` exists; if missing, load `prompts/vspec_verify/model.md` to generate models first.
-2. Load `prompts/vspec_verify/prototype_crud.md` to generate/update the prototype.
-3. Write changes to `/specs/prototypes/`.
 
 ### `/vspec:detail`
 
@@ -209,7 +174,7 @@ Use this command to generate integrated frontend/backend code based on the specs
 
 Flow:
 1. Read `/specs/functions/*`, `/specs/details/`, `/specs/models/*.md`, `/specs/background/dependencies.md`, and detect the current frontend/backend stacks and code conventions.
-2. Load `prompts/vspec_impl/implement.md` to generate API contracts, backend endpoints/services, and frontend integration (API calls, pages, state) following repo patterns.
+2. Load `prompts/vspec_impl/implement.md` and implement backend-first: generate a runnable backend project under `/specs/prototypes/backend/` (health check + core APIs/services), then generate frontend integration after backend APIs are available.
 3. Write code only under `/specs/prototypes/` (the prototype project) with minimal diffs and keep it reviewable; do not create extra top-level directories.
 
 ### `/vspec:upgrade`
@@ -241,9 +206,9 @@ Use this command to break down requirements, estimate efforts, and schedule via 
 Flow:
 1. Read `/specs/functions/*`, `/specs/background/roles.md`, `/specs/background/scenarios.md`, `/specs/details/`, `/specs/background/dependencies.md`.
 2. Load `prompts/vspec_plan/estimate.md` to generate estimates aligned to the function list.
-3. Write estimates to `/specs/plan_estimate.md`.
+3. Write estimates to `/specs/plan/plan_estimate.md`.
 4. Load `prompts/vspec_plan/schedule.md` to generate the schedule and delivery map.
-5. Write schedule HTML to `/specs/plan_schedule.html`.
+5. Write schedule HTML to `/specs/plan/plan_schedule.html`.
 
 ## Prompt Files
 
@@ -291,8 +256,8 @@ Flow:
 - `prompts/vspec_impl/implement.md`: the prompt used by `/vspec:impl` to generate integrated frontend/backend code.
 - `prompts/vspec_upgrade/upgrade.md`: the prompt used by `/vspec:upgrade` to generate upgraded specs from `/docs/` inputs.
 - `prompts/vspec_change/change.md`: the prompt used by `/vspec:change` to handle requirement changes.
-- `prompts/vspec_plan/estimate.md`: the prompt used by `/vspec:plan` to generate `/specs/plan_estimate.md`.
-- `prompts/vspec_plan/schedule.md`: the prompt used by `/vspec:plan` to generate `/specs/plan_schedule.html`.
+- `prompts/vspec_plan/estimate.md`: the prompt used by `/vspec:plan` to generate `/specs/plan/plan_estimate.md`.
+- `prompts/vspec_plan/schedule.md`: the prompt used by `/vspec:plan` to generate `/specs/plan/plan_schedule.html`.
 - `prompts/vspec_qc/qc.md`: the prompt used by `/vspec:qc` to generate `/specs/qc_report.md`.
 - `prompts/vspec_qc/quality_standard.md`: built-in quality standard used by `/vspec:qc`.
 
