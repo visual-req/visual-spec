@@ -34,4 +34,4 @@ yarn dlx -p visual-spec vspec
 
 ### Next
 
-- Getting started: `docs/getting-started.md`
+- Getting started: `getting-started.md`

@@ -5,7 +5,7 @@
 | `/vspec:new` | Generate baseline spec artifacts from raw requirements | Raw requirement text + interactive Q&A | `/specs/` (original, stakeholders, roles, terms, flows, scenarios, scenario_details, dependencies, functions, questions) + initializes `/docs/*` archive directories |
 | `/vspec:refine` | Apply refinement materials and sync impacted details and prototypes | `/docs/refine/*` (or command args) + baseline `/specs/background/original.md` + prerequisite `/specs/details/` | Appends to `/specs/background/original.md` (change list + canonical) + updates impacted `/specs/details/` and `/specs/prototypes/` |
 | `/vspec:refine-q` | Merge answered questions back into the requirement | `/specs/background/original.md` + `/specs/background/questions.md` | Appends to `/specs/background/original.md` (adopted items + change list + canonical) |
-| `/vspec:verify` | Generate models and prototype for fast validation | Existing `/specs/` artifacts | `/specs/models/*.md`, `/specs/prototypes/` (runnable prototype + `scenario.html` review page) |
+| `/vspec:verify` | Generate models and prototype for fast validation | Existing `/specs/` artifacts | `/specs/models/*.md`, `/specs/prototypes/` (stack-selected runnable prototype + `scenario.html` review page) |
 | `/vspec:detail` | Expand per-function detailed specs | `/specs/functions/*` + details/models/roles | `/specs/details/<function_slug>/*` (RBAC, interaction, validation, logging, notifications, MQ, import/export, cron, etc.) |
 | `/vspec:accept` | Generate acceptance test cases | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`, `/specs/acceptance/index.md` |
 | `/vspec:test` | Generate automated test code | acceptance cases + repo test stack | Writes into existing test directories or `/tests/` |
@@ -41,7 +41,7 @@
 
 - When to use: you want to validate the data structure and page shape quickly and reduce misunderstanding risk
 - Key outputs: model files (entity splitting), runnable prototype, scenario review page
-- UI spec: generates or reuses `/原型UI规范.md` (same directory as `/scheme.yaml`) and uses it as the single source of truth to constrain prototype UI style and interactions
+- UI spec: generates or reuses `/prototype_ui_convention.md` (same directory as `/scheme.yaml`) and uses it as the single source of truth to constrain prototype UI style and interactions
 
 ## `/vspec:detail`
 

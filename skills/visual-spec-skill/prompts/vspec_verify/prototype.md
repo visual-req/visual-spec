@@ -491,17 +491,22 @@ CRUD 页面生成偏好（必须）：
 - `/tools/notify-center`：通知中心（企业微信/钉钉等通道配置 + 模板预览 + 发送记录；不要放到左侧菜单）
 
 实现约束：
-- 使用 Vue 3 + Vite + TypeScript（如无法生成 TypeScript，可退回 JavaScript，但需保持一致）
-- UI 组件使用 Ant Design Vue（表格、表单、抽屉、步骤条、标签、按钮）
+- 必须严格按 `scheme.yaml` 的 `selected.prototype_frontend_stack` 与其 `catalog.prototype_frontend_stacks` 定义生成工程；禁止只生成单个 HTML 文件。
+- 若 `selected.prototype_frontend_stack` 为未知/不支持 id：必须停止并输出错误，要求用户修正 `scheme.yaml` 后重跑；禁止静默回退为 html-only。
+- 框架与路由必须随栈切换：
+  - Vue 栈：必须使用 `vue-router@4` 生成路由；路由 path 必须逐条匹配 functions 的 `入口=/...`（Web）与 `/m/...`（Mobile）。
+  - React 栈：必须使用 `react-router@6` 生成路由；路由 path 必须逐条匹配 functions 的 `入口=/...`（Web）与 `/m/...`（Mobile）。
+  - 其他栈同理：router、state、http_client 等依赖与目录结构以 `catalog` 为准。
+- UI 组件库必须随栈切换（例如 Ant Design Vue / Ant Design / NG-ZORRO 等），禁止混用。
 - 数据层使用本地 mock（例如 `src/mock/*.ts`），并根据 `/specs/models/*.md` 的字段生成示例数据
 - 关键页面必须包含：列表（Table）、详情（Descriptions/Drawer）、关键动作按钮（提交/审批/开始/结束/变更/取消）
 
 UI 规范（必须，用于约束原型风格，避免随意发挥）：
 1. 规范优先级：
-   - 必须优先读取并遵守项目根目录 `/原型UI规范.md`（与 `/scheme.yaml` 同级）
-   - 若 `/原型UI规范.md` 不存在：必须先创建该文件（不要覆盖已存在文件）并写入默认模板，然后再继续生成原型
-   - 若存在 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md`：必须把其中“更具体/更严格”的约束合并进 `/原型UI规范.md`（作为最终口径），并以最终合并后的 `/原型UI规范.md` 约束生成
-2. `/原型UI规范.md` 默认模板（必须生成，允许用户后续手动修改后重跑 /vspec:verify 生效）：
+   - 必须优先读取并遵守项目根目录 `/prototype_ui_convention.md`（与 `/scheme.yaml` 同级）
+   - 若 `/prototype_ui_convention.md` 不存在：必须先创建该文件（不要覆盖已存在文件）并写入默认模板，然后再继续生成原型
+   - 若存在 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md`：必须把其中“更具体/更严格”的约束合并进 `/prototype_ui_convention.md`（作为最终口径），并以最终合并后的 `/prototype_ui_convention.md` 约束生成
+2. `/prototype_ui_convention.md` 默认模板（必须生成，允许用户后续手动修改后重跑 /vspec:verify 生效）：
 
 ```md
 # 原型 UI 规范
@@ -913,8 +918,11 @@ Steps（步骤条）使用要求（必须）：
    - `src/router/*`
    - `src/pages/*`
    - `src/mock/*`
-4. 在 `README` 不需要写说明；保持输出以代码为主
-5. 原型不需要覆盖所有功能，优先覆盖主链路与关键分支（变更/取消/驳回/紧急叫停）
+4. 严格性（必须）：
+   - 不允许只生成 `index.html` 或少量静态文件冒充“可运行原型工程”
+   - 必须生成可安装依赖并启动的工程（以 `scheme.yaml.selected.package_manager` 的脚本习惯为准）
+5. 在 `README` 不需要写说明；保持输出以代码为主
+6. 原型不需要覆盖所有功能，优先覆盖主链路与关键分支（变更/取消/驳回/紧急叫停）
 
 Mock 数据充足性（必须）：
 1. 每个核心列表页（申请/审批/执行/变更/取消）默认至少生成 20 条数据，覆盖不同状态、不同角色归属、不同时间范围。

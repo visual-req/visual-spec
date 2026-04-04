@@ -15,7 +15,7 @@
 
 - Based on `/specs/`, generate:
   - `/specs/models/*.md`: entities and fields, relationships, state machines, indexes, external field sources
-  - `/specs/prototypes/`: Vue + Ant Design Vue prototype and the `scenario.html` scenario review page
+  - `/specs/prototypes/`: stack-selected runnable prototype (per `scheme.yaml`) and the `scenario.html` scenario review page
 - Goal: expose misunderstandings early and converge to a reviewable solution
 
 Optional: segmented prototype generation
@@ -54,8 +54,8 @@ Optional: segmented prototype generation
 
 - Split functions and scenarios into user stories, estimate effort, and build iteration schedules
 - Outputs:
-  - `/specs/plan.md`
-  - `/specs/story_map.html` (story map)
+  - `/specs/plan/plan_estimate.md`
+  - `/specs/plan/plan_schedule.html`
 
 ### 8. Change Handling (`/vspec:change`)
 

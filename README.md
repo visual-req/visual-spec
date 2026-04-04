@@ -15,11 +15,11 @@ This repo provides a requirements analysis and delivery assistant Skill. It offe
 - `/vspec:new`: Generate baseline spec artifacts (writes to `/specs/`)
 - `/vspec:refine`: Apply refinements from `/docs/refine/` (or command arguments) and update `/specs/details/` and `/specs/prototypes/` (requires existing details)
 - `/vspec:refine-q`: Merge answered items from `questions.md` back into the spec and update the canonical requirement in `/specs/background/original.md`
-- `/vspec:verify`: Generate data models and a Vue + Ant Design Vue prototype (writes to `/specs/models/`, `/specs/prototypes/`)
+- `/vspec:verify`: Generate data models and a stack-selected runnable prototype (per `/scheme.yaml`) (writes to `/specs/models/`, `/specs/prototypes/`)
 - `/vspec:detail`: Generate per-function detailed specs (writes to `/specs/details/`)
 - `/vspec:accept`: Generate acceptance test cases (writes to `/specs/acceptance/`)
 - `/vspec:test`: Generate automated test code (writes into the repo’s existing test directories or `/tests/`)
-- `/vspec:impl`: Generate integrated backend + frontend implementation code (only allowed to write under `/specs/prototypes/`)
+- `/vspec:impl`: Generate integrated backend + frontend implementation code (writes under `/specs/`)
 - `/vspec:upgrade`: Upgrade/redesign based on legacy + new inputs under `/docs/` (legacy/current/templates/texts/assets), generate/update `/specs/`, and sync technical selections to `/scheme.yaml`
 - `/vspec:change`: Analyze and apply change inputs from `/docs/change/`, update artifacts, and write `/specs/change_log.md` (requires a git snapshot commit before updating)
 - `/vspec:qc`: Run artifact quality checks and write a report (writes to `/specs/qc_report.md`)

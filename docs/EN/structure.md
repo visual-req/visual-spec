@@ -71,4 +71,4 @@ Notes:
 
 Next:
 
-- Read `docs/commands.md` for each `/vspec:*` command’s inputs, outputs, and usage scenarios
+- Read `commands.md` for each `/vspec:*` command’s inputs, outputs, and usage scenarios

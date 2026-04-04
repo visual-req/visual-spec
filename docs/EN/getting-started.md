@@ -6,7 +6,7 @@ This package provides a `/vspec:*` command-driven Skill that turns raw requireme
 
 Install the npm package, then install the Skill into your AI editor configuration directory:
 
-- Installation and verification: `docs/installation.md`
+- Installation and verification: `installation.md`
 
 Install / update (npm):
 
@@ -56,11 +56,12 @@ yarn dlx -p visual-spec vspec
 
 Directory structure reference:
 
-- `docs/structure.md`
+- `structure.md`
+ - `structure.md`
 
 Next:
 
-- Read `docs/structure.md` to confirm where inputs are stored and where outputs are generated
+- Read `structure.md` to confirm where inputs are stored and where outputs are generated
 
 ### 4. Common Scenarios
 

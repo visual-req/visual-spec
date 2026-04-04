@@ -35,7 +35,7 @@ Flow:
    - `/docs/refine/`
 0.5 Create editable project constraints so the user can tweak them early (do not overwrite if they already exist):
    - Create `/scheme.yaml` with defaults (prototype stack selection + catalog) if missing
-   - Create `/原型UI规范.md` (same directory as `/scheme.yaml`) if missing
+   - Create `/prototype_ui_convention.md` (same directory as `/scheme.yaml`) if missing
 1. Ask the user to input the original requirement.
 2. When the user presses Enter, treat the input as the raw requirement source.
 3. Load the prompt file at `prompts/vspec_new/background.md`.
@@ -98,6 +98,7 @@ Flow:
 1. Load `prompts/vspec_verify/model.md` to generate data models.
 2. Write model files to `/specs/models/*.md`.
 3. Generate a runnable page prototype based on functions, models, and roles; the prototype tech stack can be selected via `/scheme.yaml` (auto-created with defaults if missing).
+   - Load `prompts/vspec_verify/prototype.md` for the prototype generation rules (must follow `scheme.yaml` stack; do not output html-only).
 4. Write the prototype to `/specs/prototypes/`.
 5. Load `prompts/vspec_verify/validation.md` to generate a scenario validation web page.
 6. Write the validation page to `/specs/prototypes/` and provide a `scenario.html` entry for access.
@@ -174,8 +175,8 @@ Use this command to generate integrated frontend/backend code based on the specs
 
 Flow:
 1. Read `/specs/functions/*`, `/specs/details/`, `/specs/models/*.md`, `/specs/background/dependencies.md`, and detect the current frontend/backend stacks and code conventions.
-2. Load `prompts/vspec_impl/implement.md` and implement backend-first: generate a runnable backend project under `/specs/prototypes/backend/` (health check + core APIs/services), then generate frontend integration after backend APIs are available.
-3. Write code only under `/specs/prototypes/` (the prototype project) with minimal diffs and keep it reviewable; do not create extra top-level directories.
+2. Load `prompts/vspec_impl/implement.md` and implement backend-first: generate a runnable backend project under `/specs/backend/` (health check + core APIs/services), then generate frontend integration after backend APIs are available.
+3. Write code only under `/specs/` with minimal diffs and keep it reviewable; backend must be under `/specs/backend/` and prototype frontend under `/specs/prototypes/`.
 
 ### `/vspec:upgrade`
 
@@ -229,7 +230,7 @@ Flow:
 - `prompts/vspec_refine/refine.md`: the prompt used by `/vspec:refine` to refine the requirement based on `refine.md`.
 - `prompts/vspec_refine/refine_q.md`: the prompt used by `/vspec:refine-q` to refine the requirement based on answered questions.
 - `prompts/vspec_verify/model.md`: the prompt used by `/vspec:verify` to generate `/specs/models/*.md`.
-- `prompts/vspec_verify/prototype.md`: the prompt used by `/vspec:verify` to generate the Vue + Ant Design prototype under `/specs/prototypes/`.
+- `prompts/vspec_verify/prototype.md`: the prompt used by `/vspec:verify` to generate the stack-selected runnable prototype under `/specs/prototypes/` (must follow `scheme.yaml`).
 - `prompts/vspec_verify/validation.md`: the prompt used by `/vspec:verify` to generate the validation web page with a `scenario.html` entry.
 - `prompts/vspec_detail/rbac.md`: the prompt used by `/vspec:detail` to generate RBAC detail docs.
 - `prompts/vspec_detail/data_permission.md`: the prompt used by `/vspec:detail` to generate data permission detail docs.

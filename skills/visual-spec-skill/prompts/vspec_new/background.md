@@ -76,7 +76,7 @@ catalog:
       notes: enterprise_standard
 ```
 
-   - 若 `/原型UI规范.md` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板：
+   - 若 `/prototype_ui_convention.md` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板：
 
 ```md
 # 原型 UI 规范
