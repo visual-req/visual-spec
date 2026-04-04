@@ -40,8 +40,8 @@ yarn dlx -p visual-spec vspec
   - During execution it generates an open question list (`/specs/background/questions.md`)
   - Fill in business answers in that file before continuing the workflow
 - Merge Q&A into the canonical requirement: `/vspec:refine-q`
-- Quick validation (models + prototype): `/vspec:verify`
 - Detailed specs: `/vspec:detail`
+- Quick validation (models + prototype): `/vspec:verify` (requires non-empty `/specs/details/`)
 - Acceptance cases: `/vspec:accept`
 - Integrated implementation: `/vspec:impl`
 - Automated tests: `/vspec:test`

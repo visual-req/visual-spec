@@ -88,27 +88,14 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 4. 更新 `/specs/background/questions.md`，标记本次运行中已视为回答的条目：
    - 用 `<mark>...</mark>` 包裹 `回答` 与 `状态`，以高亮已回答项。
 
-### `/vspec:verify`
-
-用于基于分析产物进行快速验证并生成原型。
-
-流程：
-0. 若 `/specs/background/questions.md` 存在且仍有未回答的问题，先要求用户回答再继续（允许逐条跳过，但必须保证不存在“未处理”的问题）。
-1. 加载 `prompts/vspec_verify/model.md` 生成数据模型。
-2. 将模型文件写入 `/specs/models/*.md`。
-3. 基于 functions/models/roles 生成可运行的页面原型；原型技术栈由 `/scheme.yaml` 选择（若缺失则按默认值自动创建）。
-   - 加载 `prompts/vspec_verify/prototype.md` 执行原型生成规则（必须遵循 `scheme.yaml` 技术栈；禁止只生成 html-only）。
-4. 将原型工程写入 `/specs/prototypes/`。
-5. 加载 `prompts/vspec_verify/validation.md` 生成场景验证网页。
-6. 将验证页面写入 `/specs/prototypes/`，并提供 `scenario.html` 作为访问入口。
-
 ### `/vspec:detail`
 
 用于基于功能清单展开需求细节。
 
 流程：
 1. 读取 `/specs/functions/*` 中的功能清单。
-2. 对每个功能（页面或非页面任务），先判断哪些详情产物真正涉及，再只生成涉及的部分；对不涉及的部分不得生成空文档。
+2. 尽可能读取可用的上下文产物：`/specs/background/*`、`/specs/flows/*.puml`、`/specs/background/scenario_details/`、`/specs/background/roles.md`，以及已有的 `/specs/models/*.md`（若存在）。
+3. 对每个功能（页面或非页面任务），先判断哪些详情产物真正涉及，再只生成涉及的部分；对不涉及的部分不得生成空文档。
    - 始终生成基础文档：
      - `rbac.md`：RBAC 权限下沉到页面区域与控件级。
      - `data_permission.md`：数据权限规则与范围。
@@ -135,9 +122,24 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
       - `state_machine.md`：状态列表 + 迁移 + PlantUML 状态图（模块整体，不按功能拆分）。
      - `nfp.md`：模块非功能需求总结（模块整体，不按功能拆分）。
      - `cron_job.md`：模块定时任务总结（模块整体，不按功能拆分）。
-3. 仅写入生成的（涉及的）详情文档：
+4. 仅写入生成的（涉及的）详情文档：
    - 单功能：`/specs/details/<module_slug>/<logic_type>/<function_slug>.(md|html)`
    - 模块级：`/specs/details/<module_slug>/<logic_type>/overall.(md|html)`
+
+### `/vspec:verify`
+
+用于生成模型与可运行原型，用于快速验证与评审。
+
+流程：
+0. 确保 `/specs/details/` 存在且非空；若缺失则停止并提示用户先运行 `/vspec:detail`。
+1. 若 `/specs/background/questions.md` 存在且仍有未回答的问题，先要求用户回答再继续（允许逐条跳过，但必须保证不存在“未处理”的问题）。
+2. 加载 `prompts/vspec_verify/model.md` 生成数据模型。
+3. 将模型文件写入 `/specs/models/*.md`。
+4. 基于 functions/details/models/roles 生成可运行的页面原型；原型技术栈由 `/scheme.yaml` 选择（若缺失则按默认值自动创建）。
+   - 加载 `prompts/vspec_verify/prototype.md` 执行原型生成规则（必须遵循 `scheme.yaml` 技术栈；禁止只生成 html-only）。
+5. 将原型工程写入 `/specs/prototypes/`。
+6. 加载 `prompts/vspec_verify/validation.md` 生成场景验证网页。
+7. 将验证页面写入 `/specs/prototypes/`，并提供 `scenario.html` 作为访问入口。
 
 ### `/vspec:qc`
 

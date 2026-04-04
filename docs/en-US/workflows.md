@@ -11,9 +11,19 @@
 - Answer open questions (key assumptions, scope, rules, dependencies)
 - Get baseline artifacts under `/specs/`: roles, terms, flows, scenarios, function list, dependencies, questions
 
-### 2. Solution Verification (`/vspec:verify`)
+### 2. Detailed Specs (`/vspec:detail`)
 
-- Based on `/specs/`, generate:
+- Using `/specs/functions/*` as input, generate per-function specs under `/specs/details/<function_slug>/`
+- Goal: turn “requirements” into implementable design inputs:
+  - RBAC down to control level, and data permissions
+  - load/interaction/validation matrices
+  - post-submit checks/processing/navigation
+  - logging/notification matrices, MQ specs, import/export, cron jobs
+
+### 3. Solution Verification (`/vspec:verify`)
+
+- Prerequisite: `/specs/details/` exists and is non-empty
+- Based on `/specs/` (functions + details + roles), generate:
   - `/specs/models/*.md`: entities and fields, relationships, state machines, indexes, external field sources
   - `/specs/prototypes/`: stack-selected runnable prototype (per `scheme.yaml`) and the `scenario.html` scenario review page
 - Goal: expose misunderstandings early and converge to a reviewable solution
@@ -25,15 +35,6 @@ Optional: segmented prototype generation
   - `/vspec:proto-approve`: approval flow pages + dashboard differences
   - `/vspec:proto-execute`: execution flow pages (including mobile `/m/*`)
   - `/vspec:proto-crud`: config/master-data CRUD admin pages
-
-### 3. Detailed Specs (`/vspec:detail`)
-
-- Using `/specs/functions/*` as input, generate per-function specs under `/specs/details/<function_slug>/`
-- Goal: turn “requirements” into implementable design inputs:
-  - RBAC down to control level, and data permissions
-  - load/interaction/validation matrices
-  - post-submit checks/processing/navigation
-  - logging/notification matrices, MQ specs, import/export, cron jobs
 
 ### 4. Acceptance Cases (`/vspec:accept`)
 

@@ -5,8 +5,8 @@
 | `/vspec:new` | Generate baseline spec artifacts from raw requirements | Raw requirement text + interactive Q&A | `/specs/` (original, stakeholders, roles, terms, flows, scenarios, scenario_details, dependencies, functions, questions) + initializes `/docs/*` archive directories |
 | `/vspec:refine` | Apply refinement materials and sync impacted details and prototypes | `/docs/refine/*` (or command args) + baseline `/specs/background/original.md` + prerequisite `/specs/details/` | Appends to `/specs/background/original.md` (change list + canonical) + updates impacted `/specs/details/` and `/specs/prototypes/` |
 | `/vspec:refine-q` | Merge answered questions back into the requirement | `/specs/background/original.md` + `/specs/background/questions.md` | Appends to `/specs/background/original.md` (adopted items + change list + canonical) |
-| `/vspec:verify` | Generate models and prototype for fast validation | Existing `/specs/` artifacts | `/specs/models/*.md`, `/specs/prototypes/` (stack-selected runnable prototype + `scenario.html` review page) |
-| `/vspec:detail` | Expand per-function detailed specs | `/specs/functions/*` + details/models/roles | `/specs/details/<function_slug>/*` (RBAC, interaction, validation, logging, notifications, MQ, import/export, cron, etc.) |
+| `/vspec:detail` | Expand per-function detailed specs | `/specs/functions/*` + supporting artifacts (background/flows/roles; models if any) | `/specs/details/<function_slug>/*` (RBAC, interaction, validation, logging, notifications, MQ, import/export, cron, etc.) |
+| `/vspec:verify` | Generate models and prototype for fast validation | Existing `/specs/` artifacts (functions + details + roles) | `/specs/models/*.md`, `/specs/prototypes/` (stack-selected runnable prototype + `scenario.html` review page) |
 | `/vspec:accept` | Generate acceptance test cases | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`, `/specs/acceptance/index.md` |
 | `/vspec:test` | Generate automated test code | acceptance cases + repo test stack | Writes into existing test directories or `/tests/` |
 | `/vspec:impl` | Generate integrated backend + frontend implementation | specs/details/models/dependencies | Writes integrated implementation code (API contract, backend, frontend integration) |
@@ -37,17 +37,18 @@
 - When to use: business has answered `/specs/background/questions.md`, and you want to merge those answers into the requirement and produce a new canonical version
 - Key outputs: adopted Q&A items + change list + canonical requirement
 
-## `/vspec:verify`
-
-- When to use: you want to validate the data structure and page shape quickly and reduce misunderstanding risk
-- Key outputs: model files (entity splitting), runnable prototype, scenario review page
-- UI spec: generates or reuses `/prototype_ui_convention.md` (same directory as `/scheme.yaml`) and uses it as the single source of truth to constrain prototype UI style and interactions
-- Note: before running `/vspec:verify`, review `/specs/functions/*` to ensure the function list is complete; otherwise models and prototypes will be generated only from the current functions and may miss features.
-
 ## `/vspec:detail`
 
 - When to use: before design/implementation, you need each function to be specified at an implementable level
 - Key outputs: RBAC to control level, data permissions, load/interaction/validation matrices, post-submit processing, logging/notification matrices, MQ, import/export, cron jobs
+
+## `/vspec:verify`
+
+- When to use: after details are available, you want to validate the data structure and page shape quickly and reduce misunderstanding risk
+- Prerequisite: `/specs/details/` exists and is non-empty
+- Key outputs: model files (entity splitting), runnable prototype, scenario review page
+- UI spec: generates or reuses `/prototype_ui_convention.md` (same directory as `/scheme.yaml`) and uses it as the single source of truth to constrain prototype UI style and interactions
+- Note: before running `/vspec:verify`, review `/specs/functions/*` and `/specs/details/` to ensure the scope is complete; otherwise models and prototypes may miss features.
 
 ## `/vspec:accept`
 

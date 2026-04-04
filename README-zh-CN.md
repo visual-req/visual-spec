@@ -17,8 +17,8 @@
 - `/vspec:new`：生成基础规格产物（写入 `/specs/`）
 - `/vspec:refine`：从 `/docs/refine/`（或命令参数）读取补充材料，更新 `/specs/details/` 与 `/specs/prototypes/`（需要已有 details）
 - `/vspec:refine-q`：将 `questions.md` 中已回答项合并回需求，并更新 `/specs/background/original.md` 的最新口径
-- `/vspec:verify`：生成数据模型与按 `/scheme.yaml` 选栈的可运行原型（写入 `/specs/models/`、`/specs/prototypes/`）
 - `/vspec:detail`：生成单功能详细规格（写入 `/specs/details/`）
+- `/vspec:verify`：生成数据模型与按 `/scheme.yaml` 选栈的可运行原型（写入 `/specs/models/`、`/specs/prototypes/`；要求 `/specs/details/` 非空）
 - `/vspec:accept`：生成验收用例（写入 `/specs/acceptance/`）
 - `/vspec:test`：生成自动化测试代码（写入仓库既有测试目录或 `/tests/`）
 - `/vspec:impl`：生成后端 + 前端联调实现代码（写入 `/specs/`）

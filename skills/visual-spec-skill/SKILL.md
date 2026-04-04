@@ -89,27 +89,14 @@ Flow:
 4. Update `/specs/background/questions.md` to mark items that are treated as answered in this run:
    - Wrap the `回答` and `状态` values with `<mark>...</mark>` so the answered items are visually highlighted.
 
-### `/vspec:verify`
-
-Use this command to verify and prototype based on the analysis artifacts.
-
-Flow:
-0. If `/specs/background/questions.md` exists and contains unanswered questions, ask the user to answer them before continuing (allow skip per question, but ensure none remains unanswered).
-1. Load `prompts/vspec_verify/model.md` to generate data models.
-2. Write model files to `/specs/models/*.md`.
-3. Generate a runnable page prototype based on functions, models, and roles; the prototype tech stack can be selected via `/scheme.yaml` (auto-created with defaults if missing).
-   - Load `prompts/vspec_verify/prototype.md` for the prototype generation rules (must follow `scheme.yaml` stack; do not output html-only).
-4. Write the prototype to `/specs/prototypes/`.
-5. Load `prompts/vspec_verify/validation.md` to generate a scenario validation web page.
-6. Write the validation page to `/specs/prototypes/` and provide a `scenario.html` entry for access.
-
 ### `/vspec:detail`
 
 Use this command to expand requirement details based on the function list.
 
 Flow:
 1. Read the feature/function list from `/specs/functions/*`.
-2. For each function (page or non-page job), first determine which detail artifacts are actually involved, then only generate those artifacts; do not generate documents for non-involved parts.
+2. Read supporting artifacts when available: `/specs/background/*`, `/specs/flows/*.puml`, `/specs/background/scenario_details/`, `/specs/background/roles.md`, and existing `/specs/models/*.md` (if any).
+3. For each function (page or non-page job), first determine which detail artifacts are actually involved, then only generate those artifacts; do not generate documents for non-involved parts.
    - Always generate the baseline docs:
      - `rbac.md`: RBAC permissions down to page areas and controls.
      - `data_permission.md`: data permission rules and scope.
@@ -136,9 +123,24 @@ Flow:
       - `state_machine.md`: status list + transitions + PlantUML state diagram (overall; not per function).
      - `nfp.md`: non-functional requirements summary for the module (overall; not per function).
      - `cron_job.md`: scheduled jobs summary for the module (overall; not per function).
-3. Write only the generated (involved) detail documents:
+4. Write only the generated (involved) detail documents:
    - Per-function: `/specs/details/<module_slug>/<logic_type>/<function_slug>.(md|html)`
    - Module-level: `/specs/details/<module_slug>/<logic_type>/overall.(md|html)`
+
+### `/vspec:verify`
+
+Use this command to generate models and a runnable prototype for validation.
+
+Flow:
+0. Ensure `/specs/details/` exists and is non-empty; if missing, stop and ask the user to run `/vspec:detail` first.
+1. If `/specs/background/questions.md` exists and contains unanswered questions, ask the user to answer them before continuing (allow skip per question, but ensure none remains unanswered).
+2. Load `prompts/vspec_verify/model.md` to generate data models.
+3. Write model files to `/specs/models/*.md`.
+4. Generate a runnable page prototype based on functions, details, models, and roles; the prototype tech stack can be selected via `/scheme.yaml` (auto-created with defaults if missing).
+   - Load `prompts/vspec_verify/prototype.md` for the prototype generation rules (must follow `scheme.yaml` stack; do not output html-only).
+5. Write the prototype to `/specs/prototypes/`.
+6. Load `prompts/vspec_verify/validation.md` to generate a scenario validation web page.
+7. Write the validation page to `/specs/prototypes/` and provide a `scenario.html` entry for access.
 
 ### `/vspec:qc`
 

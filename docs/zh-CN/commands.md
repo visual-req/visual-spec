@@ -5,8 +5,8 @@
 | `/vspec:new` | 从原始需求生成第一版规格产物 | 原始需求文本 + 交互式问答 | `/specs/`（original、stakeholders、roles、terms、flows、scenarios、scenario_details、dependencies、functions、questions）+ 初始化 `/docs/*` 输入归档目录 |
 | `/vspec:refine` | 应用补充/澄清材料，并同步更新详情与原型 | `/docs/refine/*`（或命令参数）+ `/specs/background/original.md` + 前置条件 `/specs/details/` | 追加更新到 `/specs/background/original.md`（变更清单 + 最新口径）+ 更新受影响的 `/specs/details/` 与 `/specs/prototypes/` |
 | `/vspec:refine-q` | 将已回答的问题合并回需求并形成新口径 | `/specs/background/original.md` + `/specs/background/questions.md` | 追加到 `/specs/background/original.md`（采纳项 + 变更清单 + 最新口径） |
-| `/vspec:verify` | 快速验证：生成模型与可运行原型用于评审 | 现有 `/specs/` 产物 | `/specs/models/*.md`、`/specs/prototypes/`（按 `scheme.yaml` 选栈生成可运行原型 + `scenario.html` 评审页） |
-| `/vspec:detail` | 展开到“可实现”的单功能详细规格 | `/specs/functions/*` + details/models/roles | `/specs/details/<function_slug>/*`（RBAC、交互、校验、日志、通知、MQ、导入导出、定时任务等） |
+| `/vspec:detail` | 展开到“可实现”的单功能详细规格 | `/specs/functions/*` + 支撑产物（background/flows/roles；models 若已存在） | `/specs/details/<function_slug>/*`（RBAC、交互、校验、日志、通知、MQ、导入导出、定时任务等） |
+| `/vspec:verify` | 快速验证：生成模型与可运行原型用于评审 | 现有 `/specs/` 产物（functions + details + roles） | `/specs/models/*.md`、`/specs/prototypes/`（按 `scheme.yaml` 选栈生成可运行原型 + `scenario.html` 评审页） |
 | `/vspec:accept` | 生成验收用例 | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`、`/specs/acceptance/index.md` |
 | `/vspec:test` | 生成自动化测试代码 | 验收用例 + 仓库测试技术栈 | 写入既有测试目录或 `/tests/` |
 | `/vspec:impl` | 生成后端 + 前端联调实现代码 | specs/details/models/dependencies | 写入集成实现代码（API 合同、后端、前端对接） |
@@ -37,17 +37,18 @@
 - 适用场景：业务已在 `/specs/background/questions.md` 填写答案，需要合并回需求并形成新口径
 - 关键输出：采纳的 Q&A 项 + 变更清单 + 最新口径
 
-## `/vspec:verify`
-
-- 适用场景：尽快验证数据结构与页面形态，降低沟通误差
-- 关键输出：模型文件（实体拆分/关系/状态机等）、可运行原型、场景评审页
-- UI 规范：生成或复用 `/prototype_ui_convention.md`（与 `/scheme.yaml` 同级），并以其作为唯一口径约束原型 UI 风格与交互
-- Note：执行 `/vspec:verify` 之前务必先审核 `/specs/functions/*` 的功能清单，确保覆盖完整；否则原型与模型将仅基于现有 functions 生成，可能出现功能缺失。
-
 ## `/vspec:detail`
 
 - 适用场景：在设计/实现前，需要把每个功能点展开到“可实现”的规格粒度
 - 关键输出：RBAC 到控件级、数据权限、加载/交互/校验矩阵、提交后处理、日志/通知矩阵、MQ、导入导出、定时任务等
+
+## `/vspec:verify`
+
+- 适用场景：在 details 已就绪后，尽快验证数据结构与页面形态，降低沟通误差
+- 前置条件：`/specs/details/` 必须存在且非空
+- 关键输出：模型文件（实体拆分/关系/状态机等）、可运行原型、场景评审页
+- UI 规范：生成或复用 `/prototype_ui_convention.md`（与 `/scheme.yaml` 同级），并以其作为唯一口径约束原型 UI 风格与交互
+- Note：执行 `/vspec:verify` 之前务必先审核 `/specs/functions/*` 与 `/specs/details/`，确保覆盖完整；否则原型与模型可能出现功能缺失。
 
 ## `/vspec:accept`
 

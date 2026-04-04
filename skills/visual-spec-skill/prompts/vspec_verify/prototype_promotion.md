@@ -20,6 +20,13 @@
 2. 有效期（必须）：
    - 每个优惠必须包含有效期字段（start/end 或 expiredAt）
    - 过期/未开始：在选择器与详情页都必须置灰并给出原因
+3. 适用范围（商品/服务，必须）：
+   - 必须明确“适用商品/适用服务”的口径，并且都必须支持“所有”选项：
+     - 商品范围：`all`（所有商品）/ `category`（指定类目）/ `productIds`（指定商品/SKU）
+     - 服务范围：`all`（所有服务）/ `serviceType`（指定服务类型）/ `serviceIds`（指定服务/项目）
+   - 页面展示要求：
+     - 列表页与详情页必须展示“适用范围”且可读（例如“所有商品”“指定类目：餐饮”“指定商品：SKU123/456”）
+     - 选择器中必须能清晰选择“所有商品/所有服务”，并与类目/指定项互斥（选了 all 则清空其他范围）
 3. 低值券（必须）：
    - 至少 1 张低面额券（例如 2~5 元），用于验证最小优惠链路
 4. 叠加规则（必须）：
@@ -41,8 +48,11 @@
 1. mock 数据至少包含：
    - `mock.promotions`：优惠规则列表
    - `mock.couponWallet`：当前用户可领取/已领取/可用券列表（可简化）
-2. 字段至少包含：id、title、type、value、thresholdAmount、scope（all/category/productIds）、stackable、validFrom、validTo、eligibleSegments、status。
+2. 字段至少包含：
+   - id、title、type、value、thresholdAmount、stackable、validFrom、validTo、eligibleSegments、status
+   - 商品范围：`productScope`（all/category/productIds）+（可选）`productCategories`/`productIds`
+   - 服务范围：`serviceScope`（all/serviceType/serviceIds）+（可选）`serviceTypes`/`serviceIds`
+   - 要求：必须允许 `all`，且与其他范围字段互斥（选 all 则其他为空数组）
 3. 必须提供“优惠计算”最小实现：
    - 输入：items、shipping、selectedCoupons/promotions、userSegment
    - 输出：discountAmount、shippingDiscount、payable、discountDetails（逐条明细）
-

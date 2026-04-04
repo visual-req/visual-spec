@@ -28,7 +28,7 @@
    - 若仓库已有 OpenAPI/DTO/类型定义，必须复用并补齐
 3. 实现顺序（必须）：
    - 必须后端优先：在生成任何前端页面/API 调用之前，先在 `/specs/backend/` 生成可编译、可启动的后端工程骨架，并提供健康检查接口
-   - 再按接口契约逐个实现后端：实体/DTO、Repository、Service、Controller/API 与必要的校验/权限/状态流转
+   - 再按接口契约逐个实现后端：实体/DTO、Repository、Service、Controller/API 与必要的校验/权限/状态流转（Repository 与 Service 必须都有，禁止把业务逻辑直接堆在 Controller）
    - 禁止只做前端 mock 或只写接口契约不落后端代码
    - 后端接口可用后，再生成/改造前端页面与 API 调用，完成前后端集成联调（前端不得绕过后端直接 mock 业务数据）
 4. 外部依赖接入（必须，按 dependencies 落地到代码）：
@@ -40,9 +40,15 @@
    - 依赖失败注入必须可测：
      - 至少为 1 个外部依赖提供失败注入开关（复用 `/tools/config` 或仓库既有配置），并在代码与测试中覆盖该失败路径
 5. 后端实现要求（按需裁剪）：
-   - 数据模型/迁移（不破坏既有迁移系统）
+   - 数据库落地（必须按 `/scheme.yaml`）：
+     - 必须根据 `selected.prototype_database` 生成可运行的数据库连接配置（如 Spring Boot 的 datasource 配置、连接池参数等，按仓库事实放置）
+     - 必须生成对应的数据库访问代码与落库方式：表结构 DDL/迁移脚本/SQL（按仓库事实选择 Flyway/Liquibase/手写迁移），并保证 Repository/DAO 的查询与表结构一致
+     - 若仓库使用 ORM：仍需明确关键查询的 SQL 语义（可通过 mapper/xml/@Query/查询构造器等方式体现），避免“只有模型没有可执行查询”
    - Service/Repository
    - Controller/API
+   - 代码组织（必须）：
+     - Model/Entity/DTO 必须“一个类型一个文件”，禁止把多个 model/DTO/实体放在同一个文件里集中声明（例如禁止 `Models.java` 内堆放所有实体）
+     - Exception 必须集中在同一目录/包下统一管理（例如 `.../exception` 或 `.../exceptions`），并提供统一的错误响应映射（全局异常处理/错误码到 HTTP 状态码映射）；禁止在各处随意定义零散异常类
    - RBAC + 数据权限校验（引用 `/specs/details/<module_slug>/rbac/<function_slug>.md` 与 `/specs/details/<module_slug>/data_permission/<function_slug>.md`）
    - 状态机流转与校验（引用 `validation_matrix.md`）
    - 日志/通知/MQ（引用对应矩阵与 `mq.md`）

@@ -11,9 +11,19 @@
 - 回答开放问题（关键假设、范围、规则、依赖）
 - 在 `/specs/` 下得到第一版产物：角色、术语、流程、场景、功能清单、依赖、问题清单
 
-### 2. 方案验证（`/vspec:verify`）
+### 2. 详细规格（`/vspec:detail`）
 
-- 基于 `/specs/` 生成：
+- 以 `/specs/functions/*` 为输入，在 `/specs/details/<function_slug>/` 下生成单功能规格
+- 目标：把“需求”转成可实现的设计输入：
+  - RBAC 到控件级 + 数据权限
+  - 加载/交互/校验矩阵
+  - 提交后检查/处理/跳转
+  - 日志/通知矩阵、MQ、导入导出、定时任务
+
+### 3. 方案验证（`/vspec:verify`）
+
+- 前置条件：`/specs/details/` 存在且非空
+- 基于 `/specs/`（functions + details + roles）生成：
   - `/specs/models/*.md`：实体与字段、关系、状态机、索引、外部字段来源
   - `/specs/prototypes/`：按 `scheme.yaml` 选栈生成可运行原型，以及 `scenario.html` 场景评审页
 - 目标：尽早暴露理解偏差，尽快收敛到可评审方案
@@ -25,15 +35,6 @@
   - `/vspec:proto-approve`：审批流页面 + 工作台差异
   - `/vspec:proto-execute`：执行流页面（包含移动端 `/m/*`）
   - `/vspec:proto-crud`：配置/主数据 CRUD 管理页
-
-### 3. 详细规格（`/vspec:detail`）
-
-- 以 `/specs/functions/*` 为输入，在 `/specs/details/<function_slug>/` 下生成单功能规格
-- 目标：把“需求”转成可实现的设计输入：
-  - RBAC 到控件级 + 数据权限
-  - 加载/交互/校验矩阵
-  - 提交后检查/处理/跳转
-  - 日志/通知矩阵、MQ、导入导出、定时任务
 
 ### 4. 验收用例（`/vspec:accept`）
 
