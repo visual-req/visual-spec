@@ -10,12 +10,12 @@
 1. 允许用户通过 `scheme.yaml` 指定本次“原型工程”的技术栈类型：
    - 优先读取：`/scheme.yaml`
    - 若不存在，再读取：`/specs/scheme.yaml`
-2. 如果两个路径都不存在：必须先创建默认文件 `/scheme.yaml`（不要覆盖已存在文件），并写入“默认值 + 可选技术栈清单（详细）”，然后继续用默认值生成工程。
+2. 如果两个路径都不存在：必须先创建默认文件 `/scheme.yaml`（不要覆盖已存在文件），并写入“固定标准模板（默认值 + catalog）”，然后继续用默认值生成工程。
 3. 生成工程时必须严格按 `scheme.yaml` 的 `selected.prototype_frontend_stack` 执行；若用户填写了未知/不支持的 id：必须停止并输出错误，要求用户修正 `scheme.yaml` 后重试；禁止私自回退到其他栈。
 4. `selected` 中与前端工程结构相关的字段（如 `prototype_frontend_framework`、`prototype_frontend_ui_library`）用于约束生成目录结构与依赖组合：
    - 若这些字段存在，则必须与 `selected.prototype_frontend_stack` 在 `catalog.prototype_frontend_stacks` 中的定义一致，否则必须停止并要求用户修正 `scheme.yaml`
 
-默认 `/scheme.yaml` 内容模板（必须按此生成，可直接复制；用户可自行修改 selected 值后重跑 /vspec:verify）：
+默认 `/scheme.yaml` 内容模板（必须按此生成，可直接复制；禁止调整字段顺序/缩进/键名；禁止增删字段；用户可自行修改 selected 值后重跑 /vspec:verify）：
 ```yaml
 schema_version: 1
 
@@ -170,14 +170,6 @@ catalog:
       notes: lightweight
 
   prototype_backend_stacks:
-    - id: none
-      name: No backend (frontend mock only)
-      language: none
-      framework: none
-      auth: none
-      orm: none
-      notes: default_for_prototype
-
     - id: node18_nestjs10_ts
       name: Node.js 18 + NestJS 10 + TypeScript
       language: typescript
@@ -527,7 +519,7 @@ UI 规范（必须，用于约束原型风格，避免随意发挥）：
 1. 规范优先级：
    - 必须优先读取并遵守项目根目录 `/prototype_ui_convention.md`（与 `/scheme.yaml` 同级）
    - 若 `/prototype_ui_convention.md` 不存在：必须先创建该文件（不要覆盖已存在文件）并写入默认模板，然后再继续生成原型
-   - 若存在 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md`：必须把其中“更具体/更严格”的约束合并进 `/prototype_ui_convention.md`（作为最终口径），并以最终合并后的 `/prototype_ui_convention.md` 约束生成
+   - 若存在 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md`：必须把其中“更具体/更严格”的约束合并进 `/prototype_ui_convention.md`（作为最终口径），但必须保持文件标准结构不变：只允许写入到文件末尾的“补充约束（项目特定）”小节，不得改动上方模板结构与标题
 2. `/prototype_ui_convention.md` 默认模板（必须生成，允许用户后续手动修改后重跑 /vspec:verify 生效）：
 
 ```md
@@ -561,6 +553,9 @@ UI 规范（必须，用于约束原型风格，避免随意发挥）：
 
 ## 本地化
 - 日期/时间与状态/枚举显示必须中文化；禁止直接展示英文 code
+
+## 补充约束（项目特定）
+- 仅用于追加来自 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md` 的更严格约束；不得改动上述模板结构与标题
 ```
 2. 全局布局：
    - 桌面端统一使用：左侧导航（可折叠）+ 顶部 Header + 内容区

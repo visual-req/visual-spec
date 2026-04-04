@@ -16,7 +16,10 @@
 
 0.5 创建可编辑的工程约束文件（必须）
    - 目的：让用户在后续 `/vspec:verify` 与 `/vspec:impl` 前即可手动调整技术栈与 UI 风格
-   - 若 `/scheme.yaml` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板：
+   - 生成内容必须使用“固定标准模板”，禁止动态变化（必须）：
+     - 禁止调整字段顺序、缩进风格与键名；禁止增删字段；禁止按项目/行业“智能改写模板内容”
+     - 若文件已存在：不得覆盖、不得重排、不得“格式化重写”
+   - 若 `/scheme.yaml` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板（必须逐字复制）：
 
 ```yaml
 schema_version: 1
@@ -57,7 +60,139 @@ catalog:
       e2e_test: playwright
       notes: default_for_vspec_verify
 
+    - id: vue3_vite_ts_elementplus
+      name: Vue 3 + Vite + TypeScript + Element Plus
+      framework: vue
+      framework_version: "3"
+      build_tool: vite
+      language: typescript
+      ui_library: element-plus
+      router: vue-router@4
+      state: pinia
+      http_client: axios
+      charting: echarts
+      date_library: dayjs
+      styling: scss
+      lint: eslint
+      formatter: prettier
+      unit_test: vitest
+      e2e_test: playwright
+      notes: suitable_for_enterprise_admin
+
+    - id: nuxt3_ts_elementplus
+      name: Nuxt 3 + TypeScript + Element Plus (SSR/SSG)
+      framework: nuxt
+      framework_version: "3"
+      build_tool: nuxt
+      language: typescript
+      ui_library: element-plus
+      router: built-in
+      state: pinia
+      http_client: ofetch
+      charting: echarts
+      date_library: dayjs
+      styling: scss
+      lint: eslint
+      formatter: prettier
+      unit_test: vitest
+      e2e_test: playwright
+      notes: ssr_friendly
+
+    - id: react18_vite_ts_antd
+      name: React 18 + Vite + TypeScript + Ant Design
+      framework: react
+      framework_version: "18"
+      build_tool: vite
+      language: typescript
+      ui_library: antd
+      router: react-router@6
+      state: redux-toolkit
+      http_client: axios
+      charting: echarts-for-react
+      date_library: dayjs
+      styling: less
+      lint: eslint
+      formatter: prettier
+      unit_test: vitest
+      e2e_test: playwright
+      notes: common_spa_choice
+
+    - id: nextjs14_ts_antd
+      name: Next.js 14 + TypeScript + Ant Design (App Router)
+      framework: nextjs
+      framework_version: "14"
+      build_tool: next
+      language: typescript
+      ui_library: antd
+      router: app-router
+      state: react-context
+      http_client: fetch
+      charting: echarts-for-react
+      date_library: dayjs
+      styling: css-modules
+      lint: eslint
+      formatter: prettier
+      unit_test: vitest
+      e2e_test: playwright
+      notes: ssr_and_rsc
+
+    - id: angular17_ts_ngzorro
+      name: Angular 17 + TypeScript + NG-ZORRO
+      framework: angular
+      framework_version: "17"
+      build_tool: angular-cli
+      language: typescript
+      ui_library: ng-zorro-antd
+      router: angular-router
+      state: rxjs
+      http_client: angular-http
+      charting: echarts
+      date_library: dayjs
+      styling: less
+      lint: eslint
+      formatter: prettier
+      unit_test: karma-jasmine
+      e2e_test: playwright
+      notes: enterprise_frontend
+
+    - id: sveltekit2_ts
+      name: SvelteKit 2 + TypeScript
+      framework: sveltekit
+      framework_version: "2"
+      build_tool: sveltekit
+      language: typescript
+      ui_library: skeleton
+      router: built-in
+      state: stores
+      http_client: fetch
+      charting: echarts
+      date_library: dayjs
+      styling: tailwindcss
+      lint: eslint
+      formatter: prettier
+      unit_test: vitest
+      e2e_test: playwright
+      notes: lightweight
+
   prototype_backend_stacks:
+    - id: node18_nestjs10_ts
+      name: Node.js 18 + NestJS 10 + TypeScript
+      language: typescript
+      framework: nestjs
+      api_style: rest
+      auth: jwt
+      orm: prisma
+      notes: suitable_for_enterprise_api
+
+    - id: node18_express_ts
+      name: Node.js 18 + Express + TypeScript
+      language: typescript
+      framework: express
+      api_style: rest
+      auth: jwt
+      orm: prisma
+      notes: lightweight_api
+
     - id: java17_springboot3
       name: Java 17 + Spring Boot 3
       language: java
@@ -66,9 +201,89 @@ catalog:
       auth: spring-security-jwt
       orm: jpa_or_mybatis
       notes: enterprise_standard
+
+    - id: dotnet8_webapi
+      name: .NET 8 + ASP.NET Core Web API
+      language: csharp
+      framework: aspnet-core
+      api_style: rest
+      auth: jwt
+      orm: ef-core
+      notes: microsoft_stack
+
+    - id: python311_fastapi
+      name: Python 3.11 + FastAPI
+      language: python
+      framework: fastapi
+      api_style: rest
+      auth: jwt
+      orm: sqlalchemy
+      notes: fast_iteration
+
+    - id: go122_gin
+      name: Go 1.22 + Gin
+      language: go
+      framework: gin
+      api_style: rest
+      auth: jwt
+      orm: gorm
+      notes: high_performance
+
+  databases:
+    - id: none
+      name: No database (in-memory/mock)
+      type: none
+      notes: prototype_default
+    - id: postgres16
+      name: PostgreSQL 16
+      type: relational
+      migration: prisma_or_flyway
+      notes: recommended_relational
+    - id: mysql8
+      name: MySQL 8
+      type: relational
+      migration: prisma_or_flyway
+      notes: common_relational
+    - id: mongodb7
+      name: MongoDB 7
+      type: document
+      migration: none
+      notes: document_store
+    - id: redis7
+      name: Redis 7
+      type: cache
+      migration: none
+      notes: cache_and_lock
+
+  integrations:
+    auth:
+      - id: none
+        name: No auth (prototype role switch)
+      - id: sso_oidc
+        name: OIDC/OAuth2 SSO
+      - id: ldap_ad
+        name: LDAP/AD
+    message_queue:
+      - id: none
+        name: No MQ
+      - id: kafka
+        name: Apache Kafka
+      - id: rabbitmq
+        name: RabbitMQ
+      - id: rocketmq
+        name: Apache RocketMQ
+    object_storage:
+      - id: none
+        name: Local storage
+      - id: s3
+        name: S3 compatible
+      - id: oss
+        name: Aliyun OSS
+      - id: cos
+        name: Tencent COS
 ```
 
-   - 若 `/prototype_ui_convention.md` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板：
+   - 若 `/prototype_ui_convention.md` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板（必须逐字复制；不得增删标题层级）：
 
 ```md
 # 原型 UI 规范
@@ -101,6 +316,9 @@ catalog:
 
 ## 本地化
 - 日期/时间与状态/枚举显示必须中文化；禁止直接展示英文 code
+
+## 补充约束（项目特定）
+- 仅用于追加来自 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md` 的更严格约束；不得改动上述模板结构与标题
 ```
 
 1. 归档原始需求
