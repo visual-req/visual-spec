@@ -37,16 +37,17 @@ yarn dlx -p visual-spec vspec
 ### 2. Recommended Workflow
 
 - Initial spec: `/vspec:new`
-  - During execution it generates an open question list (`/specs/background/questions.md`)
-  - Fill in business answers in that file before continuing the workflow
-- Merge Q&A into the canonical requirement: `/vspec:refine-q`
-- Detailed specs: `/vspec:detail`
-- Quick validation (models + prototype): `/vspec:verify` (requires non-empty `/specs/details/`)
-- Acceptance cases: `/vspec:accept`
-- Integrated implementation: `/vspec:impl`
-- Automated tests: `/vspec:test`
-- Change handling: `/vspec:change`
-- Upgrade/redesign (inherit from legacy materials): `/vspec:upgrade`
+  - Midway it generates the canonical requirement file (`/specs/background/original.md`) and asks clarification questions
+  - Answer those questions in chat first, then type “continue” to finish `/vspec:new` (do not write these clarification answers into `questions.md`)
+  - It also generates an open question list (`/specs/background/questions.md`) for later merging
+- Merge Q&A into the canonical requirement: `/vspec:refine-q` (merge answered items from `/specs/background/questions.md` back into `original.md`)
+- Detailed specs: `/vspec:detail` (iterate all functions and generate RBAC, data permission, interaction, validation, state machine, etc.)
+- Quick validation (models + prototype): `/vspec:verify` (build runnable prototypes from functions + details + models; requires non-empty `/specs/details/`)
+- Acceptance cases: `/vspec:accept` (turn key scenarios into reviewable acceptance checklists)
+- Integrated implementation: `/vspec:impl` (implementation inputs and structure constraints: models/services/repositories/exceptions, etc.)
+- Automated tests: `/vspec:test` (test plan and automation skeletons)
+- Change handling: `/vspec:change` (impact analysis and artifact updates)
+- Upgrade/redesign (inherit from legacy materials): `/vspec:upgrade` (normalize legacy/current materials into new specs and selections)
 
 ### 3. Key Directories
 
@@ -57,7 +58,6 @@ yarn dlx -p visual-spec vspec
 Directory structure reference:
 
 - `structure.md`
- - `structure.md`
 
 Next:
 
@@ -67,7 +67,7 @@ Next:
 
 #### Refinements (`refine`)
 
-- Put refinement materials into `/docs/refine/`
+- Put refinement materials into `/docs/refine/refine.md` (use it as the primary entry; add other files under the folder only when needed)
 - Prerequisite: `/specs/details/` must exist and be non-empty, otherwise `refine` does not run
 - Run: `/vspec:refine`
 - Result: appends updates to `/specs/background/original.md` and syncs impacted `/specs/details/` and `/specs/prototypes/`
