@@ -12,7 +12,7 @@
 - 每个节点至少给出 5 条关键边界（时间/数量/金额/并发/文件等），主流程节点建议 8-12 条
 
 产出方式（必须）：
-1. 遍历 `/specs/background/scenario_details/` 下的所有节点目录（`node_*/`），逐节点生成对应的 `boundaries.md`。
+1. 遍历 `/specs/background/scenario_details/` 下的所有节点目录（按目录名排序），逐节点生成对应的 `boundaries.md`。
 2. 每个节点至少给出 5 条关键边界（时间/数量/金额/并发/文件等），主流程节点建议 8-12 条，并与该节点的 Pre/Post、场景链条一致。
 3. 本小节不允许留空：信息不足时必须给出“建议边界 + 假设”，不要只写待确认；仅在确实与该节点无关时才写 `Not Applicable：<原因>`。
 
@@ -30,7 +30,7 @@
 4. 若边界与状态机/审批链/外部系统 SLA 相关，必须点出触发条件（例如“超过窗口自动转人工/自动取消”）
 
 输出与写入要求：
-1. 对每个节点目录写入：`/specs/background/scenario_details/<node_key>/boundaries.md`
+1. 对每个节点目录写入：`/specs/background/scenario_details/<dir_key>/boundaries.md`
 2. 文件结构固定如下（必须）：
 
 # 节点：<节点名>

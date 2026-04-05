@@ -29,3 +29,7 @@ This repo provides a requirements analysis and delivery assistant Skill. It offe
 
 - `skills/visual-spec-skill/SKILL.md`: Skill definition and command workflow
 - `skills/visual-spec-skill/prompts/`: prompt files used by each command
+
+## Licensing / Plans
+
+- `prompts/harness/*` (post-run validation commands) is a paid feature and is only available in the Pro edition.

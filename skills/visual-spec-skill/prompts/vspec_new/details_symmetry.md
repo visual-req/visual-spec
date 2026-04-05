@@ -12,7 +12,7 @@
 - 主流程节点：至少覆盖 5 类对称操作；罕见节点：覆盖关键对称操作即可
 
 产出方式（必须）：
-1. 遍历 `/specs/background/scenario_details/` 下的所有节点目录（`node_*/`），逐节点生成对应的 `symmetry.md`。
+1. 遍历 `/specs/background/scenario_details/` 下的所有节点目录（按目录名排序），逐节点生成对应的 `symmetry.md`。
 2. 对称操作必须与该节点的状态与时点一致（例如 apply/approve/execute-start/execute-end 前后），并与角色权限一致。
 3. 本小节不允许留空：信息不足时必须基于最小合理闭环补齐（假设），至少覆盖 cancel/change/retry 三类；仅在确实与该节点无关时才写 `Not Applicable：<原因>`。
 
@@ -35,7 +35,7 @@
    - 对称操作必须明确占用释放、冲突重新判定、以及是否需要重新审批
 
 输出与写入要求：
-1. 对每个节点目录写入：`/specs/background/scenario_details/<node_key>/symmetry.md`
+1. 对每个节点目录写入：`/specs/background/scenario_details/<dir_key>/symmetry.md`
 2. 文件结构固定如下（必须）：
 
 # 节点：<节点名>

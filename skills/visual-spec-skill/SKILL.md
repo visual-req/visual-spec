@@ -64,7 +64,8 @@ Flow:
 26. Write the function lists to `/specs/functions/`.
 27. Load `prompts/vspec_new/questions.md` to generate question lists and required business materials.
 28. Write the questions result to `/specs/background/questions.md` (markdown list).
-29. Return the structured analysis result and continue to the next requirement-design step.
+29. Load `prompts/harness/post_new_verify.md` to validate whether functions and scenario_details are complete (login/config/master-data/approval). If it outputs any issues, show the issue list and stop.
+30. Return the structured analysis result and continue to the next requirement-design step.
 
 ### `/vspec:refine`
 
@@ -98,8 +99,10 @@ Use this command to expand requirement details based on the function list.
 
 Flow:
 1. Read the feature/function list from `/specs/functions/*`.
+   - You must iterate every function row across all files under `/specs/functions/` (not just core.md), so no module or external-system function is missed.
 2. Read supporting artifacts when available: `/specs/background/*`, `/specs/flows/*.puml`, `/specs/background/scenario_details/`, `/specs/background/roles.md`, and existing `/specs/models/*.md` (if any).
 3. For each function (page or non-page job), first determine which detail artifacts are actually involved, then only generate those artifacts; do not generate documents for non-involved parts.
+   - Coverage requirement: for every function row you iterate, you must generate at least `rbac.md` and `data_permission.md`. If you cannot, output an explicit error and stop (do not silently skip).
    - Always generate the baseline docs:
      - `rbac.md`: RBAC permissions down to page areas and controls.
      - `data_permission.md`: data permission rules and scope.
@@ -144,6 +147,7 @@ Flow:
 5. Write the prototype to `/specs/prototypes/`.
 6. Load `prompts/vspec_verify/validation.md` to generate a scenario validation web page.
 7. Write the validation page to `/specs/prototypes/` and provide a `scenario.html` entry for access.
+8. Load `prompts/harness/post_verify_verify.md` to validate the prototype completeness. If it outputs any issues, show the issue list and stop.
 
 ### `/vspec:qc`
 

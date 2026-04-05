@@ -8,6 +8,10 @@
 1. Web（运营/配置类）：
    - 优惠券/促销列表：`/promotions`
    - 优惠券/促销详情：`/promotions/:id`（至少保证 `/promotions/1` 可访问）
+2. Mobile（用户端领取/券包，命中“发放/领取/领券/券包/我的优惠券”等则必须）：
+   - 领券中心：`/m/coupons`（展示可领取/可用券；支持按有效期/适用范围筛选）
+   - 我的优惠券：`/m/coupons/wallet`（已领取列表；展示状态：可用/已用/已过期）
+   - 领券/使用闭环：在券卡片上提供“领取/去使用”按钮（mock 生效），并能跳转回购物车/订单等使用场景
 2. 必须与交易链路联动：
    - 购物车与支付页必须提供“选择优惠券/查看优惠明细”入口，并确保选择后金额实时变化（写回 mock）。
 
@@ -48,6 +52,10 @@
 1. mock 数据至少包含：
    - `mock.promotions`：优惠规则列表
    - `mock.couponWallet`：当前用户可领取/已领取/可用券列表（可简化）
+2. 若存在发放/领取场景，必须区分：
+   - 可领取池（例如 `mock.couponPool` 或等价字段）：用于 `/m/coupons` 展示
+   - 我的券包（`mock.couponWallet`）：用于 `/m/coupons/wallet` 展示
+   - 领取动作必须把券从“可领取池”写入“我的券包”，并在购物车/支付选择器中立即可见
 2. 字段至少包含：
    - id、title、type、value、thresholdAmount、stackable、validFrom、validTo、eligibleSegments、status
    - 商品范围：`productScope`（all/category/productIds）+（可选）`productCategories`/`productIds`

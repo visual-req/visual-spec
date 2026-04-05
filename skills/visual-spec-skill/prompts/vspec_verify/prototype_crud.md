@@ -31,6 +31,10 @@
    - Tool pages & Agreement：按 `prompts/vspec_verify/prototype_tool_pages.md` 执行
 
 CRUD 页面规则（必须）：
+0. 基础数据/主数据覆盖（必须）：
+   - 必须从 `/specs/models/*.md` 中识别“基础数据/主数据”（维护对象）清单，并为每个对象生成可运行的 CRUD 页面（至少列表 + 详情 + Drawer 新建/编辑）
+   - 典型示例：排课类业务必须具备课程/讲师/学员等基础数据；若缺少则业务流程无法演示
+   - 若 functions 未提供对应 CRUD 条目：必须在首页“设置/说明”区域输出可见错误提示，并采用最保守策略补齐路由（默认 `端=Web` + 推断入口为 `/admin/master-data/<entity_slug>`）
 1. 每个 CRUD 功能点至少对应：列表页 + 详情页；新建/编辑用 Drawer 完成，不单独开“新建路由”承载表单。
 2. 列表页必须包含：
    - 查询表单（至少 2 个字段，按模型裁剪）

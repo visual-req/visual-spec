@@ -13,7 +13,7 @@
 - 每个维度必须给出“典型取值（2-5 个）”与“差异处理”
 
 产出方式（必须）：
-1. 遍历 `/specs/background/scenario_details/` 下的所有节点目录（`node_*/`），逐节点生成对应的 `variations.md`。
+1. 遍历 `/specs/background/scenario_details/` 下的所有节点目录（按目录名排序），逐节点生成对应的 `variations.md`。
 2. 每个节点最多列 5 个分支维度（宁可少而关键），并与该节点的 Pre/Post、角色权限、场景链条一致。
 3. 本小节不允许留空：信息不足时必须给出“最可能发生的分支维度 + 默认处理”，并用（假设）标注；仅在确实与该节点无关时才写 `Not Applicable：<原因>`。
 
@@ -40,7 +40,7 @@
    - 能映射到 models：若分支需要新增字段/枚举值/状态值，标注“建议字段/枚举（待模型阶段确认）”
 
 输出与写入要求：
-1. 对每个节点目录写入：`/specs/background/scenario_details/<node_key>/variations.md`
+1. 对每个节点目录写入：`/specs/background/scenario_details/<dir_key>/variations.md`
 2. 文件结构固定如下（必须）：
 
 # 节点：<节点名>

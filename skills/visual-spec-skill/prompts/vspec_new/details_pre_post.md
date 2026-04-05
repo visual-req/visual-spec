@@ -10,13 +10,13 @@
 分析范围与输出控制：
 - 先生成“节点清单”（去重并按主流程出现顺序排序）；再按节点逐条分析
 - 默认对所有主流程节点做详解；对明显罕见/仅异常路径出现的节点可简要
-- 审批节点不得跳过：只要在 `/specs/flows/*.puml` 或 `/specs/background/scenarios.md` 中出现 approve/审批（含同义节点），必须输出该节点的 `node_*_approve/pre_post.md`（信息不足可用最小假设补齐，并标注“假设”）
+- 审批节点不得跳过：只要在 `/specs/flows/*.puml` 或 `/specs/background/scenarios.md` 中出现 approve/审批（含同义节点），必须输出该节点的 `??_approve_approve/pre_post.md`（信息不足可用最小假设补齐，并标注“假设”）
 - 每个节点文件控制在 18 到 45 行；罕见节点可简要至 6 到 12 行
 
 闭环思维（Pre/Post）细化要求（必须）：
 1. 前置条件（pre）必须覆盖：
    - 数据前置：哪些主数据/基础数据必须存在（例如组织、人员、资源、客户、供应商、合同、额度等）
-   - 数据来源：手工录入/Excel 导入/外部系统同步（明确来源优先级与兜底方案）
+   - 数据来源：手工录入/Excel 导入/外部系统同步（明确来源优先级与兜底方案）；若为本系统内维护，必须明确对应的主数据/配置维护入口（CRUD/配置管理）；若为外部系统同步，则可不做 CRUD 但必须明确同步触发与兜底
    - 权限前置：谁能创建/提交/审批/执行（引用 roles），以及是否需要提前授权/开通权限点
    - 配置前置：字典/枚举、审批流配置、时间窗口、SLA、通知模板、外部系统鉴权配置
    - 环境前置：外部系统可用性/接口连通性（必要时给出最小可运行假设，并标注“假设”）
@@ -31,9 +31,20 @@
 1. 输出目录：`/specs/background/scenario_details/`
 2. 如果目录不存在，请先创建
 3. 节点目录命名规则（必须）：
-   - `node_<序号两位>_<node_slug>`，例如：`node_01_apply`、`node_02_approve`、`node_03_execute_start`
-   - `node_slug` 优先使用场景节点名的英文键（apply/approve/cancel/change/execute-start/execute-end）；若为中文节点名则转成可读的拼音或英文短语；仍无法稳定命名时用 `node`
-4. 对每个节点，写入一个文件：`/specs/background/scenario_details/<node_key>/pre_post.md`
+   - 目录名必须为：`<序号两位>_<模块>_<节点>`，例如：`01_apply_apply`、`02_approve_approve`、`03_execute_execute_start`
+   - `<节点>`：优先使用场景节点名的英文键（apply/approve/cancel/change/execute-start/execute-end）；若为中文节点名则转成可读的拼音或英文短语；仍无法稳定命名时用 `node`
+   - `<模块>`：由节点归类得到，用于分组而不是业务模块名，口径固定如下（必须按此映射）：
+     - apply → apply
+     - approve → approve
+     - execute-start/execute-end → execute
+     - change → change
+     - cancel → cancel
+     - abort → abort
+     - crud-* → crud
+     - quiz-* → quiz
+     - shop-* → shop
+     - 其他 → misc
+4. 对每个节点，写入一个文件：`/specs/background/scenario_details/<dir_key>/pre_post.md`
 5. `pre_post.md` 文件结构固定如下（必须）：
 
 # 节点：<节点名>

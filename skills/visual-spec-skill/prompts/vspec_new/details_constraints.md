@@ -13,7 +13,7 @@
 - 约束表达必须可落地（可用伪代码/规则表达式），避免泛泛描述
 
 产出方式（必须）：
-1. 遍历 `/specs/background/scenario_details/` 下的所有节点目录（`node_*/`），逐节点生成对应的 `constraints.md`。
+1. 遍历 `/specs/background/scenario_details/` 下的所有节点目录（按目录名排序），逐节点生成对应的 `constraints.md`。
 2. 每个节点的约束必须与该节点的 Pre/Post、角色权限、场景链条、流程图一致；不要写与该节点无关的泛化内容。
 3. 本小节不允许留空：信息不足时必须给出“合理默认值/建议值”，并用（假设）标注；仅在确实与该节点无关时才写 `Not Applicable：<原因>`。
 
@@ -58,7 +58,7 @@
      - 反垄断/公平竞争：若涉及价格/补贴/渠道排他，需输出合规边界与审批要求（写清触发条件）
 
 输出与写入要求：
-1. 对每个节点目录写入：`/specs/background/scenario_details/<node_key>/constraints.md`
+1. 对每个节点目录写入：`/specs/background/scenario_details/<dir_key>/constraints.md`
 2. 文件结构固定如下（必须）：
 
 # 节点：<节点名>

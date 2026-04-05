@@ -31,3 +31,7 @@
 
 - `skills/visual-spec-skill/SKILL.md`：Skill 定义与命令工作流
 - `skills/visual-spec-skill/prompts/`：各命令使用的提示词文件
+
+## 版本与授权
+
+- `prompts/harness/*`（运行后校验命令）为付费版（Pro）功能。

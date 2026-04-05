@@ -63,7 +63,8 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 26. 将功能清单写入 `/specs/functions/`。
 27. 加载 `prompts/vspec_new/questions.md` 生成问题清单与所需业务材料清单。
 28. 将问题清单写入 `/specs/background/questions.md`（markdown 列表）。
-29. 返回结构化分析结果，并进入下一步需求设计流程。
+29. 加载 `prompts/harness/post_new_verify.md` 验证 functions 与 scenario_details 是否完备（登录/配置/主数据维护/审批等）。若输出了问题列表，则提示问题并立即结束。
+30. 返回结构化分析结果，并进入下一步需求设计流程。
 
 ### `/vspec:refine`
 
@@ -97,8 +98,10 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 
 流程：
 1. 读取 `/specs/functions/*` 中的功能清单。
+   - 必须遍历 `/specs/functions/` 目录下所有文件的每一行功能（不仅是 core.md），避免遗漏任何模块/外部系统相关功能点。
 2. 尽可能读取可用的上下文产物：`/specs/background/*`、`/specs/flows/*.puml`、`/specs/background/scenario_details/`、`/specs/background/roles.md`，以及已有的 `/specs/models/*.md`（若存在）。
 3. 对每个功能（页面或非页面任务），先判断哪些详情产物真正涉及，再只生成涉及的部分；对不涉及的部分不得生成空文档。
+   - 覆盖性要求（必须）：对遍历到的每个功能点，必须至少产出 `rbac.md` 与 `data_permission.md`（按规则写入对应路径）；若因信息不足无法产出，必须输出可见错误并停止，而不是静默跳过。
    - 始终生成基础文档：
      - `rbac.md`：RBAC 权限下沉到页面区域与控件级。
      - `data_permission.md`：数据权限规则与范围。
@@ -143,6 +146,7 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 5. 将原型工程写入 `/specs/prototypes/`。
 6. 加载 `prompts/vspec_verify/validation.md` 生成场景验证网页。
 7. 将验证页面写入 `/specs/prototypes/`，并提供 `scenario.html` 作为访问入口。
+8. 加载 `prompts/harness/post_verify_verify.md` 检查原型是否覆盖关键约束（移动端/审批/CRUD/布局/登录/RBAC 等）。若输出了问题列表，则提示问题并立即结束。
 
 ### `/vspec:qc`
 
