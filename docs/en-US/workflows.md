@@ -1,10 +1,5 @@
 ## Workflow
 
-### 0. Setup
-
-- Install this Skill at your project root (the target project contains `.trae/`)
-- Ensure `.trae/skills/visual-spec-skill/` exists in the target project (see “Installation” below)
-
 ### 1. Requirements Analysis (`/vspec:new`)
 
 - Provide the raw requirement input
