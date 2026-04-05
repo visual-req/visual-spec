@@ -28,4 +28,4 @@
 - 若该模块没有任何可明确的非功能性约束/指标（例如纯离线 demo、无外部依赖、无数据规模假设），输出单行：`SKIP`
 
 输出写入：
-- 将结果写入上游指定的 markdown 文件路径（通常在 `/specs/details/<module_slug>/nfp/overall.md`）
+- 将结果写入上游指定的 markdown 文件路径（通常在 `/specs/details/<module_slug>/nfp/<module_slug>.md`）

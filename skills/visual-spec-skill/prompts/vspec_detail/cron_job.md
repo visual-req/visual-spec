@@ -21,4 +21,4 @@
 3. 若同一模块有多个任务，按任务分段输出（可用二级标题 `## {名称}`），每段仅包含上述表格，不要额外追加其他表格结构。
 
 输出写入：
-- 将结果写入上游指定的 markdown 文件路径（通常在 `/specs/details/<module_slug>/cron_job/overall.md`）
+- 将结果写入上游指定的 markdown 文件路径（通常在 `/specs/details/<module_slug>/cron_job/<module_slug>.md`）

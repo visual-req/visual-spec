@@ -22,4 +22,4 @@
    - 每条迁移箭头必须标注 Trigger；如有关键 Guard，用 `[ ... ]` 标注在箭头文案中
 
 输出写入：
-- 将结果写入上游指定的 markdown 文件路径（通常在 `/specs/details/<module_slug>/state_machine/overall.md`）
+- 将结果写入上游指定的 markdown 文件路径（通常在 `/specs/details/<module_slug>/state_machine/<module_slug>.md`）

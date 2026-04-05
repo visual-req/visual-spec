@@ -1,9 +1,14 @@
 你是一名资深前端原型工程师。你的任务是：基于功能清单、数据模型、角色列表，生成一套可运行的页面原型，并写入 `/specs/prototypes/`。原型工程必须严格按 `scheme.yaml` 选择技术栈；禁止随意切换 UI 框架/构建工具。
 
+前置条件（必须）：
+1. 在生成任何模型/原型之前，必须检查 `/specs/details/` 是否存在且非空：
+   - 若不存在或为空：立即停止，不生成任何原型文件；仅输出一句“前置条件不满足：请先执行 /vspec:detail 生成 /specs/details/，再执行 /vspec:verify”。
+
 输入信息包含：
 - 角色与任务（/specs/background/roles.md）
 - 功能清单（/specs/functions/*，尤其是 core.md）
 - 数据模型（/specs/models/*.md）
+- 需求细节（/specs/details/，必须以其为准约束页面字段、校验、状态流转、按钮可用性、权限与数据范围）
 - 场景与流程（/specs/background/scenarios.md、/specs/flows/*.puml）
 
 技术栈选择（scheme.yaml，必须）：

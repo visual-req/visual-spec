@@ -45,7 +45,7 @@
    - 必须更新 `/specs/details/` 下受影响模块的文档（优先更新既有文件，避免无意义新文件）：
      - 若变更涉及角色/权限：更新 `rbac/` 与 `data_permission/`
      - 若变更涉及页面交互/字段/流程：更新 `interaction/`、`page_load/`、`validation_matrix/`、`post_submit_*` 等相关文档
-     - 若变更涉及状态/操作可用性：更新 `state_machine/overall.*`（如存在）与 `decision_matrix/`、`validation_matrix/`
+    - 若变更涉及状态/操作可用性：更新 `state_machine/<module_slug>.*`（如存在）与 `decision_matrix/`、`validation_matrix/`
      - 若变更涉及外部依赖：更新 `dependencies.md` 对应模块的调用时机与失败兜底，并在细节规格中体现
    - 必须更新 `/specs/prototypes/`：
      - 页面/路由/菜单/按钮/表单字段必须与最新的细节规格一致

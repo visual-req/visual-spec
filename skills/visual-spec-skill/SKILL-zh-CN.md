@@ -74,18 +74,21 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 1. 读取 refine 输入：
    - 若命令参数提供了路径，将其视为 refine 输入源（文件/目录）。
    - 否则读取 `/docs/refine/`（若存在优先读 `/docs/refine/file_list.md`；否则按文件名顺序读取）。
-2. 加载 `prompts/vspec_refine/refine.md` 应用补充信息、更新需求口径并同步更新受影响的产物。
-3. 将 refine 结果追加到 `/specs/background/original.md`，并更新受影响的 `/specs/details/` 与 `/specs/prototypes/`。
+2. 若 `prompts/vspec_refine/refine.md` 不存在：立即结束，不执行任何写入。
+3. 加载 `prompts/vspec_refine/refine.md` 应用补充信息、更新需求口径并同步更新受影响的产物。
+4. 将 refine 结果追加到 `/specs/background/original.md`，并更新受影响的 `/specs/details/` 与 `/specs/prototypes/`。
 
 ### `/vspec:refine-q`
 
 用于基于“已回答的问题”补充与更新需求。
 
 流程：
-1. 读取 `/specs/background/questions.md` 并选择已回答项。
-2. 加载 `prompts/vspec_refine/refine_q.md` 将答案合并进最新口径。
-3. 将结果追加到 `/specs/background/original.md`。
-4. 更新 `/specs/background/questions.md`，标记本次运行中已视为回答的条目：
+1. 若 `/specs/background/questions.md` 不存在：立即结束，不执行任何写入。
+2. 若 `/specs/background/questions.md` 中不存在待回答的问题：立即结束，不执行任何写入。
+3. 读取 `/specs/background/questions.md` 并选择已回答项。
+4. 加载 `prompts/vspec_refine/refine_q.md` 将答案合并进最新口径。
+5. 将结果追加到 `/specs/background/original.md`。
+6. 更新 `/specs/background/questions.md`，标记本次运行中已视为回答的条目：
    - 用 `<mark>...</mark>` 包裹 `回答` 与 `状态`，以高亮已回答项。
 
 ### `/vspec:detail`
@@ -124,14 +127,14 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
      - `cron_job.md`：模块定时任务总结（模块整体，不按功能拆分）。
 4. 仅写入生成的（涉及的）详情文档：
    - 单功能：`/specs/details/<module_slug>/<logic_type>/<function_slug>.(md|html)`
-   - 模块级：`/specs/details/<module_slug>/<logic_type>/overall.(md|html)`
+   - 模块级：`/specs/details/<module_slug>/<logic_type>/<module_slug>.(md|html)`
 
 ### `/vspec:verify`
 
 用于生成模型与可运行原型，用于快速验证与评审。
 
 流程：
-0. 确保 `/specs/details/` 存在且非空；若缺失则停止并提示用户先运行 `/vspec:detail`。
+0. 确保 `/specs/details/` 存在且非空；若缺失则立即停止并提示前置条件：“请先执行 /vspec:detail 生成 /specs/details/，再执行 /vspec:verify”。
 1. 若 `/specs/background/questions.md` 存在且仍有未回答的问题，先要求用户回答再继续（允许逐条跳过，但必须保证不存在“未处理”的问题）。
 2. 加载 `prompts/vspec_verify/model.md` 生成数据模型。
 3. 将模型文件写入 `/specs/models/*.md`。

@@ -75,18 +75,21 @@ Flow:
 1. Read refine inputs:
    - If command arguments are provided, treat them as refine input sources (files/directories).
    - Otherwise, read `/docs/refine/` (prefer `/docs/refine/file_list.md` as the entry if present; else read files in name order).
-2. Load `prompts/vspec_refine/refine.md` to apply the refinement, update the canonical requirement, and update impacted artifacts.
-3. Append the refinement result to `/specs/background/original.md`, and update impacted `/specs/details/` and `/specs/prototypes/` accordingly.
+2. If `prompts/vspec_refine/refine.md` is missing, stop immediately and do nothing.
+3. Load `prompts/vspec_refine/refine.md` to apply the refinement, update the canonical requirement, and update impacted artifacts.
+4. Append the refinement result to `/specs/background/original.md`, and update impacted `/specs/details/` and `/specs/prototypes/` accordingly.
 
 ### `/vspec:refine-q`
 
 Use this command to refine and update the requirement based on answered questions.
 
 Flow:
-1. Read `/specs/background/questions.md` and pick answered items.
-2. Load `prompts/vspec_refine/refine_q.md` to merge answers into the canonical requirement.
-3. Append the refinement result to `/specs/background/original.md`.
-4. Update `/specs/background/questions.md` to mark items that are treated as answered in this run:
+1. If `/specs/background/questions.md` is missing, stop immediately and do nothing.
+2. If `/specs/background/questions.md` contains no pending/unanswered questions, stop immediately and do nothing.
+3. Read `/specs/background/questions.md` and pick answered items.
+4. Load `prompts/vspec_refine/refine_q.md` to merge answers into the canonical requirement.
+5. Append the refinement result to `/specs/background/original.md`.
+6. Update `/specs/background/questions.md` to mark items that are treated as answered in this run:
    - Wrap the `回答` and `状态` values with `<mark>...</mark>` so the answered items are visually highlighted.
 
 ### `/vspec:detail`
@@ -125,14 +128,14 @@ Flow:
      - `cron_job.md`: scheduled jobs summary for the module (overall; not per function).
 4. Write only the generated (involved) detail documents:
    - Per-function: `/specs/details/<module_slug>/<logic_type>/<function_slug>.(md|html)`
-   - Module-level: `/specs/details/<module_slug>/<logic_type>/overall.(md|html)`
+   - Module-level: `/specs/details/<module_slug>/<logic_type>/<module_slug>.(md|html)`
 
 ### `/vspec:verify`
 
 Use this command to generate models and a runnable prototype for validation.
 
 Flow:
-0. Ensure `/specs/details/` exists and is non-empty; if missing, stop and ask the user to run `/vspec:detail` first.
+0. Ensure `/specs/details/` exists and is non-empty; if missing, stop and output the prerequisite message: “Run /vspec:detail to generate /specs/details/ before /vspec:verify”.
 1. If `/specs/background/questions.md` exists and contains unanswered questions, ask the user to answer them before continuing (allow skip per question, but ensure none remains unanswered).
 2. Load `prompts/vspec_verify/model.md` to generate data models.
 3. Write model files to `/specs/models/*.md`.
