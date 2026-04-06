@@ -41,6 +41,7 @@ yarn dlx -p visual-spec vspec
   - Answer those questions in chat first, then type “continue” to finish `/vspec:new` (do not write these clarification answers into `questions.md`)
   - It also generates an open question list (`/specs/background/questions.md`) for later merging
 - Merge Q&A into the canonical requirement: `/vspec:refine-q` (merge answered items from `/specs/background/questions.md` back into `original.md`)
+- Quality check: `/vspec:qc` (run a non-conformance check on generated `/specs/` artifacts and write `/specs/qc_report.md` before refinements/implementation)
 - Detailed specs: `/vspec:detail` (iterate all functions and generate RBAC, data permission, interaction, validation, state machine, etc.)
 - Quick validation (models + prototype): `/vspec:verify` (build runnable prototypes from functions + details + models; requires non-empty `/specs/details/`)
 - Acceptance cases: `/vspec:accept` (turn key scenarios into reviewable acceptance checklists)

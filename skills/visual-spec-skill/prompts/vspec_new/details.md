@@ -16,3 +16,4 @@
 - 每个节点一个目录：`/specs/background/scenario_details/<dir_key>/`
 - 每个节点目录内固定生成 5 个文件：`pre_post.md`、`constraints.md`、`variations.md`、`boundaries.md`、`symmetry.md`
 - 节点覆盖不得遗漏：若流程/场景中出现 approve/审批节点，不允许跳过（即使被认为是罕见节点也必须产出文件）
+- 多流程要求（必须）：若存在多个流程/业务域，同一节点的 `pre_post.md` 必须按流程拆分输出（由 `details_pre_post.md` 负责），避免把不同流程的前置/后置合并在一起

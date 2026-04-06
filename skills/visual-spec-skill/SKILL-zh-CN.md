@@ -122,6 +122,8 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
      - `formula.md`：计算公式与指标语义（存在计算/指标时生成）。
      - `expression_tree.md`：表达式树（HTML）（存在多层嵌套分支逻辑时生成）。
      - `code_rules.md`：编号/编码生成规则（存在编码生成时生成）。
+     - `payment.md`：支付与退款细节（存在支付/退款/结算/对账等资金链路时生成）。
+     - `auth.md`：账号与登录细节（存在非 SSO 的登录/账号/密码相关功能时生成）。
      - `judgemental_matrix.md`：判定矩阵（2+ 因素共同决定结果的多因子分支时生成）。
    - 模块级（每模块最多生成一次，且仅当涉及时生成）：
      - `timeline.md`：时间轴（HTML）用于整体流程影响分析（存在跨较长时间跨度影响决策的逻辑，如生效/失效、截止期、宽限期、跨天规则等时生成）。
@@ -146,7 +148,28 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 5. 将原型工程写入 `/specs/prototypes/`。
 6. 加载 `prompts/vspec_verify/validation.md` 生成场景验证网页。
 7. 将验证页面写入 `/specs/prototypes/`，并提供 `scenario.html` 作为访问入口。
-8. 加载 `prompts/harness/post_verify_verify.md` 检查原型是否覆盖关键约束（移动端/审批/CRUD/布局/登录/RBAC 等）。若输出了问题列表，则提示问题并立即结束。
+8. 加载 `prompts/vspec_verify/entries.md` 生成全功能入口页，并写入 `/specs/prototypes/entries.html`（禁止在菜单/Header 内提供入口）。
+9. 加载 `prompts/harness/post_verify_verify.md` 检查原型是否覆盖关键约束（移动端/审批/CRUD/布局/登录/RBAC 等）。若输出了问题列表，则提示问题并立即结束。
+
+### `/vspec:proto-survey`
+
+用于在既有原型工程基础上，单独补齐“调查问卷（Survey）”相关页面（Web 管理端 + Mobile 填写端），用于演示问卷配置、发布投放、填写提交与回收统计的闭环。
+
+流程：
+0. 若 `/specs/prototypes/` 不存在或为空：立即停止，并提示先运行 `/vspec:verify` 生成原型工程。
+1. 读取 `/specs/functions/*`、`/specs/details/`、`/specs/models/*.md`、`/specs/background/roles.md`、`/specs/background/dependencies.md` 与 `/scheme.yaml`（如存在）。
+2. 加载 `prompts/vspec_verify/prototype_survey.md` 生成/更新问卷相关页面、路由与 mock 数据。
+3. 仅写入与问卷相关的原型文件改动（增量修改），保持工程可运行。
+
+### `/vspec:proto-auth`
+
+用于在既有原型工程基础上，单独补齐“本系统账号体系（非 SSO）”相关页面（Web + Mobile）：登录、创建账号、忘记/重置密码、修改密码、会话与路由拦截。
+
+流程：
+0. 若 `/specs/prototypes/` 不存在或为空：立即停止，并提示先运行 `/vspec:verify` 生成原型工程。
+1. 读取 `/specs/functions/*`、`/specs/details/`、`/specs/background/roles.md`、`/specs/background/dependencies.md` 与 `/scheme.yaml`（如存在）。
+2. 加载 `prompts/vspec_verify/prototype_auth.md` 生成/更新登录相关页面、路由、session mock 与路由拦截。
+3. 仅写入与账号体系相关的原型文件改动（增量修改），保持工程可运行。
 
 ### `/vspec:qc`
 

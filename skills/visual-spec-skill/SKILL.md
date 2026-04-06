@@ -122,8 +122,10 @@ Flow:
      - `file_export.md`: file export details (if there is any export entry/requirement).
      - `formula.md`: calculation formulas and metric semantics (if there are any calculations/metrics).
      - `expression_tree.md`: expression tree (HTML) (if there is multi-level nested branching logic).
-     - `code_rules.md`: numbering/code generation rules (if any codes/serial numbers are generated/assigned).
-     - `judgemental_matrix.md`: judgemental matrix (判定矩阵) for multi-factor logic branching (if 2+ factors jointly decide outcomes).
+    - `code_rules.md`: numbering/code generation rules (if any codes/serial numbers are generated/assigned).
+    - `payment.md`: payment and refund details (if there is any payment/refund/settlement/reconciliation logic).
+    - `auth.md`: account/login details (if there is any non-SSO login/account/password flow).
+    - `judgemental_matrix.md`: judgemental matrix (判定矩阵) for multi-factor logic branching (if 2+ factors jointly decide outcomes).
    - Module-level (generate at most once per module, and only if involved):
      - `timeline.md`: time-axis visualization (HTML) for overall flow impact analysis (only when there is long time-span logic that affects flow decisions, e.g. effective/expiry, deadlines, grace periods, cross-day rules).
       - `state_machine.md`: status list + transitions + PlantUML state diagram (overall; not per function).
@@ -147,7 +149,28 @@ Flow:
 5. Write the prototype to `/specs/prototypes/`.
 6. Load `prompts/vspec_verify/validation.md` to generate a scenario validation web page.
 7. Write the validation page to `/specs/prototypes/` and provide a `scenario.html` entry for access.
-8. Load `prompts/harness/post_verify_verify.md` to validate the prototype completeness. If it outputs any issues, show the issue list and stop.
+8. Load `prompts/vspec_verify/entries.md` to generate an entry page and write it to `/specs/prototypes/entries.html` (do not link it from any menu/header).
+9. Load `prompts/harness/post_verify_verify.md` to validate the prototype completeness. If it outputs any issues, show the issue list and stop.
+
+### `/vspec:proto-survey`
+
+Use this command to generate a complete Survey (questionnaire) prototype (Web admin + Mobile filling) on top of an existing prototype project.
+
+Flow:
+0. If `/specs/prototypes/` is missing or empty, stop and ask the user to run `/vspec:verify` first.
+1. Read `/specs/functions/*`, `/specs/details/`, `/specs/models/*.md`, `/specs/background/roles.md`, `/specs/background/dependencies.md`, and `/scheme.yaml` (if any).
+2. Load `prompts/vspec_verify/prototype_survey.md` to generate/update survey pages, routes, and mock data.
+3. Write only survey-related incremental changes and keep the prototype runnable.
+
+### `/vspec:proto-auth`
+
+Use this command to generate a complete non-SSO auth/account page set (Web + Mobile) on top of an existing prototype project.
+
+Flow:
+0. If `/specs/prototypes/` is missing or empty, stop and ask the user to run `/vspec:verify` first.
+1. Read `/specs/functions/*`, `/specs/details/`, `/specs/background/roles.md`, `/specs/background/dependencies.md`, and `/scheme.yaml` (if any).
+2. Load `prompts/vspec_verify/prototype_auth.md` to generate/update auth pages, routes, session mock, and route guards.
+3. Write only auth-related incremental changes and keep the prototype runnable.
 
 ### `/vspec:qc`
 

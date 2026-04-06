@@ -41,6 +41,7 @@ yarn dlx -p visual-spec vspec
   - 你需要先在对话中回答这些问题，然后输入“继续”才能完成 `/vspec:new` 全流程（这些澄清回答不写入 `questions.md`）
   - 执行过程中还会生成开放问题清单（`/specs/background/questions.md`），用于后续合并
 - 合并 Q&A 到最新口径：`/vspec:refine-q`（把 `/specs/background/questions.md` 中已回答条目合并回 `original.md`，形成可追溯的口径演进）
+- 质量检查：`/vspec:qc`（对已生成的 `/specs/` 产物做不符合项检查，输出 `/specs/qc_report.md`，用于在进入补充/实现前先补齐质量问题）
 - 详细规格：`/vspec:detail`（遍历所有 functions，生成 RBAC、数据权限、交互、校验、状态机等细节产物）
 - 快速验证（模型 + 原型）：`/vspec:verify`（基于 functions + details + models 生成可运行原型；要求 `/specs/details/` 非空）
 - 验收用例：`/vspec:accept`（把关键场景转成可执行的验收点/检查表）
