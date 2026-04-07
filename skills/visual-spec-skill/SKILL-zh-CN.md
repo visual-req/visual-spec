@@ -146,10 +146,14 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 4. 基于 functions/details/models/roles 生成可运行的页面原型；原型技术栈由 `/scheme.yaml` 选择（若缺失则按默认值自动创建）。
    - 加载 `prompts/vspec_verify/prototype.md` 执行原型生成规则（必须遵循 `scheme.yaml` 技术栈；禁止只生成 html-only）。
 5. 将原型工程写入 `/specs/prototypes/`。
-6. 加载 `prompts/vspec_verify/validation.md` 生成场景验证网页。
-7. 将验证页面写入 `/specs/prototypes/`，并提供 `scenario.html` 作为访问入口。
-8. 加载 `prompts/vspec_verify/entries.md` 生成全功能入口页，并写入 `/specs/prototypes/entries.html`（禁止在菜单/Header 内提供入口）。
-9. 加载 `prompts/harness/post_verify_verify.md` 检查原型是否覆盖关键约束（移动端/审批/CRUD/布局/登录/RBAC 等）。若输出了问题列表，则提示问题并立即结束。
+6. 加载 `prompts/harness/post_verify_stack_verify.md` 检查原型前端工程是否严格符合 `/scheme.yaml` 中选择的前端栈；若输出了问题列表，则提示问题并立即结束。
+7. 加载 `prompts/vspec_verify/validation.md` 生成场景验证网页。
+8. 将验证页面写入 `/specs/prototypes/`，并提供 `scenario.html` 作为访问入口。
+9. 加载 `prompts/vspec_verify/entries.md` 生成全功能入口页，并写入 `/specs/prototypes/entries.html`（禁止在菜单/Header 内提供入口）。
+10. 加载 `prompts/harness/post_verify_mobile_selection_check.md` 检查移动端数据选择是否使用“选择页（List）选择→返回回填”，而不是下拉框 Select；若输出了问题列表，则提示问题并立即结束。
+11. 加载 `prompts/harness/post_verify_price_format_check.md` 检查价格/金额格式是否统一（右对齐、两位小数、千位分隔符）；若输出了问题列表，则提示问题并立即结束。
+12. 加载 `prompts/harness/post_verify_click_check.md` 检查是否存在“按钮/链接点击无反应”的情况；若输出了问题列表，则提示问题并立即结束。
+13. 加载 `prompts/harness/post_verify_verify.md` 检查原型是否覆盖关键约束（移动端/审批/CRUD/布局/登录/RBAC 等）。若输出了问题列表，则提示问题并立即结束。
 
 ### `/vspec:proto-survey`
 
@@ -208,6 +212,7 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 1. 读取 `/specs/functions/*`、`/specs/details/`、`/specs/models/*.md`、`/specs/background/dependencies.md`，并识别当前前后端技术栈与代码约定。
 2. 加载 `prompts/vspec_impl/implement.md` 并按后端优先实现：先在 `/specs/backend/` 生成可运行后端工程（health check + 核心 API/service），再在后端 API 可用后生成前端集成对接。
 3. 仅允许在 `/specs/` 下写代码，并尽量保持差异最小且可审查；后端必须在 `/specs/backend/`，原型前端在 `/specs/prototypes/`。
+4. 加载 `prompts/harness/post_impl_verify.md` 检查后端是否符合 MVC 架构且测试覆盖是否完整；若输出了问题列表，则提示问题并立即结束。
 
 ### `/vspec:upgrade`
 

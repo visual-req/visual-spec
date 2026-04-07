@@ -11,13 +11,13 @@ Install the npm package, then install the Skill into your AI editor configuratio
 Install / update (npm):
 
 ```bash
-npm install -g visual-spec
+npm install -g visual-spec@latest
 ```
 
 Install / update (pnpm):
 
 ```bash
-pnpm add -g visual-spec
+pnpm add -g visual-spec@latest
 ```
 
 Install / update (yarn):
@@ -25,13 +25,13 @@ Install / update (yarn):
 Yarn Classic:
 
 ```bash
-yarn global add visual-spec
+yarn global add visual-spec@latest
 ```
 
 Yarn Berry (v2+):
 
 ```bash
-yarn dlx -p visual-spec vspec
+yarn dlx -p visual-spec@latest vspec
 ```
 
 ### 2. Recommended Workflow

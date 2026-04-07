@@ -9,13 +9,13 @@
 ### 安装/更新（npm）
 
 ```bash
-npm install -g visual-spec
+npm install -g visual-spec@latest
 ```
 
 ### 安装/更新（pnpm）
 
 ```bash
-pnpm add -g visual-spec
+pnpm add -g visual-spec@latest
 ```
 
 ### 安装/更新（yarn）
@@ -23,13 +23,13 @@ pnpm add -g visual-spec
 Yarn Classic：
 
 ```bash
-yarn global add visual-spec
+yarn global add visual-spec@latest
 ```
 
 Yarn Berry（v2+）：
 
 ```bash
-yarn dlx -p visual-spec vspec
+yarn dlx -p visual-spec@latest vspec
 ```
 
 ### 下一步
