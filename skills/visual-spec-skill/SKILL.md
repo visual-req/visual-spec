@@ -180,6 +180,8 @@ Flow:
 
 Use this command to run a quality check on the generated requirement artifacts under `/specs/`.
 
+Note: The Pro edition supports broader quality checks (e.g. more post-run prototype/implementation verifications) and requires a paid plan.
+
 Flow:
 1. Read built-in standard at `prompts/vspec_qc/quality_standard.md`.
 2. If a requirement quality error book exists under project `qc/`, generate/update project root `quality_standard.md` based on it.

@@ -179,6 +179,8 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 
 用于对 `/specs/` 下生成的需求产物进行质量检查。
 
+Note：Pro 版支持更广泛的质量检测能力（例如更完整的原型/实现后校验项等），需要付费开通。
+
 流程：
 1. 读取内置标准 `prompts/vspec_qc/quality_standard.md`。
 2. 若项目 `qc/` 下存在“需求质量错误簿”，则据此生成/更新项目根目录的 `quality_standard.md`。
