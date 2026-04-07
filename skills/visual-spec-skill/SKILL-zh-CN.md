@@ -195,7 +195,7 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 2. 加载 `prompts/vspec_accept/accept.md` 生成验收用例，覆盖主流程、异常、边界、权限与数据范围。
 3. 将结果写入 `/specs/acceptance/`（按功能建子目录），并生成 `/specs/acceptance/index.md` 索引。
 
-### `/vspec:test`
+### `/vspec:append-test`
 
 用于基于验收用例与规格生成自动化测试代码。
 
@@ -203,6 +203,10 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 1. 读取 `/specs/acceptance/`、`/specs/functions/*`、`/specs/details/`，并识别仓库中已有的测试框架。
 2. 加载 `prompts/vspec_test/test.md`，按既有框架与约定生成自动化测试。
 3. 将测试代码写入项目测试目录（若不存在标准目录则写入 `/tests/`），并确保能通过已有脚本运行。
+4. 加载 `prompts/harness/post_append_test_coverage_check.md` 检查测试覆盖率是否足够完整；若输出了问题列表，则继续执行下一步。
+5. 若存在问题列表：基于缺失项再次运行一次 `/vspec:append-test`（只补缺失项），然后再次运行覆盖检查。
+6. 若第二次覆盖检查仍输出问题列表：提示问题并立即结束。
+7. 本指令用于补齐测试代码以提升覆盖率，不负责执行测试命令（例如 mvn test）。
 
 ### `/vspec:impl`
 
@@ -224,17 +228,6 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 3. 若 `/specs/background/original.md` 已存在，则将其视为当前需求口径并作为 diff 基线（继承/新增/变更/废弃）。
 4. 加载 `prompts/vspec_upgrade/upgrade.md`，按 `/vspec:new` 产物约定生成/更新 `/specs/`。
 5. 将抽取到的技术规格同步到 `/scheme.yaml`，供 `/vspec:verify` 与 `/vspec:impl` 使用。
-
-### `/vspec:change`
-
-用于响应需求变更并更新受影响产物。
-
-流程：
-1. 读取 `/docs/change/` 下的变更输入（若存在优先用 `/docs/change/file_list.md` 作为入口；若仅存在 `/docs/changes/` 则兼容读取）。
-2. 若目标仓库为 git 仓库，在写入任何更新前先创建变更前快照提交，保证 diff 可审查。
-3. 读取已存在的 `/specs/` 产物（包括 `/specs/details/`、`/specs/models/`、`/specs/prototypes/`）。
-4. 加载 `prompts/vspec_change/change.md` 做影响分析并更新受影响文档，优先更新 `/specs/details/<module_slug>/` 下的模块详情文档。
-5. 写入更新后的产物，并将变更日志写入 `/specs/change_log.md`。
 
 ### `/vspec:plan`
 
@@ -292,5 +285,4 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 - `prompts/vspec_test/test.md`：生成自动化测试的提示词。
 - `prompts/vspec_impl/implement.md`：生成前后端集成实现的提示词。
 - `prompts/vspec_upgrade/upgrade.md`：生成升级/改造规格的提示词。
-- `prompts/vspec_change/change.md`：处理变更的提示词。
 - `prompts/vspec_plan/estimate.md`：生成估算的提示词。

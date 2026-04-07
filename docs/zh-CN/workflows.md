@@ -36,10 +36,11 @@
 - 在 `/specs/acceptance/` 下生成验收用例
 - 目标：定义验收口径与覆盖范围（主流程、异常、边界、RBAC、数据权限）
 
-### 5. 自动化测试（`/vspec:test`）
+### 5. 自动化测试（`/vspec:append-test`）
 
 - 读取验收用例与仓库现有测试技术栈
 - 生成最小可运行的一组 E2E/API/单测
+- Note：该步骤只生成/补齐测试代码以提升覆盖率，不负责执行测试命令（例如 mvn test）。
 
 ### 6. 集成实现（`/vspec:impl`）
 
@@ -52,11 +53,6 @@
 - 输出：
   - `/specs/plan/plan_estimate.md`
   - `/specs/plan/plan_schedule.html`
-
-### 8. 变更处理（`/vspec:change`）
-
-- 提供变更输入
-- 输出影响分析与变更日志，并更新受影响的产物与用例
 
 ## 安装（npm）
 

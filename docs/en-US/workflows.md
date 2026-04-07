@@ -36,10 +36,11 @@ Optional: segmented prototype generation
 - Generate acceptance cases into `/specs/acceptance/`
 - Goal: define acceptance criteria and coverage (happy path, exceptions, boundaries, RBAC, data permissions)
 
-### 5. Automated Tests (`/vspec:test`)
+### 5. Automated Tests (`/vspec:append-test`)
 
 - Read acceptance cases and the repo’s existing test stack
 - Generate a minimal runnable set of E2E/API/unit tests
+- Note: this step only generates/adds test code to improve coverage; it does not run test commands (e.g. mvn test).
 
 ### 6. Integrated Implementation (`/vspec:impl`)
 
@@ -52,11 +53,6 @@ Optional: segmented prototype generation
 - Outputs:
   - `/specs/plan/plan_estimate.md`
   - `/specs/plan/plan_schedule.html`
-
-### 8. Change Handling (`/vspec:change`)
-
-- Provide change inputs
-- Output impact analysis and change log, and update impacted artifacts and cases
 
 ## Installation (npm)
 

@@ -9,7 +9,6 @@
 - 详细设计：按功能生成 RBAC/数据权限/交互/校验/日志/通知/MQ/导入导出/定时任务 等规格
 - 验收与测试：生成验收用例与自动化测试代码
 - 集成实现：生成后端 + 前端集成实现代码（对齐仓库实际技术栈与约定）
-- 变更处理：影响分析、更新产物并输出变更日志
 - 规划：基于功能清单进行估算与排期（HTML 输出）
 
 ## 命令
@@ -20,10 +19,9 @@
 - `/vspec:detail`：生成单功能详细规格（写入 `/specs/details/`）
 - `/vspec:verify`：生成数据模型与按 `/scheme.yaml` 选栈的可运行原型（写入 `/specs/models/`、`/specs/prototypes/`；要求 `/specs/details/` 非空）
 - `/vspec:accept`：生成验收用例（写入 `/specs/acceptance/`）
-- `/vspec:test`：生成自动化测试代码（写入仓库既有测试目录或 `/tests/`）
+- `/vspec:append-test`：生成自动化测试代码（写入仓库既有测试目录或 `/tests/`）
 - `/vspec:impl`：生成后端 + 前端联调实现代码（写入 `/specs/`）
 - `/vspec:upgrade`：基于 `/docs/` 下的遗留与新增输入做升级/重构分析，生成/更新 `/specs/`，并把技术选型同步到 `/scheme.yaml`
-- `/vspec:change`：读取 `/docs/change/` 变更输入，更新产物并写入 `/specs/change_log.md`（更新前需要 git 快照提交）
 - `/vspec:qc`：对产物做质量检查并输出报告（写入 `/specs/qc_report.md`）
 - `/vspec:plan`：生成估算与排期（写入 `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html`）
 

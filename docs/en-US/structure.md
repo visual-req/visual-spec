@@ -14,7 +14,7 @@ The Skill generates artifacts under `/specs/` (incrementally by command stage) a
 │  ├─ legacy/                             # Legacy system materials (features, permissions, interactions, APIs, etc.)
 │  ├─ current/                            # New/additional materials for this iteration (goals, deltas, flows, UI constraints, etc.)
 │  │  └─ file_list.md                     # Upgrade entry list (/vspec:upgrade reads/generates)
-│  ├─ change/                             # Change inputs (/vspec:change reads)
+│  ├─ change/                             # Change inputs archive (optional)
 │  │  └─ file_list.md                     # Optional ordered input list
 │  ├─ refine/                             # Refinement inputs (/vspec:refine reads)
 │  │  └─ file_list.md                     # Optional ordered input list
@@ -62,7 +62,7 @@ The Skill generates artifacts under `/specs/` (incrementally by command stage) a
    ├─ plan/                                # Planning outputs (/vspec:plan output)
    │  ├─ plan_estimate.md                  # Estimation
    │  └─ plan_schedule.html                # Schedule page
-   └─ change_log.md                        # Change log (/vspec:change output)
+   └─ change_log.md                        # Change log (optional)
 ```
 
 Notes:

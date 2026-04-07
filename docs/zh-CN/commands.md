@@ -8,10 +8,9 @@
 | `/vspec:detail` | 展开到“可实现”的单功能详细规格 | `/specs/functions/*` + 支撑产物（background/flows/roles；models 若已存在） | `/specs/details/<function_slug>/*`（RBAC、交互、校验、日志、通知、MQ、导入导出、定时任务等） |
 | `/vspec:verify` | 快速验证：生成模型与可运行原型用于评审 | 现有 `/specs/` 产物（functions + details + roles） | `/specs/models/*.md`、`/specs/prototypes/`（按 `scheme.yaml` 选栈生成可运行原型 + `scenario.html` 评审页） |
 | `/vspec:accept` | 生成验收用例 | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`、`/specs/acceptance/index.md` |
-| `/vspec:test` | 生成自动化测试代码 | 验收用例 + 仓库测试技术栈 | 写入既有测试目录或 `/tests/` |
+| `/vspec:append-test` | 生成自动化测试代码 | 验收用例 + 仓库测试技术栈 | 写入既有测试目录或 `/tests/` |
 | `/vspec:impl` | 生成后端 + 前端联调实现代码 | specs/details/models/dependencies | 写入集成实现代码（API 合同、后端、前端对接） |
 | `/vspec:upgrade` | 基于遗留材料做升级/重构分析并生成新规格 | `/docs/current/file_list.md` + `/docs/legacy/*`（可选 templates/texts/assets）+ 既有 `/specs/background/original.md`（可选） | 生成/更新 `/specs/`（沿用 `/vspec:new` 结构）+ 同步技术选型到 `/scheme.yaml` |
-| `/vspec:change` | 处理变更：影响分析并更新产物 | `/docs/change/*`（可选 file_list.md）+ 既有 `/specs/` | 更新受影响文件（优先 `/specs/details/<module_slug>/`）+ `/specs/change_log.md`（更新前需要 git 快照提交） |
 | `/vspec:qc` | 对 `/specs/` 产物做质量检查 | 内置标准 + 可选 `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
 | `/vspec:plan` | 估算与排期 | functions/roles/flows/dependencies/details | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
 
@@ -55,23 +54,16 @@
 - 适用场景：用“可执行用例”对齐交付与验收
 - 关键输出：每功能点验收用例表，覆盖主流程、异常、边界、RBAC、数据权限
 
-## `/vspec:test`
+## `/vspec:append-test`
 
 - 适用场景：将验收用例转化为可运行的自动化测试（E2E/API/单测）
 - 关键输出：优先复用仓库现有测试框架与脚本，避免引入新依赖
+- Note：`/vspec:append-test` 只生成/补齐测试代码以提升覆盖率，不负责执行测试命令（例如 mvn test/pytest/go test 等）。
 
 ## `/vspec:impl`
 
 - 适用场景：把规格产物转成可运行的后端 + 前端联调实现
 - 关键输出：API 合同、后端实现、前端页面与 API 对接、RBAC/状态机约束落地
-
-## `/vspec:change`
-
-- 适用场景：收到明确变更请求，需要可追溯的影响评估与更新
-- 输入：从 `/docs/change/` 读取（可选 `/docs/change/file_list.md` 作为有序输入清单；兼容旧路径 `/docs/changes/`）
-- 更新策略：优先更新受影响模块目录 `/specs/details/<module_slug>/`，并同步 models/functions/prototypes/acceptance 等
-- 更新前快照：若目标仓库是 git 仓库，更新前先做一次快照提交，保证差异可审查
-- 关键输出：结构化变更清单、影响分析表、变更日志以及对应产物更新
 
 ## `/vspec:upgrade`
 

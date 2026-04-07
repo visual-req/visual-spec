@@ -27,10 +27,20 @@
      - `package.json` 必须包含 `vue`
      - 必须包含 Vite Vue 插件：`@vitejs/plugin-vue`
      - 必须存在 `src/main.ts` 或 `src/main.js`，且存在 `src/router/`（或等价路由目录）
+     - 目录结构一致性（必须，典型 Vue 工程）：
+       - 必须存在：`src/App.vue`
+       - 必须存在其一：`src/pages/` 或 `src/views/`
+       - 推荐存在（若不存在不报错）：`src/components/`、`src/layouts/`、`src/stores/`（或 `src/store/`）、`src/api/`、`src/utils/`、`src/assets/`、`src/styles/`
+       - 不允许把业务页面全部堆在 `src/components/`（若 pages/views 缺失则视为结构不合规）
    - 若 `framework=react`：
      - `package.json` 必须包含 `react` 与 `react-dom`
      - 必须包含 Vite React 插件：`@vitejs/plugin-react`（或等价官方插件）
      - 必须存在 `src/main.tsx`/`src/main.jsx`（或等价入口），且存在 `src/router/`（或等价路由目录）
+     - 目录结构一致性（必须，典型 React 工程）：
+       - 必须存在其一：`src/App.tsx` 或 `src/App.jsx`
+       - 必须存在其一：`src/pages/` 或 `src/views/`
+       - 推荐存在（若不存在不报错）：`src/components/`、`src/layouts/`、`src/store/`（或 `src/stores/`）、`src/api/`、`src/utils/`、`src/assets/`、`src/styles/`
+       - 不允许把业务页面全部堆在 `src/components/`（若 pages/views 缺失则视为结构不合规）
 
 4. 反例拦截（必须）：
    - 若原型仅存在若干 html 文件（例如 `scenario.html`、`entries.html`）但缺少工程化结构（package.json/src/vite 配置）：判定为不合规，输出问题并停止。

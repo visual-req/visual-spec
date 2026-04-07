@@ -13,7 +13,7 @@ Skill 会按命令阶段逐步在 `/specs/` 下生成产物，并维护少量项
 │  ├─ legacy/                             # 遗留系统材料（功能、权限、交互、API 等）
 │  ├─ current/                            # 本次迭代新增/补充材料（目标、差异、流程、UI 约束等）
 │  │  └─ file_list.md                     # upgrade 入口清单（/vspec:upgrade 读取/生成）
-│  ├─ change/                             # 变更输入（/vspec:change 读取）
+│  ├─ change/                             # 变更输入归档（可选）
 │  │  └─ file_list.md                     # 可选：有序输入清单
 │  ├─ refine/                             # 补充/澄清输入（/vspec:refine 读取）
 │  │  └─ file_list.md                     # 可选：有序输入清单
@@ -61,7 +61,7 @@ Skill 会按命令阶段逐步在 `/specs/` 下生成产物，并维护少量项
    ├─ plan/                               # 规划输出（/vspec:plan 输出）
    │  ├─ plan_estimate.md                 # 估算
    │  └─ plan_schedule.html               # 排期页面
-   └─ change_log.md                       # 变更日志（/vspec:change 输出）
+   └─ change_log.md                       # 变更日志（可选）
 ```
 
 说明：

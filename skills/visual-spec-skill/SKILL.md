@@ -196,7 +196,7 @@ Flow:
 2. Load `prompts/vspec_accept/accept.md` to generate acceptance test cases covering core flows, exceptions, boundary, permissions, and data scope.
 3. Write results to `/specs/acceptance/` (one subfolder per function) and generate an index at `/specs/acceptance/index.md`.
 
-### `/vspec:test`
+### `/vspec:append-test`
 
 Use this command to generate automation test code based on acceptance cases and specs.
 
@@ -204,6 +204,10 @@ Flow:
 1. Read `/specs/acceptance/`, `/specs/functions/*`, `/specs/details/`, and detect the existing test frameworks in the repository.
 2. Load `prompts/vspec_test/test.md` to generate automation tests using the existing frameworks and conventions.
 3. Write test code to the project test directories (or `/tests/` if no standard exists) and ensure it can run with existing scripts.
+4. Load `prompts/harness/post_append_test_coverage_check.md` to verify whether test coverage is sufficiently complete; if it outputs any issues, continue.
+5. If issues exist, rerun `/vspec:append-test` once focusing only on the missing items from the issue list, then rerun the coverage check.
+6. If issues still exist after the second coverage check, show the issue list and stop.
+7. This command generates/adds tests to improve coverage; it does not execute test commands.
 
 ### `/vspec:impl`
 
@@ -225,17 +229,6 @@ Flow:
 3. If `/specs/background/original.md` exists, treat it as the current canonical requirement and use it as baseline for diff (inherit/new/change/deprecate).
 4. Load `prompts/vspec_upgrade/upgrade.md` and generate/update artifacts under `/specs/`, reusing `/vspec:new` output conventions.
 5. Sync extracted technical spec into `/scheme.yaml` so it can be used by `/vspec:verify` and `/vspec:impl`.
-
-### `/vspec:change`
-
-Use this command to respond to requirement changes and update impacted artifacts.
-
-Flow:
-1. Read change inputs under `/docs/change/` (prefer `/docs/change/file_list.md` as the entry if present; if only `/docs/changes/` exists, read from there for compatibility).
-2. If the target repository is a git repo, create a pre-change snapshot commit before writing any updates, so diffs are reviewable.
-3. Read existing artifacts under `/specs/` (including `/specs/details/`, `/specs/models/`, `/specs/prototypes/`) if present.
-4. Load `prompts/vspec_change/change.md` to analyze impact and update affected documents, focusing on updating impacted module detail docs under `/specs/details/<module_slug>/`.
-5. Write updated artifacts and a change log to `/specs/change_log.md`.
 
 ### `/vspec:plan`
 
@@ -290,10 +283,9 @@ Flow:
 - `prompts/vspec_detail/file_export.md`: the prompt used by `/vspec:detail` to generate file export docs.
 - `prompts/vspec_detail/cron_job.md`: the prompt used by `/vspec:detail` to generate scheduled job docs.
 - `prompts/vspec_accept/accept.md`: the prompt used by `/vspec:accept` to generate acceptance test cases.
-- `prompts/vspec_test/test.md`: the prompt used by `/vspec:test` to generate automation test code.
+- `prompts/vspec_test/test.md`: the prompt used by `/vspec:append-test` to generate automation test code.
 - `prompts/vspec_impl/implement.md`: the prompt used by `/vspec:impl` to generate integrated frontend/backend code.
 - `prompts/vspec_upgrade/upgrade.md`: the prompt used by `/vspec:upgrade` to generate upgraded specs from `/docs/` inputs.
-- `prompts/vspec_change/change.md`: the prompt used by `/vspec:change` to handle requirement changes.
 - `prompts/vspec_plan/estimate.md`: the prompt used by `/vspec:plan` to generate `/specs/plan/plan_estimate.md`.
 - `prompts/vspec_plan/schedule.md`: the prompt used by `/vspec:plan` to generate `/specs/plan/plan_schedule.html`.
 - `prompts/vspec_qc/qc.md`: the prompt used by `/vspec:qc` to generate `/specs/qc_report.md`.

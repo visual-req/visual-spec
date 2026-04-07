@@ -46,8 +46,7 @@ yarn dlx -p visual-spec@latest vspec
 - 快速验证（模型 + 原型）：`/vspec:verify`（基于 functions + details + models 生成可运行原型；要求 `/specs/details/` 非空）
 - 验收用例：`/vspec:accept`（把关键场景转成可执行的验收点/检查表）
 - 集成实现：`/vspec:impl`（生成后端/前端的实现输入与工程骨架约束，包含模型/Service/Repository/异常等）
-- 自动化测试：`/vspec:test`（生成可落地的测试计划与自动化用例骨架）
-- 变更处理：`/vspec:change`（基于变更材料做影响分析，并更新受影响产物）
+- 自动化测试：`/vspec:append-test`（生成可落地的测试计划与自动化用例骨架）
 - 升级/重构（继承遗留材料）：`/vspec:upgrade`（把 legacy/current 材料归一成新的 specs 与选型）
 
 ### 3. 关键目录
@@ -76,7 +75,6 @@ yarn dlx -p visual-spec@latest vspec
 #### 变更（`change`）
 
 - 把变更材料放到 `/docs/change/`（可选 `file_list.md`）
-- 运行：`/vspec:change`
 - 结果：做影响分析并更新产物（优先 `/specs/details/<module_slug>/`），同时更新变更日志
 
 #### 升级/重构（`upgrade`）

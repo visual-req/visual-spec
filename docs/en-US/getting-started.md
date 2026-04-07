@@ -46,8 +46,7 @@ yarn dlx -p visual-spec@latest vspec
 - Quick validation (models + prototype): `/vspec:verify` (build runnable prototypes from functions + details + models; requires non-empty `/specs/details/`)
 - Acceptance cases: `/vspec:accept` (turn key scenarios into reviewable acceptance checklists)
 - Integrated implementation: `/vspec:impl` (implementation inputs and structure constraints: models/services/repositories/exceptions, etc.)
-- Automated tests: `/vspec:test` (test plan and automation skeletons)
-- Change handling: `/vspec:change` (impact analysis and artifact updates)
+- Automated tests: `/vspec:append-test` (test plan and automation skeletons)
 - Upgrade/redesign (inherit from legacy materials): `/vspec:upgrade` (normalize legacy/current materials into new specs and selections)
 
 ### 3. Key Directories
@@ -76,7 +75,6 @@ Next:
 #### Changes (`change`)
 
 - Put change materials into `/docs/change/` (optional `file_list.md`)
-- Run: `/vspec:change`
 - Result: performs impact analysis, updates artifacts (prefers `/specs/details/<module_slug>/`), and updates the change log
 
 #### Upgrade/Redesign (`upgrade`)
