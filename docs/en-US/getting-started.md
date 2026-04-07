@@ -17,6 +17,7 @@ npx skills add visual-req/visual-spec --skill visual-spec-skill
 ### 2. Recommended Workflow
 
 - Initial spec: `/vspec:new`
+  - Optional language: `/vspec:new lang=en` (or `lang=zh-CN`, `lang=ja`) to set `/scheme.yaml` `selected.language` for this project and generate all artifacts consistently in that language
   - Midway it generates the canonical requirement file (`/specs/background/original.md`) and asks clarification questions
   - Answer those questions in chat first, then type “continue” to finish `/vspec:new` (do not write these clarification answers into `questions.md`)
   - It also generates an open question list (`/specs/background/questions.md`) for later merging
