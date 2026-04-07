@@ -32,6 +32,22 @@ Yarn Berry (v2+):
 yarn dlx -p visual-spec@latest vspec
 ```
 
+### Install to a Custom Directory (`--target-skills-dir`)
+
+By default, the install script copies the Skill into `.trae/skills/visual-spec-skill` under the current working directory. If you need to install into a custom `skills/` directory (for example, a shared editor config directory), run:
+
+```bash
+vspec --target-skills-dir /path/to/skills --force
+```
+
+Notes:
+- `--target-skills-dir` should point to the `skills/` directory; the installer will append `visual-spec-skill/`.
+- You can also pass a full target directory (including `visual-spec-skill`) via `--target-skill-dir`:
+
+```bash
+vspec --target-skill-dir /path/to/skills/visual-spec-skill --force
+```
+
 ### Next
 
 - Getting started: `getting-started.md`

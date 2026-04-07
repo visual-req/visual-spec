@@ -32,6 +32,22 @@ Yarn Berry（v2+）：
 yarn dlx -p visual-spec@latest vspec
 ```
 
+### 指定安装目录（`--target-skills-dir`）
+
+默认情况下，安装脚本会把 Skill 安装到当前目录的 `.trae/skills/visual-spec-skill`。如果你需要安装到自定义的 `skills/` 目录（例如统一放在某个编辑器配置目录），可以在安装后执行：
+
+```bash
+vspec --target-skills-dir /path/to/skills --force
+```
+
+说明：
+- `--target-skills-dir` 传入的是“skills 目录”，脚本会自动追加子目录 `visual-spec-skill/`
+- 你也可以使用 `--target-skill-dir` 传入完整目标目录（包含 `visual-spec-skill`）：
+
+```bash
+vspec --target-skill-dir /path/to/skills/visual-spec-skill --force
+```
+
 ### 下一步
 
 - 快速开始：`getting-started.md`
