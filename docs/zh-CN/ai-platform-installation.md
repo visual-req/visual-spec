@@ -37,29 +37,3 @@ npx skills add visual-req/visual-spec --skill visual-spec-skill -g
 ```bash
 npx skills add visual-req/visual-spec --list
 ```
-
-## 方式二：npm + vspec（适合 Trae/自定义目录）
-
-全局安装：
-
-```bash
-npm install -g visual-spec@latest
-```
-
-默认安装到当前目录的 `.trae/skills/visual-spec-skill`：
-
-```bash
-vspec --force
-```
-
-安装到自定义 skills 目录（传入 skills 目录，脚本会自动追加 `visual-spec-skill/`）：
-
-```bash
-vspec --target-skills-dir /path/to/skills --force
-```
-
-或指定完整目标目录（包含 `visual-spec-skill`）：
-
-```bash
-vspec --target-skill-dir /path/to/skills/visual-spec-skill --force
-```

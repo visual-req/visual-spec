@@ -37,29 +37,3 @@ List skills in this repository:
 ```bash
 npx skills add visual-req/visual-spec --list
 ```
-
-## Option 2: npm + vspec (Trae / custom directory)
-
-Install globally:
-
-```bash
-npm install -g visual-spec@latest
-```
-
-Default target is `.trae/skills/visual-spec-skill` under the current directory:
-
-```bash
-vspec --force
-```
-
-Install into a custom `skills/` directory (the installer appends `visual-spec-skill/` automatically):
-
-```bash
-vspec --target-skills-dir /path/to/skills --force
-```
-
-Or install into a full target directory (including `visual-spec-skill`):
-
-```bash
-vspec --target-skill-dir /path/to/skills/visual-spec-skill --force
-```

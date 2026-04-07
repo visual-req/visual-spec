@@ -3,6 +3,7 @@
 语言与本地化（必须）：
 - 读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
 - 问答列表的字段名、状态值与内容必须统一使用该语言；禁止混用其他语言
+- “背景/Context/背景”与“提问/Question/質問”字段的文本必须使用所选语言撰写（专有名词/系统名/代码标识除外）；禁止用中文生成英文项目或反之
 
 输入信息包含：
 - 原始需求与 background 分析（/specs/background/original.md 或等价内容）

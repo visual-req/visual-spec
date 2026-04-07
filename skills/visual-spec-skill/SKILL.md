@@ -27,11 +27,18 @@ Invoke this skill when:
 
 Use this command to create a new requirement analysis session.
 
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- If the command argument or input explicitly provides `lang=<en|zh-CN|ja>`, use that value for this run and update `selected.language` to it (update only that field).
+- When `selected.language=en`, all headings in `/specs/background/original.md` must be English; normalize any non-English headings to:
+  `# Raw Requirement`, `# Summary`, `# Business Context`, `# Core Features`, `# Pages & Interactions`, `# Data Model`, `# Business Logic`, `# Risks & Assumptions`, `# Open Questions`.
+
 Flow:
 0. Ensure `/docs/` exists, and ensure subfolders exist:
    - `/docs/legacy/`
    - `/docs/current/`
    - `/docs/refine/`
+   - Do NOT create `/docs/change/` (it is deprecated).
 0.2 If the user passes `lang=<en|zh-CN|ja>` in the command arguments, set `/scheme.yaml` `selected.language` to that value (update only that field, keep other fields and formatting unchanged).
 0.5 Create editable project constraints so the user can tweak them early (do not overwrite if they already exist):
    - Create `/scheme.yaml` with defaults (prototype stack selection + catalog) if missing
@@ -41,7 +48,7 @@ Flow:
 3. Load the prompt file at `prompts/vspec_new/background.md`.
 4. Use that prompt to analyze the requirement and expand the business context.
 5. Write the raw requirement and background analysis output to `/specs/background/original.md`.
-6. Ask the user to answer the questions from the `待确认问题` section.
+6. Ask the user to answer the questions from the Open Questions section (use the section title in the selected language).
 7. After the user replies, load `prompts/vspec_new/stakeholders.md` to analyze stakeholders.
 8. Write the stakeholder result to `/specs/background/stakeholder.md` (markdown table).
 9. Load `prompts/vspec_new/roles.md` to analyze system user roles (direct users) and their work tasks.

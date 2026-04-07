@@ -1,5 +1,17 @@
 This repo provides a requirements analysis and delivery assistant Skill. It offers a `/vspec:*` command-driven workflow that turns raw requirements into reviewable artifacts: specs, data models, runnable prototypes, detailed design, acceptance cases, tests, and integrated implementation inputs.
 
+## Installation
+
+Install the Skill into your AI editor configuration directory (Trae / Claude Code / Cursor / GitHub Copilot, etc.):
+
+```bash
+npx skills add visual-req/visual-spec --skill visual-spec-skill
+```
+
+Docs:
+- Installation: `docs/en-US/installation.md`
+- Multi-agent installation: `docs/en-US/ai-platform-installation.md`
+
 ## Overview
 
 - Requirements analysis: generate background, stakeholders, roles, terms, flows, scenarios, details, dependencies, function list, and open questions

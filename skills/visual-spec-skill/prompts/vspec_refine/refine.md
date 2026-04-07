@@ -33,8 +33,14 @@
    - 若输入中提供了完整的新需求文本：以其为主，并对照旧需求生成变更清单
    - 若输入只提供变更点/指令：基于旧需求生成修订后的 Canonical Requirement
 2. 以“最后一份 Canonical Requirement”为基线：
-   - 若 `original.md` 中存在标题 `## 当前生效需求（Canonical）`，以最后一次出现的该段内容作为基线
-   - 否则，以 `# 原始需求` 下的原文作为基线（只取原文，不取后续分析段落）
+   - 若 `original.md` 中存在“Canonical Requirement”标题（以下任意一种），以最后一次出现的该段内容作为基线：
+     - 语言=en：`## Canonical Requirement`
+     - 语言=zh-CN：`## 当前生效需求（Canonical）`
+     - 语言=ja：`## 現行要件（Canonical）`
+   - 否则，以“Raw Requirement/原始需求/要件原文”小节下的原文作为基线（只取原文，不取后续分析段落）：
+     - 语言=en：`# Raw Requirement`
+     - 语言=zh-CN：`# 原始需求`
+     - 语言=ja：`# 要件原文`
 3. 合并与消歧：
    - 若多个修订输入之间存在冲突：按命令参数顺序（或合并顺序）后者覆盖前者，并在变更清单标注“冲突解决（输入间）”
    - 若修订输入与基线冲突：优先采用修订输入，并在变更清单标注“冲突解决（覆盖基线）”
@@ -58,21 +64,40 @@ Canonical Requirement 的表达要求（必须）：
 
 输出与写入要求：
 1. 先更新受影响的 `/specs/details/` 与 `/specs/prototypes/`，再将以下段落追加写入到：`/specs/background/original.md`
-2. 段落结构固定如下（不要改动标题层级）：
+2. 段落结构固定如下（标题必须严格按所选语言使用对应版本；不要改动标题层级）：
 
-# 需求修订（/vspec:refine）
+- 语言=en：
+  - `# Requirement Revision (/vspec:refine)`
+  - `## Revision Inputs (Summary)`
+  - `## Change List`
+    - `| Type | Item | Notes |`
+    - `| --- | --- | --- |`
+  - `## Impact Analysis & Artifact Updates`
+    - `| Artifact/Module | File Path | Impact (Update/Add/Deprecate) | Notes |`
+    - `| --- | --- | --- | --- |`
+  - `## Canonical Requirement`
+  - `## Open Questions (New in Revision)` (write `None` if empty)
 
-## 修订输入（refine.md 摘要）
+- 语言=zh-CN：
+  - `# 需求修订（/vspec:refine）`
+  - `## 修订输入（refine.md 摘要）`
+  - `## 变更清单`
+    - `| 类型 | 条目 | 说明 |`
+    - `| --- | --- | --- |`
+  - `## 影响分析与产物更新`
+    - `| 产物/模块 | 文件路径 | 影响类型（更新/新增/废弃） | 影响说明 |`
+    - `| --- | --- | --- | --- |`
+  - `## 当前生效需求（Canonical）`
+  - `## 待确认问题（修订新增）`（若无新增问题，写“无”）
 
-## 变更清单
-| 类型 | 条目 | 说明 |
-| --- | --- | --- |
-
-## 影响分析与产物更新
-| 产物/模块 | 文件路径 | 影响类型（更新/新增/废弃） | 影响说明 |
-| --- | --- | --- | --- |
-
-## 当前生效需求（Canonical）
-
-## 待确认问题（修订新增）
-- 若无新增问题，写“无”
+- 语言=ja：
+  - `# 要件改訂（/vspec:refine）`
+  - `## 改訂入力（要約）`
+  - `## 変更一覧`
+    - `| 種別 | 項目 | 説明 |`
+    - `| --- | --- | --- |`
+  - `## 影響分析と成果物更新`
+    - `| 成果物/モジュール | ファイルパス | 影響（更新/追加/廃止） | 説明 |`
+    - `| --- | --- | --- | --- |`
+  - `## 現行要件（Canonical）`
+  - `## 要確認事項（改訂で追加）`（なければ `なし`）

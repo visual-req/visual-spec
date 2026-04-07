@@ -37,7 +37,10 @@
 
 生成/更新产物（必须复用 /vspec:new 口径）：
 1. `/specs/background/original.md`：
-   - 将“升级改造需求（Canonical）”追加到文件末尾（保留历史版本）
+   - 在文件末尾追加一段“升级/改造版本”内容（保留历史版本），并包含“Canonical Requirement”小节，其标题必须按所选语言使用以下版本之一：
+     - 语言=en：`## Canonical Requirement`
+     - 语言=zh-CN：`## 当前生效需求（Canonical）`
+     - 语言=ja：`## 現行要件（Canonical）`
    - 必须包含：改造目标、范围（迁移/新增/废弃）、不改造项、关键约束、风险与假设
 2. `/specs/background/roles.md`：从“角色权限列表”抽取角色、任务、关键入口，并补齐角色差异
 3. `/specs/background/terms.md`：从旧系统功能与文档抽取术语并定义，避免同义混用
