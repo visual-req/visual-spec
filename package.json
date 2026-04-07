@@ -1,6 +1,6 @@
 {
   "name": "visual-spec",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "AI skill: visual-spec-skill (/vspec:* commands) for requirement analysis, prototyping, detailing, testing, and planning.",
   "license": "MIT",
   "type": "commonjs",
@@ -13,7 +13,18 @@
     "dry-run": "node scripts/postinstall.cjs --dry-run"
   },
   "files": [
-    "skills/visual-spec-skill/",
+    "skills/visual-spec-skill/SKILL.md",
+    "skills/visual-spec-skill/SKILL-zh-CN.md",
+    "skills/visual-spec-skill/prompts/vspec_accept/",
+    "skills/visual-spec-skill/prompts/vspec_detail/",
+    "skills/visual-spec-skill/prompts/vspec_impl/",
+    "skills/visual-spec-skill/prompts/vspec_new/",
+    "skills/visual-spec-skill/prompts/vspec_plan/",
+    "skills/visual-spec-skill/prompts/vspec_qc/",
+    "skills/visual-spec-skill/prompts/vspec_refine/",
+    "skills/visual-spec-skill/prompts/vspec_test/",
+    "skills/visual-spec-skill/prompts/vspec_upgrade/",
+    "skills/visual-spec-skill/prompts/vspec_verify/",
     "bin/",
     "docs/",
     "scripts/",
