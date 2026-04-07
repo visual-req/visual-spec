@@ -4,34 +4,14 @@
 
 ### 1. 安装
 
-先全局安装 npm 包，再把 Skill 安装到 AI 编辑器的配置目录：
+把 Skill 安装到 AI 编辑器的配置目录：
 
 - 安装与校验：`installation.md`
 
-安装/更新（npm）：
+安装/更新（skills.sh）：
 
 ```bash
-npm install -g visual-spec@latest
-```
-
-安装/更新（pnpm）：
-
-```bash
-pnpm add -g visual-spec@latest
-```
-
-安装/更新（yarn）：
-
-Yarn Classic：
-
-```bash
-yarn global add visual-spec@latest
-```
-
-Yarn Berry（v2+）：
-
-```bash
-yarn dlx -p visual-spec@latest vspec
+npx skills add visual-req/visual-spec --skill visual-spec-skill
 ```
 
 ### 2. 推荐流程
@@ -51,7 +31,7 @@ yarn dlx -p visual-spec@latest vspec
 
 ### 3. 关键目录
 
-- `/docs/`：输入归档（legacy/current/change/refine/templates/texts/assets）
+- `/docs/`：输入归档（legacy/current/refine/templates/texts/assets）
 - `/specs/`：生成产物（background/details/models/prototypes/acceptance 等）
 - `/scheme.yaml`：技术栈与包管理器选择（原型与实现必须遵循）
 
@@ -71,11 +51,6 @@ yarn dlx -p visual-spec@latest vspec
 - 前置条件：`/specs/details/` 必须存在且非空，否则 `refine` 不执行
 - 运行：`/vspec:refine`
 - 结果：向 `/specs/background/original.md` 追加更新，并同步更新受影响的 `/specs/details/` 与 `/specs/prototypes/`
-
-#### 变更（`change`）
-
-- 把变更材料放到 `/docs/change/`（可选 `file_list.md`）
-- 结果：做影响分析并更新产物（优先 `/specs/details/<module_slug>/`），同时更新变更日志
 
 #### 升级/重构（`upgrade`）
 

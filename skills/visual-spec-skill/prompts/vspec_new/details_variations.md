@@ -43,10 +43,16 @@
 1. 对每个节点目录写入：`/specs/background/scenario_details/<dir_key>/variations.md`
 2. 文件结构固定如下（必须）：
 
-# 节点：<节点名>
-
-## 多样性思维（Variations）
-- <分支维度...>
-
-## 需要确认的问题（如有）
-- <问题...>
+- 标题与小节必须按所选语言使用以下版本之一：
+  - 语言=en：
+    - `# Node: <Node Name>`
+    - `## Variations`
+    - `## Open Questions (if any)`
+  - 语言=zh-CN：
+    - `# 节点：<节点名>`
+    - `## 多样性思维（Variations）`
+    - `## 需要确认的问题（如有）`
+  - 语言=ja：
+    - `# ノード：<ノード名>`
+    - `## バリエーション（Variations）`
+    - `## 要確認事項（あれば）`

@@ -18,7 +18,7 @@
 
 - When to use: you just received the requirement and information is incomplete; you need a shared language and a first-cut spec quickly
 - Key outputs: stakeholders, roles, terms, flows, scenarios, function list, open questions
-- Directory initialization: creates `/docs/` and its subdirectories (legacy/current/change/refine/templates/texts/assets) for input archiving and future command inputs
+ - Directory initialization: creates `/docs/` and its subdirectories (legacy/current/refine/templates/texts/assets) for input archiving and future command inputs
 
 ## `/vspec:refine`
 

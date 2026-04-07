@@ -13,8 +13,6 @@ Skill 会按命令阶段逐步在 `/specs/` 下生成产物，并维护少量项
 │  ├─ legacy/                             # 遗留系统材料（功能、权限、交互、API 等）
 │  ├─ current/                            # 本次迭代新增/补充材料（目标、差异、流程、UI 约束等）
 │  │  └─ file_list.md                     # upgrade 入口清单（/vspec:upgrade 读取/生成）
-│  ├─ change/                             # 变更输入归档（可选）
-│  │  └─ file_list.md                     # 可选：有序输入清单
 │  ├─ refine/                             # 补充/澄清输入（/vspec:refine 读取）
 │  │  └─ file_list.md                     # 可选：有序输入清单
 │  ├─ templates/                          # 模板（PRD/文案/UI/表格模板，可选）
@@ -65,7 +63,7 @@ Skill 会按命令阶段逐步在 `/specs/` 下生成产物，并维护少量项
 ```
 
 说明：
-- `docs/`：归档业务输入与交付对齐材料。建议使用 `legacy/current/change/refine/templates/texts/assets` 等子目录，并在文件名中包含来源/版本信息。
+- `docs/`：归档业务输入与交付对齐材料。建议使用 `legacy/current/refine/templates/texts/assets` 等子目录，并在文件名中包含来源/版本信息。
 - `scheme.yaml`：选择 `/vspec:verify` 与 `/vspec:impl` 使用的技术栈与选项。读取顺序为项目根目录的 `scheme.yaml` 优先，其次 `/specs/scheme.yaml`。若都不存在则生成默认 `scheme.yaml`。
 
 下一步：

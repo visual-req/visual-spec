@@ -54,8 +54,8 @@ Optional: segmented prototype generation
   - `/specs/plan/plan_estimate.md`
   - `/specs/plan/plan_schedule.html`
 
-## Installation (npm)
+## Installation (skills.sh)
 
-- Recommended at your project root: `npm install <git-url>`
-- After installation, the Skill is copied to: `<your-project>/.trae/skills/visual-spec-skill/`
-- Manual installation (if needed): `npx vspec --force`
+```bash
+npx skills add visual-req/visual-spec --skill visual-spec-skill
+```

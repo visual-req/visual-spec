@@ -7,7 +7,7 @@ selected:
   prototype_backend_stack: java17_springboot3
   prototype_database: mysql8
   package_manager: npm
-  language: zh-CN
+  language: en # en | zh-CN | ja
 
 prototype_options:
   calendar_view:

@@ -18,7 +18,7 @@
 
 - 适用场景：刚拿到需求且信息不完整，需要快速形成“可评审的共同语言”
 - 关键输出：干系人、角色、术语、流程、场景、功能清单、开放问题
-- 目录初始化：创建 `/docs/` 及其子目录（legacy/current/change/refine/templates/texts/assets）用于输入归档与后续命令使用
+- 目录初始化：创建 `/docs/` 及其子目录（legacy/current/refine/templates/texts/assets）用于输入归档与后续命令使用
 
 ## `/vspec:refine`
 

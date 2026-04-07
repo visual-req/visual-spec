@@ -33,10 +33,16 @@
 1. 对每个节点目录写入：`/specs/background/scenario_details/<dir_key>/boundaries.md`
 2. 文件结构固定如下（必须）：
 
-# 节点：<节点名>
-
-## 边界思维（Boundaries）
-- <边界要点...>
-
-## 需要确认的问题（如有）
-- <问题...>
+- 标题与小节必须按所选语言使用以下版本之一：
+  - 语言=en：
+    - `# Node: <Node Name>`
+    - `## Boundaries`
+    - `## Open Questions (if any)`
+  - 语言=zh-CN：
+    - `# 节点：<节点名>`
+    - `## 边界思维（Boundaries）`
+    - `## 需要确认的问题（如有）`
+  - 语言=ja：
+    - `# ノード：<ノード名>`
+    - `## 境界（Boundaries）`
+    - `## 要確認事項（あれば）`

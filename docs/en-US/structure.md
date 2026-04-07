@@ -14,8 +14,6 @@ The Skill generates artifacts under `/specs/` (incrementally by command stage) a
 │  ├─ legacy/                             # Legacy system materials (features, permissions, interactions, APIs, etc.)
 │  ├─ current/                            # New/additional materials for this iteration (goals, deltas, flows, UI constraints, etc.)
 │  │  └─ file_list.md                     # Upgrade entry list (/vspec:upgrade reads/generates)
-│  ├─ change/                             # Change inputs archive (optional)
-│  │  └─ file_list.md                     # Optional ordered input list
 │  ├─ refine/                             # Refinement inputs (/vspec:refine reads)
 │  │  └─ file_list.md                     # Optional ordered input list
 │  ├─ templates/                          # Templates (PRD/copy/UI/table templates, optional)
@@ -66,7 +64,7 @@ The Skill generates artifacts under `/specs/` (incrementally by command stage) a
 ```
 
 Notes:
-- `docs/`: archive business inputs and delivery alignment materials. Use subdirectories like `legacy/current/change/refine/templates/texts/assets` and include source/version in filenames.
+- `docs/`: archive business inputs and delivery alignment materials. Use subdirectories like `legacy/current/refine/templates/texts/assets` and include source/version in filenames.
 - `scheme.yaml`: selects the stack and options used by `/vspec:verify` and `/vspec:impl`. It reads `scheme.yaml` at the project root first, then `/specs/scheme.yaml`. If neither exists, it creates a default `scheme.yaml`.
 
 Next:

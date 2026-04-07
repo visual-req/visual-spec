@@ -4,15 +4,37 @@
 
 请严格按以下步骤执行：
 
+语言与本地化（必须）：
+- 读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
+- 本命令生成的所有 `/specs/**` 文档内容必须使用该语言输出（标题、表头、字段说明、状态文案、按钮文案、提示语等均需一致）；禁止混用其他语言
+
 0. 创建材料目录（docs）
    - 如果 `/docs` 不存在，请先创建目录
    - 如果 `/docs/README.md` 不存在，请创建并写入以下内容（保持简短）：
 
-     # docs（需求材料）
+     - 语言=en：
 
-     本目录用于存放与本需求相关的业务材料与交付对齐资料，例如：原始文档、流程说明、字段口径、模板/协议/文案、截图、样例数据等。
+       # docs (Inputs)
 
-     建议按主题或日期建立子目录，并在文件名中体现来源与版本。
+       This directory stores business inputs and delivery alignment materials for this requirement: original docs, flow notes, field definitions, templates/agreements/copy, screenshots, and sample data.
+
+       Prefer organizing by topic or date, and include source + version in filenames.
+
+     - 语言=zh-CN：
+
+       # docs（需求材料）
+
+       本目录用于存放与本需求相关的业务材料与交付对齐资料，例如：原始文档、流程说明、字段口径、模板/协议/文案、截图、样例数据等。
+
+       建议按主题或日期建立子目录，并在文件名中体现来源与版本。
+
+     - 语言=ja：
+
+       # docs（入力資料）
+
+       本ディレクトリは、本要件に関する業務入力と合意形成資料（原本ドキュメント、フロー説明、項目定義、テンプレート/規約/文言、スクリーンショット、サンプルデータ等）を保管します。
+
+       トピックや日付で整理し、ファイル名に出所とバージョンを含めてください。
 
 0.5 创建可编辑的工程约束文件（必须）
    - 目的：让用户在后续 `/vspec:verify` 与 `/vspec:impl` 前即可手动调整技术栈与 UI 风格
@@ -31,7 +53,7 @@ selected:
   prototype_backend_stack: java17_springboot3
   prototype_database: mysql8
   package_manager: npm
-  language: zh-CN
+  language: en
 
 prototype_options:
   calendar_view:

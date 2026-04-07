@@ -31,8 +31,8 @@ Flow:
 0. Ensure `/docs/` exists, and ensure subfolders exist:
    - `/docs/legacy/`
    - `/docs/current/`
-   - `/docs/change/`
    - `/docs/refine/`
+0.2 If the user passes `lang=<en|zh-CN|ja>` in the command arguments, set `/scheme.yaml` `selected.language` to that value (update only that field, keep other fields and formatting unchanged).
 0.5 Create editable project constraints so the user can tweak them early (do not overwrite if they already exist):
    - Create `/scheme.yaml` with defaults (prototype stack selection + catalog) if missing
    - Create `/prototype_ui_convention.md` (same directory as `/scheme.yaml`) if missing
@@ -91,11 +91,15 @@ Flow:
 4. Load `prompts/vspec_refine/refine_q.md` to merge answers into the canonical requirement.
 5. Append the refinement result to `/specs/background/original.md`.
 6. Update `/specs/background/questions.md` to mark items that are treated as answered in this run:
-   - Wrap the `回答` and `状态` values with `<mark>...</mark>` so the answered items are visually highlighted.
+   - Wrap the answer and status values with `<mark>...</mark>` (use the field names in the selected language) so answered items are visually highlighted.
 
 ### `/vspec:detail`
 
 Use this command to expand requirement details based on the function list.
+
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- All generated spec documents under `/specs/` must use the selected language consistently (headings, tables, field descriptions, statuses, button names, messages).
 
 Flow:
 1. Read the feature/function list from `/specs/functions/*`.
@@ -138,6 +142,10 @@ Flow:
 ### `/vspec:verify`
 
 Use this command to generate models and a runnable prototype for validation.
+
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Generate `/specs/models/` docs and all prototype UI copy in the selected language consistently.
 
 Flow:
 0. Ensure `/specs/details/` exists and is non-empty; if missing, stop and output the prerequisite message: “Run /vspec:detail to generate /specs/details/ before /vspec:verify”.
@@ -182,6 +190,10 @@ Use this command to run a quality check on the generated requirement artifacts u
 
 Note: The Pro edition supports broader quality checks (e.g. more post-run prototype/implementation verifications) and requires a paid plan.
 
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- The QC report `/specs/qc_report.md` must use the selected language consistently.
+
 Flow:
 1. Read built-in standard at `prompts/vspec_qc/quality_standard.md`.
 2. If a requirement quality error book exists under project `qc/`, generate/update project root `quality_standard.md` based on it.
@@ -193,6 +205,10 @@ Flow:
 
 Use this command to generate acceptance test cases.
 
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- All acceptance documents under `/specs/acceptance/` must use the selected language consistently.
+
 Flow:
 1. Read `/specs/functions/*`, `/specs/background/scenarios.md`, `/specs/background/scenario_details/`, `/specs/background/roles.md`, `/specs/models/*.md`.
 2. Load `prompts/vspec_accept/accept.md` to generate acceptance test cases covering core flows, exceptions, boundary, permissions, and data scope.
@@ -201,6 +217,10 @@ Flow:
 ### `/vspec:append-test`
 
 Use this command to generate automation test code based on acceptance cases and specs.
+
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Test case titles/descriptions should follow the selected language as much as possible.
 
 Flow:
 1. Read `/specs/acceptance/`, `/specs/functions/*`, `/specs/details/`, and detect the existing test frameworks in the repository.
@@ -225,6 +245,10 @@ Flow:
 
 Use this command to upgrade/retrofit requirements based on materials stored under `/docs/` (`/docs/legacy` for legacy system, `/docs/current` for new inputs), and regenerate the `/specs/` artifacts in the same structure as `/vspec:new`.
 
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- All regenerated `/specs/**` artifacts must use the selected language consistently.
+
 Flow:
 1. Ensure the input entry file exists at `/docs/current/file_list.md`; if missing, generate it with the expected input list template.
 2. Read `/docs/current/file_list.md`, then read the listed sources under `/docs/` (typically `/docs/legacy/*`, `/docs/current/*`, optionally `/docs/templates/*`, `/docs/texts/*`, `/docs/assets/*`) in order and extract structured information (functions, dependencies, UI style, roles/permissions, technical spec).
@@ -235,6 +259,10 @@ Flow:
 ### `/vspec:plan`
 
 Use this command to break down requirements, estimate efforts, and schedule via a user story map.
+
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Both `/specs/plan/plan_estimate.md` and `/specs/plan/plan_schedule.html` must use the selected language consistently.
 
 Flow:
 1. Read `/specs/functions/*`, `/specs/background/roles.md`, `/specs/background/scenarios.md`, `/specs/details/`, `/specs/background/dependencies.md`.

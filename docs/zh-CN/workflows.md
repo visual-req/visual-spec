@@ -54,8 +54,8 @@
   - `/specs/plan/plan_estimate.md`
   - `/specs/plan/plan_schedule.html`
 
-## 安装（npm）
+## 安装（skills.sh）
 
-- 推荐在目标项目根目录安装：`npm install <git-url>`
-- 安装后 Skill 会被复制到：`<your-project>/.trae/skills/visual-spec-skill/`
-- 需要时可手动安装：`npx vspec --force`
+```bash
+npx skills add visual-req/visual-spec --skill visual-spec-skill
+```

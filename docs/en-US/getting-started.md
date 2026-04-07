@@ -4,34 +4,14 @@ This package provides a `/vspec:*` command-driven Skill that turns raw requireme
 
 ### 1. Installation
 
-Install the npm package, then install the Skill into your AI editor configuration directory:
+Install the Skill into your AI editor configuration directory:
 
 - Installation and verification: `installation.md`
 
-Install / update (npm):
+Install / update (skills.sh):
 
 ```bash
-npm install -g visual-spec@latest
-```
-
-Install / update (pnpm):
-
-```bash
-pnpm add -g visual-spec@latest
-```
-
-Install / update (yarn):
-
-Yarn Classic:
-
-```bash
-yarn global add visual-spec@latest
-```
-
-Yarn Berry (v2+):
-
-```bash
-yarn dlx -p visual-spec@latest vspec
+npx skills add visual-req/visual-spec --skill visual-spec-skill
 ```
 
 ### 2. Recommended Workflow
@@ -51,7 +31,7 @@ yarn dlx -p visual-spec@latest vspec
 
 ### 3. Key Directories
 
-- `/docs/`: input archive (legacy/current/change/refine/templates/texts/assets)
+- `/docs/`: input archive (legacy/current/refine/templates/texts/assets)
 - `/specs/`: generated artifacts (background/details/models/prototypes/acceptance, etc.)
 - `/scheme.yaml`: stack and package manager selection (prototype and implementation must follow it)
 
@@ -71,11 +51,6 @@ Next:
 - Prerequisite: `/specs/details/` must exist and be non-empty, otherwise `refine` does not run
 - Run: `/vspec:refine`
 - Result: appends updates to `/specs/background/original.md` and syncs impacted `/specs/details/` and `/specs/prototypes/`
-
-#### Changes (`change`)
-
-- Put change materials into `/docs/change/` (optional `file_list.md`)
-- Result: performs impact analysis, updates artifacts (prefers `/specs/details/<module_slug>/`), and updates the change log
 
 #### Upgrade/Redesign (`upgrade`)
 
