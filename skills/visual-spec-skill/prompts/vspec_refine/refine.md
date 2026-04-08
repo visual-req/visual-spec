@@ -10,9 +10,10 @@
 - 现有细节规格：`/specs/details/`（必须存在且非空；否则本次 refine 不执行）
 - 修订输入（优先级从高到低）：
   1. 命令参数指定的输入路径（文件/目录）
-  2. `/docs/refine/`（优先 `/docs/refine/file_list.md`；否则读取目录下文件）
-  3. `/specs/background/refine.md`（兼容旧路径）
-  4. `/refine.md`（兼容旧路径）
+  2. `/docs/refine/refine.md`（无命令参数时必须提供）
+  3. `/docs/refine/`（可选补充材料：仅在 `refine.md` 引用或明确需要时读取；不要无脑全量读取）
+  4. `/specs/background/refine.md`（兼容旧路径）
+  5. `/refine.md`（兼容旧路径）
 - 如需核对上下游影响，可参考：`/specs/background/*.md`、`/specs/flows/*.puml`、`/specs/functions/*`
 
 修订目标（必须）：
@@ -23,13 +24,12 @@
 工作方式（必须）：
 0. 执行前置条件（必须）：
    - 若 `/specs/details/` 不存在或为空：输出“无法执行：缺少 /specs/details（请先运行 /vspec:detail）”，并停止；不要写入或修改任何文件
+   - 若未提供命令参数，且 `/docs/refine/refine.md` 不存在：输出“无法执行：缺少 /docs/refine/refine.md（请先补充该文件，再运行 /vspec:refine）”，并停止；不要写入或修改任何文件
 1. 解析修订输入（参数/默认 refine.md）：
    - 若提供了命令参数：逐个读取参数指向的内容作为修订输入
      - 若参数是目录：读取目录内所有可读文本文件（优先 `.md`，其次 `.txt`），按路径字母序合并为修订输入；忽略二进制与明显无关文件
      - 若参数是文件：直接读取该文件内容
-   - 若未提供命令参数：从 `/docs/refine/` 读取修订输入
-     - 若存在 `/docs/refine/file_list.md`：按其表格顺序逐个读取 `文件路径` 对应的文件内容并合并（跳过空行/无效路径）
-     - 否则：读取 `/docs/refine/` 目录下所有可读文本文件（优先 `.md`，其次 `.txt`），按路径字母序合并为修订输入（可忽略明显无关文件）
+   - 若未提供命令参数：以 `/docs/refine/refine.md` 为本次修订输入来源（必要时可再读取其引用/提及的补充材料）
    - 若输入中提供了完整的新需求文本：以其为主，并对照旧需求生成变更清单
    - 若输入只提供变更点/指令：基于旧需求生成修订后的 Canonical Requirement
 2. 以“最后一份 Canonical Requirement”为基线：

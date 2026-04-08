@@ -13,6 +13,53 @@
    - 如果 `/docs` 不存在，请先创建目录
    - 如果 `/docs/README.md` 不存在，请创建并写入以下内容（保持简短）：
    - 不要创建 `/docs/change/`（已废弃）
+   - 如果 `/docs/refine` 不存在，请创建目录
+   - 如果 `/docs/refine/README.md` 不存在，请创建并写入以下内容（说明如何编写 `refine.md`；保持简短，可 fork 后调整）：
+
+     - 语言=en：
+
+       # refine (Refinement Inputs)
+
+       This directory stores refinement instructions for `/vspec:refine`.
+
+       Recommended file:
+       - `docs/refine/refine.md`: the canonical refinement instruction for this project.
+
+       Suggested structure (keep it short and explicit):
+       - What changed (new/modify/delete/clarify)
+       - Impact scope (modules/functions/pages/APIs)
+       - New/updated rules (validation, permissions, states, dependencies)
+       - Open questions (if any)
+
+     - 语言=zh-CN：
+
+       # refine（补充/澄清输入）
+
+       本目录用于存放 `/vspec:refine` 的修订输入。
+
+       推荐文件：
+       - `docs/refine/refine.md`：本项目统一的修订指令入口文件（建议始终维护它）。
+
+       建议结构（简短、明确）：
+       - 变更点：新增/修改/删除/澄清（逐条列出）
+       - 影响范围：涉及哪些模块/功能/页面/API
+       - 新规则：校验/权限/状态机/外部依赖/失败兜底
+       - 待确认问题（如有）
+
+     - 语言=ja：
+
+       # refine（追補/明確化入力）
+
+       本ディレクトリは `/vspec:refine` の改訂入力を保管します。
+
+       推奨ファイル：
+       - `docs/refine/refine.md`：このプロジェクトの改訂指示の入口ファイル（継続的に更新すること）。
+
+       推奨構成（短く、明確に）：
+       - 変更点（追加/修正/削除/明確化）
+       - 影響範囲（モジュール/機能/画面/API）
+       - 新ルール（バリデーション/権限/状態/外部依存/失敗時対応）
+       - 要確認事項（必要なら）
    - 如果 `/docs/dependencies` 不存在，请创建目录
    - 如果 `/docs/dependencies/README.md` 不存在，请创建并写入以下内容（用于构建“外部依赖系统说明文档库”；保持简短，可 fork 后按团队规范调整）：
 
