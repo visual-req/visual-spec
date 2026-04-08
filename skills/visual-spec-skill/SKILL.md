@@ -38,6 +38,7 @@ Flow:
    - `/docs/legacy/`
    - `/docs/current/`
    - `/docs/refine/`
+   - `/docs/dependencies/`
    - Do NOT create `/docs/change/` (it is deprecated).
 0.2 If the user passes `lang=<en|zh-CN|ja>` in the command arguments, set `/scheme.yaml` `selected.language` to that value (update only that field, keep other fields and formatting unchanged).
 0.5 Create editable project constraints so the user can tweak them early (do not overwrite if they already exist):

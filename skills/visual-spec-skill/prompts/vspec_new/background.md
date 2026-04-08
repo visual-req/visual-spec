@@ -13,6 +13,41 @@
    - 如果 `/docs` 不存在，请先创建目录
    - 如果 `/docs/README.md` 不存在，请创建并写入以下内容（保持简短）：
    - 不要创建 `/docs/change/`（已废弃）
+   - 如果 `/docs/dependencies` 不存在，请创建目录
+   - 如果 `/docs/dependencies/README.md` 不存在，请创建并写入以下内容（用于构建“外部依赖系统说明文档库”；保持简短，可 fork 后按团队规范调整）：
+
+     - 语言=en：
+
+       # dependencies (External Systems Library)
+
+       Store existing external dependency system docs here (one system per folder). `/vspec:new` and dependency analysis will read this directory to understand what each system does.
+
+       Recommended:
+       - `docs/dependencies/<system_slug>/overview.md`: purpose, owners, environments, auth
+       - `docs/dependencies/<system_slug>/interfaces.md`: APIs/webhooks/topics/files, key fields, SLA
+       - `docs/dependencies/<system_slug>/samples/`: request/response, payload examples
+
+     - 语言=zh-CN：
+
+       # dependencies（外部依赖系统文档库）
+
+       将“已有外部依赖系统”的说明文档沉淀到这里（建议一个系统一个目录）。后续做依赖分析时会优先读取该目录，先理解“有哪些系统、各自做什么”，再梳理本需求与这些系统的交互边界。
+
+       推荐结构：
+       - `docs/dependencies/<system_slug>/overview.md`：系统用途、负责人、环境、鉴权方式
+       - `docs/dependencies/<system_slug>/interfaces.md`：API/webhook/topic/文件等接口清单、关键字段、SLA
+       - `docs/dependencies/<system_slug>/samples/`：请求/响应/消息体样例
+
+     - 语言=ja：
+
+       # dependencies（外部依存システム文書庫）
+
+       既存の外部依存システムの資料をここに集約します（原則：1システム=1フォルダ）。依存関係分析では本ディレクトリを優先的に読み取り、「どのシステムが何を担うか」を整理します。
+
+       推奨：
+       - `docs/dependencies/<system_slug>/overview.md`：目的、担当、環境、認証
+       - `docs/dependencies/<system_slug>/interfaces.md`：API/webhook/topic/ファイル、主要フィールド、SLA
+       - `docs/dependencies/<system_slug>/samples/`：リクエスト/レスポンス/ペイロード例
 
      - 语言=en：
 

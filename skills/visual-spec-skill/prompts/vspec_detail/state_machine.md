@@ -40,6 +40,12 @@
    - 只输出一个代码块，且必须以 `@startuml` 开始、以 `@enduml` 结束
    - 必须覆盖本模块端到端流程中涉及的状态与迁移（至少覆盖 apply/approve/change/cancel/execute 相关语义中实际存在的部分）
    - 每条迁移箭头必须标注 Trigger；如有关键 Guard，用 `[ ... ]` 标注在箭头文案中
+4. “暂停/继续”仅在确有必要时才纳入状态机（必须满足至少一条）：
+   - 需求/口径中明确出现“暂停/继续/恢复/断点续跑/继续处理”等语义
+   - 存在长任务/运行态且业务要求可中断并继续（例如导入/导出/批处理/考试/播放/上传）
+   - 模型/流程中已有 `paused`/`suspended`/`on_hold` 等状态，或已有 pause/resume 相关操作
+   - 若纳入：必须包含 Paused/暂停态 的进入条件、退出条件（Resume/继续）、以及暂停期间允许/禁止的关键操作（与 decision_matrix 一致）
+   - 若不满足：不得新增暂停态/继续操作
 
 输出写入：
 - 将结果写入上游指定的 markdown 文件路径（通常在 `/specs/details/<module_slug>/state_machine/<module_slug>.md`）

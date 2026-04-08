@@ -31,6 +31,7 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
    - `/docs/legacy/`
    - `/docs/current/`
    - `/docs/refine/`
+   - `/docs/dependencies/`
    - 不要创建 `/docs/change/`（已废弃）
 0.2 若用户在命令参数中传入 `lang=<en|zh-CN|ja>`，则将 `/scheme.yaml` 的 `selected.language` 设置为该值（只更新该字段，其他字段与格式保持不变）。
 0.5 尽早创建可编辑的项目约束文件，便于用户提前调整（若已存在则不得覆盖）：
