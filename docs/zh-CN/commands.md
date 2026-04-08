@@ -11,7 +11,7 @@
 | `/vspec:append-test` | 生成自动化测试代码 | 验收用例 + 仓库测试技术栈 | 写入既有测试目录或 `/tests/` |
 | `/vspec:impl` | 生成后端 + 前端联调实现代码 | specs/details/models/dependencies | 写入集成实现代码（API 合同、后端、前端对接） |
 | `/vspec:upgrade` | 基于遗留材料做升级/重构分析并生成新规格 | `/docs/current/file_list.md` + `/docs/legacy/*`（可选 templates/texts/assets）+ 既有 `/specs/background/original.md`（可选） | 生成/更新 `/specs/`（沿用 `/vspec:new` 结构）+ 同步技术选型到 `/scheme.yaml` |
-| `/vspec:qc` | 对 `/specs/` 产物做质量检查 | 内置标准 + 可选 `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
+| `/vspec:qc` | 对 `/specs/` 产物做质量检查 | 内置标准 + 可选 `domain_quality_standard.md` + 可选 `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
 | `/vspec:plan` | 估算与排期 | functions/roles/flows/dependencies/details | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
 
 ## `/vspec:new`

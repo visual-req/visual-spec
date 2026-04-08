@@ -11,7 +11,7 @@
 | `/vspec:append-test` | Generate automated test code | acceptance cases + repo test stack | Writes into existing test directories or `/tests/` |
 | `/vspec:impl` | Generate integrated backend + frontend implementation | specs/details/models/dependencies | Writes integrated implementation code (API contract, backend, frontend integration) |
 | `/vspec:upgrade` | Analyze and generate new specs based on legacy materials | `/docs/current/file_list.md` + `/docs/legacy/*` (optional templates/texts/assets) + existing `/specs/background/original.md` (if any) | Generate/update `/specs/` in `/vspec:new` structure + sync technical selections to `/scheme.yaml` |
-| `/vspec:qc` | Run quality checks on `/specs/` artifacts | built-in standard + optional project `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
+| `/vspec:qc` | Run quality checks on `/specs/` artifacts | built-in standard + optional `domain_quality_standard.md` + optional project `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
 | `/vspec:plan` | Estimation and scheduling | functions/roles/flows/dependencies/details | `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html` |
 
 ## `/vspec:new`
