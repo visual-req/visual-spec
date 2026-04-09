@@ -13,7 +13,9 @@ npx skills add visual-req/visual-spec --skill visual-spec-skill
 ### 2. 推奨フロー
 
 - 初期 spec：`/vspec:new`
-  - 言語（任意）：`/vspec:new lang=en`（または `lang=zh-CN`、`lang=ja`）。このプロジェクトの `/scheme.yaml` `selected.language` を設定し、生成成果物をその言語で統一します
+  - 言語（任意）：
+    - 単一言語：`/vspec:new lang=zh-CN`（または `lang=en`、`lang=ja`）。`/scheme.yaml` `selected.language` を設定し、文書成果物をその言語で統一します
+    - 多言語（プロトタイプ切替）：`/vspec:new lang=zh-CN,en`。文書の既定言語を `zh-CN` にし、`/scheme.yaml` `selected.languages` を切替用言語集合として設定します
   - 実行中に要件口径（`/specs/background/original.md`）を生成し、確認質問を提示
   - まずチャットで回答し、その後「continue」と入力して `/vspec:new` を完了
 - Q&A を要件へ反映：`/vspec:refine-q`（`/specs/background/questions.md` の回答済み項目を `original.md` に取り込む）

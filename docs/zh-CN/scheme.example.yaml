@@ -7,7 +7,8 @@ selected:
   prototype_backend_stack: java17_springboot3
   prototype_database: mysql8
   package_manager: npm
-  language: en # en | zh-CN | ja
+  language: en # 文档默认语言：en | zh-CN | ja
+  languages: [en] # 可选：原型可切换语言集合，例如 [zh-CN, en]
 
 prototype_options:
   calendar_view:

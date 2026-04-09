@@ -7,7 +7,8 @@ selected:
   prototype_backend_stack: java17_springboot3
   prototype_database: mysql8
   package_manager: npm
-  language: en # en | zh-CN | ja
+  language: en # default output language: en | zh-CN | ja
+  languages: [en] # optional supported languages for prototype switching, e.g. [zh-CN, en]
 
 prototype_options:
   calendar_view:

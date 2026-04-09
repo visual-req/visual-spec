@@ -5,8 +5,16 @@
 请严格按以下步骤执行：
 
 语言与本地化（必须）：
-- 读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
-- 若用户在 `/vspec:new` 命令参数或本次输入中显式指定 `lang=<en|zh-CN|ja>`：本次必须以该值为准，并将 `/scheme.yaml` 的 `selected.language` 更新为该值（只更新该字段，其他字段与格式保持不变）
+- 读取 `/scheme.yaml` 的 `selected.language` 作为“文档输出默认语言”（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
+- 若存在 `/scheme.yaml` `selected.languages`（数组）：将其作为“项目支持语言集合”（用于原型语言切换等）；若缺失则默认 `[selected.language]`
+- 若用户在 `/vspec:new` 命令参数或本次输入中显式指定 `lang=<...>`：
+  - 支持两种形式：
+    - 单语言：`lang=en` / `lang=zh-CN` / `lang=ja`
+    - 多语言：`lang=zh-CN,en`（逗号分隔；第一个为文档默认语言；其余为可切换语言；允许 `zh` 作为 `zh-CN` 的别名）
+  - 本次必须以该值为准，并将 `/scheme.yaml` 更新为：
+    - `selected.language` = 解析后的第一个语言
+    - `selected.languages` = 解析后的语言数组（去重，保序）
+  - 只更新上述两个字段，其他字段与格式保持不变
 - 本命令生成的所有 `/specs/**` 文档内容必须使用该语言输出（标题、表头、字段说明、状态文案、按钮文案、提示语等均需一致）；禁止混用其他语言
 
 0. 创建材料目录（docs）
@@ -123,7 +131,7 @@
 0.5 创建可编辑的工程约束文件（必须）
    - 目的：让用户在后续 `/vspec:verify` 与 `/vspec:impl` 前即可手动调整技术栈与 UI 风格
    - 生成内容必须使用“固定标准模板”，禁止动态变化（必须）：
-     - 禁止调整字段顺序、缩进风格与键名；禁止增删字段；禁止按项目/行业“智能改写模板内容”
+     - 禁止调整字段顺序、缩进风格与键名；禁止按项目/行业“智能改写模板内容”
      - 若文件已存在：不得覆盖、不得重排、不得“格式化重写”
    - 若 `/scheme.yaml` 不存在：必须创建（不要覆盖已存在文件），写入以下默认模板（必须逐字复制）：
 
@@ -138,6 +146,8 @@ selected:
   prototype_database: mysql8
   package_manager: npm
   language: en
+  languages:
+    - en
 
 prototype_options:
   calendar_view:

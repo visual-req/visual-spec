@@ -5,8 +5,10 @@
    - 若不存在或为空：立即停止，不生成任何原型文件；仅输出一句“前置条件不满足：请先执行 /vspec:detail 生成 /specs/details/，再执行 /vspec:verify”。
 
 语言与本地化（必须）：
-- 读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
-- 原型界面所有用户可见文案必须使用该语言：菜单/标题/按钮/表头/字段 label/占位符/空状态/错误提示/成功提示/状态 Tag/弹窗文案/通知文案等；禁止混用其他语言
+- 读取 `/scheme.yaml` 的 `selected.language` 作为“默认显示语言”（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
+- 若存在 `/scheme.yaml` `selected.languages`（数组）：将其作为“可切换语言集合”；若缺失则默认 `[selected.language]`
+- 当 `selected.languages` 只有 1 种语言：原型界面所有用户可见文案必须使用该语言，禁止混用其他语言
+- 当 `selected.languages` 包含多种语言：原型必须提供语言切换（例如右上角 Dropdown/Select），且所有用户可见文案必须支持这些语言的切换（菜单/标题/按钮/表头/字段 label/占位符/空状态/错误提示/成功提示/状态 Tag/弹窗文案/通知文案等；禁止只做部分切换）
 
 输入信息包含：
 - 角色与任务（/specs/background/roles.md）
@@ -36,6 +38,8 @@ selected:
   prototype_database: mysql8
   package_manager: npm
   language: en
+  languages:
+    - en
 
 prototype_options:
   calendar_view:
