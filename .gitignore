@@ -1,3 +1,5 @@
 .tmp-npm8/
 *.tgz
+dist/
+*.skill
 skills/**/prompts/harness/

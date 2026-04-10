@@ -54,6 +54,30 @@
   - `/specs/plan/plan_estimate.md`
   - `/specs/plan/plan_schedule.html`
 
+## 独立使用质量规范（不依赖 `/vspec:qc`）
+
+内置质检标准文件位于（任选其一，取你当前环境中存在的路径）：
+- Skill 根目录下：`/prompts/vspec_qc/quality_standard.md`
+- 本仓库源码路径：`skills/visual-spec-skill/prompts/vspec_qc/quality_standard.md`
+
+你可以把它作为“通用需求质检标准”，独立用于检查其他方式写出来的需求文档（不要求必须由 `/vspec:*` 生成）。
+
+以 DeepSeek 聊天窗口为例（其他大模型/聊天产品同理）：
+1. 上传 2 份文件：
+   - `quality_standard.md`（质检标准）
+   - 你的需求文档（例如 PRD/需求说明/功能规格）
+2. 在聊天窗口输入以下指令：
+
+   请按照质量标准对需求文档进行质量检查，并生成质量检查结果的表格。
+
+建议输出表格列（可选）：
+- 检查项编号
+- 检查项标题
+- 是否通过（是/否/部分）
+- 发现的问题摘要
+- 涉及的文档位置（章节/段落）
+- 修复建议
+
 ## 安装（skills.sh）
 
 ```bash

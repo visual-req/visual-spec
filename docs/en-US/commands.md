@@ -5,6 +5,7 @@
 | `/vspec:new` | Generate baseline spec artifacts from raw requirements | Raw requirement text + interactive Q&A | `/specs/` (original, stakeholders, roles, terms, flows, scenarios, scenario_details, dependencies, functions, questions) + initializes `/docs/*` archive directories |
 | `/vspec:refine` | Apply refinement materials and sync impacted details and prototypes | `/docs/refine/*` (or command args) + baseline `/specs/background/original.md` + prerequisite `/specs/details/` | Appends to `/specs/background/original.md` (change list + canonical) + updates impacted `/specs/details/` and `/specs/prototypes/` |
 | `/vspec:refine-q` | Merge answered questions back into the requirement | `/specs/background/original.md` + `/specs/background/questions.md` | Appends to `/specs/background/original.md` (adopted items + change list + canonical) |
+| `/vspec:more-q` | Append more clarification questions | `/specs/background/original.md` + `/specs/background/questions.md` | Appends new items to `/specs/background/questions.md` (with answering guidance) |
 | `/vspec:detail` | Expand per-function detailed specs | `/specs/functions/*` + supporting artifacts (background/flows/roles; models if any) | `/specs/details/<function_slug>/*` (RBAC, interaction, validation, logging, notifications, MQ, import/export, cron, etc.) |
 | `/vspec:verify` | Generate models and prototype for fast validation | Existing `/specs/` artifacts (functions + details + roles) | `/specs/models/*.md`, `/specs/prototypes/` (stack-selected runnable prototype + `scenario.html` review page) |
 | `/vspec:accept` | Generate acceptance test cases | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`, `/specs/acceptance/index.md` |
@@ -13,6 +14,7 @@
 | `/vspec:upgrade` | Analyze and generate new specs based on legacy materials | `/docs/current/file_list.md` + `/docs/legacy/*` (optional templates/texts/assets) + existing `/specs/background/original.md` (if any) | Generate/update `/specs/` in `/vspec:new` structure + sync technical selections to `/scheme.yaml` |
 | `/vspec:qc` | Run quality checks on `/specs/` artifacts | built-in standard + optional `domain_quality_standard.md` + optional project `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
 | `/vspec:plan` | Estimation and scheduling | functions/roles/flows/dependencies/details | `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html` |
+| `/vspec:mrd` | Generate MRD market pack | `/specs/background/*` + `/specs/flows/*` + `/specs/functions/*` (if any) | `/docs/market/*.md` (market/competitors/users/product_design) |
 
 ## `/vspec:new`
 

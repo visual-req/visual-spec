@@ -10,15 +10,19 @@
   "scripts": {
     "postinstall": "node scripts/postinstall.cjs",
     "install-skill": "node scripts/postinstall.cjs --force",
-    "dry-run": "node scripts/postinstall.cjs --dry-run"
+    "dry-run": "node scripts/postinstall.cjs --dry-run",
+    "build-skill": "node scripts/build_skill.cjs"
   },
   "files": [
     "skills/visual-spec-skill/SKILL.md",
     "skills/visual-spec-skill/SKILL-zh-CN.md",
+    "skills/visual-spec-skill/SKILL-ja-JP.md",
     "skills/visual-spec-skill/prompts/vspec_accept/",
     "skills/visual-spec-skill/prompts/vspec_detail/",
     "skills/visual-spec-skill/prompts/vspec_impl/",
     "skills/visual-spec-skill/prompts/vspec_new/",
+    "skills/visual-spec-skill/prompts/vspec_more_q/",
+    "skills/visual-spec-skill/prompts/vspec_mrd/",
     "skills/visual-spec-skill/prompts/vspec_plan/",
     "skills/visual-spec-skill/prompts/vspec_qc/",
     "skills/visual-spec-skill/prompts/vspec_refine/",

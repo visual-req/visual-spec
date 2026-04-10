@@ -101,6 +101,16 @@ Flow:
 6. Update `/specs/background/questions.md` to mark items that are treated as answered in this run:
    - Wrap the answer and status values with `<mark>...</mark>` (use the field names in the selected language) so answered items are visually highlighted.
 
+### `/vspec:more-q`
+
+Use this command to generate more clarification questions and append them to `/specs/background/questions.md`.
+
+Flow:
+1. If `/specs/background/questions.md` is missing, stop and ask the user to run `/vspec:new` first.
+2. Load `prompts/vspec_more_q/more_q.md` to generate additional questions (avoid duplicates and continue numbering).
+3. Append the new items to `/specs/background/questions.md` (do not rewrite existing items).
+4. Provide a clear instruction for the user to answer the questions and then run `/vspec:refine-q`.
+
 ### `/vspec:detail`
 
 Use this command to expand requirement details based on the function list.
@@ -279,6 +289,20 @@ Flow:
 4. Load `prompts/vspec_plan/schedule.md` to generate the schedule and delivery map.
 5. Write schedule HTML to `/specs/plan/plan_schedule.html`.
 
+### `/vspec:mrd`
+
+Use this command to generate a market research and product positioning pack (MRD): market landscape, competitor analysis, user positioning, and product design notes.
+
+Flow:
+1. Ensure `/docs/market/` exists.
+2. Read baseline artifacts when available: `/specs/background/original.md`, `/specs/background/roles.md`, `/specs/background/terms.md`, `/specs/background/scenarios.md`, `/specs/flows/*.puml`, `/specs/background/dependencies.md`, and `/specs/functions/*` (if any).
+3. Load `prompts/vspec_mrd/mrd.md`.
+4. Write outputs to:
+   - `/docs/market/market.md`
+   - `/docs/market/competitors.md`
+   - `/docs/market/users.md`
+   - `/docs/market/product_design.md`
+
 ## Prompt Files
 
 - `prompts/vspec_new/background.md`: the prompt used right after `/vspec:new` receives the raw requirement.
@@ -295,6 +319,8 @@ Flow:
 - `prompts/vspec_new/dependencies.md`: the prompt used after details analysis to generate `/specs/background/dependencies.md`.
 - `prompts/vspec_new/functions.md`: the prompt used after dependencies analysis to generate `/specs/functions/`.
 - `prompts/vspec_new/questions.md`: the prompt used after functions analysis to generate `/specs/background/questions.md`.
+- `prompts/vspec_more_q/more_q.md`: the prompt used by `/vspec:more-q` to append more questions to `/specs/background/questions.md`.
+- `prompts/vspec_mrd/mrd.md`: the prompt used by `/vspec:mrd` to generate market/user/competitor/product docs under `/docs/market/`.
 - `prompts/vspec_refine/refine.md`: the prompt used by `/vspec:refine` to refine the requirement based on `refine.md`.
 - `prompts/vspec_refine/refine_q.md`: the prompt used by `/vspec:refine-q` to refine the requirement based on answered questions.
 - `prompts/vspec_verify/model.md`: the prompt used by `/vspec:verify` to generate `/specs/models/*.md`.

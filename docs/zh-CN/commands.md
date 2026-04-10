@@ -5,6 +5,7 @@
 | `/vspec:new` | 从原始需求生成第一版规格产物 | 原始需求文本 + 交互式问答 | `/specs/`（original、stakeholders、roles、terms、flows、scenarios、scenario_details、dependencies、functions、questions）+ 初始化 `/docs/*` 输入归档目录 |
 | `/vspec:refine` | 应用补充/澄清材料，并同步更新详情与原型 | `/docs/refine/*`（或命令参数）+ `/specs/background/original.md` + 前置条件 `/specs/details/` | 追加更新到 `/specs/background/original.md`（变更清单 + 最新口径）+ 更新受影响的 `/specs/details/` 与 `/specs/prototypes/` |
 | `/vspec:refine-q` | 将已回答的问题合并回需求并形成新口径 | `/specs/background/original.md` + `/specs/background/questions.md` | 追加到 `/specs/background/original.md`（采纳项 + 变更清单 + 最新口径） |
+| `/vspec:more-q` | 追加更多“待确认问题”到 questions 清单 | `/specs/background/original.md` + `/specs/background/questions.md` | 追加写入 `/specs/background/questions.md`（新增问题 + 回答指引） |
 | `/vspec:detail` | 展开到“可实现”的单功能详细规格 | `/specs/functions/*` + 支撑产物（background/flows/roles；models 若已存在） | `/specs/details/<function_slug>/*`（RBAC、交互、校验、日志、通知、MQ、导入导出、定时任务等） |
 | `/vspec:verify` | 快速验证：生成模型与可运行原型用于评审 | 现有 `/specs/` 产物（functions + details + roles） | `/specs/models/*.md`、`/specs/prototypes/`（按 `scheme.yaml` 选栈生成可运行原型 + `scenario.html` 评审页） |
 | `/vspec:accept` | 生成验收用例 | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`、`/specs/acceptance/index.md` |
@@ -13,6 +14,7 @@
 | `/vspec:upgrade` | 基于遗留材料做升级/重构分析并生成新规格 | `/docs/current/file_list.md` + `/docs/legacy/*`（可选 templates/texts/assets）+ 既有 `/specs/background/original.md`（可选） | 生成/更新 `/specs/`（沿用 `/vspec:new` 结构）+ 同步技术选型到 `/scheme.yaml` |
 | `/vspec:qc` | 对 `/specs/` 产物做质量检查 | 内置标准 + 可选 `domain_quality_standard.md` + 可选 `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
 | `/vspec:plan` | 估算与排期 | functions/roles/flows/dependencies/details | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
+| `/vspec:mrd` | 生成 MRD：市场/竞品/用户/产品设计 | `/specs/background/*` + `/specs/flows/*` + `/specs/functions/*`（如有） | `/docs/market/*.md`（market/competitors/users/product_design） |
 
 ## `/vspec:new`
 
@@ -35,6 +37,15 @@
 
 - 适用场景：业务已在 `/specs/background/questions.md` 填写答案，需要合并回需求并形成新口径
 - 关键输出：采纳的 Q&A 项 + 变更清单 + 最新口径
+
+## `/vspec:more-q`
+
+- 适用场景：问题清单还不够，或需求发生变更，需要补充更多“待确认问题”
+- 关键输出：追加到 `/specs/background/questions.md` 末尾的新问题条目（延续编号、不重复），并提供“回答指引”
+- 推荐用法：
+  - 先执行 `/vspec:more-q` 生成/补充问题
+  - 业务按编号逐条填写问题的“回答/回答者/回答时间/状态”
+  - 再执行 `/vspec:refine-q` 合并答案进入 `original.md`
 
 ## `/vspec:detail`
 
