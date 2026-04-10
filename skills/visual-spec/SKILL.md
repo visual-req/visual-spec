@@ -1,5 +1,5 @@
 ---
-name: "visual-spec-skill"
+name: "visual-spec"
 description: "Analyzes raw requirements into visual specs and generates artifacts. Invoke when user runs /vspec:new for analysis or /vspec:verify for models and prototypes."
 ---
 
@@ -28,8 +28,8 @@ Invoke this skill when:
 Use this command to create a new requirement analysis session.
 
 Language:
-- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
-- If the command argument or input explicitly provides `lang=<en|zh-CN|ja>`, use that value for this run and update `selected.language` to it (update only that field).
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
+- If the command argument or input explicitly provides `lang=<en|zh|ja>`, use that value for this run and update `selected.language` to it (update only that field). `zh-CN` should be treated as an alias of `zh`.
 - When `selected.language=en`, all headings in `/specs/background/original.md` must be English; normalize any non-English headings to:
   `# Raw Requirement`, `# Summary`, `# Business Context`, `# Core Features`, `# Pages & Interactions`, `# Data Model`, `# Business Logic`, `# Risks & Assumptions`, `# Open Questions`.
 
@@ -40,7 +40,7 @@ Flow:
    - `/docs/refine/`
    - `/docs/dependencies/`
    - Do NOT create `/docs/change/` (it is deprecated).
-0.2 If the user passes `lang=<en|zh-CN|ja>` in the command arguments, set `/scheme.yaml` `selected.language` to that value (update only that field, keep other fields and formatting unchanged).
+0.2 If the user passes `lang=<en|zh|ja>` in the command arguments, set `/scheme.yaml` `selected.language` to that value (update only that field, keep other fields and formatting unchanged). `zh-CN` should be treated as an alias of `zh`.
 0.5 Create editable project constraints so the user can tweak them early (do not overwrite if they already exist):
    - Create `/scheme.yaml` with defaults (prototype stack selection + catalog) if missing
    - Create `/prototype_ui_convention.md` (same directory as `/scheme.yaml`) if missing
@@ -116,7 +116,7 @@ Flow:
 Use this command to expand requirement details based on the function list.
 
 Language:
-- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
 - All generated spec documents under `/specs/` must use the selected language consistently (headings, tables, field descriptions, statuses, button names, messages).
 
 Flow:
@@ -162,7 +162,7 @@ Flow:
 Use this command to generate models and a runnable prototype for validation.
 
 Language:
-- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
 - Generate `/specs/models/` docs and all prototype UI copy in the selected language consistently.
 
 Flow:
@@ -182,26 +182,6 @@ Flow:
 12. Load `prompts/harness/post_verify_click_check.md` to detect clickable UI elements that do nothing. If it outputs any issues, show the issue list and stop.
 13. Load `prompts/harness/post_verify_verify.md` to validate the prototype completeness. If it outputs any issues, show the issue list and stop.
 
-### `/vspec:proto-survey`
-
-Use this command to generate a complete Survey (questionnaire) prototype (Web admin + Mobile filling) on top of an existing prototype project.
-
-Flow:
-0. If `/specs/prototypes/` is missing or empty, stop and ask the user to run `/vspec:verify` first.
-1. Read `/specs/functions/*`, `/specs/details/`, `/specs/models/*.md`, `/specs/background/roles.md`, `/specs/background/dependencies.md`, and `/scheme.yaml` (if any).
-2. Load `prompts/vspec_verify/prototype_survey.md` to generate/update survey pages, routes, and mock data.
-3. Write only survey-related incremental changes and keep the prototype runnable.
-
-### `/vspec:proto-auth`
-
-Use this command to generate a complete non-SSO auth/account page set (Web + Mobile) on top of an existing prototype project.
-
-Flow:
-0. If `/specs/prototypes/` is missing or empty, stop and ask the user to run `/vspec:verify` first.
-1. Read `/specs/functions/*`, `/specs/details/`, `/specs/background/roles.md`, `/specs/background/dependencies.md`, and `/scheme.yaml` (if any).
-2. Load `prompts/vspec_verify/prototype_auth.md` to generate/update auth pages, routes, session mock, and route guards.
-3. Write only auth-related incremental changes and keep the prototype runnable.
-
 ### `/vspec:qc`
 
 Use this command to run a quality check on the generated requirement artifacts under `/specs/`.
@@ -209,7 +189,7 @@ Use this command to run a quality check on the generated requirement artifacts u
 Note: The Pro edition supports broader quality checks (e.g. more post-run prototype/implementation verifications) and requires a paid plan.
 
 Language:
-- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
 - The QC report `/specs/qc_report.md` must use the selected language consistently.
 
 Flow:
@@ -224,7 +204,7 @@ Flow:
 Use this command to generate acceptance test cases.
 
 Language:
-- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
 - All acceptance documents under `/specs/acceptance/` must use the selected language consistently.
 
 Flow:
@@ -237,7 +217,7 @@ Flow:
 Use this command to generate automation test code based on acceptance cases and specs.
 
 Language:
-- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
 - Test case titles/descriptions should follow the selected language as much as possible.
 
 Flow:
@@ -264,7 +244,7 @@ Flow:
 Use this command to upgrade/retrofit requirements based on materials stored under `/docs/` (`/docs/legacy` for legacy system, `/docs/current` for new inputs), and regenerate the `/specs/` artifacts in the same structure as `/vspec:new`.
 
 Language:
-- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
 - All regenerated `/specs/**` artifacts must use the selected language consistently.
 
 Flow:
@@ -279,7 +259,7 @@ Flow:
 Use this command to break down requirements, estimate efforts, and schedule via a user story map.
 
 Language:
-- Read `/scheme.yaml` `selected.language` (supports `en`, `zh-CN`, `ja`; default to `en` if missing/invalid).
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
 - Both `/specs/plan/plan_estimate.md` and `/specs/plan/plan_schedule.html` must use the selected language consistently.
 
 Flow:

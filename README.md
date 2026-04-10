@@ -5,7 +5,7 @@ This repo provides a requirements analysis and delivery assistant Skill. It offe
 Install the Skill into your AI editor configuration directory (Trae / Claude Code / Cursor / GitHub Copilot, etc.):
 
 ```bash
-npx skills add visual-req/visual-spec --skill visual-spec-skill
+npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
 Docs:
@@ -37,8 +37,8 @@ Docs:
 
 ## Directory Structure
 
-- `skills/visual-spec-skill/SKILL.md`: Skill definition and command workflow
-- `skills/visual-spec-skill/prompts/`: prompt files used by each command
+- `skills/visual-spec/SKILL.md`: Skill definition and command workflow
+- `skills/visual-spec/prompts/`: prompt files used by each command
 
 ## Licensing / Plans
 

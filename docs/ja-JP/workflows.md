@@ -36,5 +36,5 @@
 ## インストール（skills.sh）
 
 ```bash
-npx skills add visual-req/visual-spec --skill visual-spec-skill
+npx skills add visual-req/visual-spec --skill visual-spec
 ```

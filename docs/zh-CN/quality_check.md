@@ -6,7 +6,7 @@
 
 - 质量标准文件路径（任选其一，取当前环境存在者）：
   - Skill 根目录：`/prompts/vspec_qc/quality_standard.md`
-  - 源码路径：`skills/visual-spec-skill/prompts/vspec_qc/quality_standard.md`
+  - 源码路径：`skills/visual-spec/prompts/vspec_qc/quality_standard.md`
 - 你的需求文档（PRD、功能说明、规格等），支持 Word/PDF/Markdown 等
 
 ### 使用方式（以 DeepSeek 聊天式 AI 为例）
@@ -30,4 +30,3 @@
 
 - 对于“上下限、时间口径、公式精度、权限与数据权限、外部依赖失败策略”等容易遗漏的部分，可在提问中强调“请重点覆盖边界/异常/幂等/回滚/审计/对账”等关键维度
 - 如果发现高频问题，可将其沉淀到你项目根目录的 `domain_quality_standard.md`，作为领域补充标准，供 `/vspec:qc` 合并使用
-

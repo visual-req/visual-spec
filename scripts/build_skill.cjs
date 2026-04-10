@@ -19,7 +19,7 @@ function main() {
   const repoRoot = getRepoRoot();
   const pkg = readPackageJson(repoRoot);
 
-  const skillDir = path.join(repoRoot, "skills", "visual-spec-skill");
+  const skillDir = path.join(repoRoot, "skills", "visual-spec");
   if (!fs.existsSync(skillDir)) {
     throw new Error(`Skill dir not found: ${skillDir}`);
   }
@@ -28,7 +28,7 @@ function main() {
   ensureDir(distDir);
 
   const version = pkg.version || "0.0.0";
-  const outputPath = path.join(distDir, `visual-spec-skill-${version}.skill`);
+  const outputPath = path.join(distDir, `visual-spec-${version}.skill`);
 
   if (fs.existsSync(outputPath)) {
     fs.rmSync(outputPath);
@@ -54,4 +54,3 @@ function main() {
 }
 
 main();
-

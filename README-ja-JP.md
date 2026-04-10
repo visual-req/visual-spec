@@ -5,7 +5,7 @@
 ## Installation
 
 ```bash
-npx skills add visual-req/visual-spec --skill visual-spec-skill
+npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
 Docs:
@@ -37,8 +37,8 @@ Docs:
 
 ## Directory Structure
 
-- `skills/visual-spec-skill/SKILL.md`：Skill 定義
-- `skills/visual-spec-skill/prompts/`：各コマンドのプロンプト
+- `skills/visual-spec/SKILL.md`：Skill 定義
+- `skills/visual-spec/prompts/`：各コマンドのプロンプト
 
 ## Licensing / Plans
 

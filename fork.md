@@ -11,7 +11,7 @@
 用途：
 - 用于补充行业/领域特有的质量检查点（例如：医疗/金融/教育/政务等的合规、审计、留存、数据口径约束）
 - 执行 `/vspec:qc` 时会同时扫描：
-  - 内置标准：`skills/visual-spec-skill/prompts/vspec_qc/quality_standard.md`
+  - 内置标准：`skills/visual-spec/prompts/vspec_qc/quality_standard.md`
   - 领域标准：`domain_quality_standard.md`
   - 项目标准：`quality_standard.md`（如存在，优先级最高）
 
@@ -23,7 +23,7 @@
 
 估算基准位于：
 
-- `skills/visual-spec-skill/prompts/vspec_plan/estimate.md`
+- `skills/visual-spec/prompts/vspec_plan/estimate.md`
 
 该文件内置了两张“供参考的标准表”（作为团队估算口径基线，fork 后可改）：
 - “标准估值表（Story Points 标尺）”
@@ -37,8 +37,8 @@
 
 内置质量规范来自：
 
-- `skills/visual-spec-skill/prompts/vspec_qc/需求分析错题本.xlsx`（原始错题本）
-- `skills/visual-spec-skill/prompts/vspec_qc/quality_standard.md`（从错题本转写后的可扫描规范）
+- `skills/visual-spec/prompts/vspec_qc/需求分析错题本.xlsx`（原始错题本）
+- `skills/visual-spec/prompts/vspec_qc/quality_standard.md`（从错题本转写后的可扫描规范）
 
 建议：
 - 你可以继续维护自己的错题本，并将可复用的检查点沉淀到 `domain_quality_standard.md`

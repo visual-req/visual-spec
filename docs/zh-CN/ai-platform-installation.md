@@ -7,29 +7,29 @@
 安装器会自动检测本机支持的 agent，并提示选择安装位置与范围（项目级或全局）。
 
 ```bash
-npx skills add visual-req/visual-spec --skill visual-spec-skill
+npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
 指定安装到某个 AI 平台（示例）：
 
 ```bash
 # Trae（项目级）
-npx skills add visual-req/visual-spec --skill visual-spec-skill -a trae
+npx skills add visual-req/visual-spec --skill visual-spec -a trae
 
 # Claude Code（项目级）
-npx skills add visual-req/visual-spec --skill visual-spec-skill -a claude-code
+npx skills add visual-req/visual-spec --skill visual-spec -a claude-code
 
 # Cursor（项目级）
-npx skills add visual-req/visual-spec --skill visual-spec-skill -a cursor
+npx skills add visual-req/visual-spec --skill visual-spec -a cursor
 
 # GitHub Copilot（项目级）
-npx skills add visual-req/visual-spec --skill visual-spec-skill -a github-copilot
+npx skills add visual-req/visual-spec --skill visual-spec -a github-copilot
 ```
 
 全局安装（对当前用户所有项目生效）：
 
 ```bash
-npx skills add visual-req/visual-spec --skill visual-spec-skill -g
+npx skills add visual-req/visual-spec --skill visual-spec -g
 ```
 
 查看该仓库包含的 skills：

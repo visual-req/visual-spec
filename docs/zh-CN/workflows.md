@@ -58,7 +58,7 @@
 
 内置质检标准文件位于（任选其一，取你当前环境中存在的路径）：
 - Skill 根目录下：`/prompts/vspec_qc/quality_standard.md`
-- 本仓库源码路径：`skills/visual-spec-skill/prompts/vspec_qc/quality_standard.md`
+- 本仓库源码路径：`skills/visual-spec/prompts/vspec_qc/quality_standard.md`
 
 你可以把它作为“通用需求质检标准”，独立用于检查其他方式写出来的需求文档（不要求必须由 `/vspec:*` 生成）。
 
@@ -81,5 +81,5 @@
 ## 安装（skills.sh）
 
 ```bash
-npx skills add visual-req/visual-spec --skill visual-spec-skill
+npx skills add visual-req/visual-spec --skill visual-spec
 ```

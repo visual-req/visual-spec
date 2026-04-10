@@ -5,7 +5,7 @@
    - 若不存在或为空：立即停止，不生成任何原型文件；仅输出一句“前置条件不满足：请先执行 /vspec:detail 生成 /specs/details/，再执行 /vspec:verify”。
 
 语言与本地化（必须）：
-- 读取 `/scheme.yaml` 的 `selected.language` 作为“默认显示语言”（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
+- 读取 `/scheme.yaml` 的 `selected.language` 作为“默认显示语言”（支持 `en`、`zh`、`ja`；若缺失/非法则按 `en` 处理）
 - 若存在 `/scheme.yaml` `selected.languages`（数组）：将其作为“可切换语言集合”；若缺失则默认 `[selected.language]`
 - 当 `selected.languages` 只有 1 种语言：原型界面所有用户可见文案必须使用该语言，禁止混用其他语言
 - 当 `selected.languages` 包含多种语言：原型必须提供语言切换（例如右上角 Dropdown/Select），且所有用户可见文案必须支持这些语言的切换（菜单/标题/按钮/表头/字段 label/占位符/空状态/错误提示/成功提示/状态 Tag/弹窗文案/通知文案等；禁止只做部分切换）
@@ -306,7 +306,44 @@ catalog:
    - 允许 mock 登录，不要求真实鉴权，但必须通过 session 控制路由访问（未登录访问业务页必须引导到登录页）
    - 登录成功后仍需保留 Header Avatar 的“切换账号/切换角色”能力（用于演示不同权限）
 3. 非 SSO 的登录页系列（命中则必须）：
-   - 必须按 `prompts/vspec_verify/prototype_auth.md` 执行，补齐 Web+Mobile 的登录、创建账号、忘记密码、重置密码、修改密码等页面，并与 session/路由拦截联动可演示。
+   - 必须补齐“账号体系（非 SSO）”的最小可演示闭环（可 mock，无需真实鉴权），至少包含以下页面与路由（Web + Mobile）：
+     - Web：
+       - 登录：`/login`
+       - 创建账号：`/signup`
+       - 忘记密码：`/forgot-password`
+       - 重置密码：`/reset-password`
+       - 修改密码：`/change-password`（从 `/profile` 或 Header 用户菜单进入）
+     - Mobile（前缀必须为 `/m/*`）：
+       - 登录：`/m/login`
+       - 创建账号：`/m/signup`
+       - 忘记密码：`/m/forgot-password`
+       - 重置密码：`/m/reset-password`
+       - 修改密码：`/m/change-password`
+   - 必须能演示：登录→进入应用→修改密码→重新登录（mock），并且所有路由必须受 session mock 保护（未登录访问业务页必须引导到登录页）
+
+调查问卷（Survey）原型（命中则必须）：
+1. 命中条件（满足任一即命中）：
+   - functions/details/需求文本中出现：调查/问卷/满意度/反馈/回访/测评/调研 等关键词
+2. 路由（必须稳定可访问）：
+   - Web（管理端）：
+     - 问卷列表：`/surveys`
+     - 问卷详情/编辑：`/surveys/:id`（至少保证 `/surveys/1` 可访问）
+     - 回收数据/答卷列表：`/surveys/:id/responses`（至少保证 `/surveys/1/responses` 可访问）
+   - Mobile（前缀必须为 `/m/*`）：
+     - 问卷列表：`/m/surveys`
+     - 填写问卷：`/m/surveys/:id`（至少保证 `/m/surveys/1` 可访问）
+     - 提交回执/结果：`/m/surveys/:id/result`
+3. 页面闭环（必须可演示）：
+   - Web：
+     - `/surveys`：查询条件区 + Table + 新建（必须用 Drawer，禁止独立新建路由）+ 发布/下线/复制链接/查看回收数据等操作
+     - `/surveys/:id`：基本信息 + 题目配置（至少 6 种题型：单选/多选/判断/填空/长答/评分）+ 发布校验 + 投放链接/二维码（可 mock）+ 复制
+     - `/surveys/:id/responses`：答卷列表查询 + 统计概览（至少 3 个统计卡片/图表）+ 导出占位（必须基于当前查询条件）
+   - Mobile：
+     - `/m/surveys/:id`：标题 + 进度（如 3/20）+ 题目序号列表（已答/未答）+ 自动保存草稿（mock）+ 提交确认（提示未答数量）
+     - `/m/surveys/:id/result`：提交成功回执（提交时间/用时/提交编号 mock）
+4. RBAC 与数据权限（必须）：
+   - Web 问卷管理仅对“运营/管理员”等角色可见；普通用户不可见
+   - 回收数据页必须体现 data_permission（至少体现：仅可看自己创建的问卷或所属组织范围）
 
 身份切换与差异展示（必须）：
 1. 必须在 Header 右侧 Avatar 下拉中提供“切换账号/切换角色”入口，并可在不刷新页面的情况下生效。
@@ -534,6 +571,26 @@ CRUD 页面生成偏好（必须）：
 - `/agreement/confirm`：协议确认页（必须；用于提交/关键操作前的协议勾选与确认）
 - `/tools/notify-center`：通知中心（企业微信/钉钉等通道配置 + 模板预览 + 发送记录；不要放到左侧菜单）
 
+系统管理类原型补充（命中则必须）：
+1. 权限设置原型：
+   - 命中条件：functions/details/需求文本中出现 权限设置/角色管理/菜单权限/权限点/授权/账号权限 等语义
+   - 必须生成页面与能力（Web）：
+     - 角色列表：`/admin/roles`（查询区 + Table + 新建/编辑 Drawer + 启停/删除）
+     - 用户列表：`/admin/users`（查询区 + Table + 分配角色 Drawer）
+     - 权限矩阵：`/admin/roles/:id/permissions`（至少保证 `/admin/roles/1/permissions` 可访问；按模块/页面/动作展示权限点矩阵）
+   - 必须与原型的“切换账号/切换角色”联动：切换后菜单与按钮可见性必须体现权限差异（mock 即可，但要可演示）
+2. 配置（Config）原型：
+   - 命中条件：functions/details/需求文本中出现 系统配置/参数配置/业务参数/字典/枚举/开关/灰度 等语义
+   - 必须生成页面与能力（Web）：
+     - 参数配置：`/admin/config`（查询区 + Table + 编辑 Drawer + 启停/生效范围说明）
+     - 字典/枚举：`/admin/dicts`（至少一种字典维护；修改后需要能影响到业务表单的下拉展示或校验口径，mock 即可）
+3. 目录浏览器原型：
+   - 命中条件：functions/details/需求文本中出现 目录/文件夹/文件管理/素材库/附件/归档/文档库 等语义
+   - 必须生成页面与能力（Web）：
+     - 目录浏览器：`/tools/file-browser`（左侧目录树 + 右侧文件列表 + 面包屑 + 搜索）
+     - 操作：新建文件夹、重命名、删除、上传（占位即可但必须有 mock 记录）、下载/预览（按文件类型占位）
+     - 若业务存在“选择附件/选择目录”的表单场景：必须能从业务表单打开选择器（Drawer/Modal）并回填所选文件/目录（mock）
+
 实现约束：
 - 必须严格按 `scheme.yaml` 的 `selected.prototype_frontend_stack` 与其 `catalog.prototype_frontend_stacks` 定义生成工程；禁止只生成单个 HTML 文件。
 - 生成任何代码前，必须先读取 `scheme.yaml` 并解析 `selected.prototype_frontend_framework`：
@@ -624,7 +681,7 @@ UI 规范（必须，用于约束原型风格，避免随意发挥）：
    - 所有关键动作必须有反馈：成功 message，失败 notification/alert（包含可执行兜底：重试/查看原因/去配置页）
    - 表单提交中必须禁用重复提交，并显示 loading
 8. 本地化与中文展示（必须）：
-   - 日期/时间类展示一律本地化（localized），默认按 `zh-CN` 展示；不得直接输出 ISO 字符串或未格式化时间戳
+- 日期/时间类展示一律本地化（localized），默认按 `zh` 展示；不得直接输出 ISO 字符串或未格式化时间戳
    - 原型工程必须设置 UI 组件库与日期库的中文 locale（例如 Ant Design Vue `zh_CN` + dayjs `zh-cn`），并通过统一的格式化方法输出
    - 列表、详情、日志、时间轴等所有出现日期时间的地方必须使用统一格式（如 `YYYY-MM-DD HH:mm`，仅日期则 `YYYY-MM-DD`）
    - 状态/类型/枚举字段在 UI 上一律优先显示汉语（Tag/Select/Radio/列表列/详情字段/筛选条件），不得直接展示 `pending/approved/rejected` 等英文 code；允许内部存 code，但必须通过映射转换为中文文案
@@ -968,7 +1025,7 @@ Steps（步骤条）使用要求（必须）：
        - 列：交易时间、交易类型（充值/消费/冻结/解冻/调账 等）、余额类型、变动方向（收入/支出）、变动金额、变动后余额、来源/单号、备注
        - 筛选：时间范围（RangePicker 必须）、交易类型（Select）、余额类型（Select）、变动方向（Select）
 3. 表单与控件要求：
-   - 所有日期/时间筛选必须使用日期时间控件（DatePicker/RangePicker），并本地化显示（zh-CN）
+- 所有日期/时间筛选必须使用日期时间控件（DatePicker/RangePicker），并本地化显示（zh）
    - 状态与枚举值在 UI 上一律显示中文文案（内部可存英文 code，经映射输出中文）
 4. 权限与可见性：
    - 列表与详情入口按角色权限控制可见性；无权限不渲染，有权限但条件不满足需置灰并给出中文原因提示

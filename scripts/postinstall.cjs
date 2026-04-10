@@ -76,7 +76,7 @@ async function main() {
   const { dryRun, force, target, skillDir, skillsDir } = parseArgs(process.argv.slice(2));
 
   const packageRoot = path.resolve(__dirname, "..");
-  const sourceSkillDir = path.join(packageRoot, "skills", "visual-spec-skill");
+  const sourceSkillDir = path.join(packageRoot, "skills", "visual-spec");
   const initCwd = target || process.env.INIT_CWD || process.cwd();
   const resolvedSkillsDir =
     skillsDir && path.resolve(initCwd, skillsDir);
@@ -85,8 +85,8 @@ async function main() {
   const targetSkillDir =
     resolvedSkillDir ||
     (resolvedSkillsDir
-      ? path.join(resolvedSkillsDir, "visual-spec-skill")
-      : path.join(initCwd, ".trae", "skills", "visual-spec-skill"));
+      ? path.join(resolvedSkillsDir, "visual-spec")
+      : path.join(initCwd, ".trae", "skills", "visual-spec"));
 
   if (!(await pathExists(sourceSkillDir))) {
     throw new Error(`Skill source directory not found: ${sourceSkillDir}`);

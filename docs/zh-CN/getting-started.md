@@ -11,15 +11,15 @@
 安装/更新（skills.sh）：
 
 ```bash
-npx skills add visual-req/visual-spec --skill visual-spec-skill
+npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
 ### 2. 推荐流程
 
 - 初始规格：`/vspec:new`
   - 可选语言：
-    - 单语言：`/vspec:new lang=zh-CN`（或 `lang=en`、`lang=ja`），会把 `/scheme.yaml` 的 `selected.language` 设为该值，并让后续文档产物全程按该语言输出
-    - 多语言（原型可切换）：`/vspec:new lang=zh-CN,en`，文档默认输出 `zh-CN`，并把 `/scheme.yaml` 的 `selected.languages` 设为可切换语言集合
+    - 单语言：`/vspec:new lang=zh`（或 `lang=en`、`lang=ja`），会把 `/scheme.yaml` 的 `selected.language` 设为该值，并让后续文档产物全程按该语言输出
+    - 多语言（原型可切换）：`/vspec:new lang=zh,en`，文档默认输出 `zh`，并把 `/scheme.yaml` 的 `selected.languages` 设为可切换语言集合
   - 执行中会先生成需求口径文件（`/specs/background/original.md`），并在该步骤提出若干澄清问题
   - 你需要先在对话中回答这些问题，然后输入“继续”才能完成 `/vspec:new` 全流程（这些澄清回答不写入 `questions.md`）
   - 执行过程中还会生成开放问题清单（`/specs/background/questions.md`），用于后续合并

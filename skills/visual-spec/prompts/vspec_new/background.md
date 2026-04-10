@@ -5,12 +5,12 @@
 请严格按以下步骤执行：
 
 语言与本地化（必须）：
-- 读取 `/scheme.yaml` 的 `selected.language` 作为“文档输出默认语言”（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
+- 读取 `/scheme.yaml` 的 `selected.language` 作为“文档输出默认语言”（支持 `en`、`zh`、`ja`；若缺失/非法则按 `en` 处理）
 - 若存在 `/scheme.yaml` `selected.languages`（数组）：将其作为“项目支持语言集合”（用于原型语言切换等）；若缺失则默认 `[selected.language]`
 - 若用户在 `/vspec:new` 命令参数或本次输入中显式指定 `lang=<...>`：
   - 支持两种形式：
-    - 单语言：`lang=en` / `lang=zh-CN` / `lang=ja`
-    - 多语言：`lang=zh-CN,en`（逗号分隔；第一个为文档默认语言；其余为可切换语言；允许 `zh` 作为 `zh-CN` 的别名）
+    - 单语言：`lang=en` / `lang=zh` / `lang=ja`
+    - 多语言：`lang=zh,en`（逗号分隔；第一个为文档默认语言；其余为可切换语言；允许 `zh-CN` 作为 `zh` 的别名）
   - 本次必须以该值为准，并将 `/scheme.yaml` 更新为：
     - `selected.language` = 解析后的第一个语言
     - `selected.languages` = 解析后的语言数组（去重，保序）
