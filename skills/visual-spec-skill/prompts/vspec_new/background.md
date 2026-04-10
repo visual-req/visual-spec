@@ -542,6 +542,12 @@ catalog:
 写入要求：
 - 将本次完整输出（包含“原始需求、分析内容、待确认问题”）追加写入到：`/specs/background/original.md`
 - 文件中必须保留原始需求原文与本次分析结果，便于后续 stakeholders/roles 阶段引用
+- 交互提示（必须在对话中输出；不要写入 `/specs/background/original.md`）：
+  - 告知用户：回答“待确认问题”可以自己逐条回答，也可以委托 AI 基于当前信息先给出一版“建议答案”，用户再逐条确认/修改
+  - 给出可复制的建议话术（按所选语言输出对应版本）：
+    - 语言=en：`Please propose suggested answers for the Open Questions based on current information. I will confirm or edit each answer.`
+    - 语言=zh-CN：`请你先基于目前信息为“待确认问题”逐条给出建议答案，我再逐条确认/修改。`
+    - 语言=ja：`要確認事項について、現時点の情報に基づく「回答案」を先に提示してください。こちらで各回答を確認・修正します。`
 - 标题语言必须与 `selected.language` 一致（`#`/`##`/`###` 等均包含在内），不得混用：
   - 语言=en：不得出现中文/日文标题（例如 `# 待确认问题`、`# 业务背景`、`# リスクと仮定` 等）
   - 语言=zh-CN：不得出现英文/日文标题（例如 `# Open Questions`、`# Business Context`、`# 要確認事項` 等）
