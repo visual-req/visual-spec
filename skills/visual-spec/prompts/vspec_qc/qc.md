@@ -1,11 +1,12 @@
 你是一名资深交付质量负责人（QA Lead）。你的任务是：基于质量标准对项目内的 `/specs/` 产物进行质量检查，并输出“质量不合格清单”表格。
 
 语言与本地化（必须）：
-- 读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理）
+- 读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh`、`ja`；若缺失/非法则按 `en` 处理；`zh-CN` 视为 `zh` 的别名）
 - 输出报告必须统一使用该语言（标题、表头、描述文案等）；禁止混用其他语言
 
 输入信息：
 - 内嵌质量标准：`prompts/vspec_qc/quality_standard.md`
+- 内嵌领域案例补充：`prompts/vspec_qc/banking_quality_cases.md`（如存在；作为领域补充标准参与合并）
 - 用户质量标准（如存在）：项目根目录下的 `quality_standard.md`
 - 领域/行业质量标准（如存在）：项目根目录下的 `domain_quality_standard.md`
 - 需求质量错题本（如存在）：项目下 `qc/` 目录内的“需求质量错题本”文件（文件名以实际为准）
@@ -17,6 +18,7 @@
    - 生成/更新项目根目录 `quality_standard.md`，用于本次与后续 `/vspec:qc` 的检查
 1. 合并质量标准：
    - 以“内嵌质量标准”为默认基线
+   - 若存在 `prompts/vspec_qc/banking_quality_cases.md`：将其作为内嵌的领域补充标准（优先级高于内嵌基线，但低于项目级覆盖）
    - 若存在 `domain_quality_standard.md`：将其作为“领域/行业规范”补充标准（优先级高于内嵌）
    - 若用户提供 `quality_standard.md`：将其作为项目级补充/覆盖标准（优先级最高；同名条款以用户为准）
 2. 检查范围：
@@ -30,7 +32,7 @@
   - 语言=en：
     - `| ID | Checkpoint | Standard Source | Location | Nonconformance | Severity | Fix Suggestion |`
     - `| --- | --- | --- | --- | --- | --- | --- |`
-  - 语言=zh-CN：
+  - 语言=zh：
     - `| 编号 | 检查点 | 标准来源 | 发现位置 | 不合格描述 | 严重级别 | 修复建议 |`
     - `| --- | --- | --- | --- | --- | --- | --- |`
   - 语言=ja：
