@@ -306,20 +306,8 @@ catalog:
    - 允许 mock 登录，不要求真实鉴权，但必须通过 session 控制路由访问（未登录访问业务页必须引导到登录页）
    - 登录成功后仍需保留 Header Avatar 的“切换账号/切换角色”能力（用于演示不同权限）
 3. 非 SSO 的登录页系列（命中则必须）：
-   - 必须补齐“账号体系（非 SSO）”的最小可演示闭环（可 mock，无需真实鉴权），至少包含以下页面与路由（Web + Mobile）：
-     - Web：
-       - 登录：`/login`
-       - 创建账号：`/signup`
-       - 忘记密码：`/forgot-password`
-       - 重置密码：`/reset-password`
-       - 修改密码：`/change-password`（从 `/profile` 或 Header 用户菜单进入）
-     - Mobile（前缀必须为 `/m/*`）：
-       - 登录：`/m/login`
-       - 创建账号：`/m/signup`
-       - 忘记密码：`/m/forgot-password`
-       - 重置密码：`/m/reset-password`
-       - 修改密码：`/m/change-password`
-   - 必须能演示：登录→进入应用→修改密码→重新登录（mock），并且所有路由必须受 session mock 保护（未登录访问业务页必须引导到登录页）
+   - Web 端必须按 `prompts/vspec_verify/prototype_auth.md` 执行（账号体系闭环）
+   - Mobile 端必须按 `prompts/vspec_verify/prototype_mobile_auth.md` 执行（移动端账号体系闭环）
 
 调查问卷（Survey）原型（命中则必须）：
 1. 命中条件（满足任一即命中）：
@@ -530,6 +518,7 @@ CRUD 页面生成偏好（必须）：
 - `/m/agreement`：移动端协议阅读/确认页（支付/签署等关键动作前）
 - `/m/qr-code`：移动端二维码展示页（付款码/核销码/签到码等）
 - `/m/signature`：移动端手写签名页（签署/确认等场景命中时建议生成）
+- `/m/profile`：移动端我的/个人中心（建议生成；命中则必须按 `prompts/vspec_verify/prototype_mobile_profile.md` 执行）
 - `/m/articles`：移动端文章列表（内容域命中时建议生成）
 - `/m/article/:id`：移动端文章阅读页（与文章列表联动）
 - `/m/video`：移动端视频展示页（培训/教程/演示等场景命中时建议生成）
@@ -567,7 +556,7 @@ CRUD 页面生成偏好（必须）：
 - `/tools/config`：原型配置/模拟开关（必须；不要放到左侧菜单）
 - `/tools/qr-code`：二维码工具（必须；不要放到左侧菜单）
 - `/tools/video`：视频/演示材料页（必须；不要放到左侧菜单）
-- `/profile`：我的/个人中心（必须；从 Header 用户菜单进入，不进左侧菜单）
+- `/profile`：我的/个人中心（必须；从 Header 用户菜单进入，不进左侧菜单；必须按 `prompts/vspec_verify/prototype_profile.md` 执行）
 - `/agreement/confirm`：协议确认页（必须；用于提交/关键操作前的协议勾选与确认）
 - `/tools/notify-center`：通知中心（企业微信/钉钉等通道配置 + 模板预览 + 发送记录；不要放到左侧菜单）
 
