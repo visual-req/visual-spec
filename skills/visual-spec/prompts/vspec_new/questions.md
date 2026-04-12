@@ -87,3 +87,7 @@
 
 4. 编号从 1 开始递增
 5. 提问者默认填“BA/系统分析”
+6. 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
+   - 写入：`/specs/background/question_and_answer.html`
+   - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
+   - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致），用于读取/编辑 `original.md` 与 `questions.md` 并回写

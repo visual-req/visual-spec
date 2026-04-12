@@ -47,8 +47,8 @@ Flow:
 2. 入力を raw requirement として扱う
 3. `prompts/vspec_new/background.md` を読み込み、要件分析と背景補完を実行
 4. `/specs/background/original.md` に書き込み
-5. Open Questions/要確認事項の回答を促す（自己回答でも、AI の回答案→ユーザー確認でも可）
-6. 以降、`prompts/vspec_new/*` に従い `/specs/` 配下の成果物を生成
+5. Open Questions/要確認事項の回答を促す（自己回答でも、AI の回答案→ユーザー確認でも可）。この時点で必ず停止して待機し、回答が揃うまで次のステップへ進まない。
+6. ユーザーの回答後（または「続けて/继续/continue」等で回答完了を明示した後）、`prompts/vspec_new/*` に従い `/specs/` 配下の成果物を生成
 
 ### `/vspec:refine`
 

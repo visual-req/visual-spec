@@ -42,7 +42,7 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 3. 加载提示词文件 `prompts/vspec_new/background.md`。
 4. 使用该提示词分析需求并扩展业务背景。
 5. 将原始需求与背景分析写入 `/specs/background/original.md`。
-6. 提示用户回答“待确认问题/Open Questions/要確認事項”章节中的问题（按所选语言对应章节标题）。
+6. 提示用户回答“待确认问题/Open Questions/要確認事項”章节中的问题（按所选语言对应章节标题），然后必须暂停并等待用户回答。不得继续加载后续提示词或生成后续产物（不得越过问答直接进入 stakeholders/roles/terms 等阶段）。用户完成回答后（或明确回复“继续”表示已完成问答）再进入下一步。
 7. 用户回复后，加载 `prompts/vspec_new/stakeholders.md` 分析干系人。
 8. 将干系人结果写入 `/specs/background/stakeholder.md`（markdown 表格）。
 9. 加载 `prompts/vspec_new/roles.md` 分析系统用户角色（直接用户）及其工作任务。

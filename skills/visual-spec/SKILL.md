@@ -49,8 +49,8 @@ Flow:
 3. Load the prompt file at `prompts/vspec_new/background.md`.
 4. Use that prompt to analyze the requirement and expand the business context.
 5. Write the raw requirement and background analysis output to `/specs/background/original.md`.
-6. Ask the user to answer the questions from the Open Questions section (use the section title in the selected language).
-7. After the user replies, load `prompts/vspec_new/stakeholders.md` to analyze stakeholders.
+6. Ask the user to answer the questions from the Open Questions section (use the section title in the selected language), then STOP. Do not load any subsequent prompts or generate any further artifacts until the user replies with their answers (or explicitly replies with a continuation signal like `继续` / `continue` after they have answered).
+7. After the user replies (answers or confirmed), load `prompts/vspec_new/stakeholders.md` to analyze stakeholders.
 8. Write the stakeholder result to `/specs/background/stakeholder.md` (markdown table).
 9. Load `prompts/vspec_new/roles.md` to analyze system user roles (direct users) and their work tasks.
 10. Write the roles result to `/specs/background/roles.md`.

@@ -90,3 +90,7 @@
    - 建议的回答方式（在 `questions.md` 逐条填写“回答/回答者/回答时间/状态”）
    - 填写完成后执行 `/vspec:refine-q` 合并答案进入 `original.md`
    - 若暂时无法回答：允许先保留未回答，但需要标注原因/预计时间（写在“回答”里即可）
+5. 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
+   - 写入：`/specs/background/question_and_answer.html`
+   - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
+   - HTML 内容要求：从 `prompts/vspec_more_q/question_and_answer.html` 复制（保持一致），用于读取/编辑 `original.md` 与 `questions.md` 并回写
