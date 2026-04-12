@@ -542,8 +542,13 @@ catalog:
 写入要求：
 - 将本次完整输出（包含“原始需求、分析内容、待确认问题”）追加写入到：`/specs/background/original.md`
 - 文件中必须保留原始需求原文与本次分析结果，便于后续 stakeholders/roles 阶段引用
+- 同时写入固定的 HTML 交互问答页面（用于回答 `original.md` 中的“待确认问题/Open Questions/要確認事項”，并可回写 markdown）：
+  - 写入：`/specs/background/question_and_answer.html`
+  - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
+  - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致）
 - 交互提示（必须在对话中输出；不要写入 `/specs/background/original.md`）：
   - 重要：在你输出并写入 `original.md` 之后，必须立刻停止；不要继续生成 stakeholders/roles/terms/flows/scenarios 等后续产物。必须等待用户先把“待确认问题/Open Questions/要確認事項”回答完毕（或用户明确回复“继续/continue/続けて”表示已完成问答）后，才能进入下一步。
+  - 告知用户：请打开 `/specs/background/question_and_answer.html`，选择 `/specs/background/original.md`，在 HTML 表单中回答“待确认问题”并保存回写；完成后再回复“继续/continue/続けて”
   - 告知用户：回答“待确认问题”可以自己逐条回答，也可以委托 AI 基于当前信息先给出一版“建议答案”，用户再逐条确认/修改
   - 给出可复制的建议话术（按所选语言输出对应版本）：
     - 语言=en：`Please propose suggested answers for the Open Questions based on current information. I will confirm or edit each answer.`
