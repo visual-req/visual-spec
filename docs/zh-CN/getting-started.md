@@ -45,6 +45,7 @@ npx skills add visual-req/visual-spec --skill visual-spec
 下一步：
 
 - 阅读 `structure.md`，确认输入放在哪里、输出会生成到哪里
+- 如果你的需求输入包含多份原始材料（Word/Excel/PDF/截图等），阅读 `complicated.md`，了解如何放置到 `/docs/current/`、以及 upgrade/legacy/dependencies 的用法
 
 ### 4. 常见场景
 

@@ -125,6 +125,10 @@ Flow:
 2. Read supporting artifacts when available: `/specs/background/*`, `/specs/flows/*.puml`, `/specs/background/scenario_details/`, `/specs/background/roles.md`, and existing `/specs/models/*.md` (if any).
 3. For each function (page or non-page job), first determine which detail artifacts are actually involved, then only generate those artifacts; do not generate documents for non-involved parts.
    - Coverage requirement: for every function row you iterate, you must generate at least `rbac.md` and `data_permission.md`. If you cannot, output an explicit error and stop (do not silently skip).
+   - Step type requirement: you must determine the step type from the function row (e.g. terminal type / page vs backend vs job), and generate the corresponding logic artifacts; do not skip logic:
+     - For `Web` / `Mobile` / `Web+Mobile` steps: always generate `page_load.md` and `interaction.md`.
+     - For `Backend` steps: always generate `service_logic.md` (service logic: inputs/outputs, rules, states, APIs/events, errors, idempotency).
+     - For `Job` steps: always generate `job_logic.md` (job logic: trigger/schedule, data scope, retries/compensation, observability, failure handling).
    - Always generate the baseline docs:
      - `rbac.md`: RBAC permissions down to page areas and controls.
      - `data_permission.md`: data permission rules and scope.
@@ -275,7 +279,7 @@ Language:
 
 Flow:
 1. Ensure the input entry file exists at `/docs/current/file_list.md`; if missing, generate it with the expected input list template.
-2. Read `/docs/current/file_list.md`, then read the listed sources under `/docs/` (typically `/docs/legacy/*`, `/docs/current/*`, optionally `/docs/templates/*`, `/docs/texts/*`, `/docs/assets/*`) in order and extract structured information (functions, dependencies, UI style, roles/permissions, technical spec).
+2. Read `/docs/current/file_list.md`, then read the listed sources under `/docs/` (typically `/docs/legacy/*`, `/docs/current/*`, optionally `/docs/templates/*`, `/docs/texts/*`, `/docs/assets/*`) in order and extract structured information (functions, dependencies, UI style, roles/permissions, technical spec). Additionally, you must recursively scan `/docs/legacy/` and all its subdirectories and treat those documents as raw input materials (even if they are not explicitly listed yet); when you find legacy files not in `file_list.md`, append them into `/docs/current/file_list.md` and then read them.
 3. If `/specs/background/original.md` exists, treat it as the current canonical requirement and use it as baseline for diff (inherit/new/change/deprecate).
 4. Load `prompts/vspec_upgrade/upgrade.md` and generate/update artifacts under `/specs/`, reusing `/vspec:new` output conventions.
 5. Sync extracted technical spec into `/scheme.yaml` so it can be used by `/vspec:verify` and `/vspec:impl`.
@@ -338,6 +342,7 @@ Flow:
 - `prompts/vspec_detail/page_load.md`: the prompt used by `/vspec:detail` to generate page loading logic docs.
 - `prompts/vspec_detail/interaction.md`: the prompt used by `/vspec:detail` to generate page interaction logic docs.
 - `prompts/vspec_detail/index.md`: the prompt used by `/vspec:detail` to generate `/specs/details/index.html` as a markdown/PlantUML-rendered viewer.
+- `prompts/vspec_detail/index.html`: the fixed HTML template used by `/vspec:detail` to stabilize `/specs/details/index.html` generation (directory tree + markdown renderer).
 - `prompts/vspec_detail/timeline.md`: the prompt used by `/vspec:detail` to generate time-axis HTML docs.
 - `prompts/vspec_detail/formula.md`: the prompt used by `/vspec:detail` to generate formula docs.
 - `prompts/vspec_detail/expression_tree.md`: the prompt used by `/vspec:detail` to generate expression tree docs.
@@ -348,6 +353,8 @@ Flow:
 - `prompts/vspec_detail/post_submit_processing.md`: the prompt used by `/vspec:detail` to generate post-submit processing docs.
 - `prompts/vspec_detail/post_submit_navigation.md`: the prompt used by `/vspec:detail` to generate post-submit navigation docs.
 - `prompts/vspec_detail/mq.md`: the prompt used by `/vspec:detail` to generate MQ message design docs.
+- `prompts/vspec_detail/service_logic.md`: the prompt used by `/vspec:detail` to generate backend service logic docs for `Backend` steps.
+- `prompts/vspec_detail/job_logic.md`: the prompt used by `/vspec:detail` to generate job logic docs for `Job` steps.
 - `prompts/vspec_detail/logging_matrix.md`: the prompt used by `/vspec:detail` to generate logging matrix docs.
 - `prompts/vspec_detail/notification_matrix.md`: the prompt used by `/vspec:detail` to generate notification matrix docs.
 - `prompts/vspec_detail/nfp.md`: the prompt used by `/vspec:detail` to generate non-functional requirements docs.

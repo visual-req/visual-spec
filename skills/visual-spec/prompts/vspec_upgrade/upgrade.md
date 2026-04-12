@@ -8,7 +8,10 @@
 输入信息（必须按顺序读取）：
 1. `/docs/current/file_list.md`（入口清单）：列出本次升级分析要读取的输入文件，以及每个文件的用途说明
 2. `/specs/background/original.md`（如存在）：旧的“当前生效需求”，用于与本次升级输入对齐
-3. `/docs/` 下 `file_list.md` 中列出的文件：逐个读取、抽取结构化信息并归档到 `/specs/`
+3. `/docs/legacy/` 目录扫描（必须）：
+   - 递归扫描 `/docs/legacy/` 及其子目录下的文档，作为“原始输入资料”
+   - 若发现未被 `/docs/current/file_list.md` 列出的 legacy 文件：必须先把这些文件追加写入 `/docs/current/file_list.md`（按既定表格格式补齐用途与提取要点），再继续读取
+4. `/docs/` 下 `file_list.md` 中列出的文件：按清单顺序逐个读取、抽取结构化信息并归档到 `/specs/`
 
 `/docs/` 目录约定（必须遵守）：
 - `/docs/legacy/`：遗留系统材料（旧系统功能、旧权限、旧交互、旧接口说明等）
