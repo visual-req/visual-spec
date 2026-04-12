@@ -1,0 +1,912 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VSpec 问答助手</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: #111b2e;
+        --muted: #8aa0c3;
+        --text: #e6eefc;
+        --border: rgba(255, 255, 255, 0.08);
+        --primary: #3b82f6;
+        --danger: #ef4444;
+        --ok: #22c55e;
+        --warn: #f59e0b;
+      }
+      body {
+        margin: 0;
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          "Apple Color Emoji",
+          "Segoe UI Emoji";
+        background: linear-gradient(180deg, var(--bg), #060a13);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 24px 16px 80px;
+      }
+      h1 {
+        margin: 6px 0 6px;
+        font-size: 22px;
+        letter-spacing: 0.2px;
+      }
+      .sub {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      @media (min-width: 980px) {
+        .row {
+          grid-template-columns: 1fr 1fr;
+          align-items: start;
+        }
+      }
+      .card {
+        background: rgba(17, 27, 46, 0.72);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+        backdrop-filter: blur(8px);
+      }
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 14px;
+        color: #cfe0ff;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      @media (min-width: 640px) {
+        .grid2 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      input[type="datetime-local"],
+      textarea,
+      select {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(10, 16, 28, 0.75);
+        color: var(--text);
+        padding: 10px 10px;
+        font-size: 13px;
+        outline: none;
+      }
+      textarea {
+        min-height: 70px;
+        resize: vertical;
+      }
+      .btnbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      button {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 9px 12px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button.primary {
+        background: rgba(59, 130, 246, 0.18);
+        border-color: rgba(59, 130, 246, 0.45);
+      }
+      button.danger {
+        background: rgba(239, 68, 68, 0.12);
+        border-color: rgba(239, 68, 68, 0.4);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .hint {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .pill.ok {
+        color: rgba(34, 197, 94, 0.9);
+        border-color: rgba(34, 197, 94, 0.28);
+      }
+      .pill.warn {
+        color: rgba(245, 158, 11, 0.95);
+        border-color: rgba(245, 158, 11, 0.28);
+      }
+      .pill.bad {
+        color: rgba(239, 68, 68, 0.95);
+        border-color: rgba(239, 68, 68, 0.28);
+      }
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .q {
+        border: 1px solid var(--border);
+        background: rgba(8, 12, 20, 0.6);
+        border-radius: 14px;
+        padding: 12px;
+      }
+      .qhead {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 8px;
+      }
+      .qid {
+        font-weight: 600;
+        font-size: 13px;
+        color: #d9e6ff;
+      }
+      .qctx {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .qtitle {
+        font-size: 13px;
+        line-height: 1.5;
+        margin: 4px 0 10px;
+        white-space: pre-wrap;
+      }
+      .opt {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 6px 0 10px;
+      }
+      .opt label {
+        margin: 0;
+        font-size: 13px;
+        color: var(--text);
+      }
+      .opt .o {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 10px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .k {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      .sep {
+        height: 1px;
+        background: var(--border);
+        margin: 14px 0;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+          monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>VSpec 问答助手（HTML 交互 + 回写 Markdown）</h1>
+      <p class="sub">
+        作用：把 <span class="mono">original.md</span> 与 <span class="mono">questions.md</span> 里的提问渲染成表单（尽量按选择题），并在填写后回写到对应的
+        markdown 文件。支持两种保存方式：若浏览器支持文件写入 API，则直接覆盖写回；否则导出下载文件，由你手动替换。
+      </p>
+
+      <div class="row">
+        <div class="card">
+          <h2>1) 选择要回答的文件</h2>
+          <div class="grid2">
+            <div>
+              <label>original.md（待确认问题）</label>
+              <div class="btnbar">
+                <button class="primary" id="pickOriginal">选择文件（推荐）</button>
+                <input id="fallbackOriginal" type="file" accept=".md,text/markdown,text/plain" style="display:none" />
+                <button id="pickOriginalFallback">选择文件（兼容模式）</button>
+              </div>
+              <div class="hint">
+                目标路径通常是：<span class="mono">/specs/background/original.md</span>
+              </div>
+              <div class="hint" id="originalStatus"></div>
+            </div>
+            <div>
+              <label>questions.md（问答清单）</label>
+              <div class="btnbar">
+                <button class="primary" id="pickQuestions">选择文件（推荐）</button>
+                <input id="fallbackQuestions" type="file" accept=".md,text/markdown,text/plain" style="display:none" />
+                <button id="pickQuestionsFallback">选择文件（兼容模式）</button>
+              </div>
+              <div class="hint">
+                目标路径通常是：<span class="mono">/specs/background/questions.md</span>
+              </div>
+              <div class="hint" id="questionsStatus"></div>
+            </div>
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="grid2">
+            <div>
+              <label>回答者（写入 Answered By/回答者/回答者）</label>
+              <input id="answeredBy" type="text" placeholder="例如：业务负责人/产品经理/张三" />
+            </div>
+            <div>
+              <label>回答时间（默认现在）</label>
+              <input id="answeredAt" type="datetime-local" />
+            </div>
+          </div>
+
+          <div class="btnbar">
+            <button id="reload" class="primary" disabled>重新解析并渲染</button>
+            <button id="saveOriginal" disabled>保存 original.md</button>
+            <button id="saveQuestions" disabled>保存 questions.md</button>
+            <button id="downloadOriginal" disabled>下载 original.md（兼容模式）</button>
+            <button id="downloadQuestions" disabled>下载 questions.md（兼容模式）</button>
+          </div>
+
+          <div class="hint">
+            提示：若你只想回答 <span class="mono">questions.md</span>，可以只选择 questions.md 文件并保存。original.md 的“待确认问题”通常偏方向性澄清；questions.md 偏可追踪 Q&A。
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>2) 当前解析结果</h2>
+          <div class="btnbar">
+            <span class="pill" id="statsOriginal">original.md：未加载</span>
+            <span class="pill" id="statsQuestions">questions.md：未加载</span>
+          </div>
+          <div class="hint">
+            选择题解析规则：
+            <span class="mono">选项：</span>/<span class="mono">Options:</span>/<span class="mono">選択肢：</span>
+            之后的内容会被拆成选项（支持 <span class="mono">；</span>/<span class="mono">;</span> 分隔，或 <span class="mono">A.</span>/<span class="mono">1)</span> 列表）。
+            若无法解析到选项，则提供自由文本回答框。
+          </div>
+          <div class="hint">
+            保存规则（questions.md）：当填写了回答，将自动写入 Answer 字段，填充 Answered By/At，并把 Status 置为已回答（按文件语言自动识别）。
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 14px">
+        <div class="card">
+          <h2>original.md：待确认问题</h2>
+          <div id="originalList" class="list"></div>
+        </div>
+        <div class="card">
+          <h2>questions.md：问答清单</h2>
+          <div id="questionsList" class="list"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const state = {
+        original: { handle: null, name: null, text: null, items: [] },
+        questions: { handle: null, name: null, text: null, items: [], lang: null, format: null },
+      };
+
+      function setPill(el, kind, text) {
+        el.classList.remove("ok", "warn", "bad");
+        if (kind) el.classList.add(kind);
+        el.textContent = text;
+      }
+
+      function nowLocalInputValue() {
+        const d = new Date();
+        const pad = (n) => String(n).padStart(2, "0");
+        const yyyy = d.getFullYear();
+        const mm = pad(d.getMonth() + 1);
+        const dd = pad(d.getDate());
+        const hh = pad(d.getHours());
+        const mi = pad(d.getMinutes());
+        return `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
+      }
+
+      function detectOptions(text) {
+        if (!text) return [];
+        const m = text.match(/(?:选项|Options|選択肢)\s*[:：]\s*([\s\S]+)$/i);
+        if (!m) return [];
+        let raw = m[1].trim();
+        raw = raw.replace(/\s+/g, " ");
+        const partsBySep = raw.split(/[；;]\s*/).map((s) => s.trim()).filter(Boolean);
+        if (partsBySep.length >= 2) {
+          return partsBySep.map((p) => p.replace(/^[A-Z]\.\s*/i, "").replace(/^\d+\)\s*/, ""));
+        }
+        const partsByList = raw
+          .split(/(?:\s*[A-Z]\.\s+|\s*\d+\)\s+)/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+        if (partsByList.length >= 2) return partsByList;
+        return [];
+      }
+
+      function parseQuestionsMd(md) {
+        const lines = md.split(/\r?\n/);
+        const items = [];
+        let current = null;
+        const startRe = /^(\d+)\.\s*(编号|ID|番号)[:：]\s*(\d+)\s*$/;
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const m = line.match(startRe);
+          if (m) {
+            if (current) items.push(current);
+            current = {
+              index: Number(m[1]),
+              id: Number(m[3]),
+              headerKey: m[2],
+              startLine: i,
+              endLine: i,
+              fields: {},
+            };
+            continue;
+          }
+          if (!current) continue;
+          current.endLine = i;
+          const fm = line.match(/^\s*-\s*([^:：]+)[:：]\s*(.*)\s*$/);
+          if (fm) {
+            const key = fm[1].trim();
+            const val = fm[2] ?? "";
+            current.fields[key] = val;
+          }
+        }
+        if (current) items.push(current);
+
+        const lang = items.length
+          ? items[0].headerKey === "ID"
+            ? "en"
+            : items[0].headerKey === "番号"
+              ? "ja"
+              : "zh"
+          : null;
+
+        const keyset = lang === "en"
+          ? { context: "Context", question: "Question", answer: "Answer", answeredBy: "Answered By", answeredAt: "Answered At", status: "Status", asker: "Asker", askedAt: "Asked At" }
+          : lang === "ja"
+            ? { context: "背景", question: "質問", answer: "回答", answeredBy: "回答者", answeredAt: "回答日時", status: "状態", asker: "質問者", askedAt: "質問日時" }
+            : { context: "背景", question: "提问", answer: "回答", answeredBy: "回答者", answeredAt: "回答时间", status: "状态", asker: "提问者", askedAt: "提问时间" };
+
+        for (const it of items) {
+          it.lang = lang;
+          it.keys = keyset;
+          it.context = it.fields[keyset.context] ?? "";
+          it.question = it.fields[keyset.question] ?? "";
+          it.answer = it.fields[keyset.answer] ?? "";
+          it.status = it.fields[keyset.status] ?? "";
+          it.options = detectOptions(it.question);
+          it.answerPick = "";
+          it.answerFree = it.answer || "";
+        }
+        return { items, lang };
+      }
+
+      function parseOriginalOpenQuestions(md) {
+        const lines = md.split(/\r?\n/);
+        const topRe = /^#\s*(待确认问题|Open Questions|要確認事項)\s*$/;
+        let start = -1;
+        for (let i = 0; i < lines.length; i++) {
+          if (topRe.test(lines[i])) {
+            start = i;
+            break;
+          }
+        }
+        if (start === -1) return { items: [], found: false };
+        let end = lines.length;
+        for (let i = start + 1; i < lines.length; i++) {
+          if (/^#\s+/.test(lines[i])) {
+            end = i;
+            break;
+          }
+        }
+        const slice = lines.slice(start, end);
+        const items = [];
+        let group = "";
+        for (let i = 0; i < slice.length; i++) {
+          const line = slice[i];
+          const gh = line.match(/^##\s+(.*)\s*$/);
+          if (gh) {
+            group = gh[1].trim();
+            continue;
+          }
+          const qm = line.match(/^\s*-\s+(.*)\s*$/);
+          if (!qm) continue;
+          const text = qm[1].trim();
+          if (!text) continue;
+          if (text.startsWith("Answer:") || text.startsWith("回答：") || text.startsWith("回答:")) continue;
+          const item = {
+            group,
+            qLineInSlice: i,
+            qText: text,
+            options: [],
+            answerLineOffset: null,
+            answer: "",
+            answerPick: "",
+            answerFree: "",
+          };
+          let j = i + 1;
+          while (j < slice.length) {
+            const l = slice[j];
+            if (/^##\s+/.test(l) || /^#\s+/.test(l)) break;
+            const opt = l.match(/^\s{2,}-\s+(?:选项|Options|選択肢)\s*[:：]\s*(.*)\s*$/i);
+            if (opt) {
+              item.options = detectOptions(`选项：${opt[1]}`);
+              j++;
+              continue;
+            }
+            const ans = l.match(/^\s{2,}-\s*(Answer|回答)\s*[:：]\s*(.*)\s*$/i);
+            if (ans) {
+              item.answerLineOffset = j;
+              item.answer = ans[2] ?? "";
+              item.answerFree = item.answer;
+              j++;
+              continue;
+            }
+            const subOpt = l.match(/^\s{2,}-\s+(.*)\s*$/);
+            if (subOpt && !item.options.length) {
+              const t = subOpt[1].trim();
+              if (/^[A-Z]\./.test(t) || /^\d+\)/.test(t)) {
+                item.options.push(t.replace(/^[A-Z]\.\s*/, "").replace(/^\d+\)\s*/, ""));
+              }
+            }
+            if (/^\s*-\s+/.test(l)) break;
+            j++;
+          }
+          if (item.options.length === 1) item.options = [];
+          items.push(item);
+        }
+        return { items, found: true, start, end };
+      }
+
+      function renderQuestions() {
+        const answeredBy = document.getElementById("answeredBy").value.trim();
+        const list = document.getElementById("questionsList");
+        list.innerHTML = "";
+        for (const it of state.questions.items) {
+          const el = document.createElement("div");
+          el.className = "q";
+          el.dataset.qid = String(it.id);
+          const head = document.createElement("div");
+          head.className = "qhead";
+          const left = document.createElement("div");
+          left.innerHTML = `<div class="qid">#${it.id}</div><div class="qctx">${escapeHtml(it.context || "")}</div>`;
+          const right = document.createElement("div");
+          right.className = "pill";
+          right.textContent = it.answerFree && it.answerFree.trim() ? "已填写" : "未填写";
+          head.appendChild(left);
+          head.appendChild(right);
+
+          const title = document.createElement("div");
+          title.className = "qtitle";
+          title.textContent = it.question || "";
+
+          const opt = document.createElement("div");
+          opt.className = "opt";
+          if (it.options && it.options.length) {
+            const name = `q_${it.id}`;
+            for (const o of it.options) {
+              const wrap = document.createElement("label");
+              wrap.className = "o";
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = name;
+              radio.value = o;
+              radio.checked = it.answerPick === o;
+              radio.addEventListener("change", () => {
+                it.answerPick = o;
+                if (!it.answerFree.trim()) it.answerFree = o;
+                renderQuestions();
+              });
+              const span = document.createElement("span");
+              span.textContent = o;
+              wrap.appendChild(radio);
+              wrap.appendChild(span);
+              opt.appendChild(wrap);
+            }
+          } else {
+            const k = document.createElement("div");
+            k.className = "k";
+            k.textContent = "未解析到选项：使用自由文本回答";
+            opt.appendChild(k);
+          }
+
+          const answerBox = document.createElement("div");
+          const aLabel = document.createElement("label");
+          aLabel.textContent = "回答（可编辑）";
+          const ta = document.createElement("textarea");
+          ta.value = it.answerFree || "";
+          ta.placeholder = it.options && it.options.length ? "可直接选上方选项，或在此补充“原因/备注/补充口径”" : "请输入回答";
+          ta.addEventListener("input", (e) => {
+            it.answerFree = e.target.value;
+            renderQuestions();
+          });
+          answerBox.appendChild(aLabel);
+          answerBox.appendChild(ta);
+
+          const meta = document.createElement("div");
+          meta.className = "k";
+          meta.textContent = answeredBy ? `回答者：${answeredBy}` : "回答者未填写（保存时会留空）";
+
+          el.appendChild(head);
+          el.appendChild(title);
+          el.appendChild(opt);
+          el.appendChild(answerBox);
+          el.appendChild(meta);
+          list.appendChild(el);
+        }
+      }
+
+      function renderOriginal() {
+        const list = document.getElementById("originalList");
+        list.innerHTML = "";
+        for (let idx = 0; idx < state.original.items.length; idx++) {
+          const it = state.original.items[idx];
+          const el = document.createElement("div");
+          el.className = "q";
+          const head = document.createElement("div");
+          head.className = "qhead";
+          const left = document.createElement("div");
+          left.innerHTML = `<div class="qid">${escapeHtml(it.group || "未分组")}</div><div class="qctx">Q${idx + 1}</div>`;
+          const right = document.createElement("div");
+          right.className = "pill";
+          right.textContent = it.answerFree && it.answerFree.trim() ? "已填写" : "未填写";
+          head.appendChild(left);
+          head.appendChild(right);
+
+          const title = document.createElement("div");
+          title.className = "qtitle";
+          title.textContent = it.qText || "";
+
+          const opt = document.createElement("div");
+          opt.className = "opt";
+          if (it.options && it.options.length) {
+            const name = `oq_${idx}`;
+            for (const o of it.options) {
+              const wrap = document.createElement("label");
+              wrap.className = "o";
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = name;
+              radio.value = o;
+              radio.checked = it.answerPick === o;
+              radio.addEventListener("change", () => {
+                it.answerPick = o;
+                if (!it.answerFree.trim()) it.answerFree = o;
+                renderOriginal();
+              });
+              const span = document.createElement("span");
+              span.textContent = o;
+              wrap.appendChild(radio);
+              wrap.appendChild(span);
+              opt.appendChild(wrap);
+            }
+          } else {
+            const k = document.createElement("div");
+            k.className = "k";
+            k.textContent = "未解析到选项：使用自由文本回答";
+            opt.appendChild(k);
+          }
+
+          const answerBox = document.createElement("div");
+          const aLabel = document.createElement("label");
+          aLabel.textContent = "回答（写回到该问题下的 “- 回答：...” 行）";
+          const ta = document.createElement("textarea");
+          ta.value = it.answerFree || "";
+          ta.placeholder = it.options && it.options.length ? "可直接选上方选项，或在此补充原因/备注" : "请输入回答";
+          ta.addEventListener("input", (e) => {
+            it.answerFree = e.target.value;
+            renderOriginal();
+          });
+          answerBox.appendChild(aLabel);
+          answerBox.appendChild(ta);
+
+          el.appendChild(head);
+          el.appendChild(title);
+          el.appendChild(opt);
+          el.appendChild(answerBox);
+          list.appendChild(el);
+        }
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function updateStats() {
+        const o = document.getElementById("statsOriginal");
+        if (!state.original.text) {
+          setPill(o, null, "original.md：未加载");
+        } else if (!state.original.items.length) {
+          setPill(o, "warn", "original.md：未解析到待确认问题");
+        } else {
+          const answered = state.original.items.filter((x) => (x.answerFree || "").trim()).length;
+          setPill(o, answered === state.original.items.length ? "ok" : "warn", `original.md：${answered}/${state.original.items.length} 已填写`);
+        }
+
+        const q = document.getElementById("statsQuestions");
+        if (!state.questions.text) {
+          setPill(q, null, "questions.md：未加载");
+        } else if (!state.questions.items.length) {
+          setPill(q, "warn", "questions.md：未解析到条目");
+        } else {
+          const answered = state.questions.items.filter((x) => (x.answerFree || "").trim()).length;
+          setPill(q, answered === state.questions.items.length ? "ok" : "warn", `questions.md：${answered}/${state.questions.items.length} 已填写`);
+        }
+      }
+
+      function rebuild() {
+        if (state.original.text != null) {
+          const parsed = parseOriginalOpenQuestions(state.original.text);
+          state.original.items = parsed.items;
+        }
+        if (state.questions.text != null) {
+          const parsed = parseQuestionsMd(state.questions.text);
+          state.questions.items = parsed.items;
+          state.questions.lang = parsed.lang;
+        }
+        renderOriginal();
+        renderQuestions();
+        updateStats();
+        document.getElementById("saveOriginal").disabled = !state.original.text;
+        document.getElementById("saveQuestions").disabled = !state.questions.text;
+        document.getElementById("downloadOriginal").disabled = !state.original.text;
+        document.getElementById("downloadQuestions").disabled = !state.questions.text;
+        document.getElementById("reload").disabled = !(state.original.text || state.questions.text);
+      }
+
+      function applyQuestionsEdits(md) {
+        const lines = md.split(/\r?\n/);
+        const parsed = parseQuestionsMd(md);
+        const items = parsed.items;
+        const lang = parsed.lang;
+        const answeredBy = document.getElementById("answeredBy").value.trim();
+        const answeredAtInput = document.getElementById("answeredAt").value.trim();
+        const answeredAt = answeredAtInput ? answeredAtInput.replace("T", " ") : "";
+        const statusAnswered = lang === "en" ? "Answered" : lang === "ja" ? "回答済み" : "已回答";
+
+        const keyset = items.length ? items[0].keys : null;
+        if (!keyset) return md;
+
+        for (const it of state.questions.items) {
+          const target = items.find((x) => x.id === it.id);
+          if (!target) continue;
+          const answerText = (it.answerFree || "").trim();
+          if (!answerText) continue;
+          const start = target.startLine;
+          const end = target.endLine;
+          for (let i = start; i <= end; i++) {
+            const line = lines[i];
+            const fm = line.match(/^\s*-\s*([^:：]+)[:：]\s*(.*)\s*$/);
+            if (!fm) continue;
+            const key = fm[1].trim();
+            if (key === keyset.answer) lines[i] = `   - ${keyset.answer}：${answerText}`;
+            if (key === keyset.answeredBy && answeredBy) lines[i] = `   - ${keyset.answeredBy}：${answeredBy}`;
+            if (key === keyset.answeredAt && answeredAt) lines[i] = `   - ${keyset.answeredAt}：${answeredAt}`;
+            if (key === keyset.status) lines[i] = `   - ${keyset.status}：${statusAnswered}`;
+          }
+        }
+        return lines.join("\n");
+      }
+
+      function applyOriginalEdits(md) {
+        const lines = md.split(/\r?\n/);
+        const parsed = parseOriginalOpenQuestions(md);
+        if (!parsed.found) return md;
+        const start = parsed.start;
+        const end = parsed.end;
+        const slice = lines.slice(start, end);
+        const items = parseOriginalOpenQuestions(md).items;
+        let cursor = 0;
+        for (let i = 0; i < slice.length && cursor < state.original.items.length; i++) {
+          const line = slice[i];
+          const qm = line.match(/^\s*-\s+(.*)\s*$/);
+          if (!qm) continue;
+          const qText = qm[1].trim();
+          if (!qText) continue;
+          if (qText.startsWith("Answer:") || qText.startsWith("回答：") || qText.startsWith("回答:")) continue;
+          const uiItem = state.original.items[cursor];
+          cursor++;
+          const answerText = (uiItem.answerFree || "").trim();
+          if (!answerText) continue;
+          let inserted = false;
+          for (let j = i + 1; j < slice.length; j++) {
+            if (/^##\s+/.test(slice[j]) || /^#\s+/.test(slice[j]) || /^\s*-\s+/.test(slice[j])) break;
+            const ans = slice[j].match(/^\s{2,}-\s*(Answer|回答)\s*[:：].*$/i);
+            if (ans) {
+              slice[j] = `  - 回答：${answerText}`;
+              inserted = true;
+              break;
+            }
+          }
+          if (!inserted) {
+            slice.splice(i + 1, 0, `  - 回答：${answerText}`);
+            i++;
+          }
+        }
+        const out = [...lines.slice(0, start), ...slice, ...lines.slice(end)].join("\n");
+        return out;
+      }
+
+      async function writeToHandle(handle, text) {
+        const writable = await handle.createWritable();
+        await writable.write(text);
+        await writable.close();
+      }
+
+      function downloadText(filename, text) {
+        const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      async function pickFile(kind) {
+        const supports = "showOpenFilePicker" in window;
+        if (!supports) throw new Error("浏览器不支持文件写入 API，请使用兼容模式");
+        const [handle] = await window.showOpenFilePicker({
+          multiple: false,
+          types: [{ description: "Markdown", accept: { "text/markdown": [".md"], "text/plain": [".md", ".txt"] } }],
+        });
+        const file = await handle.getFile();
+        const text = await file.text();
+        state[kind].handle = handle;
+        state[kind].name = file.name;
+        state[kind].text = text;
+      }
+
+      async function pickFileFallback(kind, file) {
+        const text = await file.text();
+        state[kind].handle = null;
+        state[kind].name = file.name;
+        state[kind].text = text;
+      }
+
+      function setStatus(kind, msg, level) {
+        const el = document.getElementById(kind === "original" ? "originalStatus" : "questionsStatus");
+        el.textContent = msg;
+        el.className = "hint";
+        if (level === "ok") el.style.color = "rgba(34, 197, 94, 0.95)";
+        if (level === "warn") el.style.color = "rgba(245, 158, 11, 0.95)";
+        if (level === "bad") el.style.color = "rgba(239, 68, 68, 0.95)";
+      }
+
+      document.getElementById("answeredAt").value = nowLocalInputValue();
+
+      document.getElementById("pickOriginal").addEventListener("click", async () => {
+        try {
+          await pickFile("original");
+          setStatus("original", `已加载：${state.original.name}`, "ok");
+          rebuild();
+        } catch (e) {
+          setStatus("original", `加载失败：${e.message || e}`, "bad");
+        }
+      });
+      document.getElementById("pickQuestions").addEventListener("click", async () => {
+        try {
+          await pickFile("questions");
+          setStatus("questions", `已加载：${state.questions.name}`, "ok");
+          rebuild();
+        } catch (e) {
+          setStatus("questions", `加载失败：${e.message || e}`, "bad");
+        }
+      });
+
+      document.getElementById("pickOriginalFallback").addEventListener("click", () => {
+        document.getElementById("fallbackOriginal").click();
+      });
+      document.getElementById("pickQuestionsFallback").addEventListener("click", () => {
+        document.getElementById("fallbackQuestions").click();
+      });
+      document.getElementById("fallbackOriginal").addEventListener("change", async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        await pickFileFallback("original", file);
+        setStatus("original", `已加载（兼容模式）：${state.original.name}`, "warn");
+        rebuild();
+      });
+      document.getElementById("fallbackQuestions").addEventListener("change", async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        await pickFileFallback("questions", file);
+        setStatus("questions", `已加载（兼容模式）：${state.questions.name}`, "warn");
+        rebuild();
+      });
+
+      document.getElementById("reload").addEventListener("click", () => rebuild());
+
+      document.getElementById("saveQuestions").addEventListener("click", async () => {
+        try {
+          const out = applyQuestionsEdits(state.questions.text || "");
+          state.questions.text = out;
+          if (state.questions.handle) {
+            await writeToHandle(state.questions.handle, out);
+            setStatus("questions", `已写回：${state.questions.name}`, "ok");
+          } else {
+            setStatus("questions", "当前为兼容模式：请点击“下载 questions.md”后手动替换文件", "warn");
+          }
+          rebuild();
+        } catch (e) {
+          setStatus("questions", `写回失败：${e.message || e}`, "bad");
+        }
+      });
+      document.getElementById("saveOriginal").addEventListener("click", async () => {
+        try {
+          const out = applyOriginalEdits(state.original.text || "");
+          state.original.text = out;
+          if (state.original.handle) {
+            await writeToHandle(state.original.handle, out);
+            setStatus("original", `已写回：${state.original.name}`, "ok");
+          } else {
+            setStatus("original", "当前为兼容模式：请点击“下载 original.md”后手动替换文件", "warn");
+          }
+          rebuild();
+        } catch (e) {
+          setStatus("original", `写回失败：${e.message || e}`, "bad");
+        }
+      });
+      document.getElementById("downloadQuestions").addEventListener("click", () => {
+        const out = applyQuestionsEdits(state.questions.text || "");
+        const name = state.questions.name || "questions.md";
+        downloadText(name, out);
+      });
+      document.getElementById("downloadOriginal").addEventListener("click", () => {
+        const out = applyOriginalEdits(state.original.text || "");
+        const name = state.original.name || "original.md";
+        downloadText(name, out);
+      });
+    </script>
+  </body>
+</html>

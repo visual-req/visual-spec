@@ -11,7 +11,7 @@ Skill 会按命令阶段逐步在 `/specs/` 下生成产物，并维护少量项
 <your-project>/
 ├─ docs/                                  # 输入归档（/vspec:new 会创建）
 │  ├─ legacy/                             # 遗留系统材料（功能、权限、交互、API 等）
-│  ├─ current/                            # 本次迭代新增/补充材料（目标、差异、流程、UI 约束等）
+│  ├─ current/                            # 本次迭代新增/补充材料（也包括 /vspec:new 引用的原始材料文件：PRD/需求文档/流程说明/字段口径/模板/协议/截图/样例数据等）
 │  │  └─ file_list.md                     # upgrade 入口清单（/vspec:upgrade 读取/生成）
 │  ├─ dependencies/                       # 外部依赖系统文档库（已有依赖系统说明，推荐）
 │  ├─ refine/                             # 补充/澄清输入（/vspec:refine 读取）

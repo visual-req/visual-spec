@@ -23,6 +23,7 @@
     "skills/visual-spec/prompts/vspec_new/",
     "skills/visual-spec/prompts/vspec_more_q/",
     "skills/visual-spec/prompts/vspec_mrd/",
+    "skills/visual-spec/prompts/vspec_doc/",
     "skills/visual-spec/prompts/vspec_plan/",
     "skills/visual-spec/prompts/vspec_qc/",
     "skills/visual-spec/prompts/vspec_refine/",

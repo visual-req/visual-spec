@@ -156,6 +156,32 @@ Flow:
 4. Write only the generated (involved) detail documents:
    - Per-function: `/specs/details/<module_slug>/<logic_type>/<function_slug>.(md|html)`
    - Module-level: `/specs/details/<module_slug>/<logic_type>/<module_slug>.(md|html)`
+5. Load `prompts/vspec_detail/index.md` to generate a single-page viewer `/specs/details/index.html`:
+   - Left: directory tree based on `/specs/details/`
+   - Right: markdown-rendered reading pane
+   - Render PlantUML diagrams (do not show raw PlantUML text)
+
+### `/vspec:doc`
+
+Use this command to generate a Word document (Word-openable single-file `.doc` in HTML format) that aggregates the requirement detail artifacts into a deliverable doc, and write it under `/docs/current/`.
+
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
+- The generated Word document must use the selected language consistently (titles, headings, field labels, table headers).
+
+Flow:
+1. Ensure `/docs/current/` exists.
+2. Read the existing artifacts when available:
+   - Canonical requirement: `/specs/background/original.md`
+   - Function list: `/specs/functions/*`
+   - Detail specs: `/specs/details/**`
+   - Roles & permissions: `/specs/background/roles.md`, `/specs/details/**/rbac.md`
+   - Data permission: `/specs/details/**/data_permission.md`
+   - Scenarios & flows: `/specs/background/scenarios.md`, `/specs/background/scenario_details/**`, `/specs/flows/*.puml`
+   - Dependencies: `/specs/background/dependencies.md`
+   - Models: `/specs/models/*.md`
+3. Load `prompts/vspec_doc/doc.md` and generate the doc as a Word-openable single HTML file.
+4. Write the output file to: `/docs/current/requirement_detail.doc`.
 
 ### `/vspec:verify`
 
@@ -303,6 +329,7 @@ Flow:
 - `prompts/vspec_mrd/mrd.md`: the prompt used by `/vspec:mrd` to generate market/user/competitor/product docs under `/docs/market/`.
 - `prompts/vspec_refine/refine.md`: the prompt used by `/vspec:refine` to refine the requirement based on `refine.md`.
 - `prompts/vspec_refine/refine_q.md`: the prompt used by `/vspec:refine-q` to refine the requirement based on answered questions.
+- `prompts/vspec_doc/doc.md`: the prompt used by `/vspec:doc` to generate a Word-openable `.doc` (HTML) requirement detail document under `/docs/current/`.
 - `prompts/vspec_verify/model.md`: the prompt used by `/vspec:verify` to generate `/specs/models/*.md`.
 - `prompts/vspec_verify/prototype.md`: the prompt used by `/vspec:verify` to generate the stack-selected runnable prototype under `/specs/prototypes/` (must follow `scheme.yaml`).
 - `prompts/vspec_verify/validation.md`: the prompt used by `/vspec:verify` to generate the validation web page with a `scenario.html` entry.
@@ -310,6 +337,7 @@ Flow:
 - `prompts/vspec_detail/data_permission.md`: the prompt used by `/vspec:detail` to generate data permission detail docs.
 - `prompts/vspec_detail/page_load.md`: the prompt used by `/vspec:detail` to generate page loading logic docs.
 - `prompts/vspec_detail/interaction.md`: the prompt used by `/vspec:detail` to generate page interaction logic docs.
+- `prompts/vspec_detail/index.md`: the prompt used by `/vspec:detail` to generate `/specs/details/index.html` as a markdown/PlantUML-rendered viewer.
 - `prompts/vspec_detail/timeline.md`: the prompt used by `/vspec:detail` to generate time-axis HTML docs.
 - `prompts/vspec_detail/formula.md`: the prompt used by `/vspec:detail` to generate formula docs.
 - `prompts/vspec_detail/expression_tree.md`: the prompt used by `/vspec:detail` to generate expression tree docs.
