@@ -1,6 +1,6 @@
 This repo provides a requirements analysis and delivery assistant Skill. It offers a `/vspec:*` command-driven workflow that turns raw requirements into reviewable artifacts: specs, data models, runnable prototypes, detailed design, acceptance cases, tests, and integrated implementation inputs.
 
-Version: 0.1.11 (2026-04-12)
+Version: 0.1.12 (2026-04-12)
 
 ## Installation
 

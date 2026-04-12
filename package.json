@@ -1,6 +1,6 @@
 {
   "name": "visual-spec",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "AI skill: visual-spec (/vspec:* commands) for requirement analysis, prototyping, detailing, testing, and planning.",
   "license": "MIT",
   "type": "commonjs",
