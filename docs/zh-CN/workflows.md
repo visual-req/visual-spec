@@ -50,7 +50,7 @@
 
 - 适用场景：把当前已有的规格产物汇总成可交付的 Word 文档，用于评审/流转/归档
 - 输入：现有 `/specs/**` 产物（original/functions/details/models/flows 等，存在则读取）
-- 输出：`/docs/current/requirement_detail.doc`（Word 可打开的 `.doc`，HTML 单文件）
+- 输出：`/docs/current/requirement_detail.docx`（Word 可打开的 `.docx`，HTML 单文件）
 - 提示：该 Word 只是汇总，不建议直接修改；修改应回到对应的 markdown 文件，修改后重新 `/vspec:doc` 生成新版本
 
 ### 7. 方案验证（`/vspec:verify`）

@@ -50,7 +50,7 @@
 
 - Use when you need a deliverable Word doc for review/circulation/archiving based on current artifacts
 - Input: existing `/specs/**` artifacts (original/functions/details/models/flows, when available)
-- Output: `/docs/current/requirement_detail.doc` (Word-openable `.doc`, single-file HTML)
+- Output: `/docs/current/requirement_detail.docx` (Word-openable `.docx`, single-file HTML)
 - Note: this Word file is a read-only summary; make changes in the corresponding markdown files and rerun `/vspec:doc` to regenerate
 
 ### 7. Solution Verification (`/vspec:verify`)

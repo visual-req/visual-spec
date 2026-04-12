@@ -46,7 +46,7 @@
 
 - 既存成果物を集約してレビュー/回覧/保管用の Word 文書を生成する
 - 入力：既存の `/specs/**`（original/functions/details/models/flows など。存在するものを読む）
-- 出力：`/docs/current/requirement_detail.doc`（Word で開ける `.doc`、単一 HTML）
+- 出力：`/docs/current/requirement_detail.docx`（Word で開ける `.docx`、単一 HTML）
 - 注意：この Word は要約用（直接編集しない）。修正は対応する markdown を更新し、`/vspec:doc` を再実行して再生成する
 
 ### 7. 検証（`/vspec:verify`）

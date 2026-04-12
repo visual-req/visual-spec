@@ -319,13 +319,98 @@
         font-size: 13px;
         line-height: 1.5;
       }
+      .tree-sep {
+        height: 1px;
+        background: var(--border);
+        margin: 10px 6px;
+      }
+      .outline-title {
+        padding: 8px 10px 2px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .outline {
+        padding: 6px 6px 0;
+      }
+      .outline a {
+        display: block;
+        padding: 6px 10px;
+        border-radius: 10px;
+        color: rgba(230, 238, 252, 0.92);
+        text-decoration: none;
+        border: 1px solid transparent;
+        font-size: 13px;
+      }
+      .outline a:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .outline a.active {
+        background: rgba(34, 197, 94, 0.12);
+        border-color: rgba(34, 197, 94, 0.28);
+      }
+      .file.missing {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .md-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(10, 16, 28, 0.82);
+        margin-bottom: 12px;
+      }
+      .md-toolbar .left,
+      .md-toolbar .right {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      .md-toolbar .hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .md-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 980px) {
+        .md-split {
+          grid-template-columns: 1fr;
+        }
+      }
+      .md-text {
+        width: 100%;
+        min-height: calc(100vh - 330px);
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: rgba(10, 16, 28, 0.78);
+        color: var(--text);
+        padding: 12px;
+        font-size: 13px;
+        line-height: 1.45;
+        outline: none;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+          monospace;
+      }
+      .mode-btn.active {
+        background: rgba(59, 130, 246, 0.18);
+        border-color: rgba(59, 130, 246, 0.45);
+      }
     </style>
   </head>
   <body>
     <div class="top-banner">
       <div class="inner">
         <div class="msg">
-          <b>Word export:</b> run <b>/vspec:doc</b> to generate <b>/docs/current/requirement_detail.doc</b>
+          <b>Word export:</b> run <b>/vspec:doc</b> to generate <b>/docs/current/requirement_detail.docx</b>
         </div>
       </div>
     </div>
@@ -344,7 +429,12 @@
               <button id="collapseAll">Collapse</button>
             </div>
           </div>
-          <div class="tree" id="tree"></div>
+          <div class="tree">
+            <div class="outline-title">Outline</div>
+            <div id="outline" class="outline"></div>
+            <div class="tree-sep"></div>
+            <div id="nav"></div>
+          </div>
         </div>
 
         <div class="panel">
@@ -362,7 +452,7 @@
           <div class="content">
             <div class="doc" id="viewer">
               <div class="empty">
-                Select a file from the left tree. Supported:
+                Select a document from the left navigation. Markdown supports editing + live preview.
                 <ul>
                   <li><code>.md</code> rendered as markdown</li>
                   <li><code>.html</code> rendered via iframe</li>
@@ -381,7 +471,8 @@
       const PLANTUML_SERVER = "https://www.plantuml.com/plantuml/svg/";
 
       const dom = {
-        tree: document.getElementById("tree"),
+        nav: document.getElementById("nav"),
+        outline: document.getElementById("outline"),
         search: document.getElementById("search"),
         fileCount: document.getElementById("fileCount"),
         viewer: document.getElementById("viewer"),
@@ -396,6 +487,9 @@
         paths: [],
         activePath: null,
         activeButton: null,
+        handles: new Map(),
+        activeHeadings: [],
+        activeHeadingId: null,
       };
 
       function escapeHtml(str) {
@@ -444,6 +538,45 @@
       function basename(path) {
         const s = (path || "").split("/").filter(Boolean);
         return s.length ? s[s.length - 1] : path;
+      }
+
+      function firstHeadingTitle(md) {
+        const m = String(md || "").match(/^#{1,6}\s+(.+)\s*$/m);
+        return m ? m[1].trim() : "";
+      }
+
+      function displayTitle(path) {
+        const t = fileType(path);
+        if (t === "Markdown") {
+          const title = firstHeadingTitle(state.files[path] || "");
+          return title || basename(path);
+        }
+        return basename(path);
+      }
+
+      function slugify(text) {
+        return String(text || "")
+          .trim()
+          .toLowerCase()
+          .replace(/[`"'<>]/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9\u4e00-\u9fff\u3040-\u30ff_-]/g, "");
+      }
+
+      function extractHeadings(md) {
+        const lines = String(md || "").replace(/\r\n/g, "\n").split("\n");
+        const out = [];
+        let idx = 0;
+        for (const line of lines) {
+          const m = line.match(/^(#{1,6})\s+(.+)\s*$/);
+          if (!m) continue;
+          idx++;
+          const level = m[1].length;
+          const text = m[2].trim();
+          const id = `h-${slugify(text) || "section"}-${idx}`;
+          out.push({ level, text, id });
+        }
+        return out;
       }
 
       function filterMatch(filterLower, label, path) {
@@ -524,13 +657,23 @@
         chapters.push({
           label: "Requirement",
           children: [
-            original ? { type: "file", label: "Original Requirement", path: original } : null,
-            stakeholder ? { type: "file", label: "Stakeholders", path: stakeholder } : null,
-            roles ? { type: "file", label: "Roles", path: roles } : null,
-            terms ? { type: "file", label: "Terms", path: terms } : null,
-            scenarios ? { type: "file", label: "Scenarios", path: scenarios } : null,
-            dependencies ? { type: "file", label: "Dependencies", path: dependencies } : null,
-            questions ? { type: "file", label: "Questions", path: questions } : null,
+            { type: "file", label: "Original Requirement", path: original || "/specs/background/original.md", missing: !original },
+            {
+              type: "file",
+              label: "Stakeholders",
+              path: stakeholder || "/specs/background/stakeholders.md",
+              missing: !stakeholder,
+            },
+            { type: "file", label: "Roles", path: roles || "/specs/background/roles.md", missing: !roles },
+            { type: "file", label: "Terms", path: terms || "/specs/background/terms.md", missing: !terms },
+            { type: "file", label: "Scenarios", path: scenarios || "/specs/background/scenarios.md", missing: !scenarios },
+            {
+              type: "file",
+              label: "Dependencies",
+              path: dependencies || "/specs/background/dependencies.md",
+              missing: !dependencies,
+            },
+            { type: "file", label: "Questions", path: questions || "/specs/background/questions.md", missing: !questions },
           ].filter(Boolean),
         });
 
@@ -553,7 +696,7 @@
 
         chapters.push({
           label: "Functions",
-          children: functions.map((p) => ({ type: "file", label: basename(p), path: p })),
+          children: functions.map((p) => ({ type: "file", label: displayTitle(p), path: p })),
         });
 
         chapters.push({
@@ -563,7 +706,7 @@
 
         chapters.push({
           label: "Models",
-          children: models.map((p) => ({ type: "file", label: basename(p), path: p })),
+          children: models.map((p) => ({ type: "file", label: displayTitle(p), path: p })),
         });
 
         return chapters.filter((c) => (c.children || []).length);
@@ -581,8 +724,14 @@
           if (!filterMatch(filterLower, node.label, node.path)) return;
           const btn = document.createElement("button");
           btn.className = "file";
-          btn.textContent = node.label;
-          btn.addEventListener("click", () => openFile(node.path, btn));
+          const title = exists(node.path) ? displayTitle(node.path) : node.label;
+          btn.textContent = title;
+          if (!exists(node.path) || node.missing) {
+            btn.classList.add("missing");
+            btn.disabled = true;
+          } else {
+            btn.addEventListener("click", () => openFile(node.path, btn));
+          }
           if (state.activePath === node.path) btn.classList.add("active");
           container.appendChild(btn);
           return;
@@ -602,11 +751,40 @@
       }
 
       function renderSidebar() {
-        dom.tree.innerHTML = "";
+        dom.nav.innerHTML = "";
         const filterLower = (dom.search.value || "").trim().toLowerCase();
         const chapters = buildChapters();
         for (const ch of chapters) {
-          renderNavNode({ type: "group", label: ch.label, children: ch.children }, dom.tree, filterLower);
+          renderNavNode({ type: "group", label: ch.label, children: ch.children }, dom.nav, filterLower);
+        }
+      }
+
+      function renderOutline(headings) {
+        dom.outline.innerHTML = "";
+        const hs = (headings || []).filter((h) => h.level >= 1 && h.level <= 4);
+        if (!state.activePath || fileType(state.activePath) !== "Markdown" || !hs.length) {
+          const a = document.createElement("a");
+          a.href = "javascript:void(0)";
+          a.textContent = "—";
+          a.style.cursor = "default";
+          dom.outline.appendChild(a);
+          return;
+        }
+        for (const h of hs) {
+          const a = document.createElement("a");
+          a.href = "javascript:void(0)";
+          a.textContent = h.text;
+          a.style.paddingLeft = `${10 + (h.level - 1) * 12}px`;
+          if (state.activeHeadingId === h.id) a.classList.add("active");
+          a.addEventListener("click", () => {
+            const el = document.getElementById(h.id);
+            if (el) {
+              state.activeHeadingId = h.id;
+              el.scrollIntoView({ block: "start", behavior: "smooth" });
+              renderOutline(state.activeHeadings);
+            }
+          });
+          dom.outline.appendChild(a);
         }
       }
 
@@ -762,9 +940,15 @@
       async function renderMarkdown(md) {
         const root = document.createElement("div");
         const blocks = parseMarkdown(md);
+        let hIndex = 0;
+        const headings = [];
         for (const b of blocks) {
           if (b.type === "heading") {
+            hIndex++;
+            const id = `h-${slugify(b.text) || "section"}-${hIndex}`;
+            headings.push({ level: b.level, text: b.text, id });
             const h = document.createElement("h" + b.level);
+            h.id = id;
             h.innerHTML = renderInline(b.text);
             root.appendChild(h);
             continue;
@@ -849,10 +1033,46 @@
             continue;
           }
         }
+        state.activeHeadings = headings;
+        state.activeHeadingId = null;
         return root;
       }
 
+      async function linkLocalFileForWriteBack(path) {
+        if (!("showOpenFilePicker" in window)) {
+          alert("Browser does not support File System Access API. Use Download instead.");
+          return;
+        }
+        const [handle] = await window.showOpenFilePicker({
+          multiple: false,
+          types: [{ description: "Files", accept: { "text/plain": [".md", ".puml", ".txt", ".html"] } }],
+        });
+        state.handles.set(path, handle);
+      }
+
+      async function saveToLinkedHandle(path, text) {
+        const handle = state.handles.get(path);
+        if (!handle) return false;
+        const writable = await handle.createWritable();
+        await writable.write(text);
+        await writable.close();
+        return true;
+      }
+
+      function downloadText(filename, text, type) {
+        const blob = new Blob([text], { type: type || "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
       async function openFile(path, btn) {
+        if (!exists(path)) return;
         const content = state.files[path];
         setActive(path, btn);
         dom.viewer.innerHTML = "";
@@ -881,8 +1101,121 @@
           }
           return;
         }
+        if (t === "Markdown") {
+          const toolbar = document.createElement("div");
+          toolbar.className = "md-toolbar";
+          const left = document.createElement("div");
+          left.className = "left";
+          const right = document.createElement("div");
+          right.className = "right";
+
+          const modeSplit = document.createElement("button");
+          modeSplit.className = "mode-btn active";
+          modeSplit.textContent = "Split";
+          const modeEdit = document.createElement("button");
+          modeEdit.className = "mode-btn";
+          modeEdit.textContent = "Edit";
+          const modePreview = document.createElement("button");
+          modePreview.className = "mode-btn";
+          modePreview.textContent = "Preview";
+
+          const linkBtn = document.createElement("button");
+          linkBtn.textContent = "Link File";
+          linkBtn.addEventListener("click", async () => {
+            try {
+              await linkLocalFileForWriteBack(path);
+              alert("Linked. You can Save back now.");
+            } catch (e) {}
+          });
+
+          const saveBtn = document.createElement("button");
+          saveBtn.className = "primary";
+          saveBtn.textContent = "Save";
+
+          const dlBtn = document.createElement("button");
+          dlBtn.textContent = "Download";
+
+          const hint = document.createElement("div");
+          hint.className = "hint";
+          hint.textContent = "Edit markdown and preview on the right. Save requires linking a local file.";
+
+          left.appendChild(modeSplit);
+          left.appendChild(modeEdit);
+          left.appendChild(modePreview);
+          left.appendChild(hint);
+          right.appendChild(linkBtn);
+          right.appendChild(saveBtn);
+          right.appendChild(dlBtn);
+          toolbar.appendChild(left);
+          toolbar.appendChild(right);
+
+          const split = document.createElement("div");
+          split.className = "md-split";
+          const ta = document.createElement("textarea");
+          ta.className = "md-text";
+          ta.value = content || "";
+          const previewWrap = document.createElement("div");
+          previewWrap.className = "doc";
+          split.appendChild(ta);
+          split.appendChild(previewWrap);
+
+          let timer = null;
+          async function refresh() {
+            previewWrap.innerHTML = "";
+            const rendered = await renderMarkdown(ta.value || "");
+            previewWrap.appendChild(rendered);
+            renderOutline(state.activeHeadings);
+          }
+          await refresh();
+          ta.addEventListener("input", () => {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => refresh(), 180);
+          });
+
+          function setMode(mode) {
+            modeSplit.classList.remove("active");
+            modeEdit.classList.remove("active");
+            modePreview.classList.remove("active");
+            if (mode === "split") modeSplit.classList.add("active");
+            if (mode === "edit") modeEdit.classList.add("active");
+            if (mode === "preview") modePreview.classList.add("active");
+            if (mode === "split") {
+              ta.style.display = "";
+              previewWrap.style.display = "";
+            } else if (mode === "edit") {
+              ta.style.display = "";
+              previewWrap.style.display = "none";
+            } else {
+              ta.style.display = "none";
+              previewWrap.style.display = "";
+            }
+          }
+          modeSplit.addEventListener("click", () => setMode("split"));
+          modeEdit.addEventListener("click", () => setMode("edit"));
+          modePreview.addEventListener("click", () => setMode("preview"));
+
+          saveBtn.addEventListener("click", async () => {
+            try {
+              const ok = await saveToLinkedHandle(path, ta.value || "");
+              if (!ok) alert("No linked file. Click Link File first, or use Download.");
+              else alert("Saved.");
+            } catch (e) {
+              alert("Save failed.");
+            }
+          });
+          dlBtn.addEventListener("click", () => {
+            downloadText(basename(path), ta.value || "", "text/markdown;charset=utf-8");
+          });
+
+          dom.viewer.className = "";
+          dom.viewer.appendChild(toolbar);
+          dom.viewer.appendChild(split);
+          return;
+        }
+        dom.viewer.className = "doc";
         const rendered = await renderMarkdown(content || "");
         dom.viewer.appendChild(rendered);
+        renderOutline(state.activeHeadings);
       }
 
       function setFiles(files) {
@@ -892,6 +1225,7 @@
           .sort((a, b) => a.localeCompare(b));
         dom.fileCount.textContent = `${state.paths.length} files`;
         renderSidebar();
+        renderOutline([]);
         const fromHash = decodeURIComponent((location.hash || "").replace(/^#/, "")) || "";
         if (fromHash && state.files[fromHash] != null) {
           openFile(fromHash, null);
@@ -913,7 +1247,7 @@
         } catch (e) {}
       });
       dom.collapseAll.addEventListener("click", () => {
-        const ds = dom.tree.querySelectorAll("details");
+        const ds = dom.nav.querySelectorAll("details");
         for (const d of ds) d.open = false;
       });
 

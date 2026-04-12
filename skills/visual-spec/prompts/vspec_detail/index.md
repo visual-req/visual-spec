@@ -19,8 +19,12 @@
 2. HTML 必须是完整单文件（包含内联 CSS 与内联 JS），不得依赖外部脚本/样式资源
 2.1 为了保证生成稳定性：`/specs/details/index.html` 必须以模板为基础生成——从 `prompts/vspec_detail/index.html` 复制整份内容作为起始模板，然后仅做必要的替换/填充（例如内嵌文件内容 JSON、默认打开文件等）。不要从零开始“自由发挥”生成 HTML。
 3. 页面布局：
-   - 左侧：章节导航（按“章节结构”分组，而不是按文件名；必须包含并链接到：原始需求、干系人、角色、术语、场景、功能清单，以及 details 下的各类细节文档）
-   - 右侧：阅读窗口（支持标题、列表、表格、代码块等基础 Markdown 渲染）
+   - 左侧：章节导航 + 标题层级目录（必须）
+     - 章节导航按“章节结构”分组，而不是按文件名；必须包含并链接到：背景（original.md）、干系人（stakeholders.md）、角色（roles.md）、术语（terms.md）、流程（flows）、场景（scenarios）、数据模型（models）、功能清单（functions）、以及 details 下的各类细节文档
+     - 对当前选中的 Markdown 文档：左侧必须展示该文档的“标题与层级结构目录”（基于 `#`~`####`），可点击跳转到右侧预览对应标题位置
+   - 右侧：Markdown Editor（必须）
+     - 必须支持在线编辑与预览（至少提供 Split/Edit/Preview 三种模式）
+     - 支持把编辑结果保存回本地文件（若浏览器不支持写入，则提供下载替换的兼容方案）
 4. 渲染规则：
    - `*.md`：以 Markdown 渲染方式显示（不是纯文本）
    - `*.html`：使用 `iframe srcdoc` 渲染（而不是当作文本显示）
@@ -39,7 +43,7 @@
    - 支持通过 URL hash 直接打开文件（例如 `index.html#module/a/b.md`）
 7. 文档导出提示（必须）：
    - 页面顶部必须有一个明显提示条（banner/notice），说明：可通过 `/vspec:doc` 生成 Word 版需求文档
-   - 提示条需要包含输出路径：`/docs/current/requirement_detail.doc`
+   - 提示条需要包含输出路径：`/docs/current/requirement_detail.docx`
    - 提示条文案要简短、醒目，不随目录滚动消失（建议固定在顶部）
 
 实现约束（必须）：

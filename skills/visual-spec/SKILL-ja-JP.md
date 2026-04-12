@@ -88,7 +88,7 @@ Flow:
 
 ### `/vspec:doc`
 
-要件成果物（`/specs/**`）を集約し、Word で直接開ける単一ファイルの Word 文書（HTML 形式の `.doc`）を `/docs/current/requirement_detail.doc` に生成します。
+要件成果物（`/specs/**`）を集約し、Word で直接開ける単一ファイルの Word 文書（HTML 形式の `.docx`）を `/docs/current/requirement_detail.docx` に生成します。
 
 ### `/vspec:verify`
 

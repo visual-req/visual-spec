@@ -57,4 +57,4 @@
 2. 如材料较多：先整理 `/docs/current/file_list.md`（按“权威性/优先级”排序）
 3. 运行 `/vspec:new`（生成 `/specs/background/original.md` 与问题清单）
 4. 需要继承 legacy/当前材料并生成新 specs：运行 `/vspec:upgrade`
-5. 需要汇总成 Word：运行 `/vspec:doc` 输出到 `/docs/current/requirement_detail.doc`
+5. 需要汇总成 Word：运行 `/vspec:doc` 输出到 `/docs/current/requirement_detail.docx`

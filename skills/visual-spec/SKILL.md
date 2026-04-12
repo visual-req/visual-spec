@@ -186,7 +186,7 @@ Flow:
    - Dependencies: `/specs/background/dependencies.md`
    - Models: `/specs/models/*.md`
 3. Load `prompts/vspec_doc/doc.md` and generate the doc as a Word-openable single HTML file.
-4. Write the output file to: `/docs/current/requirement_detail.doc`.
+4. Write the output file to: `/docs/current/requirement_detail.docx`.
 
 ### `/vspec:verify`
 
@@ -334,7 +334,7 @@ Flow:
 - `prompts/vspec_mrd/mrd.md`: the prompt used by `/vspec:mrd` to generate market/user/competitor/product docs under `/docs/market/`.
 - `prompts/vspec_refine/refine.md`: the prompt used by `/vspec:refine` to refine the requirement based on `refine.md`.
 - `prompts/vspec_refine/refine_q.md`: the prompt used by `/vspec:refine-q` to refine the requirement based on answered questions.
-- `prompts/vspec_doc/doc.md`: the prompt used by `/vspec:doc` to generate a Word-openable `.doc` (HTML) requirement detail document under `/docs/current/`.
+- `prompts/vspec_doc/doc.md`: the prompt used by `/vspec:doc` to generate a Word-openable `.docx` (HTML) requirement detail document under `/docs/current/`.
 - `prompts/vspec_verify/model.md`: the prompt used by `/vspec:verify` to generate `/specs/models/*.md`.
 - `prompts/vspec_verify/prototype.md`: the prompt used by `/vspec:verify` to generate the stack-selected runnable prototype under `/specs/prototypes/` (must follow `scheme.yaml`).
 - `prompts/vspec_verify/validation.md`: the prompt used by `/vspec:verify` to generate the validation web page with a `scenario.html` entry.
