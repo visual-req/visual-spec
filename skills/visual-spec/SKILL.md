@@ -76,6 +76,23 @@ Flow:
 29. Load `prompts/harness/post_new_verify.md` to validate whether functions and scenario_details are complete (login/config/master-data/approval). If it outputs any issues, show the issue list and stop.
 30. Return the structured analysis result and continue to the next requirement-design step.
 
+### `/vspec:interview`
+
+Use this command to generate an interview outline / survey questionnaire for user research and requirement validation.
+
+Flow:
+1. Load `prompts/vspec_interview/interview.md`.
+2. Generate the questionnaire markdown and write it to `/docs/current/interview_questionnaire.md`.
+
+### `/vspec:i-word`
+
+Use this command to generate a Word-openable `.docx` (single-file HTML) version of the interview questionnaire.
+
+Flow:
+1. Ensure `/docs/current/interview_questionnaire.md` exists; if missing, ask the user to run `/vspec:interview` first.
+2. Load `prompts/vspec_interview/interview_word.md`.
+3. Write the Word file to `/docs/current/interview_questionnaire.docx`.
+
 ### `/vspec:refine`
 
 Use this command to refine and update the requirement based on refine materials stored under `/docs/refine/`, or based on one or more input files/directories provided as command arguments.
@@ -84,10 +101,13 @@ Flow:
 0. Ensure `/specs/details/` exists and is non-empty; if missing, stop and ask the user to run `/vspec:detail` first.
 1. Read refine inputs:
    - If command arguments are provided, treat them as refine input sources (files/directories).
-   - Otherwise, read `/docs/refine/` (prefer `/docs/refine/file_list.md` as the entry if present; else read files in name order).
+   - Otherwise:
+     - Prefer `/docs/refine/refine.md` (if present).
+     - If `/docs/refine/refine.md` is missing, ask the user to paste the refinement content (what to change) in the prompt window, and treat that pasted content as the refine input.
+     - You may additionally read `/docs/refine/` as supporting materials when explicitly referenced/needed (prefer `/docs/refine/file_list.md` if present; else read files in name order).
 2. If `prompts/vspec_refine/refine.md` is missing, stop immediately and do nothing.
 3. Load `prompts/vspec_refine/refine.md` to apply the refinement, update the canonical requirement, and update impacted artifacts.
-4. Append the refinement result to `/specs/background/original.md`, and update impacted `/specs/details/` and `/specs/prototypes/` accordingly.
+4. Append the refinement result to `/specs/background/original.md`, and update impacted `/specs/details/` and `/specs/prototypes/` accordingly; if `/specs/backend/` exists and is non-empty, sync-update impacted backend code as well.
 
 ### `/vspec:refine-q`
 
@@ -161,7 +181,7 @@ Flow:
 4. Write only the generated (involved) detail documents:
    - Per-function: `/specs/details/<module_slug>/<logic_type>/<function_slug>.(md|html)`
    - Module-level: `/specs/details/<module_slug>/<logic_type>/<module_slug>.(md|html)`
-5. Load `prompts/vspec_detail/index.md` to generate a single-page viewer `/specs/details/index.html`:
+5. Load `prompts/vspec_detail/index.md` to generate a single-page viewer `/specs/details/reader.html`:
    - Left: directory tree based on `/specs/details/`
    - Right: markdown-rendered reading pane
    - Render PlantUML diagrams (do not show raw PlantUML text)
@@ -317,6 +337,8 @@ Flow:
 ## Prompt Files
 
 - `prompts/vspec_new/background.md`: the prompt used right after `/vspec:new` receives the raw requirement.
+- `prompts/vspec_interview/interview.md`: the prompt used by `/vspec:interview` to generate `/docs/current/interview_questionnaire.md`.
+- `prompts/vspec_interview/interview_word.md`: the prompt used by `/vspec:i-word` to generate `/docs/current/interview_questionnaire.docx` (Word-openable single-file HTML).
 - `prompts/vspec_new/stakeholders.md`: the prompt used after the user answers `待确认问题` to generate `/specs/background/stakeholder.md`.
 - `prompts/vspec_new/roles.md`: the prompt used after stakeholder analysis to generate `/specs/background/roles.md`.
 - `prompts/vspec_new/terms.md`: the prompt used after roles analysis to generate `/specs/background/terms.md`.
@@ -342,8 +364,8 @@ Flow:
 - `prompts/vspec_detail/data_permission.md`: the prompt used by `/vspec:detail` to generate data permission detail docs.
 - `prompts/vspec_detail/page_load.md`: the prompt used by `/vspec:detail` to generate page loading logic docs.
 - `prompts/vspec_detail/interaction.md`: the prompt used by `/vspec:detail` to generate page interaction logic docs.
-- `prompts/vspec_detail/index.md`: the prompt used by `/vspec:detail` to generate `/specs/details/index.html` as a markdown/PlantUML-rendered viewer.
-- `prompts/vspec_detail/index.html`: the fixed HTML template used by `/vspec:detail` to stabilize `/specs/details/index.html` generation (directory tree + markdown renderer).
+- `prompts/vspec_detail/index.md`: the prompt used by `/vspec:detail` to generate `/specs/details/reader.html` as a markdown/PlantUML-rendered viewer.
+- `prompts/vspec_detail/index.html`: the fixed HTML template used by `/vspec:detail` to stabilize `/specs/details/reader.html` generation (directory tree + markdown renderer).
 - `prompts/vspec_detail/timeline.md`: the prompt used by `/vspec:detail` to generate time-axis HTML docs.
 - `prompts/vspec_detail/formula.md`: the prompt used by `/vspec:detail` to generate formula docs.
 - `prompts/vspec_detail/expression_tree.md`: the prompt used by `/vspec:detail` to generate expression tree docs.
@@ -354,6 +376,8 @@ Flow:
 - `prompts/vspec_detail/post_submit_processing.md`: the prompt used by `/vspec:detail` to generate post-submit processing docs.
 - `prompts/vspec_detail/post_submit_navigation.md`: the prompt used by `/vspec:detail` to generate post-submit navigation docs.
 - `prompts/vspec_detail/mq.md`: the prompt used by `/vspec:detail` to generate MQ message design docs.
+- `prompts/vspec_detail/message_queue.md`: the prompt used by `/vspec:detail` to generate message queue design docs.
+- `prompts/vspec_detail/cache.md`: the prompt used by `/vspec:detail` to generate cache design docs.
 - `prompts/vspec_detail/service_logic.md`: the prompt used by `/vspec:detail` to generate backend service logic docs for `Backend` steps.
 - `prompts/vspec_detail/job_logic.md`: the prompt used by `/vspec:detail` to generate job logic docs for `Job` steps.
 - `prompts/vspec_detail/logging_matrix.md`: the prompt used by `/vspec:detail` to generate logging matrix docs.

@@ -1,5 +1,9 @@
 ## ワークフロー
 
+### 全体フロー図
+
+![visual-spec ワークフロー概要](../assets/visual-spec-workflow-ja.svg)
+
 ### 1. 要件分析（`/vspec:new`）
 
 - 生の要件を入力
@@ -34,13 +38,13 @@
   - 既定：`/docs/refine/*`（`file_list.md` があれば優先）
   - 任意：コマンド引数で指定したファイル/ディレクトリ
 - 前提：`/specs/details/` が存在し空でない
-- 出力：`original.md` へ追記 + 影響する `/specs/details/` と `/specs/prototypes/` を更新
+- 出力：`original.md` へ追記 + 影響する `/specs/details/` と `/specs/prototypes/` を更新（`/specs/backend/` が存在する場合は backend も同期更新）
 
 ### 5. 詳細 spec（`/vspec:detail`）
 
 - `/specs/functions/*` を入力に、機能ごとの仕様を `/specs/details/<function_slug>/` に生成
 - 目標：要件を実装可能な設計入力へ変換
-- 追加出力：`/specs/details/index.html`（左にディレクトリツリー、右に Markdown レンダリング。PlantUML は図としてレンダリング）
+- 追加出力：`/specs/details/reader.html`（左にディレクトリツリー、右に Markdown レンダリング。PlantUML は図としてレンダリング）
 
 ### 6. Word 要約ドキュメント（`/vspec:doc`）
 

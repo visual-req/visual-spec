@@ -2,7 +2,7 @@
 
 本仓库提供一个“需求分析与交付助手”Skill。它提供一套由 `/vspec:*` 命令驱动的工作流，将原始需求转化为可评审的交付产物：规格、数据模型、可运行原型、详细设计、验收用例、测试与集成实现输入。
 
-版本：0.1.12（2026-04-12）
+版本：0.1.13（2026-04-12）
 
 ## 概览
 
@@ -16,7 +16,7 @@
 ## 命令
 
 - `/vspec:new`：生成基础规格产物（写入 `/specs/`）
-- `/vspec:refine`：从 `/docs/refine/`（或命令参数）读取补充材料，更新 `/specs/details/` 与 `/specs/prototypes/`（需要已有 details）
+- `/vspec:refine`：对已按 visual-spec 结构存储的需求进行优化/修订（输入可来自 `/docs/refine/refine.md`、提示词窗口粘贴的本次变更内容、或命令参数），并同步更新 `/specs/details/`、`/specs/prototypes/`，以及已存在的 `/specs/backend/`（需要已有 details）
 - `/vspec:refine-q`：将 `questions.md` 中已回答项合并回需求，并更新 `/specs/background/original.md` 的最新口径
 - `/vspec:detail`：生成单功能详细规格（写入 `/specs/details/`）
 - `/vspec:verify`：生成数据模型与按 `/scheme.yaml` 选栈的可运行原型（写入 `/specs/models/`、`/specs/prototypes/`；要求 `/specs/details/` 非空）
@@ -26,6 +26,11 @@
 - `/vspec:upgrade`：基于 `/docs/` 下的遗留与新增输入做升级/重构分析，生成/更新 `/specs/`，并把技术选型同步到 `/scheme.yaml`
 - `/vspec:qc`：对产物做质量检查并输出报告（写入 `/specs/qc_report.md`）
 - `/vspec:plan`：生成估算与排期（写入 `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html`）
+
+## upgrade 与 refine 的区别
+
+- `upgrade`：面向遗留系统的升级/重构命令；通常基于 `/docs/legacy/` + `/docs/current/`（以及 templates/texts/assets 等输入）输出升级后的目标规格与技术选型。
+- `refine`：面向已用 visual-spec 分析并以 visual-spec 格式/结构存储的需求（无论遗留系统还是新系统）；用于在实现过程中持续修订最新口径，并保持下游产物（details/原型/后端实现如有）一致。
 
 ## 目录结构
 

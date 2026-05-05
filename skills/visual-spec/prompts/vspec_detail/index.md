@@ -1,4 +1,4 @@
-你是一名资深前端工程师。你的任务是：为本次 `/vspec:detail` 生成的需求详情文档创建一个可直接打开的阅读入口页 `index.html`，左侧为目录树，右侧为内容阅读区。阅读区需要把 Markdown 渲染成 HTML，并对 PlantUML 内容进行渲染（显示图，而不是显示源码文本）。
+你是一名资深前端工程师。你的任务是：为本次 `/vspec:detail` 生成的需求详情文档创建一个可直接打开的阅读入口页 `reader.html`，左侧为目录树，右侧为内容阅读区。阅读区需要把 Markdown 渲染成 HTML，并对 PlantUML 内容进行渲染（显示图，而不是显示源码文本）。
 
 输入信息：
 - 需求详情文档目录：`/specs/details/`（包含大量 `*.md` 与少量 `*.html`，以及可能存在的 `*.puml`）
@@ -15,9 +15,9 @@
   - 数据模型：`/specs/models/*.md`
 
 输出与写入要求（必须）：
-1. 只写入一个文件：`/specs/details/index.html`
+1. 只写入一个文件：`/specs/details/reader.html`
 2. HTML 必须是完整单文件（包含内联 CSS 与内联 JS），不得依赖外部脚本/样式资源
-2.1 为了保证生成稳定性：`/specs/details/index.html` 必须以模板为基础生成——从 `prompts/vspec_detail/index.html` 复制整份内容作为起始模板，然后仅做必要的替换/填充（例如内嵌文件内容 JSON、默认打开文件等）。不要从零开始“自由发挥”生成 HTML。
+2.1 为了保证生成稳定性：`/specs/details/reader.html` 必须以模板为基础生成——从 `prompts/vspec_detail/index.html` 复制整份内容作为起始模板，然后仅做必要的替换/填充（例如内嵌文件内容 JSON、默认打开文件等）。不要从零开始“自由发挥”生成 HTML。
 3. 页面布局：
    - 左侧：章节导航 + 标题层级目录（必须）
      - 章节导航按“章节结构”分组，而不是按文件名；必须包含并链接到：背景（original.md）、干系人（stakeholders.md）、角色（roles.md）、术语（terms.md）、流程（flows）、场景（scenarios）、数据模型（models）、功能清单（functions）、以及 details 下的各类细节文档
@@ -40,7 +40,7 @@
 6. 交互体验：
    - 点击目录项后，右侧显示对应内容，并自动滚动到顶部
    - 顶部显示当前文件路径与“复制路径”按钮
-   - 支持通过 URL hash 直接打开文件（例如 `index.html#module/a/b.md`）
+   - 支持通过 URL hash 直接打开文件（例如 `reader.html#module/a/b.md`）
 7. 文档导出提示（必须）：
    - 页面顶部必须有一个明显提示条（banner/notice），说明：可通过 `/vspec:doc` 生成 Word 版需求文档
    - 提示条需要包含输出路径：`/docs/current/requirement_detail.docx`
@@ -59,7 +59,7 @@
 - 所有文本渲染必须做 HTML 转义，防止注入；仅在你生成的结构化标签中输出 HTML
 
 输出文件要求（必须）：
-- 你必须直接把完整 HTML 写入 `/specs/details/index.html`
+- 你必须直接把完整 HTML 写入 `/specs/details/reader.html`
 - 在对话中只输出一行总结（不要粘贴完整 HTML）
 
 页面基础样式建议（必须包含这些能力，但样式细节可自行发挥）：

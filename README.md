@@ -1,6 +1,6 @@
 This repo provides a requirements analysis and delivery assistant Skill. It offers a `/vspec:*` command-driven workflow that turns raw requirements into reviewable artifacts: specs, data models, runnable prototypes, detailed design, acceptance cases, tests, and integrated implementation inputs.
 
-Version: 0.1.12 (2026-04-12)
+Version: 0.1.13 (2026-04-12)
 
 ## Installation
 
@@ -26,7 +26,7 @@ Docs:
 ## Commands
 
 - `/vspec:new`: Generate baseline spec artifacts (writes to `/specs/`)
-- `/vspec:refine`: Apply refinements from `/docs/refine/` (or command arguments) and update `/specs/details/` and `/specs/prototypes/` (requires existing details)
+- `/vspec:refine`: Refine an existing visual-spec requirement (from `/docs/refine/refine.md`, prompt-window pasted changes, or command arguments) and sync-update `/specs/details/`, `/specs/prototypes/`, and existing `/specs/backend/` (requires existing details)
 - `/vspec:refine-q`: Merge answered items from `questions.md` back into the spec and update the canonical requirement in `/specs/background/original.md`
 - `/vspec:detail`: Generate per-function detailed specs (writes to `/specs/details/`)
 - `/vspec:verify`: Generate data models and a stack-selected runnable prototype (per `/scheme.yaml`) (writes to `/specs/models/`, `/specs/prototypes/`; requires non-empty `/specs/details/`)
@@ -36,6 +36,11 @@ Docs:
 - `/vspec:upgrade`: Upgrade/redesign based on legacy + new inputs under `/docs/` (legacy/current/templates/texts/assets), generate/update `/specs/`, and sync technical selections to `/scheme.yaml`
 - `/vspec:qc`: Run artifact quality checks and write a report (writes to `/specs/qc_report.md`)
 - `/vspec:plan`: Generate estimation and schedule (writes to `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html`)
+
+## Upgrade vs Refine
+
+- `upgrade`: for legacy-system upgrade/rebuild scenarios; it uses `/docs/legacy/` + `/docs/current/` (and related template/text/assets inputs) to produce an upgraded target spec and technical selections.
+- `refine`: for improving/adjusting an already visual-spec-structured requirement (legacy or new); it updates the canonical requirement and keeps downstream artifacts in sync.
 
 ## Directory Structure
 

@@ -2,7 +2,7 @@
 
 このリポジトリは、要件分析とデリバリー支援の Skill を提供します。`/vspec:*` のコマンド駆動ワークフローで、生の要件をレビュー可能な成果物（spec、データモデル、実行可能プロトタイプ、詳細設計、受入ケース、テスト、統合実装入力）へ変換します。
 
-バージョン：0.1.12（2026-04-12）
+バージョン：0.1.13（2026-04-12）
 
 ## Installation
 
@@ -26,7 +26,7 @@ Docs:
 ## Commands
 
 - `/vspec:new`：ベースライン spec の生成（`/specs/`）
-- `/vspec:refine`：追補資料の反映（`/docs/refine/`）
+- `/vspec:refine`：visual-spec 形式で保存された要件を修正/最適化（入力：`/docs/refine/refine.md`、対話ウィンドウ貼り付け、または引数）し、`/specs/details/`・`/specs/prototypes/`・既存の `/specs/backend/` を同期更新
 - `/vspec:refine-q`：Q&A を要件へ取り込み（`questions.md` → `original.md`）
 - `/vspec:detail`：機能ごとの詳細 spec（`/specs/details/`）
 - `/vspec:verify`：モデル + プロトタイプ（`/specs/models/`、`/specs/prototypes/`）
@@ -36,6 +36,11 @@ Docs:
 - `/vspec:upgrade`：既存資料から specs を再生成/更新（`/docs/legacy` + `current`）
 - `/vspec:qc`：品質チェック（`/specs/qc_report.md`）
 - `/vspec:plan`：見積・排期（`/specs/plan/`）
+
+## upgrade と refine の違い
+
+- `upgrade`：遺留システムのアップグレード/刷新向け。`/docs/legacy/` と `/docs/current/`（および templates/texts/assets）を入力として、アップグレード後の target spec と技術選定を生成/更新する。
+- `refine`：visual-spec で分析済みで、visual-spec の構造で保存されている要件（遺留/新規を問わない）を継続的に修正し、下流成果物（details/プロトタイプ/backend 実装があれば）との整合を保つ。
 
 ## Directory Structure
 

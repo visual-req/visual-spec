@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .lane { fill: #f7f9fc; stroke: #d6dde8; stroke-width: 1; }
+      .laneTitle { font: 600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .title { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.2; rx: 10; }
+      .boxTitle { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .boxText { font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #334155; }
+      .path { font: 12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; fill: #0f172a; }
+      .note { font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .arrow { stroke: #1d4ed8; stroke-width: 2.2; fill: none; }
+      .dash { stroke-dasharray: 6 6; }
+    </style>
+    <marker id="arrowHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d4ed8"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="820"/>
+  <text class="title" x="36" y="42">visual-spec 工作流总览</text>
+  <text class="note" x="36" y="66">命令（/vspec:*）会读取 /docs 与 /specs 的材料，并生成/更新规格、原型与质量报告。</text>
+
+  <rect class="lane" x="30" y="90" width="410" height="700"/>
+  <rect class="lane" x="460" y="90" width="440" height="700"/>
+  <rect class="lane" x="920" y="90" width="450" height="700"/>
+
+  <text class="laneTitle" x="50" y="122">用户/干系人</text>
+  <text class="laneTitle" x="480" y="122">命令执行（/vspec:*)</text>
+  <text class="laneTitle" x="940" y="122">产物与材料（/docs、/specs）</text>
+
+  <!-- Boxes: left lane -->
+  <rect class="box" x="55" y="150" width="360" height="110" rx="10"/>
+  <text class="boxTitle" x="75" y="180">输入与补充材料</text>
+  <text class="boxText" x="75" y="205">- 原始需求、补充说明、附件（PPT/Word/Excel/PDF/图片）</text>
+  <text class="boxText" x="75" y="228">- 访谈问卷填写、问题回答、评审意见</text>
+
+  <rect class="box" x="55" y="610" width="360" height="130" rx="10"/>
+  <text class="boxTitle" x="75" y="640">评审与确认</text>
+  <text class="boxText" x="75" y="665">- 评审方案与原型（scenario.html、dashboard）</text>
+  <text class="boxText" x="75" y="688">- 确认变更点，进入 refine 迭代</text>
+
+  <!-- Boxes: middle lane -->
+  <rect class="box" x="490" y="150" width="380" height="130" rx="10"/>
+  <text class="boxTitle" x="510" y="180">/vspec:new</text>
+  <text class="boxText" x="510" y="205">- 解析需求与材料，产出 roles/terms/flows/scenarios/functions</text>
+  <text class="boxText" x="510" y="228">- 生成待确认问题（questions）</text>
+
+  <rect class="box" x="490" y="310" width="380" height="120" rx="10"/>
+  <text class="boxTitle" x="510" y="340">/vspec:detail</text>
+  <text class="boxText" x="510" y="365">- 基于 functions 展开细节（RBAC、校验、交互、服务逻辑等）</text>
+  <text class="boxText" x="510" y="388">- 生成阅读入口 reader.html</text>
+
+  <rect class="box" x="490" y="460" width="380" height="120" rx="10"/>
+  <text class="boxTitle" x="510" y="490">/vspec:verify</text>
+  <text class="boxText" x="510" y="515">- 生成 models 与可运行原型</text>
+  <text class="boxText" x="510" y="538">- Dashboard 按角色差异化展示与多图表布局</text>
+
+  <rect class="box" x="490" y="610" width="380" height="80" rx="10"/>
+  <text class="boxTitle" x="510" y="640">/vspec:refine</text>
+  <text class="boxText" x="510" y="665">- 读取 refine.md + 附件，更新 specs/details、prototypes、backend（如有）</text>
+
+  <rect class="box" x="490" y="710" width="380" height="70" rx="10"/>
+  <text class="boxTitle" x="510" y="740">/vspec:qc（可选）</text>
+  <text class="boxText" x="510" y="765">- 合并质量标准，输出 qc_report</text>
+
+  <!-- Boxes: right lane -->
+  <rect class="box" x="945" y="150" width="400" height="130" rx="10"/>
+  <text class="boxTitle" x="965" y="180">输入材料</text>
+  <text class="path" x="965" y="206">/docs/current/</text>
+  <text class="path" x="965" y="228">/docs/refine/</text>
+  <text class="path" x="965" y="250">/docs/legacy/ → /docs/input/（upgrade）</text>
+
+  <rect class="box" x="945" y="310" width="400" height="120" rx="10"/>
+  <text class="boxTitle" x="965" y="340">基础规格（/vspec:new）</text>
+  <text class="path" x="965" y="366">/specs/background/*</text>
+  <text class="path" x="965" y="388">/specs/functions/*</text>
+  <text class="path" x="965" y="410">/specs/flows/*.puml</text>
+
+  <rect class="box" x="945" y="460" width="400" height="120" rx="10"/>
+  <text class="boxTitle" x="965" y="490">细节规格（/vspec:detail）</text>
+  <text class="path" x="965" y="516">/specs/details/**</text>
+  <text class="path" x="965" y="538">/specs/details/reader.html</text>
+
+  <rect class="box" x="945" y="610" width="400" height="120" rx="10"/>
+  <text class="boxTitle" x="965" y="640">验证与原型（/vspec:verify）</text>
+  <text class="path" x="965" y="666">/specs/models/*.md</text>
+  <text class="path" x="965" y="688">/specs/prototypes/**</text>
+  <text class="path" x="965" y="710">/specs/prototypes/scenario.html</text>
+
+  <!-- Arrows -->
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 415 205 C 460 205, 465 205, 490 205"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 215 C 905 215, 920 215, 945 215"/>
+
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 280 C 680 295, 680 300, 680 310"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 370 C 905 370, 920 370, 945 370"/>
+
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 430 C 680 445, 680 450, 680 460"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 520 C 905 520, 920 520, 945 520"/>
+
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 580 C 680 595, 680 600, 680 610"/>
+  <path class="arrow dash" marker-end="url(#arrowHead)" d="M 680 690 C 680 702, 680 704, 680 710"/>
+
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 580 C 740 590, 850 610, 945 650"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 945 690 C 860 700, 770 690, 680 670"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 670 C 520 670, 440 670, 415 670"/>
+</svg>

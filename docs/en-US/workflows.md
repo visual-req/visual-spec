@@ -1,5 +1,9 @@
 ## Workflow
 
+### Overview Diagram
+
+![visual-spec workflow overview](../assets/visual-spec-workflow-en.svg)
+
 ### 1. Requirements Analysis (`/vspec:new`)
 
 - Provide the raw requirement input
@@ -34,7 +38,7 @@
   - Default: `/docs/refine/*` (prefer `file_list.md`)
   - Optional: files/directories passed as command arguments
 - Prerequisite: `/specs/details/` must exist and be non-empty
-- Outputs: append updates to `original.md` and update impacted `/specs/details/` and `/specs/prototypes/`
+- Outputs: append updates to `original.md` and update impacted `/specs/details/`, `/specs/prototypes/`, and existing `/specs/backend/`
 
 ### 5. Detailed Specs (`/vspec:detail`)
 
@@ -44,7 +48,7 @@
   - load/interaction/validation matrices
   - post-submit checks/processing/navigation
   - logging/notification matrices, MQ specs, import/export, cron jobs
-- Extra output: `/specs/details/index.html` (left directory tree + right markdown-rendered reader; PlantUML rendered as diagrams)
+- Extra output: `/specs/details/reader.html` (left directory tree + right markdown-rendered reader; PlantUML rendered as diagrams)
 
 ### 6. Word Summary Doc (`/vspec:doc`)
 

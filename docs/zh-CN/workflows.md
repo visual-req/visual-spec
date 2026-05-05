@@ -1,5 +1,9 @@
 ## 工作流
 
+### 总览流程图
+
+![visual-spec 工作流总览](../assets/visual-spec-workflow-zh.svg)
+
 ### 1. 需求分析（`/vspec:new`）
 
 - 输入原始需求
@@ -34,7 +38,7 @@
   - 默认：`/docs/refine/*`（优先 `file_list.md`）
   - 可选：命令参数指定文件/目录
 - 前置条件：`/specs/details/` 必须存在且非空
-- 输出：追加更新到 `original.md` + 更新受影响的 `/specs/details/` 与 `/specs/prototypes/`
+- 输出：追加更新到 `original.md` + 更新受影响的 `/specs/details/`、`/specs/prototypes/`，以及已存在的 `/specs/backend/`
 
 ### 5. 详细规格（`/vspec:detail`）
 
@@ -44,7 +48,7 @@
   - 加载/交互/校验矩阵
   - 提交后检查/处理/跳转
   - 日志/通知矩阵、MQ、导入导出、定时任务
-- 额外输出：`/specs/details/index.html`（左侧目录树 + 右侧 Markdown 渲染阅读；PlantUML 渲染为图）
+- 额外输出：`/specs/details/reader.html`（左侧目录树 + 右侧 Markdown 渲染阅读；PlantUML 渲染为图）
 
 ### 6. Word 汇总文档（`/vspec:doc`）
 
