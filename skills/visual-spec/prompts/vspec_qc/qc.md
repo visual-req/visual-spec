@@ -7,7 +7,7 @@
 输入信息：
 - 内嵌质量标准：`prompts/vspec_qc/quality_standard.md`
 - 内嵌领域/行业补充标准（如存在；只能按行业选择其一；禁止跨行业混用）：
-  - `prompts/vspec_qc/banking_quality_cases.md`（industry_key=banking）
+  - `prompts/vspec_qc/banking_quality_standard.md`（industry_key=banking）
   - `prompts/vspec_qc/logistics_quality_standard.md`（industry_key=logistics）
   - `prompts/vspec_qc/pharmaceutical_quality_standard.md`（industry_key=pharmaceutical）
   - `prompts/vspec_qc/healthcare_quality_standard.md`（industry_key=healthcare）
