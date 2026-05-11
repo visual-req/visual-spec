@@ -14,7 +14,7 @@
 
 执行前置条件（必须）：
 1. 若 `/specs/details/` 不存在或为空：输出“无法执行：缺少 /specs/details（请先运行 /vspec:detail）”，并停止；不要写入或修改任何文件
-2. 若 `/specs/qc_report.md` 不存在：输出“无法执行：缺少 /specs/qc_report.md（请先运行 /vspec:qc 完成质量检查，再执行 /vspec:plan）”，并停止；不要写入或修改任何文件
+2. 若 `/specs/qc_report.json` 不存在：输出“无法执行：缺少 /specs/qc_report.json（请先运行 /vspec:qc 完成质量检查，再执行 /vspec:plan）”，并停止；不要写入或修改任何文件
 3. 若 `/specs/plan/plan_estimate.md` 不存在：输出“无法执行：缺少 /specs/plan/plan_estimate.md（请先完成估算步骤）”，并停止；不要写入或修改任何文件
 
 团队规模与节奏采集（强烈建议；若缺失需引导用户补充后再排期）：

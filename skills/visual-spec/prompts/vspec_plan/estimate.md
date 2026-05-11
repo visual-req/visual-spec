@@ -10,11 +10,11 @@
 - 场景与流程（`/specs/background/scenarios.md`、`/specs/flows/*.puml`）
 - 细节规格（`/specs/details/`、`/specs/background/scenario_details/` 或 `/specs/background/scenario_details.md`（旧版））
 - 外部依赖（`/specs/background/dependencies.md`）
-- 不要读取或参考质量报告：`/specs/qc_report.md`（估算只基于需求与设计产物本身，不基于 QC 扫描结果）
+- 不要读取或参考质量报告：`/specs/qc_report.json`（估算只基于需求与设计产物本身，不基于 QC 扫描结果）
 
 执行前置条件（必须）：
 1. 若 `/specs/details/` 不存在或为空：输出“无法执行：缺少 /specs/details（请先运行 /vspec:detail）”，并停止；不要写入或修改任何文件
-2. 若 `/specs/qc_report.md` 不存在：输出“无法执行：缺少 /specs/qc_report.md（请先运行 /vspec:qc 完成质量检查，再执行 /vspec:plan）”，并停止；不要写入或修改任何文件
+2. 若 `/specs/qc_report.json` 不存在：输出“无法执行：缺少 /specs/qc_report.json（请先运行 /vspec:qc 完成质量检查，再执行 /vspec:plan）”，并停止；不要写入或修改任何文件
 
 重要约束：
 - 不要生成用户故事（不输出 As a / I want / so that 结构）。
