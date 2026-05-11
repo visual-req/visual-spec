@@ -29,15 +29,15 @@
 
   <text class="laneTitle" x="50" y="122">Users / Stakeholders</text>
   <text class="laneTitle" x="480" y="122">Commands (/vspec:*)</text>
-  <text class="laneTitle" x="940" y="122">Artifacts &amp; Materials (/docs, /specs)</text>
+  <text class="laneTitle" x="940" y="122">Artifacts & Materials (/docs, /specs)</text>
 
   <rect class="box" x="55" y="150" width="360" height="110" rx="10"/>
-  <text class="boxTitle" x="75" y="180">Inputs &amp; Supporting Materials</text>
+  <text class="boxTitle" x="75" y="180">Inputs & Supporting Materials</text>
   <text class="boxText" x="75" y="205">- Raw requirements, clarifications, attachments (PPT/Word/Excel/PDF/images)</text>
   <text class="boxText" x="75" y="228">- Interview answers, Q&amp;A, review feedback</text>
 
   <rect class="box" x="55" y="610" width="360" height="130" rx="10"/>
-  <text class="boxTitle" x="75" y="640">Review &amp; Confirmation</text>
+  <text class="boxTitle" x="75" y="640">Review & Confirmation</text>
   <text class="boxText" x="75" y="665">- Review prototypes (scenario.html, dashboards)</text>
   <text class="boxText" x="75" y="688">- Confirm changes and iterate via refine</text>
 
@@ -82,7 +82,7 @@
   <text class="path" x="965" y="538">/specs/details/reader.html</text>
 
   <rect class="box" x="945" y="610" width="400" height="120" rx="10"/>
-  <text class="boxTitle" x="965" y="640">Verification &amp; Prototype (/vspec:verify)</text>
+  <text class="boxTitle" x="965" y="640">Verification & Prototype (/vspec:verify)</text>
   <text class="path" x="965" y="666">/specs/models/*.md</text>
   <text class="path" x="965" y="688">/specs/prototypes/**</text>
   <text class="path" x="965" y="710">/specs/prototypes/scenario.html</text>
