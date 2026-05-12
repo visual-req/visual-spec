@@ -1,6 +1,8 @@
-# README（日本語）
+# visual-spec（日本語）
 
-このリポジトリは、要件分析とデリバリー支援の Skill を提供します。`/vspec:*` のコマンド駆動ワークフローで、生の要件をレビュー可能な成果物（spec、データモデル、実行可能プロトタイプ、詳細設計、受入ケース、テスト、統合実装入力）へ変換します。
+このリポジトリは、要件分析とデリバリー支援の Skill を提供します。`/vspec:*` のコマンド駆動ワークフローで、生の要件をレビュー可能かつ実装可能な成果物（spec、データモデル、実行可能プロトタイプ、詳細設計、受入ケース、テスト、統合実装入力）へ変換します。
+
+本 Skill は、独立した知的財産に基づく「可視化要件分析（visualized requirements analysis）」の方法論をベースに設計しています。目的は、要件の明確化 → 設計 → 検証のプロセスを標準化・可視化・再利用可能にし、コミュニケーションコストと手戻りを減らすことです。
 
 バージョン：0.1.13（2026-04-12）
 
@@ -25,17 +27,29 @@ Docs:
 
 ## Commands
 
-- `/vspec:new`：ベースライン spec の生成（`/specs/`）
-- `/vspec:refine`：visual-spec 形式で保存された要件を修正/最適化（入力：`/docs/refine/refine.md`、対話ウィンドウ貼り付け、または引数）し、`/specs/details/`・`/specs/prototypes/`・既存の `/specs/backend/` を同期更新
-- `/vspec:refine-q`：Q&A を要件へ取り込み（`questions.md` → `original.md`）
-- `/vspec:detail`：機能ごとの詳細 spec（`/specs/details/`）
-- `/vspec:verify`：モデル + プロトタイプ（`/specs/models/`、`/specs/prototypes/`）
-- `/vspec:accept`：受入ケース（`/specs/acceptance/`）
-- `/vspec:append-test`：自動テストコード（既存テストディレクトリ、なければ `/tests/`）
-- `/vspec:impl`：統合実装コード（`/specs/` 配下）
-- `/vspec:upgrade`：既存資料から specs を再生成/更新（`/docs/legacy` + `current`）
-- `/vspec:qc`：品質チェック（`/specs/qc_report.md`）
-- `/vspec:plan`：見積・排期（`/specs/plan/`）
+| コマンド | 用途 | 主な入力 | 主な出力 |
+| --- | --- | --- | --- |
+| `/vspec:new` | ベースライン spec の生成 | 生要件テキスト +（任意）`/docs/current/*` | `/specs/`（background/functions/flows 等） |
+| `/vspec:refine` | 要件の修正と下流成果物の同期更新 | `/docs/refine/refine.md` または貼り付け変更内容/引数 | `/specs/background/original.md` 更新 + `/specs/details/`・`/specs/prototypes/`・既存 `/specs/backend/` 同期更新 |
+| `/vspec:refine-q` | 回答済み質問を要件へ取り込み | `/specs/background/questions.md`（回答済み） | `original.md` 更新 + `questions.md` に回答マーク |
+| `/vspec:detail` | 機能ごとの詳細 spec | `/specs/functions/*` + 関連成果物 | `/specs/details/` |
+| `/vspec:verify` | モデル + 実行可能プロトタイプ | `/scheme.yaml` + 非空 `/specs/details/` | `/specs/models/`、`/specs/prototypes/` |
+| `/vspec:accept` | 受入ケース生成 | functions + scenarios + details + models | `/specs/acceptance/` |
+| `/vspec:append-test` | 自動テストコード生成 | 受入ケース + 既存テストフレームワーク | 既存テストディレクトリ or `/tests/` |
+| `/vspec:impl` | 統合実装入力の生成 | details + models + dependencies | `/specs/backend/`（有効時）および関連コード |
+| `/vspec:upgrade` | 既存資料から specs を再生成/更新 | `/docs/legacy/*` + `/docs/current/*` | `/specs/` 更新 + 技術選定を `/scheme.yaml` に同期 |
+| `/vspec:qc` | 品質チェック | `/specs/` + 標準 | `/specs/qc_report.json`、`/specs/qc_report.html` |
+| `/vspec:plan` | 見積・排期 | functions + details + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
+
+## Documentation
+
+| Doc | 説明 | Link |
+| --- | --- | --- |
+| Getting started | ワークフローを通しで実行 | [docs/ja-JP/getting-started.md](docs/ja-JP/getting-started.md) |
+| Commands | `/vspec:*` の参照 | [docs/ja-JP/commands.md](docs/ja-JP/commands.md) |
+| Structure | ディレクトリ構成と成果物 | [docs/ja-JP/structure.md](docs/ja-JP/structure.md) |
+| Workflows | ワークフロー概要 | [docs/ja-JP/workflows.md](docs/ja-JP/workflows.md) |
+| Installation | インストール（英語） | [docs/en-US/installation.md](docs/en-US/installation.md) |
 
 ## upgrade と refine の違い
 
@@ -51,3 +65,15 @@ Docs:
 
 - `prompts/harness/*`（実行後の追加検証コマンド）は Pro 版の有償機能です。
 - Pro 版はより広範な品質チェック（例：プロトタイプのスタック検証、クリック無反応検出、モバイル UX 検証、価格フォーマット検証、バックエンド MVC/テストカバレッジ検証など）を提供します。
+
+## Quick Start
+
+1. インストール：`npx skills add visual-req/visual-spec --skill visual-spec`
+2. `/vspec:new` を実行し、生要件を入力
+3. Open Questions（未解決質問）に回答して、前提と判断を収束
+4. 以下の順に実行して成果物を作成：
+   - `/vspec:detail` → `/specs/details/`
+   - `/vspec:verify` → `/specs/models/`、`/specs/prototypes/`
+   - `/vspec:qc` → `/specs/qc_report.json`、`/specs/qc_report.html`
+   - `/vspec:plan`（任意）→ `/specs/plan/`
+5. 変更が出たら `/docs/refine/refine.md`（または貼り付け）を更新し、`/vspec:refine` で下流成果物を同期更新
