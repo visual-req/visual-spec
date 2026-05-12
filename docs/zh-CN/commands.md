@@ -12,7 +12,7 @@
 | `/vspec:append-test` | 生成自动化测试代码 | 验收用例 + 仓库测试技术栈 | 写入既有测试目录或 `/tests/` |
 | `/vspec:impl` | 生成后端 + 前端联调实现代码 | specs/details/models/dependencies | 写入集成实现代码（API 合同、后端、前端对接） |
 | `/vspec:upgrade` | 基于遗留材料做升级/重构分析并生成新规格 | `/docs/current/file_list.md` + `/docs/legacy/*`（可选 templates/texts/assets）+ 既有 `/specs/background/original.md`（可选） | 生成/更新 `/specs/`（沿用 `/vspec:new` 结构）+ 同步技术选型到 `/scheme.yaml` |
-| `/vspec:qc` | 对 `/specs/` 产物做质量检查 | 内置标准 + 可选 `domain_quality_standard.md` + 可选 `quality_standard.md` + `/specs/` | `/specs/qc_report.md` |
+| `/vspec:qc` | 对 `/specs/` 产物做质量检查 | 内置标准 + 可选 `domain_quality_standard.md` + 可选 `quality_standard.md` + `/specs/` | `/specs/qc_report.json`、`/specs/qc_report.html` |
 | `/vspec:plan` | 估算与排期 | functions/roles/flows/dependencies/details | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
 | `/vspec:mrd` | 生成 MRD：市场/竞品/用户/产品设计 | `/specs/background/*` + `/specs/flows/*` + `/specs/functions/*`（如有） | `/docs/market/*.md`（market/competitors/users/product_design） |
 
@@ -20,6 +20,7 @@
 
 - 适用场景：刚拿到需求且信息不完整，需要快速形成“可评审的共同语言”
 - 关键输出：干系人、角色、术语、流程、场景、功能清单、开放问题
+- 语言控制：支持在命令参数中传入 `lang=en` / `lang=zh` / `lang=ja`（`zh-CN` 视为 `zh`），用于控制本次输出语言，并将 `/scheme.yaml` 的 `selected.language` 同步更新为该值
 - 原始材料归档：如果你有原始材料文件（PRD/需求文档/流程说明/字段口径/模板/协议/截图/样例数据等），统一放在 `/docs/current/`（便于后续 refine/upgrade/verify/impl 等命令按约定读取与引用）
 - 目录初始化：创建 `/docs/` 及其子目录（legacy/current/refine/templates/texts/assets）用于输入归档与后续命令使用
 - 提示：生成“开放问题/待确认问题”后，你可以把回答工作委托给 AI 先给出建议答案，你只需要逐条确认/修改即可（推荐做法：先让 AI 代答一版，再由业务确认口径）

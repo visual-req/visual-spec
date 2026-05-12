@@ -12,7 +12,7 @@
 | `/vspec:append-test` | 自動テストコードを生成 | acceptance + リポジトリのテストスタック | 既存テストディレクトリ（なければ `/tests/`）に書き込み |
 | `/vspec:impl` | バックエンド + フロントエンドの統合実装を生成 | specs/details/models/dependencies | 統合実装コード（API 契約、backend、frontend 連携） |
 | `/vspec:upgrade` | 既存資料から specs を再生成/更新 | `/docs/current/file_list.md` + `/docs/legacy/*` + 既存 `original.md`（任意） | `/specs/` 更新 + `/scheme.yaml` に選定内容同期 |
-| `/vspec:qc` | `/specs/` の品質チェック | 組み込み標準 + 任意 `domain_quality_standard.md` + 任意 `quality_standard.md` | `/specs/qc_report.md` |
+| `/vspec:qc` | `/specs/` の品質チェック | 組み込み標準 + 任意 `domain_quality_standard.md` + 任意 `quality_standard.md` | `/specs/qc_report.json`、`/specs/qc_report.html` |
 | `/vspec:plan` | 見積とスケジュール | functions/roles/flows/dependencies/details | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
 | `/vspec:mrd` | MRD（市場/競合/ユーザー/設計）を生成 | `/specs/background/*` + `/specs/flows/*` + `/specs/functions/*`（任意） | `/docs/market/*.md` |
 
@@ -20,6 +20,7 @@
 
 - 使いどころ：情報が揃っていない段階で、レビュー可能な共通言語を素早く作る
 - 主な出力：ステークホルダー、ロール、用語、フロー、シナリオ、機能一覧、未解決質問
+- 言語の指定：コマンド引数に `lang=en` / `lang=zh` / `lang=ja` を指定（`zh-CN` は `zh` と同等）。本実行の出力言語を切り替え、`/scheme.yaml` の `selected.language` も同じ値に更新する
 - ディレクトリ初期化：`/docs/` とその配下（legacy/current/refine/templates/texts/assets）を作成
 
 ## `/vspec:detail`

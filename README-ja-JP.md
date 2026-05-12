@@ -17,6 +17,7 @@ npx skills add visual-req/visual-spec --skill visual-spec
 Docs:
 - [Installation](docs/en-US/installation.md)
 - [Multi-agent installation](docs/en-US/ai-platform-installation.md)
+- Fork guide: [docs/ja-JP/fork.md](docs/ja-JP/fork.md)
 
 ## Overview
 
@@ -52,6 +53,7 @@ Docs:
 | Structure | ディレクトリ構成と成果物 | [docs/ja-JP/structure.md](docs/ja-JP/structure.md) |
 | Workflows | ワークフロー概要 | [docs/ja-JP/workflows.md](docs/ja-JP/workflows.md) |
 | Installation | インストール（英語） | [docs/en-US/installation.md](docs/en-US/installation.md) |
+| Fork guide | fork 後のカスタマイズ | [docs/ja-JP/fork.md](docs/ja-JP/fork.md) |
 
 ## upgrade と refine の違い
 

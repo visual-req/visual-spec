@@ -19,6 +19,7 @@ npx skills add visual-req/visual-spec --skill visual-spec
 Docs:
 - [Installation](docs/en-US/installation.md)
 - [Multi-agent installation](docs/en-US/ai-platform-installation.md)
+- Forking and customization: [Fork guide](docs/en-US/fork.md)
 
 ## Overview
 
@@ -54,6 +55,7 @@ Docs:
 | Structure | Directory structure and artifacts | [docs/en-US/structure.md](docs/en-US/structure.md) |
 | Workflows | Visual workflow overview | [docs/en-US/workflows.md](docs/en-US/workflows.md) |
 | Installation | Installation & setup | [docs/en-US/installation.md](docs/en-US/installation.md) |
+| Fork guide | How to customize after forking | [docs/en-US/fork.md](docs/en-US/fork.md) |
 
 ## Upgrade vs Refine
 

@@ -17,6 +17,7 @@ npx skills add visual-req/visual-spec --skill visual-spec
 Docs:
 - [Installation](docs/en-US/installation.md)
 - [Multi-agent installation](docs/en-US/ai-platform-installation.md)
+ - Fork 定制指南：[docs/zh-CN/fork.md](docs/zh-CN/fork.md)
 
 ## 文档导览
 
@@ -27,6 +28,7 @@ Docs:
 | 目录结构 | `/docs/`、`/specs/` 目录与产物结构 | [docs/zh-CN/structure.md](docs/zh-CN/structure.md) |
 | 工作流图 | 可视化流程与关键产物 | [docs/zh-CN/workflows.md](docs/zh-CN/workflows.md) |
 | 安装 | 安装与配置（英文） | [docs/en-US/installation.md](docs/en-US/installation.md) |
+| Fork 定制 | Fork 后的定制指南 | [docs/zh-CN/fork.md](docs/zh-CN/fork.md) |
 
 ## 功能概览
 
