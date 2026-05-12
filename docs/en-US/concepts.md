@@ -1,5 +1,7 @@
 ## Design Principles
 
+[English](../en-US/concepts.md) | [中文](../zh-CN/concepts.md) | [日本語](../ja-JP/concepts.md)
+
 ### 1. Collaborate Through Artifacts
 
 - Turn “discussion” into “reviewable artifacts” to reduce alignment cost

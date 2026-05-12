@@ -34,6 +34,7 @@ Docs:
 
 - 需求分析：生成背景、干系人、角色、术语、流程、场景、详情、依赖、功能清单与开放问题
 - 方案验证：生成数据模型、可运行原型与场景评审页
+- 原型生成（高频关注）：通过 `/vspec:verify` 基于 `/scheme.yaml` 生成可运行的 Web 原型（产物在 `/specs/prototypes/`），包含按角色差异化的 dashboard（合理图表选择与布局）与场景评审页
 - 详细设计：按功能生成 RBAC/数据权限/交互/校验/日志/通知/MQ/导入导出/定时任务 等规格
 - 验收与测试：生成验收用例与自动化测试代码
 - 集成实现：生成后端 + 前端集成实现代码（对齐仓库实际技术栈与约定）
@@ -54,6 +55,8 @@ Docs:
 | `/vspec:upgrade` | 基于遗留与新增资料升级/重构 | `/docs/legacy/*` + `/docs/current/*` | 归一化输入并生成/更新 `/specs/`，同步技术选型到 `/scheme.yaml` |
 | `/vspec:qc` | 对产物做质量检查并输出报告 | `/specs/` + 内置/项目质量标准 | `/specs/qc_report.json`、`/specs/qc_report.html` |
 | `/vspec:plan` | 生成估算与排期 | `/specs/functions/*` + `/specs/details/` + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
+
+如果你只想单独使用“质量检查（QC）”能力（不需要整套 visual-spec 工作流），请使用：https://github.com/visual-req/spec-qc
 
 ## upgrade 与 refine 的区别
 

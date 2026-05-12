@@ -25,6 +25,7 @@ Docs:
 
 - Requirements analysis: generate background, stakeholders, roles, terms, flows, scenarios, details, dependencies, function list, and open questions
 - Solution verification: generate data models, runnable prototypes, and a scenario review page
+- Prototype generation (high-frequency): `/vspec:verify` generates a runnable Web prototype aligned with `/scheme.yaml`, including role-based dashboards (proper chart selection/layout) and a scenario review page under `/specs/prototypes/`
 - Detailed design: produce RBAC/data-permission/interaction/validation/logging/notification/MQ/import-export/cron specs per function
 - Acceptance & testing: generate acceptance cases and automated test code
 - Integrated implementation: generate backend + frontend integrated code (aligned with the repo’s actual stack and conventions)
@@ -45,6 +46,8 @@ Docs:
 | `/vspec:upgrade` | Upgrade/redesign based on legacy + new inputs | `/docs/legacy/*` + `/docs/current/*` | regenerated `/specs/` + synced technical selections to `/scheme.yaml` |
 | `/vspec:qc` | Run quality checks on generated artifacts | `/specs/` + built-in/project standards | `/specs/qc_report.json`, `/specs/qc_report.html` |
 | `/vspec:plan` | Generate estimation and schedule | functions + details + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html` |
+
+If you only want the standalone quality check capability (without the full visual-spec workflow), use: https://github.com/visual-req/spec-qc
 
 ## Documentation
 

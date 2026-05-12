@@ -1,5 +1,7 @@
 ## コマンド一覧
 
+[English](../en-US/commands.md) | [中文](../zh-CN/commands.md) | [日本語](../ja-JP/commands.md)
+
 | コマンド | 目的 | 主な入力 | 主な出力 |
 | --- | --- | --- | --- |
 | `/vspec:new` | 生要件からベースライン spec を生成 | 要件テキスト + 対話 Q&A | `/specs/`（background/roles/terms/flows/scenarios/scenario_details/dependencies/functions/questions）+ `/docs/*` の初期化 |

@@ -1,5 +1,7 @@
 ## Getting Started
 
+[English](../en-US/getting-started.md) | [中文](../zh-CN/getting-started.md) | [日本語](../ja-JP/getting-started.md)
+
 This package provides a `/vspec:*` command-driven Skill that turns raw requirements into reviewable artifacts: specs, data models, runnable prototypes, detailed design, acceptance cases, tests, and integrated implementation inputs.
 
 ### 1. Installation

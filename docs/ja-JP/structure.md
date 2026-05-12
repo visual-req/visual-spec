@@ -1,5 +1,7 @@
 # ディレクトリ構成
 
+[English](../en-US/structure.md) | [中文](../zh-CN/structure.md) | [日本語](../ja-JP/structure.md)
+
 このドキュメントは、対象プロジェクトで使うディレクトリ構成（Skill が生成する `/specs/` ツリー等）を説明します。
 
 ## 典型構成

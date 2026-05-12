@@ -1,5 +1,7 @@
 # 目录结构
 
+[English](../en-US/structure.md) | [中文](../zh-CN/structure.md) | [日本語](../ja-JP/structure.md)
+
 本文描述目标项目中使用的目录结构：
 - Skill 生成的 `/specs/` 产物树（需求/设计交付物）
 

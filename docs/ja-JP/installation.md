@@ -1,5 +1,7 @@
 ## Skill 対応 AI エディタへのインストール
 
+[English](../en-US/installation.md) | [中文](../zh-CN/installation.md) | [日本語](../ja-JP/installation.md)
+
 推奨：skills.sh の公式インストーラ（skills CLI）を使って、Skill 対応の AI エディタ（Trae / Qwen / Kiro など）へインストールします。インストーラは利用可能な agent を自動検出し、`visual-spec` を適切な `skills/` ディレクトリへ配置します。
 
 ### 前提条件

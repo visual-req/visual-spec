@@ -1,5 +1,7 @@
 ## 安装到支持 Skill 的 AI 编辑器
 
+[English](../en-US/installation.md) | [中文](../zh-CN/installation.md) | [日本語](../ja-JP/installation.md)
+
 推荐使用 skills.sh 的官方安装器（skills CLI）安装到支持 Skill 的 AI 编辑器（Trae / Qwen / Kiro 等）。安装器会自动识别可用的 agent，并把 `visual-spec` 安装到对应的 `skills/` 目录。
 
 ### 前置条件

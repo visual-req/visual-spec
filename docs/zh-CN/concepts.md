@@ -1,5 +1,7 @@
 ## 设计原则
 
+[English](../en-US/concepts.md) | [中文](../zh-CN/concepts.md) | [日本語](../ja-JP/concepts.md)
+
 ### 1. 通过产物协作
 
 - 把“讨论”转成“可评审的产物”，降低对齐成本

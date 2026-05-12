@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1180" viewBox="0 0 1400 1180">
   <defs>
     <style>
       .bg { fill: #ffffff; }
@@ -19,13 +19,13 @@
     </marker>
   </defs>
 
-  <rect class="bg" x="0" y="0" width="1400" height="820"/>
+  <rect class="bg" x="0" y="0" width="1400" height="1180"/>
   <text class="title" x="36" y="42">visual-spec ワークフロー概要</text>
   <text class="note" x="36" y="66">/vspec:* は /docs と /specs の資料を読み込み、仕様・プロトタイプ・品質レポートを生成/更新します。</text>
 
-  <rect class="lane" x="30" y="90" width="410" height="700"/>
-  <rect class="lane" x="460" y="90" width="440" height="700"/>
-  <rect class="lane" x="920" y="90" width="450" height="700"/>
+  <rect class="lane" x="30" y="90" width="410" height="1060"/>
+  <rect class="lane" x="460" y="90" width="440" height="1060"/>
+  <rect class="lane" x="920" y="90" width="450" height="1060"/>
 
   <text class="laneTitle" x="50" y="122">ユーザー/関係者</text>
   <text class="laneTitle" x="480" y="122">コマンド実行（/vspec:*）</text>
@@ -64,28 +64,62 @@
   <text class="boxTitle" x="510" y="740">/vspec:qc（任意）</text>
   <text class="boxText" x="510" y="765">- 品質基準を統合し、qc_report を出力</text>
 
-  <rect class="box" x="945" y="150" width="400" height="130" rx="10"/>
-  <text class="boxTitle" x="965" y="180">入力資料</text>
+  <rect class="box" x="490" y="790" width="380" height="70" rx="10"/>
+  <text class="boxTitle" x="510" y="820">/vspec:accept（任意）</text>
+  <text class="boxText" x="510" y="845">- 受入用ケースを生成（重要シナリオ単位）</text>
+
+  <rect class="box" x="490" y="870" width="380" height="70" rx="10"/>
+  <text class="boxTitle" x="510" y="900">/vspec:impl（任意）</text>
+  <text class="boxText" x="510" y="925">- 統合実装入力を生成（選定スタックに準拠）</text>
+
+  <rect class="box" x="490" y="950" width="380" height="70" rx="10"/>
+  <text class="boxTitle" x="510" y="980">/vspec:append-test（任意）</text>
+  <text class="boxText" x="510" y="1005">- 受入用ケースから自動テスト骨格を生成</text>
+
+  <rect class="box" x="490" y="1030" width="380" height="70" rx="10"/>
+  <text class="boxTitle" x="510" y="1060">/vspec:plan（任意）</text>
+  <text class="boxText" x="510" y="1085">- 見積とスケジュール（HTML）を生成</text>
+
+  <rect class="box" x="945" y="150" width="400" height="150" rx="10"/>
+  <text class="boxTitle" x="965" y="180">基本仕様（/vspec:new）</text>
   <text class="path" x="965" y="206">/docs/current/</text>
   <text class="path" x="965" y="228">/docs/refine/</text>
   <text class="path" x="965" y="250">/docs/legacy/ → /docs/input/（upgrade）</text>
+  <text class="path" x="965" y="272">/specs/background/*</text>
+  <text class="path" x="965" y="294">/specs/functions/*</text>
 
   <rect class="box" x="945" y="310" width="400" height="120" rx="10"/>
-  <text class="boxTitle" x="965" y="340">基本仕様（/vspec:new）</text>
-  <text class="path" x="965" y="366">/specs/background/*</text>
-  <text class="path" x="965" y="388">/specs/functions/*</text>
-  <text class="path" x="965" y="410">/specs/flows/*.puml</text>
+  <text class="boxTitle" x="965" y="340">詳細仕様（/vspec:detail）</text>
+  <text class="path" x="965" y="366">/specs/details/**</text>
+  <text class="path" x="965" y="388">/specs/details/reader.html</text>
 
   <rect class="box" x="945" y="460" width="400" height="120" rx="10"/>
-  <text class="boxTitle" x="965" y="490">詳細仕様（/vspec:detail）</text>
-  <text class="path" x="965" y="516">/specs/details/**</text>
-  <text class="path" x="965" y="538">/specs/details/reader.html</text>
+  <text class="boxTitle" x="965" y="490">検証とプロトタイプ（/vspec:verify）</text>
+  <text class="path" x="965" y="516">/specs/models/*.md</text>
+  <text class="path" x="965" y="538">/specs/prototypes/**</text>
+  <text class="path" x="965" y="560">/specs/prototypes/scenario.html</text>
 
-  <rect class="box" x="945" y="610" width="400" height="120" rx="10"/>
-  <text class="boxTitle" x="965" y="640">検証とプロトタイプ（/vspec:verify）</text>
-  <text class="path" x="965" y="666">/specs/models/*.md</text>
-  <text class="path" x="965" y="688">/specs/prototypes/**</text>
-  <text class="path" x="965" y="710">/specs/prototypes/scenario.html</text>
+  <rect class="box" x="945" y="710" width="400" height="80" rx="10"/>
+  <text class="boxTitle" x="965" y="740">品質レポート（/vspec:qc）</text>
+  <text class="path" x="965" y="766">/specs/qc_report.json</text>
+  <text class="path" x="965" y="788">/specs/qc_report.html</text>
+
+  <rect class="box" x="945" y="790" width="400" height="80" rx="10"/>
+  <text class="boxTitle" x="965" y="820">受入用ケース（/vspec:accept）</text>
+  <text class="path" x="965" y="846">/specs/acceptance/**</text>
+
+  <rect class="box" x="945" y="870" width="400" height="80" rx="10"/>
+  <text class="boxTitle" x="965" y="900">統合実装入力（/vspec:impl）</text>
+  <text class="path" x="965" y="926">/specs/backend/**（有効時）</text>
+
+  <rect class="box" x="945" y="950" width="400" height="80" rx="10"/>
+  <text class="boxTitle" x="965" y="980">自動テスト（/vspec:append-test）</text>
+  <text class="path" x="965" y="1006">/tests/**（または既存のテストディレクトリ）</text>
+
+  <rect class="box" x="945" y="1030" width="400" height="80" rx="10"/>
+  <text class="boxTitle" x="965" y="1060">見積と排期（/vspec:plan）</text>
+  <text class="path" x="965" y="1086">/specs/plan/plan_estimate.md</text>
+  <text class="path" x="965" y="1108">/specs/plan/plan_schedule.html</text>
 
   <path class="arrow" marker-end="url(#arrowHead)" d="M 415 205 C 460 205, 465 205, 490 205"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 870 215 C 905 215, 920 215, 945 215"/>
@@ -97,9 +131,18 @@
   <path class="arrow" marker-end="url(#arrowHead)" d="M 870 520 C 905 520, 920 520, 945 520"/>
 
   <path class="arrow" marker-end="url(#arrowHead)" d="M 680 580 C 680 595, 680 600, 680 610"/>
-  <path class="arrow dash" marker-end="url(#arrowHead)" d="M 680 690 C 680 702, 680 704, 680 710"/>
+  <path class="arrow dash" marker-end="url(#arrowHead)" d="M 680 690 C 680 700, 680 702, 680 710"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 780 C 680 785, 680 787, 680 790"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 860 C 680 865, 680 867, 680 870"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 940 C 680 945, 680 947, 680 950"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 1020 C 680 1025, 680 1027, 680 1030"/>
 
-  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 580 C 740 590, 850 610, 945 650"/>
-  <path class="arrow" marker-end="url(#arrowHead)" d="M 945 690 C 860 700, 770 690, 680 670"/>
-  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 670 C 520 670, 440 670, 415 670"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 745 C 905 745, 920 745, 945 745"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 825 C 905 825, 920 825, 945 825"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 905 C 905 905, 920 905, 945 905"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 985 C 905 985, 920 985, 945 985"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 1065 C 905 1065, 920 1065, 945 1065"/>
+
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 945 560 C 820 610, 640 645, 415 665"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 415 665 C 440 665, 465 665, 490 665"/>
 </svg>

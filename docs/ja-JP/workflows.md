@@ -1,5 +1,7 @@
 ## ワークフロー
 
+[English](../en-US/workflows.md) | [中文](../zh-CN/workflows.md) | [日本語](../ja-JP/workflows.md)
+
 ### 全体フロー図
 
 ![visual-spec ワークフロー概要](../assets/visual-spec-workflow-ja.svg)

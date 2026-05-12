@@ -1,5 +1,7 @@
 ## 背景
 
+[English](../en-US/ui-spec-modification-notes.md) | [中文](../zh-CN/ui-spec-modification-notes.md) | [日本語](../ja-JP/ui-spec-modification-notes.md)
+
 プロトタイプ（Web + Mobile）が拡大すると、ページ数と種類が増えます。UI 規約が統一されていないと、次の問題が起きやすくなります：
 
 - 似たページ間でレイアウトが不統一（テーブル/フォーム/詳細）

@@ -1,5 +1,7 @@
 # 多 AI 平台安装指南
 
+[English](../en-US/ai-platform-installation.md) | [中文](../zh-CN/ai-platform-installation.md) | [日本語](../ja-JP/ai-platform-installation.md)
+
 推荐使用 skills.sh 的官方安装器（skills CLI）进行安装：同一套命令可面向不同 AI 平台（Trae / Claude Code / Cursor / GitHub Copilot 等）把 Skill 安装到对应的 skills 目录。
 
 ## 方式一：skills.sh（推荐）

@@ -1,5 +1,7 @@
 ## Command Overview
 
+[English](../en-US/commands.md) | [中文](../zh-CN/commands.md) | [日本語](../ja-JP/commands.md)
+
 | Command | Purpose | Primary Inputs | Primary Outputs |
 | --- | --- | --- | --- |
 | `/vspec:new` | Generate baseline spec artifacts from raw requirements | Raw requirement text + interactive Q&A | `/specs/` (original, stakeholders, roles, terms, flows, scenarios, scenario_details, dependencies, functions, questions) + initializes `/docs/*` archive directories |

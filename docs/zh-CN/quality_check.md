@@ -1,5 +1,7 @@
 ## 需求质量检查（独立使用）
 
+[English](../en-US/getting-started.md) | [中文](../zh-CN/quality_check.md) | [日本語](../ja-JP/getting-started.md)
+
 本节说明如何不依赖 `/vspec:qc`，单独利用内置的质量标准文件，对“Word/Markdown/文档库”等任意格式的需求文档进行质量扫描，并生成质量问题表格。
 
 ### 准备

@@ -1,5 +1,7 @@
 ## 快速开始
 
+[English](../en-US/getting-started.md) | [中文](../zh-CN/getting-started.md) | [日本語](../ja-JP/getting-started.md)
+
 本包提供一套由 `/vspec:*` 命令驱动的 Skill 工作流，用于把原始需求转成可评审的交付产物：规格、数据模型、可运行原型、详细设计、验收用例、测试与集成实现输入。
 
 ### 1. 安装

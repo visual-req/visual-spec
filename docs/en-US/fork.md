@@ -1,5 +1,7 @@
 ## How to customize after forking
 
+[English](../en-US/fork.md) | [中文](../zh-CN/fork.md) | [日本語](../ja-JP/fork.md)
+
 The default behavior of this repo targets general-purpose requirements analysis and delivery. If you fork this repo for a specific industry/domain or for internal team rollout, consider the following customizations so `/vspec:*` outputs better match your organization’s standards.
 
 ### 1) Add domain/industry quality standards (Recommended)

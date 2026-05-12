@@ -1,5 +1,7 @@
 ## クイックスタート
 
+[English](../en-US/getting-started.md) | [中文](../zh-CN/getting-started.md) | [日本語](../ja-JP/getting-started.md)
+
 このパッケージは `/vspec:*` コマンド駆動の Skill を提供します。生の要件から、レビュー可能な成果物（spec、データモデル、実行可能プロトタイプ、詳細設計、受入用ケース、テスト、実装入力）へ変換します。
 
 ### 1. インストール

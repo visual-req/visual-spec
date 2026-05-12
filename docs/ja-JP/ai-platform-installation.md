@@ -1,5 +1,7 @@
 # 複数 AI プラットフォーム向けインストールガイド
 
+[English](../en-US/ai-platform-installation.md) | [中文](../zh-CN/ai-platform-installation.md) | [日本語](../ja-JP/ai-platform-installation.md)
+
 推奨：skills.sh の公式インストーラ（skills CLI）を利用します。同一の Skill を、Trae / Claude Code / Cursor / GitHub Copilot など複数の AI プラットフォームに対して、それぞれの `skills/` ディレクトリへインストールできます。
 
 ## 方法 1：skills.sh（推奨）

@@ -1,5 +1,7 @@
 ## 命令总览
 
+[English](../en-US/commands.md) | [中文](../zh-CN/commands.md) | [日本語](../ja-JP/commands.md)
+
 | 命令 | 作用 | 主要输入 | 主要输出 |
 | --- | --- | --- | --- |
 | `/vspec:new` | 从原始需求生成第一版规格产物 | 原始需求文本 + 交互式问答 | `/specs/`（original、stakeholders、roles、terms、flows、scenarios、scenario_details、dependencies、functions、questions）+ 初始化 `/docs/*` 输入归档目录 |

@@ -1,5 +1,7 @@
 # 复杂输入材料（Word/Excel 等）的归档与使用
 
+[English](../en-US/getting-started.md) | [中文](../zh-CN/complicated.md) | [日本語](../ja-JP/getting-started.md)
+
 当你的需求不是“一段文字”，而是多份原始材料（Word/Excel/PDF/流程图/截图/样例数据/协议等）时，建议把这些材料统一归档到 `/docs/`，并通过约定目录与清单文件让 Skill 能够稳定引用与复用。
 
 ## 1. `/docs/current/`：本次需求/迭代的原始材料

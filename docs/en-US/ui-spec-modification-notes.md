@@ -1,5 +1,7 @@
 ## Background
 
+[English](../en-US/ui-spec-modification-notes.md) | [中文](../zh-CN/ui-spec-modification-notes.md) | [日本語](../ja-JP/ui-spec-modification-notes.md)
+
 As the prototype grows (Web + Mobile), the number and types of pages will keep increasing. Without a unified UI convention, it is very easy to get:
 
 - Inconsistent layouts across similar pages (tables/forms/details)

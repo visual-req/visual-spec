@@ -1,5 +1,7 @@
 ## 設計原則
 
+[English](../en-US/concepts.md) | [中文](../zh-CN/concepts.md) | [日本語](../ja-JP/concepts.md)
+
 ### 1. 成果物で合意する
 
 - 「会話」を「レビュー可能な成果物」に変換して、認識合わせのコストを下げる

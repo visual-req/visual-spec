@@ -23,6 +23,7 @@ Docs:
 
 - 要件分析：背景、ステークホルダー、ロール、用語、フロー、シナリオ、詳細、依存関係、機能一覧、未解決質問を生成
 - 方案検証：データモデル、実行可能プロトタイプ、シナリオレビュー用ページを生成
+- プロトタイプ生成（高頻度）：`/vspec:verify` が `/scheme.yaml` に合わせて実行可能な Web プロトタイプを生成（`/specs/prototypes/`）。ロール別ダッシュボード（適切なチャート選定/配置）とシナリオレビュー用ページを含む
 - 詳細設計：機能ごとに RBAC/データ権限/インタラクション/バリデーション/ログ/通知/MQ/入出力/定期実行 spec を生成
 - 受入 & テスト：受入ケースと自動テストコードを生成
 - 統合実装：リポジトリの実スタック/規約に合わせて backend + frontend の統合コード生成
@@ -43,6 +44,8 @@ Docs:
 | `/vspec:upgrade` | 既存資料から specs を再生成/更新 | `/docs/legacy/*` + `/docs/current/*` | `/specs/` 更新 + 技術選定を `/scheme.yaml` に同期 |
 | `/vspec:qc` | 品質チェック | `/specs/` + 標準 | `/specs/qc_report.json`、`/specs/qc_report.html` |
 | `/vspec:plan` | 見積・排期 | functions + details + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
+
+品質チェック（QC）機能だけを単独で使いたい場合（visual-spec のフルワークフロー不要）は、こちらを利用してください： https://github.com/visual-req/spec-qc
 
 ## Documentation
 

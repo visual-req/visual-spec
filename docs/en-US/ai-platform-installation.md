@@ -1,5 +1,7 @@
 # Multi-Agent Installation Guide
 
+[English](../en-US/ai-platform-installation.md) | [中文](../zh-CN/ai-platform-installation.md) | [日本語](../ja-JP/ai-platform-installation.md)
+
 Recommended: use the official skills.sh installer (the skills CLI). It can install the same Skill to different AI platforms (Trae / Claude Code / Cursor / GitHub Copilot, etc.) by placing it into the correct skills directory.
 
 ## Option 1: skills.sh (Recommended)

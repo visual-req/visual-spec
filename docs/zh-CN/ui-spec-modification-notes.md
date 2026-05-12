@@ -1,5 +1,7 @@
 ## 背景
 
+[English](../en-US/ui-spec-modification-notes.md) | [中文](../zh-CN/ui-spec-modification-notes.md) | [日本語](../ja-JP/ui-spec-modification-notes.md)
+
 原型生成过程中，页面数量与类型会持续增长（Web + Mobile），如果没有统一的 UI 规范，很容易出现：
 
 - 同类页面布局不一致（表格/表单/详情）
