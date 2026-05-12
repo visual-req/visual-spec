@@ -1,0 +1,30 @@
+## Verification & Validation：验证与确认的闭环
+
+[English](../../en-US/theory/verification_and_validation.md) | [中文](../../zh-CN/theory/verification_and_validation.md) | [日本語](../../ja-JP/theory/verification_and_validation.md)
+
+在 visual-spec 的流程里，verification（符合规格）与 validation（符合需求）是两类不同的问题，它们需要不同的证据与不同的评审方式。
+
+### 两个概念的区别
+
+- Verification：我们写的规格是否自洽、完整、可实现、可测试、可追踪
+- Validation：我们要做的东西是否真的满足目标用户与业务价值，场景是否跑得通
+
+### visual-spec 中的 V&V 过程
+
+1. 明确范围与口径（`/vspec:new`）
+   - 建立共同语言：角色、术语、场景、流程、功能清单、依赖、开放问题
+2. 规格细化（`/vspec:detail`）
+   - 把功能展开到可实现/可测试粒度，形成可追溯的细节规格
+3. Validation（`/vspec:verify` + 干系人评审）
+   - 通过可运行原型 + 场景评审入口验证“行为是否符合预期”
+   - 在“评审与确认”环节中，允许划定场景范围：明确本次评审/验收要覆盖哪些关键场景，避免范围不清导致评审无结论
+4. Verification（`/vspec:qc`）
+   - 用规则化检查发现遗漏/矛盾/不可测/不可追踪，并沉淀为可修复项
+5. 变更闭环（`/vspec:refine`）
+   - 把评审结论与 QC 修复点写入 refine 输入，驱动下游产物同步更新，然后再次进行验证/检查
+
+### 为什么要把 V 与 V 分开
+
+- 证据不同：验证需要“可运行的行为证据”，确认需要“规格一致性与可测证据”
+- 评审对象不同：业务更擅长在原型与场景里发现偏差，研发/测试更擅长在规格与可测性里发现缺口
+- 结论更可执行：先划定场景范围，再评审并落地到 refine，能把意见变成可追踪的修改任务

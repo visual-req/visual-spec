@@ -47,29 +47,63 @@
 - 当单功能 SP 超过单 Sprint 剩余容量时，自动切分到后续 Sprint；必要时在卡片备注中标注“跨 Sprint”
 - 对存在强串行关系的模块/功能（例如状态机核心、外部对接落地）：优先串行排布；在并行限制内避免资源争用
 
-输出要求（HTML：排期用户故事地图，必须）：
-1. 写入 `/specs/plan/plan_schedule.html`，必须是可直接打开的完整 HTML（包含 basic CSS），无需外部资源依赖
-2. 输出内容必须同时满足：
-   - 以“用户故事地图”的呈现方式输出（但不要生成用户故事文本）
-   - 明确每个迭代的“迭代目标”与“迭代任务”（任务以卡片呈现）
+输出要求（JSON + HTML：排期用户故事地图，必须）：
+1. 写入 `/specs/plan/plan_story_map.json`（数据）与 `/specs/plan/plan_schedule.html`（模板）：
+   - JSON：只包含结构化数据（Sprint/模块/卡片/参数摘要/假设说明），不包含大段 HTML
+   - HTML：必须是可直接打开的完整 HTML（包含 basic CSS），无需外部资源依赖
+   - HTML 模板规范：以本仓库模板文件为基线生成页面结构与样式：`/skills/visual-spec/prompts/vspec_plan/schedule.html`
+2. HTML 必须通过 JSON 加载并渲染：
+   - 默认用 `fetch("./plan_story_map.json")` 加载数据并渲染
+   - 同时在 HTML 内内置一份等价的 JSON 作为 fallback（例如放在 `<script type="application/json" id="storyMapData">...</script>`），当 `fetch` 失败（典型为 file:// 直接打开）时，自动使用内置数据渲染，并在页面顶部用醒目提示说明当前为 fallback 数据
 3. 页面可见文案（必须按所选语言）：
-   - 语言=en：使用英文（例如 Schedule Overview / Sprint / Goal / Total / Dependencies / Module / Task / Estimate）
+   - 语言=en：使用英文
    - 语言=zh-CN：使用中文
    - 语言=ja：使用日文
-3. HTML 结构要求（必须遵守）：
-   - 顶部：排期总览（Sprint 列表，每个 Sprint 1~3 句目标 + 合计故事点（SP）+ 关键依赖/阻塞 + 若使用了假设容量/假期等必须在显著位置标注“假设”说明）
+4. 内容与结构要求（JSON 数据模型与 HTML 渲染必须共同满足）：
+   - 以“用户故事地图”的呈现方式输出（但不要生成用户故事文本）
+   - 顶部：排期总览与参数摘要（迭代长度、Velocity/推导容量、团队规模、并行限制、缓冲比例、发布窗口/假期等）；若使用了假设，必须显式标注“假设”与来源
    - 主体：地图表格（table）
-     - 横向列：模块（来自 functions 的“模块”，去重后排序可按出现顺序）
+     - 横向列：模块（来自 functions 的“模块”，去重后按出现顺序）
      - 纵向行：迭代（Sprint 1..N，按计划顺序）
-     - 每个单元格：放置该迭代内属于该模块的任务卡片（卡片=一行功能清单）
-4. 卡片内容要求（每张卡片必须包含）：
+     - 单元格：放置该迭代内属于该模块的任务卡片（卡片=一行功能清单）
+5. 卡片内容要求（每张卡片必须包含）：
    - 标题：功能（必要时带子功能）
    - 说明：取 functions 的“说明”（可截断但要保留关键信息）
    - 估算：引用 `/specs/plan/plan_estimate.md` 中同一行的估算（以 `SP=<n>` 展示；不显示人天）
    - 依赖/阻塞：如有则展示（外部系统、口径、权限、资源等）
-5. 去重与一致性：
+6. 去重与一致性：
    - 同一个功能清单行只能出现在一个迭代里
    - 估算数字必须与 `/specs/plan/plan_estimate.md` 保持一致（SP 值）
+
+JSON 数据模型（必须严格遵守；用于 HTML 渲染）：
+- 顶层结构：
+  - `meta`：排期参数摘要与假设/缺失信息
+  - `sprints`：迭代列表（按计划顺序）
+  - `modules`：模块列表（来自 functions 的“模块”，去重后按出现顺序）
+  - `cards`：任务卡片列表（每张卡片对应 functions 表格中的一行）
+- `meta` 字段（必须）：
+  - `language`：`en` / `zh-CN` / `ja`
+  - `iterationLengthDays`：整数
+  - `bufferRatio`：0~1 的小数
+  - `capacitySpPerSprint`：数字（每个 Sprint 的可用容量，已扣除 buffer 后）
+  - `capacitySource`：`velocity` 或 `assumption`
+  - `team`：对象（可缺省某些角色，但必须为对象类型）
+  - `assumptions`：字符串数组（没有则空数组）
+  - `missingInputs`：字符串数组（没有则空数组）
+- `sprints` 每项字段（必须）：
+  - `id`：例如 `Sprint 1`
+  - `name`：可与 id 相同
+  - `goal`：1~3 句
+  - `totalSp`：数字
+  - `blockers`：字符串数组（没有则空数组）
+- `cards` 每项字段（必须）：
+  - `sprintId`：必须匹配 `sprints[].id`
+  - `module`：必须匹配 `modules[]`
+  - `title`：功能标题（必要时拼上子功能）
+  - `notes`：说明（来自 functions 的“说明”）
+  - `estimate`：`SP=<n>`，必须与 `/specs/plan/plan_estimate.md` 一致
+  - `dependencies`：字符串（没有则空字符串）
+  - `source`：对象，包含 `functionsFile`（字符串）与 `rowIndex`（从 1 开始的整数）
 
 缺信息时的交互（必须）：
 - 若未提供 Velocity、团队规模或迭代长度：在输出顶部“前置条件缺失”段落中列出缺失项，并给出“建议填写”的字段清单与示例；仍可按默认假设生成一个“可讨论”的初版排期，但必须在总览中显式标注假设来源（例如“默认每人每日 1.5 SP、Sprint=10 天、FE=2/BE=2/QA=1”）

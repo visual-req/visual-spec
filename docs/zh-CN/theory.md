@@ -12,8 +12,12 @@
 
 - SDLC 对齐：为什么要按阶段拆分命令，以及每一步对应 SDLC 的哪个阶段  
   - 详见：[theory/sdlc.md](theory/sdlc.md)
+- 规划与排期：如何进行需求分解、估算和排期，以及用户故事地图为什么采用 HTML（`/vspec:plan`）  
+  - 详见：[theory/plan.md](theory/plan.md)
 - 评审友好：为什么用 HTML 输出场景列表并联动原型，为什么更利于干系人评审  
   - 详见：[theory/prototype-review.md](theory/prototype-review.md)
+- Verification & Validation：verification_and_validation 的过程与闭环（review → refine → 再验证）  
+  - 详见：[theory/verification_and_validation.md](theory/verification_and_validation.md)
 - `/vspec:new`：为什么要分析那么多内容，以及每一类分析产物在后续步骤中的作用  
   - 详见：[theory/new-analysis.md](theory/new-analysis.md)
 - 分析方法：把“需求分析思维”拆成可复用的模块化方法  

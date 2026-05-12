@@ -12,8 +12,12 @@ This section explains the core design philosophy of the visual-spec Skill: how i
 
 - SDLC mapping: why the command stages exist and how they align with SDLC  
   - See: [theory/sdlc.md](theory/sdlc.md)
+- Planning: how to break down scope, estimate, and schedule, and why the story map is HTML (`/vspec:plan`)  
+  - See: [theory/plan.md](theory/plan.md)
 - Review ergonomics: why scenario lists are HTML and how they link to prototypes to make reviews faster  
   - See: [theory/prototype-review.md](theory/prototype-review.md)
+- Verification & Validation: the review loop (review → refine → re-validate)  
+  - See: [theory/verification_and_validation.md](theory/verification_and_validation.md)
 - Why `/vspec:new` analyzes many dimensions and how each output is reused downstream  
   - See: [theory/new-analysis.md](theory/new-analysis.md)
 - Analysis thinking: break “requirements analysis” into reusable modules  

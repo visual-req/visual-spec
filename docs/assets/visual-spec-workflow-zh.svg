@@ -37,10 +37,11 @@
   <text class="boxText" x="75" y="205">- 原始需求、补充说明、附件（PPT/Word/Excel/PDF/图片）</text>
   <text class="boxText" x="75" y="228">- 访谈问卷填写、问题回答、评审意见</text>
 
-  <rect class="box" x="55" y="610" width="360" height="130" rx="10"/>
+  <rect class="box" x="55" y="610" width="360" height="150" rx="10"/>
   <text class="boxTitle" x="75" y="640">评审与确认</text>
   <text class="boxText" x="75" y="665">- 评审方案与原型（scenario.html、dashboard）</text>
-  <text class="boxText" x="75" y="688">- 确认变更点，进入 refine 迭代</text>
+  <text class="boxText" x="75" y="688">- 划定场景范围（本次评审/验收覆盖）</text>
+  <text class="boxText" x="75" y="711">- 确认变更点，进入 refine 迭代</text>
 
   <!-- Boxes: middle lane -->
   <rect class="box" x="490" y="150" width="380" height="130" rx="10"/>

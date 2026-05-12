@@ -11,8 +11,12 @@
 
 - SDLC 対応：段階設計の意図と SDLC とのマッピング  
   - [theory/sdlc.md](theory/sdlc.md)
+- 計画と見積：要件分解・見積・排期の進め方と、ユーザーストーリーマップを HTML にする理由（`/vspec:plan`）  
+  - [theory/plan.md](theory/plan.md)
 - レビュー最適化：なぜ HTML のシナリオ一覧なのか、なぜプロトタイプ連動がレビューに効くのか  
   - [theory/prototype-review.md](theory/prototype-review.md)
+- Verification & Validation：レビューの閉ループ（review → refine → 再検証）  
+  - [theory/verification_and_validation.md](theory/verification_and_validation.md)
 - `/vspec:new` が多くを分析する理由と、出力が後続ステップでどう再利用されるか  
   - [theory/new-analysis.md](theory/new-analysis.md)
 - 分析思考：要件分析を再利用可能なモジュールとして分解する  

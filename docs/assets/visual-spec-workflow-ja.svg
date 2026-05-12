@@ -36,10 +36,11 @@
   <text class="boxText" x="75" y="205">- 要件原文、追補、添付（PPT/Word/Excel/PDF/画像）</text>
   <text class="boxText" x="75" y="228">- インタビュー回答、Q&amp;A、レビュー指摘</text>
 
-  <rect class="box" x="55" y="610" width="360" height="130" rx="10"/>
+  <rect class="box" x="55" y="610" width="360" height="150" rx="10"/>
   <text class="boxTitle" x="75" y="640">レビューと確定</text>
   <text class="boxText" x="75" y="665">- プロトタイプ確認（scenario.html、ダッシュボード）</text>
-  <text class="boxText" x="75" y="688">- 変更点を確定し refine で反映</text>
+  <text class="boxText" x="75" y="688">- 対象シナリオ範囲を確定（レビュー/受入）</text>
+  <text class="boxText" x="75" y="711">- 変更点を確定し refine で反映</text>
 
   <rect class="box" x="490" y="150" width="380" height="130" rx="10"/>
   <text class="boxTitle" x="510" y="180">/vspec:new</text>

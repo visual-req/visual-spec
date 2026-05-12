@@ -36,10 +36,11 @@
   <text class="boxText" x="75" y="205">- Raw requirements, clarifications, attachments (PPT/Word/Excel/PDF/images)</text>
   <text class="boxText" x="75" y="228">- Interview answers, Q&amp;A, review feedback</text>
 
-  <rect class="box" x="55" y="610" width="360" height="130" rx="10"/>
+  <rect class="box" x="55" y="610" width="360" height="150" rx="10"/>
   <text class="boxTitle" x="75" y="640">Review &amp; Confirmation</text>
   <text class="boxText" x="75" y="665">- Review prototypes (scenario.html, dashboards)</text>
-  <text class="boxText" x="75" y="688">- Confirm changes and iterate via refine</text>
+  <text class="boxText" x="75" y="688">- Define the scenario scope (for review/acceptance)</text>
+  <text class="boxText" x="75" y="711">- Confirm changes and iterate via refine</text>
 
   <rect class="box" x="490" y="150" width="380" height="130" rx="10"/>
   <text class="boxTitle" x="510" y="180">/vspec:new</text>
