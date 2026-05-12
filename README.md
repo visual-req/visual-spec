@@ -1,12 +1,14 @@
 # visual-spec
 
+[English](README.md) | [中文](README-zh-CN.md) | [日本語](README-ja-JP.md)
+
 This repo provides a requirements analysis and delivery assistant Skill. It offers a `/vspec:*` command-driven workflow that turns raw requirements into reviewable, shippable artifacts: specs, data models, runnable prototypes, detailed design, acceptance cases, tests, and integrated implementation inputs.
 
 It is designed around an independently-owned IP methodology: “visualized requirements analysis”. The goal is to standardize and make the end-to-end workflow (clarification → design → validation) more visual, traceable, and reusable, so teams can reduce communication overhead and avoid rework.
 
 Version: 0.1.13 (2026-04-12)
 
-## Installation
+## Quick Installation
 
 Install the Skill into your AI editor configuration directory (Trae / Claude Code / Cursor / GitHub Copilot, etc.):
 
@@ -15,8 +17,8 @@ npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
 Docs:
-- Installation: `docs/en-US/installation.md`
-- Multi-agent installation: `docs/en-US/ai-platform-installation.md`
+- [Installation](docs/en-US/installation.md)
+- [Multi-agent installation](docs/en-US/ai-platform-installation.md)
 
 ## Overview
 
@@ -70,12 +72,12 @@ Docs:
 
 ## Quick Start
 
-1. Install: `npx skills add visual-req/visual-spec --skill visual-spec`
-2. Run `/vspec:new` and paste your raw requirement
-3. Answer the Open Questions so the spec converges on decisions and assumptions
-4. Run commands in order to get end-to-end deliverables:
-   - `/vspec:detail` → detailed specs under `/specs/details/`
-   - `/vspec:verify` → models + runnable prototype under `/specs/models/` and `/specs/prototypes/`
-   - `/vspec:qc` → quality report `/specs/qc_report.json` and `/specs/qc_report.html`
-   - `/vspec:plan` (optional) → estimation + schedule under `/specs/plan/`
-5. When requirements change, put updates in `/docs/refine/refine.md` (or paste into the prompt window) and run `/vspec:refine` to keep downstream artifacts in sync
+1. Install the Skill: `npx skills add visual-req/visual-spec --skill visual-spec`
+2. Run `/vspec:new` and input your raw requirement text.
+3. Answer the "Open Questions" when prompted to close gaps and assumptions.
+4. Execute the following commands in sequence to generate the final artifacts:
+   - `/vspec:detail`: Generate detailed specs (`/specs/details/`)
+   - `/vspec:verify`: Generate data models and runnable prototypes (`/specs/models/`, `/specs/prototypes/`)
+   - `/vspec:qc`: Generate quality reports (`/specs/qc_report.json`, `/specs/qc_report.html`)
+   - `/vspec:plan` (Optional): Generate estimation and schedule (`/specs/plan/`)
+5. When requirements change: write the updates in `/docs/refine/refine.md` (or paste them directly), then run `/vspec:refine` to keep downstream artifacts in sync.

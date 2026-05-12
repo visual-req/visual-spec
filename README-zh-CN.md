@@ -1,10 +1,22 @@
 # visual-spec（中文）
 
+[English](README.md) | [中文](README-zh-CN.md) | [日本語](README-ja-JP.md)
+
 本仓库提供一个“需求分析与交付助手”Skill：用一套 `/vspec:*` 命令驱动的工作流，把原始需求转换为可评审、可落地的交付产物（规格、数据模型、可运行原型、详细设计、验收用例、测试与集成实现输入）。
 
 该 Skill 的开发初衷是把“需求澄清 → 方案设计 → 交付验证”流程标准化、可视化、可复用，减少沟通损耗与返工成本。整体能力范围以独立知识产权的“可视化需求分析”方法为基础进行设计：强调以流程/场景/角色/数据模型为主线，把需求拆解为可验证的结构化产物，并确保下游原型/细节/实现输入可持续迭代同步。
 
 版本：0.1.13（2026-04-12）
+
+## Quick Installation
+
+```bash
+npx skills add visual-req/visual-spec --skill visual-spec
+```
+
+Docs:
+- [Installation](docs/en-US/installation.md)
+- [Multi-agent installation](docs/en-US/ai-platform-installation.md)
 
 ## 文档导览
 

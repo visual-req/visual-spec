@@ -1,20 +1,22 @@
 # visual-spec（日本語）
 
+[English](README.md) | [中文](README-zh-CN.md) | [日本語](README-ja-JP.md)
+
 このリポジトリは、要件分析とデリバリー支援の Skill を提供します。`/vspec:*` のコマンド駆動ワークフローで、生の要件をレビュー可能かつ実装可能な成果物（spec、データモデル、実行可能プロトタイプ、詳細設計、受入ケース、テスト、統合実装入力）へ変換します。
 
 本 Skill は、独立した知的財産に基づく「可視化要件分析（visualized requirements analysis）」の方法論をベースに設計しています。目的は、要件の明確化 → 設計 → 検証のプロセスを標準化・可視化・再利用可能にし、コミュニケーションコストと手戻りを減らすことです。
 
 バージョン：0.1.13（2026-04-12）
 
-## Installation
+## Quick Installation
 
 ```bash
 npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
 Docs:
-- Installation: `docs/en-US/installation.md`
-- Multi-agent installation: `docs/en-US/ai-platform-installation.md`
+- [Installation](docs/en-US/installation.md)
+- [Multi-agent installation](docs/en-US/ai-platform-installation.md)
 
 ## Overview
 
@@ -68,12 +70,12 @@ Docs:
 
 ## Quick Start
 
-1. インストール：`npx skills add visual-req/visual-spec --skill visual-spec`
-2. `/vspec:new` を実行し、生要件を入力
-3. Open Questions（未解決質問）に回答して、前提と判断を収束
-4. 以下の順に実行して成果物を作成：
-   - `/vspec:detail` → `/specs/details/`
-   - `/vspec:verify` → `/specs/models/`、`/specs/prototypes/`
-   - `/vspec:qc` → `/specs/qc_report.json`、`/specs/qc_report.html`
-   - `/vspec:plan`（任意）→ `/specs/plan/`
-5. 変更が出たら `/docs/refine/refine.md`（または貼り付け）を更新し、`/vspec:refine` で下流成果物を同期更新
+1. Skillのインストール：`npx skills add visual-req/visual-spec --skill visual-spec`
+2. `/vspec:new` を実行し、生の要件テキストを入力します
+3. 指示に従って「Open Questions（未解決質問）」に答え、要件の方向性と前提条件を収束させます
+4. 順を追ってコマンドを実行し、最終成果物を生成します：
+   - `/vspec:detail`：詳細 spec を生成（`/specs/details/`）
+   - `/vspec:verify`：データモデルと実行可能プロトタイプを生成（`/specs/models/`、`/specs/prototypes/`）
+   - `/vspec:qc`：品質レポートを生成（`/specs/qc_report.json`、`/specs/qc_report.html`）
+   - `/vspec:plan`（任意）：見積とスケジュールを生成（`/specs/plan/`）
+5. 要件に変更がある場合：変更内容を `/docs/refine/refine.md` に記載（または対話ウィンドウに貼り付け）し、`/vspec:refine` を実行して下流の成果物と同期更新します
