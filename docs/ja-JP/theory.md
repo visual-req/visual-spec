@@ -27,12 +27,24 @@
   - [theory/plan.md](theory/plan.md)
 - レビュー最適化：なぜ HTML のシナリオ一覧なのか、なぜプロトタイプ連動がレビューに効くのか  
   - [theory/prototype-review.md](theory/prototype-review.md)
+- 読みやすさ：分層読書で要件理解を速くし、レビューの摩擦を減らす  
+  - [theory/reading-experience.md](theory/reading-experience.md)
 - Verification & Validation：レビューの閉ループ（review → refine → 再検証）  
   - [theory/verification_and_validation.md](theory/verification_and_validation.md)
 - `/vspec:new` が多くを分析する理由と、出力が後続ステップでどう再利用されるか  
   - [theory/new-analysis.md](theory/new-analysis.md)
 - 分析思考：要件分析を再利用可能なモジュールとして分解する  
   - [theory/thinking-framework.md](theory/thinking-framework.md)
+- 思考モード：境界/対称/制約/多様性を補完し、「主経路だけ」の仕様を防ぐ  
+  - [theory/thinking-modes.md](theory/thinking-modes.md)
+- 抽象（flows）：承認/回付型フローを 1 つの骨格に正規化し、制御パスと制約出力を安定化する  
+  - [theory/abstraction.md](theory/abstraction.md)
+- シナリオ分岐：シナリオを列挙し、確率/価値/リスクでスコープを定め、受入ケースへ接続する  
+  - [theory/scenarios.md](theory/scenarios.md)
+- ステークホルダー識別：意思決定/実行/影響/制約の視点を補完し、見落としを防ぐ  
+  - [theory/stakeholder-identification.md](theory/stakeholder-identification.md)
+- 品質チェック：業界非依存の次元で要件品質を検査し、修正までの閉ループを作る  
+  - [theory/quality_check.md](theory/quality_check.md)
 
 ### 要約
 

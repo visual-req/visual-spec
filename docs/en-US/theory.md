@@ -28,12 +28,24 @@ This diagram maps analysis stages to their typical inputs/outputs, so reviews ca
   - See: [theory/plan.md](theory/plan.md)
 - Review ergonomics: why scenario lists are HTML and how they link to prototypes to make reviews faster  
   - See: [theory/prototype-review.md](theory/prototype-review.md)
+- Reading ergonomics: how layered reading accelerates requirement understanding and reduces review friction  
+  - See: [theory/reading-experience.md](theory/reading-experience.md)
 - Verification & Validation: the review loop (review → refine → re-validate)  
   - See: [theory/verification_and_validation.md](theory/verification_and_validation.md)
 - Why `/vspec:new` analyzes many dimensions and how each output is reused downstream  
   - See: [theory/new-analysis.md](theory/new-analysis.md)
 - Analysis thinking: break “requirements analysis” into reusable modules  
   - See: [theory/thinking-framework.md](theory/thinking-framework.md)
+- Thinking modes: cover boundaries/symmetry/constraints/diversity so you don’t only specify the happy path  
+  - See: [theory/thinking-modes.md](theory/thinking-modes.md)
+- Abstraction (flows): map approval/routing processes to one backbone and stabilize control/constraint outputs  
+  - See: [theory/abstraction.md](theory/abstraction.md)
+- Scenario branches: enumerate scenarios, use probability/value/risk to define scope, and feed acceptance cases  
+  - See: [theory/scenarios.md](theory/scenarios.md)
+- Stakeholder identification: capture decision/execution/impact/constraints perspectives to avoid blind spots  
+  - See: [theory/stakeholder-identification.md](theory/stakeholder-identification.md)
+- Quality check: industry-agnostic dimensions and an executable QA/fix loop for requirement documents  
+  - See: [theory/quality_check.md](theory/quality_check.md)
 
 ### One-line summary
 

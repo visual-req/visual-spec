@@ -11,14 +11,6 @@
 
 因此引入统一且可编辑的 UI 规范文件：`/prototype_ui_convention.md`。
 
-## 变更点
-
-- 新增约束文件：`/prototype_ui_convention.md`（与 `/scheme.yaml` 同级）
-- `/vspec:verify` 生成/更新原型时：
-  - 若 `/prototype_ui_convention.md` 不存在：先生成默认模板（不覆盖已存在文件）
-  - 原型 UI 生成必须严格遵守 `/prototype_ui_convention.md`
-  - 若存在更严格的现有规范（例如 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md`）：需把更严格的规则合并进 `/prototype_ui_convention.md`，并以合并后的结果作为最终口径
-
 ## 如何修改 UI 规范
 
 - 直接编辑目标项目根目录的 `/prototype_ui_convention.md`

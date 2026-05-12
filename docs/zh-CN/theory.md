@@ -20,16 +20,32 @@
 
 - SDLC 对齐：为什么要按阶段拆分命令，以及每一步对应 SDLC 的哪个阶段  
   - 详见：[theory/sdlc.md](theory/sdlc.md)
-- 规划与排期：如何进行需求分解、估算和排期，以及用户故事地图为什么采用 HTML（`/vspec:plan`）  
-  - 详见：[theory/plan.md](theory/plan.md)
 - 评审友好：为什么用 HTML 输出场景列表并联动原型，为什么更利于干系人评审  
   - 详见：[theory/prototype-review.md](theory/prototype-review.md)
+- 阅读体验：如何通过层级化阅读体验更快理解需求，并降低评审与沟通成本  
+  - 详见：[theory/reading-experience.md](theory/reading-experience.md)
+- 模型优先：为什么要先生成数据模型，再生成原型（`/vspec:verify`）  
+  - 详见：[theory/model-before-prototype.md](theory/model-before-prototype.md)
 - Verification & Validation：verification_and_validation 的过程与闭环（review → refine → 再验证）  
   - 详见：[theory/verification_and_validation.md](theory/verification_and_validation.md)
+- 变更友好：为什么 visual-spec 更擅长响应需求变更，并保持下游产物同步更新  
+  - 详见：[theory/change-responsiveness.md](theory/change-responsiveness.md)
 - `/vspec:new`：为什么要分析那么多内容，以及每一类分析产物在后续步骤中的作用  
   - 详见：[theory/new-analysis.md](theory/new-analysis.md)
 - 分析方法：把“需求分析思维”拆成可复用的模块化方法  
   - 详见：[theory/thinking-framework.md](theory/thinking-framework.md)
+- 思维方式：用于补齐边界/对称/约束/多样性等关键维度，避免“只写主链路”  
+  - 详见：[theory/thinking-modes.md](theory/thinking-modes.md)
+- 抽象（flows）：把审批/流转类流程映射到统一骨架，并基于共性稳定产出控制路径与约束路径  
+  - 详见：[theory/abstraction.md](theory/abstraction.md)
+- 场景分支：把主链路扩展为可枚举的场景集合，用概率/价值/风险划定开发范围，并直接生成验收用例输入  
+  - 详见：[theory/scenarios.md](theory/scenarios.md)
+- 干系人识别：用结构化视角补齐“谁决策/谁执行/谁受影响/关键约束来自哪里”，避免口径失真  
+  - 详见：[theory/stakeholder-identification.md](theory/stakeholder-identification.md)
+- 质量检查：用行业无关的规则把需求质量拆成可检查维度，形成可执行的质检与修复闭环  
+  - 详见：[theory/quality_check.md](theory/quality_check.md)
+- 规划与排期：如何进行需求分解、估算和排期，以及用户故事地图为什么采用 HTML（`/vspec:plan`）  
+  - 详见：[theory/plan.md](theory/plan.md)
 
 ### 一句话总结
 
