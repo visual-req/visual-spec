@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .title { font: 800 26px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Hiragino Sans", "Noto Sans JP", sans-serif; fill: rgba(15, 23, 42, 0.92); }
+      .sub { font: 700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Hiragino Sans", "Noto Sans JP", sans-serif; fill: rgba(15, 23, 42, 0.78); }
+      .note { font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Hiragino Sans", "Noto Sans JP", sans-serif; fill: rgba(15, 23, 42, 0.70); }
+      .panel { fill: rgba(248, 250, 252, 1); stroke: rgba(15, 23, 42, 0.12); stroke-width: 2; rx: 16; }
+      .gridLine { stroke: rgba(15, 23, 42, 0.12); stroke-width: 1; }
+      .axisText { font: 700 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Hiragino Sans", "Noto Sans JP", sans-serif; fill: rgba(15, 23, 42, 0.60); }
+      .laneLabel { font: 800 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Hiragino Sans", "Noto Sans JP", sans-serif; fill: rgba(15, 23, 42, 0.78); }
+      .bookingA { fill: rgba(59, 130, 246, 0.18); stroke: rgba(59, 130, 246, 0.70); stroke-width: 2; rx: 10; }
+      .bookingB { fill: rgba(34, 197, 94, 0.18); stroke: rgba(34, 197, 94, 0.70); stroke-width: 2; rx: 10; }
+      .bookingC { fill: rgba(245, 158, 11, 0.18); stroke: rgba(245, 158, 11, 0.70); stroke-width: 2; rx: 10; }
+      .impact { fill: rgba(239, 68, 68, 0.10); stroke: rgba(239, 68, 68, 0.70); stroke-width: 2; rx: 10; stroke-dasharray: 6 6; }
+      .bookingText { font: 800 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Hiragino Sans", "Noto Sans JP", sans-serif; fill: rgba(15, 23, 42, 0.86); }
+      .arrow { stroke: rgba(15, 23, 42, 0.60); stroke-width: 2; fill: none; }
+      .callout { fill: rgba(255, 255, 255, 0.96); stroke: rgba(15, 23, 42, 0.18); stroke-width: 2; rx: 12; }
+    </style>
+    <marker id="arrowHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 3 L 10 5 L 0 7 z" fill="rgba(15, 23, 42, 0.60)"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="720"/>
+
+  <text class="title" x="72" y="84">リソースカレンダーモデル（例）</text>
+  <text class="sub" x="72" y="120">「タイムライン + 予約ブロック」で、一定期間におけるリソースの利用状況を明確化し、衝突検知と影響分析を支援する。</text>
+
+  <rect class="panel" x="72" y="150" width="700" height="500"/>
+  <rect class="panel" x="828" y="150" width="700" height="500"/>
+
+  <text class="sub" x="96" y="192">現在の予約（削除/変更前）</text>
+  <text class="sub" x="852" y="192">削除/変更後の影響（比較）</text>
+
+  <text class="laneLabel" x="96" y="232">リソース：車両A</text>
+  <text class="laneLabel" x="852" y="232">リソース：車両A</text>
+
+  <line class="gridLine" x1="96" y1="258" x2="748" y2="258"/>
+  <line class="gridLine" x1="852" y1="258" x2="1504" y2="258"/>
+
+  <text class="axisText" x="96" y="286">09:00</text>
+  <text class="axisText" x="196" y="286">10:00</text>
+  <text class="axisText" x="296" y="286">11:00</text>
+  <text class="axisText" x="396" y="286">12:00</text>
+  <text class="axisText" x="496" y="286">13:00</text>
+  <text class="axisText" x="596" y="286">14:00</text>
+  <text class="axisText" x="696" y="286">15:00</text>
+
+  <text class="axisText" x="852" y="286">09:00</text>
+  <text class="axisText" x="952" y="286">10:00</text>
+  <text class="axisText" x="1052" y="286">11:00</text>
+  <text class="axisText" x="1152" y="286">12:00</text>
+  <text class="axisText" x="1252" y="286">13:00</text>
+  <text class="axisText" x="1352" y="286">14:00</text>
+  <text class="axisText" x="1452" y="286">15:00</text>
+
+  <line class="gridLine" x1="96" y1="308" x2="748" y2="308"/>
+  <line class="gridLine" x1="96" y1="360" x2="748" y2="360"/>
+  <line class="gridLine" x1="96" y1="412" x2="748" y2="412"/>
+
+  <line class="gridLine" x1="852" y1="308" x2="1504" y2="308"/>
+  <line class="gridLine" x1="852" y1="360" x2="1504" y2="360"/>
+  <line class="gridLine" x1="852" y1="412" x2="1504" y2="412"/>
+
+  <line class="gridLine" x1="196" y1="258" x2="196" y2="412"/>
+  <line class="gridLine" x1="296" y1="258" x2="296" y2="412"/>
+  <line class="gridLine" x1="396" y1="258" x2="396" y2="412"/>
+  <line class="gridLine" x1="496" y1="258" x2="496" y2="412"/>
+  <line class="gridLine" x1="596" y1="258" x2="596" y2="412"/>
+  <line class="gridLine" x1="696" y1="258" x2="696" y2="412"/>
+
+  <line class="gridLine" x1="952" y1="258" x2="952" y2="412"/>
+  <line class="gridLine" x1="1052" y1="258" x2="1052" y2="412"/>
+  <line class="gridLine" x1="1152" y1="258" x2="1152" y2="412"/>
+  <line class="gridLine" x1="1252" y1="258" x2="1252" y2="412"/>
+  <line class="gridLine" x1="1352" y1="258" x2="1352" y2="412"/>
+  <line class="gridLine" x1="1452" y1="258" x2="1452" y2="412"/>
+
+  <rect class="bookingA" x="106" y="320" width="140" height="32"/>
+  <text class="bookingText" x="118" y="342">予約A 09:10–10:30</text>
+
+  <rect class="bookingB" x="266" y="320" width="170" height="32"/>
+  <text class="bookingText" x="278" y="342">予約B 10:45–12:15</text>
+
+  <rect class="bookingC" x="476" y="320" width="190" height="32"/>
+  <text class="bookingText" x="488" y="342">予約C 13:00–14:40</text>
+
+  <rect class="bookingA" x="862" y="320" width="140" height="32"/>
+  <text class="bookingText" x="874" y="342">予約A</text>
+
+  <rect class="bookingC" x="1232" y="320" width="190" height="32"/>
+  <text class="bookingText" x="1244" y="342">予約C</text>
+
+  <rect class="callout" x="852" y="440" width="660" height="84"/>
+  <text class="sub" x="874" y="472">ケース1：予約Bを削除 → 他の予約に影響なし</text>
+  <text class="note" x="874" y="502">予約間に順序依存や共有制約がない場合、削除/変更は自身の時間枠にのみ影響する。</text>
+
+  <rect class="bookingA" x="862" y="560" width="140" height="32"/>
+  <text class="bookingText" x="874" y="582">予約A</text>
+
+  <rect class="impact" x="1102" y="560" width="170" height="32"/>
+  <text class="bookingText" x="1114" y="582">予約B（変更）</text>
+
+  <rect class="bookingC" x="1292" y="560" width="210" height="32"/>
+  <text class="bookingText" x="1304" y="582">予約C（影響）</text>
+
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 1187 592 L 1187 630"/>
+  <rect class="callout" x="852" y="606" width="660" height="44"/>
+  <text class="note" x="874" y="634">ケース2：制約（例：位置/移動/乗り継ぎ）→ 変更が後続予約の連鎖調整を引き起こす。</text>
+</svg>

@@ -4,7 +4,7 @@
 
 ### Overview Diagram
 
-![visual-spec workflow overview](../assets/visual-spec-workflow-en.svg)
+![visual-spec workflow overview](../assets/en-US/visual-spec-workflow.svg)
 
 ### 1. Requirements Analysis (`/vspec:new`)
 

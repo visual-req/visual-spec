@@ -4,7 +4,7 @@
 
 ### 全体フロー図
 
-![visual-spec ワークフロー概要](../assets/visual-spec-workflow-ja.svg)
+![visual-spec ワークフロー概要](../assets/ja-JP/visual-spec-workflow.svg)
 
 ### 1. 要件分析（`/vspec:new`）
 

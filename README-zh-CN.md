@@ -32,6 +32,13 @@ Docs:
 
 ## 功能概览
 
+工作流图（SVG）：
+
+![visual-spec 工作流](docs/assets/zh-CN/visual-spec-workflow.svg)
+
+方法论 / theory（建议先读这一章了解整体设计思路与命令分层）：
+- [docs/zh-CN/theory.md](docs/zh-CN/theory.md)
+
 - 需求分析：生成背景、干系人、角色、术语、流程、场景、详情、依赖、功能清单与开放问题
 - 方案验证：生成数据模型、可运行原型与场景评审页
 - 原型生成（高频关注）：通过 `/vspec:verify` 基于 `/scheme.yaml` 生成可运行的 Web 原型（产物在 `/specs/prototypes/`），包含按角色差异化的 dashboard（合理图表选择与布局）与场景评审页

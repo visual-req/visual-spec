@@ -21,6 +21,13 @@ Docs:
 
 ## Overview
 
+ワークフロー図（SVG）：
+
+![visual-spec workflow](docs/assets/ja-JP/visual-spec-workflow.svg)
+
+方法論 / theory（全体設計の考え方とコマンド分割の意図）：
+- [docs/ja-JP/theory.md](docs/ja-JP/theory.md)
+
 - 要件分析：背景、ステークホルダー、ロール、用語、フロー、シナリオ、詳細、依存関係、機能一覧、未解決質問を生成
 - 方案検証：データモデル、実行可能プロトタイプ、シナリオレビュー用ページを生成
 - プロトタイプ生成（高頻度）：`/vspec:verify` が `/scheme.yaml` に合わせて実行可能な Web プロトタイプを生成（`/specs/prototypes/`）。ロール別ダッシュボード（適切なチャート選定/配置）とシナリオレビュー用ページを含む

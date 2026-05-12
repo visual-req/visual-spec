@@ -4,7 +4,7 @@
 
 ### 总览流程图
 
-![visual-spec 工作流总览](../assets/visual-spec-workflow-zh.svg)
+![visual-spec 工作流总览](../assets/zh-CN/visual-spec-workflow.svg)
 
 ### 1. 需求分析（`/vspec:new`）
 

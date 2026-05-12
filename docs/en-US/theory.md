@@ -4,9 +4,21 @@
 
 This section explains the core design philosophy of the visual-spec Skill: how it maps to SDLC, why the workflow is split into these command stages, why scenarios are output as an HTML review entry that links to the runnable prototype, and why `/vspec:new` analyzes “so much” up front.
 
+The flows abstraction (steps + control paths + constraint gates) can normalize most approval / routing workflows into one reusable backbone and drive consistent analysis outputs.
+
+![visual-spec flows](../assets/en-US/visual-spec-flows.svg)
+
+This diagram is used as a prompt checklist: map each business process to steps 1–5, then explicitly list cancellations/rejections and execution constraints, so the resulting specs and acceptance cases cover the same structure every time.
+
 ### Visual workflow
 
-![visual-spec workflow](../assets/visual-spec-workflow-en.svg)
+![visual-spec workflow](../assets/en-US/visual-spec-workflow.svg)
+
+### Stage map
+
+![visual-spec stage map](../assets/en-US/visual-spec-stage-map.svg)
+
+This diagram maps analysis stages to their typical inputs/outputs, so reviews can agree on “where we are” and what artifacts are still missing.
 
 ### Index
 

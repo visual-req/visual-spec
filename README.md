@@ -23,6 +23,13 @@ Docs:
 
 ## Overview
 
+Workflow diagram (SVG):
+
+![visual-spec workflow](docs/assets/en-US/visual-spec-workflow.svg)
+
+Methodology / theory:
+- [docs/en-US/theory.md](docs/en-US/theory.md)
+
 - Requirements analysis: generate background, stakeholders, roles, terms, flows, scenarios, details, dependencies, function list, and open questions
 - Solution verification: generate data models, runnable prototypes, and a scenario review page
 - Prototype generation (high-frequency): `/vspec:verify` generates a runnable Web prototype aligned with `/scheme.yaml`, including role-based dashboards (proper chart selection/layout) and a scenario review page under `/specs/prototypes/`

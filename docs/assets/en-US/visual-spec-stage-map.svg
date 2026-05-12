@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2700" height="600" viewBox="0 0 2700 600">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .sep { stroke: rgba(47, 120, 255, 0.65); stroke-width: 2; }
+      .title { font: 700 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #7fb2ff; }
+      .label { font: 600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: rgba(15, 23, 42, 0.9); }
+      .boxBlue { fill: #0b4fd8; stroke: rgba(11, 79, 216, 0.65); stroke-width: 1; rx: 8; }
+      .boxYellow { fill: #f4f1c7; stroke: rgba(244, 241, 199, 0.65); stroke-width: 1; rx: 8; }
+      .boxTextBlue { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #ffffff; }
+      .boxTextYellow { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #0b1220; }
+      .outBox { fill: rgba(244, 241, 199, 0.98); stroke: rgba(244, 241, 199, 0.65); stroke-width: 1; rx: 10; }
+      .outText { font: 800 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #0b1220; }
+      .arrowBlue { stroke: rgba(47, 120, 255, 0.75); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <marker id="arrowHeadBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(47, 120, 255, 0.75)"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="2700" height="600"/>
+
+  <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 96 260 L 160 260"/>
+  <rect x="22" y="218" width="90" height="84" fill="none" stroke="rgba(15, 23, 42, 0.55)" stroke-width="2" rx="10"/>
+  <text class="label" x="67" y="256" text-anchor="middle">Raw</text>
+  <text class="label" x="67" y="278" text-anchor="middle">Req</text>
+
+  <line class="sep" x1="170" y1="22" x2="170" y2="578"/>
+  <line class="sep" x1="520" y1="22" x2="520" y2="578"/>
+  <line class="sep" x1="820" y1="22" x2="820" y2="578"/>
+  <line class="sep" x1="1320" y1="22" x2="1320" y2="578"/>
+  <line class="sep" x1="1600" y1="22" x2="1600" y2="578"/>
+  <line class="sep" x1="1880" y1="22" x2="1880" y2="578"/>
+  <line class="sep" x1="2160" y1="22" x2="2160" y2="578"/>
+  <line class="sep" x1="2440" y1="22" x2="2440" y2="578"/>
+
+  <text class="title" x="345" y="52" text-anchor="middle">Initial Analysis</text>
+  <text class="title" x="670" y="52" text-anchor="middle">Confirm &amp; Validate</text>
+  <text class="title" x="1070" y="52" text-anchor="middle">Detailed Analysis</text>
+  <text class="title" x="1460" y="52" text-anchor="middle">Review</text>
+  <text class="title" x="1740" y="52" text-anchor="middle">Clarify</text>
+  <text class="title" x="2020" y="52" text-anchor="middle">Plan</text>
+  <text class="title" x="2300" y="52" text-anchor="middle">Develop</text>
+  <text class="title" x="2570" y="52" text-anchor="middle">Accept</text>
+
+  <g>
+    <rect class="boxBlue" x="215" y="92" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="116" text-anchor="middle">Context</text>
+    <rect class="boxYellow" x="355" y="92" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="116" text-anchor="middle">Req Q&amp;A</text>
+
+    <rect class="boxBlue" x="215" y="142" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="166" text-anchor="middle">Stakeholders</text>
+    <rect class="boxYellow" x="355" y="142" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="166" text-anchor="middle">Stakeholder List</text>
+
+    <rect class="boxBlue" x="215" y="192" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="216" text-anchor="middle">Roles</text>
+    <rect class="boxYellow" x="355" y="192" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="216" text-anchor="middle">Role List</text>
+
+    <rect class="boxBlue" x="215" y="242" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="266" text-anchor="middle">Glossary</text>
+    <rect class="boxYellow" x="355" y="242" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="266" text-anchor="middle">Terms</text>
+
+    <rect class="boxBlue" x="215" y="292" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="316" text-anchor="middle">Scenarios</text>
+    <rect class="boxYellow" x="355" y="292" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="316" text-anchor="middle">Scenario List</text>
+
+    <rect class="boxBlue" x="215" y="342" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="366" text-anchor="middle">Q&amp;A</text>
+    <rect class="boxYellow" x="355" y="342" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="366" text-anchor="middle">Q&amp;A Table</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 345 390 L 345 510"/>
+    <rect class="outBox" x="255" y="518" width="180" height="38"/>
+    <text class="outText" x="345" y="543" text-anchor="middle">Refined Req</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="560" y="120" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="144" text-anchor="middle">Data Model</text>
+    <rect class="boxYellow" x="695" y="120" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="144" text-anchor="middle">Model</text>
+
+    <rect class="boxBlue" x="560" y="175" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="199" text-anchor="middle">UI Analysis</text>
+    <rect class="boxYellow" x="695" y="175" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="199" text-anchor="middle">UI Map</text>
+
+    <rect class="boxBlue" x="560" y="230" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="254" text-anchor="middle">Storyline</text>
+    <rect class="boxYellow" x="695" y="230" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="254" text-anchor="middle">Line</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 670 280 L 670 510"/>
+    <rect class="outBox" x="590" y="518" width="160" height="38"/>
+    <text class="outText" x="670" y="543" text-anchor="middle">UI + Story</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="860" y="92" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="116" text-anchor="middle">Details</text>
+    <rect class="boxYellow" x="968" y="92" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="116" text-anchor="middle">Spec</text>
+    <rect class="boxBlue" x="1090" y="92" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="116" text-anchor="middle">Numbering</text>
+    <rect class="boxYellow" x="1198" y="92" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="116" text-anchor="middle">Rules</text>
+
+    <rect class="boxBlue" x="860" y="142" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="166" text-anchor="middle">Flowchart</text>
+    <rect class="boxYellow" x="968" y="142" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="166" text-anchor="middle">Chart</text>
+    <rect class="boxBlue" x="1090" y="142" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="166" text-anchor="middle">Formulas</text>
+    <rect class="boxYellow" x="1198" y="142" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="166" text-anchor="middle">Math</text>
+
+    <rect class="boxBlue" x="860" y="192" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="216" text-anchor="middle">State Tree</text>
+    <rect class="boxYellow" x="968" y="192" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="216" text-anchor="middle">Tree</text>
+    <rect class="boxBlue" x="1090" y="192" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="216" text-anchor="middle">Role Access</text>
+    <rect class="boxYellow" x="1198" y="192" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="216" text-anchor="middle">Access</text>
+
+    <rect class="boxBlue" x="860" y="242" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="266" text-anchor="middle">Decision</text>
+    <rect class="boxYellow" x="968" y="242" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="266" text-anchor="middle">Matrix</text>
+    <rect class="boxBlue" x="1090" y="242" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="266" text-anchor="middle">Data Access</text>
+    <rect class="boxYellow" x="1198" y="242" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="266" text-anchor="middle">Access</text>
+
+    <rect class="boxBlue" x="860" y="292" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="316" text-anchor="middle">Judgment</text>
+    <rect class="boxYellow" x="968" y="292" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="316" text-anchor="middle">Matrix</text>
+    <rect class="boxBlue" x="1090" y="292" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="316" text-anchor="middle">Backend</text>
+    <rect class="boxYellow" x="1198" y="292" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="316" text-anchor="middle">Logic</text>
+
+    <rect class="boxBlue" x="860" y="342" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="366" text-anchor="middle">Timeline</text>
+    <rect class="boxYellow" x="968" y="342" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="366" text-anchor="middle">Timeline</text>
+    <rect class="boxBlue" x="1090" y="342" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="366" text-anchor="middle">Expr Tree</text>
+    <rect class="boxYellow" x="1198" y="342" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="366" text-anchor="middle">Expr</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1070 392 L 1070 510"/>
+    <rect class="outBox" x="990" y="518" width="160" height="38"/>
+    <text class="outText" x="1070" y="543" text-anchor="middle">New PRD</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="1340" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="1395" y="116" text-anchor="middle">Issue Scan</text>
+    <rect class="boxYellow" x="1470" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="1525" y="116" text-anchor="middle">Issue List</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1460 142 L 1460 510"/>
+    <rect class="outBox" x="1340" y="518" width="240" height="38"/>
+    <text class="outText" x="1460" y="543" text-anchor="middle">PRD Update</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="1620" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="1675" y="116" text-anchor="middle">Story Demo</text>
+    <rect class="boxYellow" x="1750" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="1805" y="116" text-anchor="middle">Issue Log</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1740 142 L 1740 510"/>
+    <rect class="outBox" x="1620" y="518" width="240" height="38"/>
+    <text class="outText" x="1740" y="543" text-anchor="middle">Feedback</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="1900" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="1955" y="116" text-anchor="middle">Breakdown</text>
+    <rect class="boxYellow" x="2030" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="2085" y="116" text-anchor="middle">Sub-features</text>
+
+    <rect class="boxBlue" x="1900" y="142" width="110" height="40"/>
+    <text class="boxTextBlue" x="1955" y="166" text-anchor="middle">Estimate</text>
+    <rect class="boxYellow" x="2030" y="142" width="110" height="40"/>
+    <text class="boxTextYellow" x="2085" y="166" text-anchor="middle">Estimation</text>
+
+    <rect class="boxBlue" x="1900" y="192" width="110" height="40"/>
+    <text class="boxTextBlue" x="1955" y="216" text-anchor="middle">Schedule</text>
+    <rect class="boxYellow" x="2030" y="192" width="110" height="40"/>
+    <text class="boxTextYellow" x="2085" y="216" text-anchor="middle">Story Map</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2020 242 L 2020 510"/>
+    <rect class="outBox" x="1900" y="518" width="240" height="38"/>
+    <text class="outText" x="2020" y="543" text-anchor="middle">Dev Plan</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="2180" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="2235" y="116" text-anchor="middle">Change Req</text>
+    <rect class="boxYellow" x="2310" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="2365" y="116" text-anchor="middle">Impact</text>
+
+    <rect class="boxBlue" x="2180" y="142" width="110" height="40"/>
+    <text class="boxTextBlue" x="2235" y="166" text-anchor="middle">Change Ctrl</text>
+    <rect class="boxYellow" x="2310" y="142" width="110" height="40"/>
+    <text class="boxTextYellow" x="2365" y="166" text-anchor="middle">PRD Update</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2300 192 L 2300 510"/>
+    <rect class="outBox" x="2180" y="518" width="240" height="38"/>
+    <text class="outText" x="2300" y="543" text-anchor="middle">PRD Update</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="2460" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="2515" y="116" text-anchor="middle">Acceptance</text>
+    <rect class="boxYellow" x="2590" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="2645" y="116" text-anchor="middle">Test Cases</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2570 142 L 2570 510"/>
+    <rect class="outBox" x="2460" y="518" width="220" height="38"/>
+    <text class="outText" x="2570" y="543" text-anchor="middle">Test Cases</text>
+  </g>
+</svg>

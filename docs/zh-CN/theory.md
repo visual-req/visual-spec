@@ -4,9 +4,17 @@
 
 本节说明 visual-spec Skill 的整体设计理念：它与传统 SDLC（软件开发生命周期）的关系、为什么把流程拆成这些命令步骤、以及为什么用 HTML 输出“场景列表/评审入口”并与原型联动来提升评审效率。同时也解释：为什么 `/vspec:new` 需要分析那么多内容，以及背后的分析思维方式如何拆分为可复用的模块。
 
+另外，我们也会用 flows 抽象把审批/流转类流程统一到同一套可复用骨架上，以便稳定地产出可评审、可落地、可验证的分析结果。
+
 ### 工作原理（可视化）
 
-![visual-spec 工作原理/工作流](../assets/visual-spec-workflow-zh.svg)
+![visual-spec 工作原理/工作流](../assets/zh-CN/visual-spec-workflow.svg)
+
+### 阶段地图（Stage Map）
+
+![visual-spec 阶段地图](../assets/zh-CN/visual-spec-stage-map.svg)
+
+这张图把分析阶段与对应的输入/产出做了映射，便于在讨论需求时明确“当前处于哪个阶段、下一步需要补齐什么”。
 
 ### 导览
 

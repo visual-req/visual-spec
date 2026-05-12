@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2700" height="600" viewBox="0 0 2700 600">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .sep { stroke: rgba(47, 120, 255, 0.65); stroke-width: 2; }
+      .title { font: 700 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #7fb2ff; }
+      .label { font: 600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: rgba(15, 23, 42, 0.9); }
+      .boxBlue { fill: #0b4fd8; stroke: rgba(11, 79, 216, 0.65); stroke-width: 1; rx: 8; }
+      .boxYellow { fill: #f4f1c7; stroke: rgba(244, 241, 199, 0.65); stroke-width: 1; rx: 8; }
+      .boxTextBlue { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #ffffff; }
+      .boxTextYellow { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0b1220; }
+      .outBox { fill: rgba(244, 241, 199, 0.98); stroke: rgba(244, 241, 199, 0.65); stroke-width: 1; rx: 10; }
+      .outText { font: 800 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0b1220; }
+      .arrowBlue { stroke: rgba(47, 120, 255, 0.75); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <marker id="arrowHeadBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(47, 120, 255, 0.75)"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="2700" height="600"/>
+
+  <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 96 260 L 160 260"/>
+  <rect x="22" y="218" width="90" height="84" fill="none" stroke="rgba(15, 23, 42, 0.55)" stroke-width="2" rx="10"/>
+  <text class="label" x="67" y="256" text-anchor="middle">原始</text>
+  <text class="label" x="67" y="278" text-anchor="middle">需求</text>
+
+  <line class="sep" x1="170" y1="22" x2="170" y2="578"/>
+  <line class="sep" x1="520" y1="22" x2="520" y2="578"/>
+  <line class="sep" x1="820" y1="22" x2="820" y2="578"/>
+  <line class="sep" x1="1320" y1="22" x2="1320" y2="578"/>
+  <line class="sep" x1="1600" y1="22" x2="1600" y2="578"/>
+  <line class="sep" x1="1880" y1="22" x2="1880" y2="578"/>
+  <line class="sep" x1="2160" y1="22" x2="2160" y2="578"/>
+  <line class="sep" x1="2440" y1="22" x2="2440" y2="578"/>
+
+  <text class="title" x="345" y="52" text-anchor="middle">初始分析</text>
+  <text class="title" x="670" y="52" text-anchor="middle">确认与验证</text>
+  <text class="title" x="1070" y="52" text-anchor="middle">详细分析</text>
+  <text class="title" x="1460" y="52" text-anchor="middle">需求评审</text>
+  <text class="title" x="1740" y="52" text-anchor="middle">需求澄清</text>
+  <text class="title" x="2020" y="52" text-anchor="middle">需求计划</text>
+  <text class="title" x="2300" y="52" text-anchor="middle">需求开发</text>
+  <text class="title" x="2570" y="52" text-anchor="middle">需求验收</text>
+
+  <g>
+    <rect class="boxBlue" x="215" y="92" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="116" text-anchor="middle">背景补全</text>
+    <rect class="boxYellow" x="355" y="92" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="116" text-anchor="middle">需求问答</text>
+
+    <rect class="boxBlue" x="215" y="142" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="166" text-anchor="middle">干系人识别</text>
+    <rect class="boxYellow" x="355" y="142" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="166" text-anchor="middle">干系人列表</text>
+
+    <rect class="boxBlue" x="215" y="192" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="216" text-anchor="middle">角色识别</text>
+    <rect class="boxYellow" x="355" y="192" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="216" text-anchor="middle">角色列表</text>
+
+    <rect class="boxBlue" x="215" y="242" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="266" text-anchor="middle">术语梳理</text>
+    <rect class="boxYellow" x="355" y="242" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="266" text-anchor="middle">术语表</text>
+
+    <rect class="boxBlue" x="215" y="292" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="316" text-anchor="middle">场景梳理</text>
+    <rect class="boxYellow" x="355" y="292" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="316" text-anchor="middle">场景表</text>
+
+    <rect class="boxBlue" x="215" y="342" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="366" text-anchor="middle">Q&amp;A 识别</text>
+    <rect class="boxYellow" x="355" y="342" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="366" text-anchor="middle">Q&amp;A 表</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 345 390 L 345 510"/>
+    <rect class="outBox" x="255" y="518" width="180" height="38"/>
+    <text class="outText" x="345" y="543" text-anchor="middle">优化后需求</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="560" y="120" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="144" text-anchor="middle">数据模型</text>
+    <rect class="boxYellow" x="695" y="120" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="144" text-anchor="middle">数据模型</text>
+
+    <rect class="boxBlue" x="560" y="175" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="199" text-anchor="middle">UI 分析</text>
+    <rect class="boxYellow" x="695" y="175" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="199" text-anchor="middle">UI 图</text>
+
+    <rect class="boxBlue" x="560" y="230" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="254" text-anchor="middle">组织时序线</text>
+    <rect class="boxYellow" x="695" y="230" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="254" text-anchor="middle">故事线</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 670 280 L 670 510"/>
+    <rect class="outBox" x="590" y="518" width="160" height="38"/>
+    <text class="outText" x="670" y="543" text-anchor="middle">UI + 故事线</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="860" y="92" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="116" text-anchor="middle">细节分析</text>
+    <rect class="boxYellow" x="968" y="92" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="116" text-anchor="middle">需求细节</text>
+    <rect class="boxBlue" x="1090" y="92" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="116" text-anchor="middle">编号规则</text>
+    <rect class="boxYellow" x="1198" y="92" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="116" text-anchor="middle">编号规则</text>
+
+    <rect class="boxBlue" x="860" y="142" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="166" text-anchor="middle">流程图</text>
+    <rect class="boxYellow" x="968" y="142" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="166" text-anchor="middle">流程图</text>
+    <rect class="boxBlue" x="1090" y="142" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="166" text-anchor="middle">数学公式</text>
+    <rect class="boxYellow" x="1198" y="142" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="166" text-anchor="middle">数学公式</text>
+
+    <rect class="boxBlue" x="860" y="192" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="216" text-anchor="middle">状态树</text>
+    <rect class="boxYellow" x="968" y="192" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="216" text-anchor="middle">状态树</text>
+    <rect class="boxBlue" x="1090" y="192" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="216" text-anchor="middle">角色权限</text>
+    <rect class="boxYellow" x="1198" y="192" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="216" text-anchor="middle">角色权限</text>
+
+    <rect class="boxBlue" x="860" y="242" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="266" text-anchor="middle">决策矩阵</text>
+    <rect class="boxYellow" x="968" y="242" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="266" text-anchor="middle">决策矩阵</text>
+    <rect class="boxBlue" x="1090" y="242" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="266" text-anchor="middle">数据权限</text>
+    <rect class="boxYellow" x="1198" y="242" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="266" text-anchor="middle">数据权限</text>
+
+    <rect class="boxBlue" x="860" y="292" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="316" text-anchor="middle">判定矩阵</text>
+    <rect class="boxYellow" x="968" y="292" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="316" text-anchor="middle">判定矩阵</text>
+    <rect class="boxBlue" x="1090" y="292" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="316" text-anchor="middle">后台逻辑</text>
+    <rect class="boxYellow" x="1198" y="292" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="316" text-anchor="middle">后台逻辑</text>
+
+    <rect class="boxBlue" x="860" y="342" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="366" text-anchor="middle">时间轴</text>
+    <rect class="boxYellow" x="968" y="342" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="366" text-anchor="middle">时间轴</text>
+    <rect class="boxBlue" x="1090" y="342" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="366" text-anchor="middle">表达式树</text>
+    <rect class="boxYellow" x="1198" y="342" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="366" text-anchor="middle">表达式树</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1070 392 L 1070 510"/>
+    <rect class="outBox" x="990" y="518" width="160" height="38"/>
+    <text class="outText" x="1070" y="543" text-anchor="middle">新版 PRD</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="1340" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="1395" y="116" text-anchor="middle">问题扫描</text>
+    <rect class="boxYellow" x="1470" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="1525" y="116" text-anchor="middle">问题管理列表</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1460 142 L 1460 510"/>
+    <rect class="outBox" x="1340" y="518" width="240" height="38"/>
+    <text class="outText" x="1460" y="543" text-anchor="middle">更新 PRD</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="1620" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="1675" y="116" text-anchor="middle">故事线演示</text>
+    <rect class="boxYellow" x="1750" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="1805" y="116" text-anchor="middle">问题管理表</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1740 142 L 1740 510"/>
+    <rect class="outBox" x="1620" y="518" width="240" height="38"/>
+    <text class="outText" x="1740" y="543" text-anchor="middle">反馈</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="1900" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="1955" y="116" text-anchor="middle">需求拆分</text>
+    <rect class="boxYellow" x="2030" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="2085" y="116" text-anchor="middle">子功能列表</text>
+
+    <rect class="boxBlue" x="1900" y="142" width="110" height="40"/>
+    <text class="boxTextBlue" x="1955" y="166" text-anchor="middle">需求估算</text>
+    <rect class="boxYellow" x="2030" y="142" width="110" height="40"/>
+    <text class="boxTextYellow" x="2085" y="166" text-anchor="middle">需求估算表</text>
+
+    <rect class="boxBlue" x="1900" y="192" width="110" height="40"/>
+    <text class="boxTextBlue" x="1955" y="216" text-anchor="middle">需求排期</text>
+    <rect class="boxYellow" x="2030" y="192" width="110" height="40"/>
+    <text class="boxTextYellow" x="2085" y="216" text-anchor="middle">用户故事地图</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2020 242 L 2020 510"/>
+    <rect class="outBox" x="1900" y="518" width="240" height="38"/>
+    <text class="outText" x="2020" y="543" text-anchor="middle">开发计划</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="2180" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="2235" y="116" text-anchor="middle">需求变更</text>
+    <rect class="boxYellow" x="2310" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="2365" y="116" text-anchor="middle">影响性分析</text>
+
+    <rect class="boxBlue" x="2180" y="142" width="110" height="40"/>
+    <text class="boxTextBlue" x="2235" y="166" text-anchor="middle">变更管理</text>
+    <rect class="boxYellow" x="2310" y="142" width="110" height="40"/>
+    <text class="boxTextYellow" x="2365" y="166" text-anchor="middle">PRD更新</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2300 192 L 2300 510"/>
+    <rect class="outBox" x="2180" y="518" width="240" height="38"/>
+    <text class="outText" x="2300" y="543" text-anchor="middle">更新 PRD</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="2460" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="2515" y="116" text-anchor="middle">验收用例</text>
+    <rect class="boxYellow" x="2590" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="2645" y="116" text-anchor="middle">验收用例</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2570 142 L 2570 510"/>
+    <rect class="outBox" x="2460" y="518" width="220" height="38"/>
+    <text class="outText" x="2570" y="543" text-anchor="middle">验收用例</text>
+  </g>
+</svg>
