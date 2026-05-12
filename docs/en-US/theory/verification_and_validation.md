@@ -9,6 +9,21 @@ In visual-spec, Verification (build the right spec) and Validation (build the ri
 - Verification: are the specs consistent, complete, implementable, testable, and traceable
 - Validation: does the solution satisfy user goals and business value, and do scenarios actually work end-to-end
 
+### Standards background
+
+Verification & Validation (V&V) is not unique to visual-spec. It is a widely used, standardized process in systems and software engineering. For reference, ISO/IEC 26551:2016 includes related practices that separate validation evidence (“are we building the right thing?”) from verification evidence (“are we building it right?”) to reduce late rework and spec drift.
+
+### Roles and goals
+
+In visual-spec, the typical roles and goals for each part of V&V are:
+
+- Validation: primarily business stakeholders (product/ops/domain owners), with engineering/design participating
+  - Goal: confirm scenarios and interactions match business expectations and user value; confirm scope is reasonable and deliverable
+  - Evidence: runnable prototypes, scenario review entrypoints, walkthroughs of key paths, and recorded review conclusions
+- Verification: primarily spec authors, engineering leads, and QA/test leads, with business stakeholders confirming semantics as needed
+  - Goal: confirm specs are consistent, complete, implementable, testable, and traceable; prevent “described but not buildable/testable/aligned” gaps
+  - Evidence: rule-based checks (`qc_report`), testability/traceability checks, and a fix backlog for omissions/contradictions
+
 ### The V&V process in visual-spec
 
 1. Establish scope and shared language (`/vspec:new`)

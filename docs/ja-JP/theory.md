@@ -35,7 +35,7 @@
   - [theory/new-analysis.md](theory/new-analysis.md)
 - 分析思考：要件分析を再利用可能なモジュールとして分解する  
   - [theory/thinking-framework.md](theory/thinking-framework.md)
-- 思考モード：境界/対称/制約/多様性を補完し、「主経路だけ」の仕様を防ぐ  
+- 思考モード：境界/対称/制約/多様性/閉ループを補完し、「主経路だけ」の仕様を防ぐ  
   - [theory/thinking-modes.md](theory/thinking-modes.md)
 - 抽象（flows）：承認/回付型フローを 1 つの骨格に正規化し、制御パスと制約出力を安定化する  
   - [theory/abstraction.md](theory/abstraction.md)

@@ -34,7 +34,7 @@
   - 详见：[theory/new-analysis.md](theory/new-analysis.md)
 - 分析方法：把“需求分析思维”拆成可复用的模块化方法  
   - 详见：[theory/thinking-framework.md](theory/thinking-framework.md)
-- 思维方式：用于补齐边界/对称/约束/多样性等关键维度，避免“只写主链路”  
+- 思维方式：用于补齐边界/对称/约束/多样性/闭环等关键维度，避免“只写主链路”  
   - 详见：[theory/thinking-modes.md](theory/thinking-modes.md)
 - 抽象（flows）：把审批/流转类流程映射到统一骨架，并基于共性稳定产出控制路径与约束路径  
   - 详见：[theory/abstraction.md](theory/abstraction.md)

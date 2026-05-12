@@ -24,3 +24,18 @@ This document describes several thinking modes that `/vspec:new` uses to turn na
 
 - Cover variations across roles, scenarios, channels, devices, org structures, and operating modes
 - Focus on role differences (especially for dashboards and prototypes)
+
+### 5) Closed-loop thinking
+
+Business requirements often focus only on the “core moment” and miss the two ends:
+
+- Pre-processing: what must be true before the core action (prerequisites, data preparation, authorization, validation, initialization)
+- Post-processing: what must happen after the action (state sync, notifications, logs, reconciliation/compensation, and a clear end condition)
+
+Closed-loop thinking expands a point requirement into an end-to-end deliverable loop, ensuring pre- and post-processing are analyzed so gaps don’t surface late during implementation or acceptance.
+
+Typical prompts:
+
+- “What prerequisites must hold before this action? What happens if they don’t?”
+- “After success/failure, what post-actions must the system perform?”
+- “How do we know the process is truly finished (async notifications, retries, compensation, reconciliation)?”

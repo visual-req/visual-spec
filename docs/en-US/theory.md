@@ -36,7 +36,7 @@ This diagram maps analysis stages to their typical inputs/outputs, so reviews ca
   - See: [theory/new-analysis.md](theory/new-analysis.md)
 - Analysis thinking: break “requirements analysis” into reusable modules  
   - See: [theory/thinking-framework.md](theory/thinking-framework.md)
-- Thinking modes: cover boundaries/symmetry/constraints/diversity so you don’t only specify the happy path  
+- Thinking modes: cover boundaries/symmetry/constraints/diversity/closed-loop so you don’t only specify the happy path  
   - See: [theory/thinking-modes.md](theory/thinking-modes.md)
 - Abstraction (flows): map approval/routing processes to one backbone and stabilize control/constraint outputs  
   - See: [theory/abstraction.md](theory/abstraction.md)
