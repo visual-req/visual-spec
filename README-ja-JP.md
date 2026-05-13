@@ -75,11 +75,6 @@ Docs:
 - `skills/visual-spec/SKILL.md`：Skill 定義
 - `skills/visual-spec/prompts/`：各コマンドのプロンプト
 
-## Licensing / Plans
-
-- `prompts/harness/*`（実行後の追加検証コマンド）は Pro 版の有償機能です。
-- Pro 版はより広範な品質チェック（例：プロトタイプのスタック検証、クリック無反応検出、モバイル UX 検証、価格フォーマット検証、バックエンド MVC/テストカバレッジ検証など）を提供します。
-
 ## Quick Start
 
 1. Skillのインストール：`npx skills add visual-req/visual-spec --skill visual-spec`

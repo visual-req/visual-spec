@@ -75,11 +75,6 @@ Docs:
 - `skills/visual-spec/SKILL.md`：Skill 定义与命令工作流
 - `skills/visual-spec/prompts/`：各命令使用的提示词文件
 
-## 版本与授权
-
-- `prompts/harness/*`（运行后校验命令）为付费版（Pro）功能。
-- Pro 版提供更广泛的质量检测能力（例如原型选栈/目录结构校验、点击无反应检测、移动端交互规范校验、价格格式校验、后端 MVC 与测试覆盖率校验等），需要付费开通。
-
 ## Quick Start
 
 1. 安装 Skill：`npx skills add visual-req/visual-spec --skill visual-spec`

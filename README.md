@@ -77,11 +77,6 @@ If you only want the standalone quality check capability (without the full visua
 - `skills/visual-spec/SKILL.md`: Skill definition and command workflow
 - `skills/visual-spec/prompts/`: prompt files used by each command
 
-## Licensing / Plans
-
-- `prompts/harness/*` (post-run validation commands) is a paid feature and is only available in the Pro edition.
-- Pro edition adds broader quality checks across commands (e.g. prototype stack verification, click-no-op detection, mobile UX checks, price formatting checks, and backend MVC/test coverage checks) and requires a paid plan to enable.
-
 ## Quick Start
 
 1. Install the Skill: `npx skills add visual-req/visual-spec --skill visual-spec`
