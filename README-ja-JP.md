@@ -52,7 +52,7 @@ Docs:
 | `/vspec:qc` | 品質チェック | `/specs/` + 標準 | `/specs/qc_report.json`、`/specs/qc_report.html` |
 | `/vspec:plan` | 見積・排期 | functions + details + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
 
-品質チェック（QC）機能だけを単独で使いたい場合（visual-spec のフルワークフロー不要）は、こちらを利用してください： https://github.com/visual-req/spec-qc
+品質チェック（QC）機能だけを単独で使いたい場合（visual-spec のフルワークフロー不要）は、こちらを利用してください： https://github.com/visual-req/spec-review
 
 ## Documentation
 

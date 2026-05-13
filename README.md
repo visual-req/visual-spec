@@ -54,7 +54,7 @@ Methodology / theory:
 | `/vspec:qc` | Run quality checks on generated artifacts | `/specs/` + built-in/project standards | `/specs/qc_report.json`, `/specs/qc_report.html` |
 | `/vspec:plan` | Generate estimation and schedule | functions + details + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html` |
 
-If you only want the standalone quality check capability (without the full visual-spec workflow), use: https://github.com/visual-req/spec-qc
+If you only want the standalone quality check capability (without the full visual-spec workflow), use: https://github.com/visual-req/spec-review
 
 ## Documentation
 

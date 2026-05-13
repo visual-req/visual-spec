@@ -63,7 +63,7 @@ Docs:
 | `/vspec:qc` | 对产物做质量检查并输出报告 | `/specs/` + 内置/项目质量标准 | `/specs/qc_report.json`、`/specs/qc_report.html` |
 | `/vspec:plan` | 生成估算与排期 | `/specs/functions/*` + `/specs/details/` + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
 
-如果你只想单独使用“质量检查（QC）”能力（不需要整套 visual-spec 工作流），请使用：https://github.com/visual-req/spec-qc
+如果你只想单独使用“质量检查（QC）”能力（不需要整套 visual-spec 工作流），请使用：https://github.com/visual-req/spec-review
 
 ## upgrade 与 refine 的区别
 
