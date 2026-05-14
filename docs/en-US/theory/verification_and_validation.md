@@ -4,12 +4,24 @@
 
 In visual-spec, Verification (build the right spec) and Validation (build the right thing) are different classes of problems. They require different evidence and different review styles.
 
+### Reader navigation
+
+- PMs / BAs: focus on “Roles and goals”, “The V&V process”, and “Close the loop”
+- Developers / QA: focus on “The difference”, “Concrete examples”, “Verification checklist”, and the QC step in the process
+- Tool customizers: see the fork guide for extending V&V/QC rules and prompts: [Fork guide](../../en-US/fork.md)
+
 ### The difference
 
 - Verification: are the specs consistent, complete, implementable, testable, and traceable
 - Validation: does the solution satisfy user goals and business value, and do scenarios actually work end-to-end
 
 ![Scenario-driven review entry](../../assets/en-US/visual-spec-scenarios.svg)
+
+### Concrete examples (not generic statements)
+
+- Example: your spec says “Task has a `priority` field”, but the generated model `/specs/models/task.md` omits `priority`  
+  - Result: prototype / API / acceptance outputs cannot align on “priority” behavior, and the gap tends to surface late
+  - With [/vspec:qc](../../../README.md#commands), the mismatch between “spec text” and “model content” becomes a visible, fixable issue
 
 ### Standards background
 
@@ -28,17 +40,25 @@ In visual-spec, the typical roles and goals for each part of V&V are:
 
 ### The V&V process in visual-spec
 
-1. Establish scope and shared language (`/vspec:new`)
+1. Establish scope and shared language ([/vspec:new](../../../README.md#commands))
    - Roles, terms, scenarios, flows, function list, dependencies, and open questions
-2. Specify to implementation-ready granularity (`/vspec:detail`)
+2. Specify to implementation-ready granularity ([/vspec:detail](../../../README.md#commands))
    - Produce traceable detailed specs
-3. Validation (`/vspec:verify` + stakeholder review)
+3. Validation ([/vspec:verify](../../../README.md#commands) + stakeholder review)
    - Validate behavior via runnable prototypes and scenario-based review entrypoints
    - In “Review & Confirmation”, explicitly define the scenario scope for this round (which scenarios are in/out), so the review has a clear conclusion
-4. Verification (`/vspec:qc`)
+4. Verification ([/vspec:qc](../../../README.md#commands))
    - Run rule-based checks to surface omissions, contradictions, non-testable specs, and missing traceability
-5. Close the loop (`/vspec:refine`)
+5. Close the loop ([/vspec:refine](../../../README.md#commands))
    - Apply review conclusions and QC fixes via refine inputs, regenerate downstream artifacts, then re-validate/re-check
+
+### Verification checklist (actionable)
+
+- Every functional requirement has at least one acceptance criterion, mapped to scenarios/flows
+- External dependencies are explicitly listed (systems/APIs/webhooks/topics/files) and traceable to scenarios/functions
+- Data models have no undefined references: relations/foreign keys have clear sources, semantics, and constraints
+- Key rules are testable: permissions, state machine, field validation, failure paths, idempotency/retry
+- The [/vspec:qc](../../../README.md#commands) report has no CRITICAL issues, and each finding has a documented disposition (fixed / not-applicable / deferred with reason)
 
 ### Why separate V from V
 

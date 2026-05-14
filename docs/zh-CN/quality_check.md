@@ -1,8 +1,12 @@
 ## 需求质量检查（独立使用）
 
-[English](../en-US/getting-started.md) | [中文](../zh-CN/quality_check.md) | [日本語](../ja-JP/getting-started.md)
+[English](../en-US/quality_check.md) | [中文](../zh-CN/quality_check.md) | [日本語](../ja-JP/quality_check.md)
 
-本节说明如何不依赖 `/vspec:qc`，单独利用内置的质量标准文件，对“Word/Markdown/文档库”等任意格式的需求文档进行质量扫描，并生成质量问题表格。
+本节说明如何不依赖 [/vspec:qc](../../README.md#commands)，单独利用内置的质量标准文件，对“Word/Markdown/文档库”等任意格式的需求文档进行质量扫描，并生成质量问题表格。
+
+如果你只想单独使用“质量检查（QC）”能力（不需要整套 visual-spec 工作流），也可以使用独立的 Skill：https://github.com/visual-req/spec-review
+
+质量检查的设计理念、检查维度与闭环方式的详细说明，参见：[theory/quality_check.md](theory/quality_check.md)
 
 ### 准备
 
@@ -31,4 +35,4 @@
 ### 建议
 
 - 对于“上下限、时间口径、公式精度、权限与数据权限、外部依赖失败策略”等容易遗漏的部分，可在提问中强调“请重点覆盖边界/异常/幂等/回滚/审计/对账”等关键维度
-- 如果发现高频问题，可将其沉淀到你项目根目录的 `domain_quality_standard.md`，作为领域补充标准，供 `/vspec:qc` 合并使用
+- 如果发现高频问题，可将其沉淀到你项目根目录的 `domain_quality_standard.md`，作为领域补充标准，供 [/vspec:qc](../../README.md#commands) 合并使用

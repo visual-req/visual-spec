@@ -39,3 +39,17 @@ Typical prompts:
 - “What prerequisites must hold before this action? What happens if they don’t?”
 - “After success/failure, what post-actions must the system perform?”
 - “How do we know the process is truly finished (async notifications, retries, compensation, reconciliation)?”
+
+### 6) Action–course mapping (example output)
+
+In course-based products, requirements often describe “the course” but omit the concrete actions that make the course usable. A simple action–course mapping helps reveal missing entry points, permissions, validations, and state transitions.
+
+Example (partial):
+
+| Course object | User action | Expected state change | Key spec focus |
+| --- | --- | --- | --- |
+| Course | browse/search | none | filters, sorting, visibility rules |
+| Course | enroll/purchase | enrolled | payment, idempotency, access control |
+| Lesson | play/pause/seek | progress updated | tracking, rate limiting, anti-abuse |
+| Lesson | complete | completed | completion criteria, retries, offline sync |
+| Course | certificate | certificate issued | eligibility rules, audit, notification |

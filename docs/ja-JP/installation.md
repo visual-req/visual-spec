@@ -14,6 +14,17 @@
 npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
+### 代替案：`vspec` CLI（インストール先を手動指定）
+
+skills.sh のインストーラを使わず、任意のディレクトリへ手動で入れたい場合は、内蔵 CLI を使用します。
+
+```bash
+npx visual-spec --help
+npx visual-spec install --target /path/to/your/project --force
+```
+
+デフォルトのインストール先：`<project>/.trae/skills/visual-spec`。
+
 ### 次へ
 
 - クイックスタート：`getting-started.md`

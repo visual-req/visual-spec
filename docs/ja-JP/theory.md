@@ -2,7 +2,7 @@
 
 [English](../en-US/theory.md) | [中文](../zh-CN/theory.md) | [日本語](../ja-JP/theory.md)
 
-本セクションでは、visual-spec Skill の設計理念を説明します。SDLC（ソフトウェア開発ライフサイクル）との対応関係、なぜコマンドを段階に分けているのか、なぜ「シナリオ一覧」を HTML で出力してプロトタイプと連動させるのか、そして `/vspec:new` が多面的に分析する理由を整理します。
+本セクションでは、visual-spec Skill の設計理念を説明します。SDLC（ソフトウェア開発ライフサイクル）との対応関係、なぜコマンドを段階に分けているのか、なぜ「シナリオ一覧」を HTML で出力してプロトタイプと連動させるのか、そして [/vspec:new](../../README.md#commands) が多面的に分析する理由を整理します。
 
 また、承認/回付型のフローを 1 つの再利用可能な骨格（flows）に正規化し、分析出力を安定させるための抽象化も採用しています。
 
@@ -23,7 +23,7 @@
 
 - SDLC 対応：段階設計の意図と SDLC とのマッピング  
   - [theory/sdlc.md](theory/sdlc.md)
-- 計画と見積：要件分解・見積・排期の進め方と、ユーザーストーリーマップを HTML にする理由（`/vspec:plan`）  
+- 計画と見積：要件分解・見積・排期の進め方と、ユーザーストーリーマップを HTML にする理由（[/vspec:plan](../../README.md#commands)）  
   - [theory/plan.md](theory/plan.md)
 - レビュー最適化：なぜ HTML のシナリオ一覧なのか、なぜプロトタイプ連動がレビューに効くのか  
   - [theory/prototype-review.md](theory/prototype-review.md)
@@ -31,7 +31,7 @@
   - [theory/reading-experience.md](theory/reading-experience.md)
 - Verification & Validation：レビューの閉ループ（review → refine → 再検証）  
   - [theory/verification_and_validation.md](theory/verification_and_validation.md)
-- `/vspec:new` が多くを分析する理由と、出力が後続ステップでどう再利用されるか  
+- [/vspec:new](../../README.md#commands) が多くを分析する理由と、出力が後続ステップでどう再利用されるか  
   - [theory/new-analysis.md](theory/new-analysis.md)
 - 分析思考：要件分析を再利用可能なモジュールとして分解する  
   - [theory/thinking-framework.md](theory/thinking-framework.md)

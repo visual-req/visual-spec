@@ -6,6 +6,16 @@
 
 版本：0.1.13（2026-04-12）· License: MIT（[LICENSE](LICENSE)）
 
+## 3 行快速开始
+
+- 安装：`npx skills add visual-req/visual-spec --skill visual-spec`
+- 运行：执行 `/vspec:new`，粘贴最小需求（示例如下）
+- 查看产物：执行 `/vspec:verify` → `/specs/prototypes/` 下获得可运行原型
+
+最小输入示例：
+
+> 公司有很多车辆，有轿车有中巴车，也有很多司机，员工根据业务需要申请用车，派车员根据乘客人数，行车路线分配对应的车辆，司机出发和到达做出准确记录，以便规范化管理用车流程。
+
 ## 30 秒价值快照
 
 输入（原始需求）：
@@ -44,6 +54,7 @@ npx skills add visual-req/visual-spec --skill visual-spec
 | 目录结构 | `/docs/`、`/specs/` 目录与产物结构 | [docs/zh-CN/structure.md](docs/zh-CN/structure.md) |
 | 工作流图 | 可视化流程与关键产物 | [docs/zh-CN/workflows.md](docs/zh-CN/workflows.md) |
 | 安装 | 安装与配置（英文） | [docs/en-US/installation.md](docs/en-US/installation.md) |
+| Troubleshooting | 常见问题与排障 | [docs/zh-CN/troubleshooting.md](docs/zh-CN/troubleshooting.md) |
 | Fork 定制 | Fork 后的定制指南 | [docs/zh-CN/fork.md](docs/zh-CN/fork.md) |
 
 ## 功能概览
@@ -54,6 +65,10 @@ npx skills add visual-req/visual-spec --skill visual-spec
 
 方法论 / theory（建议先读这一章了解整体设计思路与命令分层）：
 - [docs/zh-CN/theory.md](docs/zh-CN/theory.md)
+
+阶段地图（SVG）：
+
+![visual-spec 阶段地图](docs/assets/zh-CN/visual-spec-stage-map.svg)
 
 - 需求分析：生成背景、干系人、角色、术语、流程、场景、详情、依赖、功能清单与开放问题
 - 方案验证：生成数据模型、可运行原型与场景评审页
@@ -96,6 +111,8 @@ npx skills add visual-req/visual-spec --skill visual-spec
   `/vspec:verify` 生成的原型是 Web 形态，并遵循 `/scheme.yaml`。更深入的对齐方式可参考：[scheme.example.yaml](docs/en-US/scheme.example.yaml) 与 [docs/zh-CN/structure.md](docs/zh-CN/structure.md)。
 - 产物输出到哪里？  
   主要在 `/specs/` 下（models、prototypes、details、qc report、plan）。详见：[docs/zh-CN/structure.md](docs/zh-CN/structure.md)。
+- Troubleshooting（常见问题与排障）  
+  详见：[docs/zh-CN/troubleshooting.md](docs/zh-CN/troubleshooting.md)。
 
 ## 参与贡献
 

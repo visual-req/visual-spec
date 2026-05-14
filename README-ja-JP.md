@@ -6,6 +6,16 @@
 
 バージョン：0.1.13（2026-04-12）· License: MIT（[LICENSE](LICENSE)）
 
+## 3 行クイックスタート
+
+- インストール：`npx skills add visual-req/visual-spec --skill visual-spec`
+- 実行：`/vspec:new` を実行し、最小要件（下記）を貼り付け
+- 成果物：`/vspec:verify` → `/specs/prototypes/` に実行可能プロトタイプ
+
+最小入力例：
+
+> 会社には多くの車両（セダンやマイクロバス）と多くのドライバーがいます。社員は業務に応じて車両を申請し、配車担当は乗客人数と走行ルートに基づいて適切な車両を割り当てます。ドライバーは出発と到着を正確に記録し、配車プロセスを標準化して管理します。
+
 ## 30 秒でわかる価値
 
 入力（生の要件）：
@@ -44,6 +54,10 @@ npx skills add visual-req/visual-spec --skill visual-spec
 方法論 / theory（全体設計の考え方とコマンド分割の意図）：
 - [docs/ja-JP/theory.md](docs/ja-JP/theory.md)
 
+ステージマップ（SVG）：
+
+![visual-spec stage map](docs/assets/ja-JP/visual-spec-stage-map.svg)
+
 - 要件分析：背景、ステークホルダー、ロール、用語、フロー、シナリオ、詳細、依存関係、機能一覧、未解決質問を生成
 - 方案検証：データモデル、実行可能プロトタイプ、シナリオレビュー用ページを生成
 - プロトタイプ生成（高頻度）：`/vspec:verify` が `/scheme.yaml` に合わせて実行可能な Web プロトタイプを生成（`/specs/prototypes/`）。ロール別ダッシュボード（適切なチャート選定/配置）とシナリオレビュー用ページを含む
@@ -78,6 +92,7 @@ npx skills add visual-req/visual-spec --skill visual-spec
 | Structure | ディレクトリ構成と成果物 | [docs/ja-JP/structure.md](docs/ja-JP/structure.md) |
 | Workflows | ワークフロー概要 | [docs/ja-JP/workflows.md](docs/ja-JP/workflows.md) |
 | Installation | インストール（英語） | [docs/en-US/installation.md](docs/en-US/installation.md) |
+| Troubleshooting | よくある問題と対処 | [docs/ja-JP/troubleshooting.md](docs/ja-JP/troubleshooting.md) |
 | Fork guide | fork 後のカスタマイズ | [docs/ja-JP/fork.md](docs/ja-JP/fork.md) |
 
 ## upgrade と refine の違い
@@ -96,6 +111,8 @@ npx skills add visual-req/visual-spec --skill visual-spec
   `/vspec:verify` のプロトタイプは Web 形態で、`/scheme.yaml` に従います。参考： [scheme.example.yaml](docs/en-US/scheme.example.yaml) と [docs/ja-JP/structure.md](docs/ja-JP/structure.md)。
 - 成果物はどこに出力されますか？  
   主に `/specs/` 配下です（models、prototypes、details、qc report、plan）。参考： [docs/ja-JP/structure.md](docs/ja-JP/structure.md)。
+- Troubleshooting（よくある問題と対処）  
+  参照： [docs/ja-JP/troubleshooting.md](docs/ja-JP/troubleshooting.md)。
 
 ## Contributing
 

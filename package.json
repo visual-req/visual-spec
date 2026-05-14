@@ -5,7 +5,8 @@
   "license": "MIT",
   "type": "commonjs",
   "bin": {
-    "vspec": "bin/vspec.cjs"
+    "vspec": "bin/vspec.cjs",
+    "visual-spec": "bin/vspec.cjs"
   },
   "scripts": {
     "postinstall": "node scripts/postinstall.cjs",

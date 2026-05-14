@@ -2,7 +2,7 @@
 
 [English](../en-US/theory.md) | [中文](../zh-CN/theory.md) | [日本語](../ja-JP/theory.md)
 
-This section explains the core design philosophy of the visual-spec Skill: how it maps to SDLC, why the workflow is split into these command stages, why scenarios are output as an HTML review entry that links to the runnable prototype, and why `/vspec:new` analyzes “so much” up front.
+This section explains the core design philosophy of the visual-spec Skill: how it maps to SDLC, why the workflow is split into these command stages, why scenarios are output as an HTML review entry that links to the runnable prototype, and why [/vspec:new](../../README.md#commands) analyzes “so much” up front.
 
 The flows abstraction (steps + control paths + constraint gates) can normalize most approval / routing workflows into one reusable backbone and drive consistent analysis outputs.
 
@@ -24,7 +24,7 @@ This diagram maps analysis stages to their typical inputs/outputs, so reviews ca
 
 - SDLC mapping: why the command stages exist and how they align with SDLC  
   - See: [theory/sdlc.md](theory/sdlc.md)
-- Planning: how to break down scope, estimate, and schedule, and why the story map is HTML (`/vspec:plan`)  
+- Planning: how to break down scope, estimate, and schedule, and why the story map is HTML ([/vspec:plan](../../README.md#commands))  
   - See: [theory/plan.md](theory/plan.md)
 - Review ergonomics: why scenario lists are HTML and how they link to prototypes to make reviews faster  
   - See: [theory/prototype-review.md](theory/prototype-review.md)
@@ -32,7 +32,7 @@ This diagram maps analysis stages to their typical inputs/outputs, so reviews ca
   - See: [theory/reading-experience.md](theory/reading-experience.md)
 - Verification & Validation: the review loop (review → refine → re-validate)  
   - See: [theory/verification_and_validation.md](theory/verification_and_validation.md)
-- Why `/vspec:new` analyzes many dimensions and how each output is reused downstream  
+- Why [/vspec:new](../../README.md#commands) analyzes many dimensions and how each output is reused downstream  
   - See: [theory/new-analysis.md](theory/new-analysis.md)
 - Analysis thinking: break “requirements analysis” into reusable modules  
   - See: [theory/thinking-framework.md](theory/thinking-framework.md)

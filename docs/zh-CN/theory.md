@@ -2,7 +2,7 @@
 
 [English](../en-US/theory.md) | [中文](../zh-CN/theory.md) | [日本語](../ja-JP/theory.md)
 
-本节说明 visual-spec Skill 的整体设计理念：它与传统 SDLC（软件开发生命周期）的关系、为什么把流程拆成这些命令步骤、以及为什么用 HTML 输出“场景列表/评审入口”并与原型联动来提升评审效率。同时也解释：为什么 `/vspec:new` 需要分析那么多内容，以及背后的分析思维方式如何拆分为可复用的模块。
+本节说明 visual-spec Skill 的整体设计理念：它与传统 SDLC（软件开发生命周期）的关系、为什么把流程拆成这些命令步骤、以及为什么用 HTML 输出“场景列表/评审入口”并与原型联动来提升评审效率。同时也解释：为什么 [/vspec:new](../../README.md#commands) 需要分析那么多内容，以及背后的分析思维方式如何拆分为可复用的模块。
 
 另外，我们也会用 flows 抽象把审批/流转类流程统一到同一套可复用骨架上，以便稳定地产出可评审、可落地、可验证的分析结果。
 
@@ -24,13 +24,13 @@
   - 详见：[theory/prototype-review.md](theory/prototype-review.md)
 - 阅读体验：如何通过层级化阅读体验更快理解需求，并降低评审与沟通成本  
   - 详见：[theory/reading-experience.md](theory/reading-experience.md)
-- 模型优先：为什么要先生成数据模型，再生成原型（`/vspec:verify`）  
+- 模型优先：为什么要先生成数据模型，再生成原型（[/vspec:verify](../../README.md#commands)）  
   - 详见：[theory/model-before-prototype.md](theory/model-before-prototype.md)
 - Verification & Validation：verification_and_validation 的过程与闭环（review → refine → 再验证）  
   - 详见：[theory/verification_and_validation.md](theory/verification_and_validation.md)
 - 变更友好：为什么 visual-spec 更擅长响应需求变更，并保持下游产物同步更新  
   - 详见：[theory/change-responsiveness.md](theory/change-responsiveness.md)
-- `/vspec:new`：为什么要分析那么多内容，以及每一类分析产物在后续步骤中的作用  
+- [/vspec:new](../../README.md#commands)：为什么要分析那么多内容，以及每一类分析产物在后续步骤中的作用  
   - 详见：[theory/new-analysis.md](theory/new-analysis.md)
 - 分析方法：把“需求分析思维”拆成可复用的模块化方法  
   - 详见：[theory/thinking-framework.md](theory/thinking-framework.md)
@@ -44,7 +44,7 @@
   - 详见：[theory/stakeholder-identification.md](theory/stakeholder-identification.md)
 - 质量检查：用行业无关的规则把需求质量拆成可检查维度，形成可执行的质检与修复闭环  
   - 详见：[theory/quality_check.md](theory/quality_check.md)
-- 规划与排期：如何进行需求分解、估算和排期，以及用户故事地图为什么采用 HTML（`/vspec:plan`）  
+- 规划与排期：如何进行需求分解、估算和排期，以及用户故事地图为什么采用 HTML（[/vspec:plan](../../README.md#commands)）  
   - 详见：[theory/plan.md](theory/plan.md)
 
 ### 一句话总结
