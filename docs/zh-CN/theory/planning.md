@@ -1,6 +1,6 @@
 ## 规划与排期：需求分解、估算与迭代排期（`/vspec:plan`）
 
-[English](../../en-US/theory/plan.md) | [中文](../../zh-CN/theory/plan.md) | [日本語](../../ja-JP/theory/plan.md)
+[English](../../en-US/theory/planning.md) | [中文](../../zh-CN/theory/planning.md) | [日本語](../../ja-JP/theory/planning.md)
 
 `/vspec:plan` 的目标不是“拍脑袋排期”，而是在需求口径收敛、关键遗漏/矛盾被识别之后，用可追溯的结构化输入把工作拆解、估算并装入迭代，生成一份可评审、可复用、可持续更新的交付计划。
 

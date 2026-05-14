@@ -1,6 +1,6 @@
 ## Planning: scope breakdown, estimation, and scheduling (`/vspec:plan`)
 
-[English](../../en-US/theory/plan.md) | [中文](../../zh-CN/theory/plan.md) | [日本語](../../ja-JP/theory/plan.md)
+[English](../../en-US/theory/planning.md) | [中文](../../zh-CN/theory/planning.md) | [日本語](../../ja-JP/theory/planning.md)
 
 `/vspec:plan` is not meant to “guess a timeline”. It turns stabilized requirements into a traceable delivery plan by breaking down work, estimating with story points, and loading the work into iterations in a review-friendly story map.
 

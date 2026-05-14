@@ -1,6 +1,6 @@
 ## 計画と見積：要件分解・見積・排期（`/vspec:plan`）
 
-[English](../../en-US/theory/plan.md) | [中文](../../zh-CN/theory/plan.md) | [日本語](../../ja-JP/theory/plan.md)
+[English](../../en-US/theory/planning.md) | [中文](../../zh-CN/theory/planning.md) | [日本語](../../ja-JP/theory/planning.md)
 
 `/vspec:plan` は「なんとなく日付を決める」ための機能ではありません。要件の口径が収束し、主要な漏れ/矛盾が可視化された後に、作業を分解し、ストーリーポイントで見積り、イテレーションに積み込んで、レビューしやすいストーリーマップとして出力します。
 

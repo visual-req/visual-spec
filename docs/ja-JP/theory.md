@@ -19,32 +19,77 @@
 
 この図は、分析のステージと典型的な入力/出力を対応付けたものです。レビューでは「今どの段階にいて、次に何を埋めるべきか」を合意しやすくなります。
 
-### 目次
+### なぜ visual-spec なのか
 
-- SDLC 対応：段階設計の意図と SDLC とのマッピング  
-  - [theory/sdlc.md](theory/sdlc.md)
-- 計画と見積：要件分解・見積・排期の進め方と、ユーザーストーリーマップを HTML にする理由（[/vspec:plan](../../README.md#commands)）  
-  - [theory/plan.md](theory/plan.md)
-- レビュー最適化：なぜ HTML のシナリオ一覧なのか、なぜプロトタイプ連動がレビューに効くのか  
-  - [theory/prototype-review.md](theory/prototype-review.md)
-- 読みやすさ：分層読書で要件理解を速くし、レビューの摩擦を減らす  
-  - [theory/reading-experience.md](theory/reading-experience.md)
-- Verification & Validation：レビューの閉ループ（review → refine → 再検証）  
-  - [theory/verification_and_validation.md](theory/verification_and_validation.md)
-- [/vspec:new](../../README.md#commands) が多くを分析する理由と、出力が後続ステップでどう再利用されるか  
-  - [theory/new-analysis.md](theory/new-analysis.md)
-- 分析思考：要件分析を再利用可能なモジュールとして分解する  
-  - [theory/thinking-framework.md](theory/thinking-framework.md)
-- 思考モード：境界/対称/制約/多様性/閉ループを補完し、「主経路だけ」の仕様を防ぐ  
-  - [theory/thinking-modes.md](theory/thinking-modes.md)
-- 抽象（flows）：承認/回付型フローを 1 つの骨格に正規化し、制御パスと制約出力を安定化する  
-  - [theory/abstraction.md](theory/abstraction.md)
-- シナリオ分岐：シナリオを列挙し、確率/価値/リスクでスコープを定め、受入ケースへ接続する  
-  - [theory/scenarios.md](theory/scenarios.md)
-- ステークホルダー識別：意思決定/実行/影響/制約の視点を補完し、見落としを防ぐ  
-  - [theory/stakeholder-identification.md](theory/stakeholder-identification.md)
-- 品質チェック：業界非依存の次元で要件品質を検査し、修正までの閉ループを作る  
-  - [theory/quality_check.md](theory/quality_check.md)
+従来の PRD/仕様書は、だいたい同じ失敗パターンに収束します。
+
+- 認識ズレ：曖昧さが実装/結合/受入のタイミングまで露見しない
+- フィードバックの遅さ：関係者が「触って理解」できる成果物が出るのが遅い
+- 変更の混乱：要求変更で原型/用例/実装メモが同期せず、下流が漂流する
+
+visual-spec はこれを左シフトします。要件を「追跡可能でレビュー可能で検証可能な成果物の連鎖」に変換し、実装前に合意形成と検証を終えるための設計です。
+
+### コアワークフロー（理念の着地）
+
+要点は、構造化 → 実行可能な検証 → 詳細化 → 受入と実装入力 → 品質チェックと変更同期です。
+
+```mermaid
+graph LR
+  A[原始要件] --> B[構造化分析]
+  B --> C[データモデル & 実行可能プロトタイプ]
+  C --> D[ステークホルダーレビュー]
+  D --> E[詳細仕様]
+  E --> F[受入ケース]
+  E --> G[実装入力]
+  D --> H[修正・同期]
+  E --> I[品質チェック]
+```
+
+コマンドと成果物の対応：
+
+- 構造化：[/vspec:new](../../README.md#commands) が `/specs/` に基礎成果物（ロール/用語/flows/シナリオ/機能一覧/未解決事項など）を作る
+- 検証：[/vspec:verify](../../README.md#commands) がデータモデルと実行可能プロトタイプ、HTML のシナリオ評審入口を生成（典型は `/specs/models/`、`/specs/prototypes/`）
+- 詳細化：[/vspec:detail](../../README.md#commands) が機能一覧を実装可能な仕様へ落とす（典型は `/specs/details/`）
+- 受入と実装入力：[/vspec:accept](../../README.md#commands) が受入ケース（`/specs/acceptance/`）を作り、[/vspec:impl](../../README.md#commands) が技術スタックに沿った実装入力を出す
+- 品質と変更：[/vspec:qc](../../README.md#commands) が QC レポートを出し、[/vspec:refine](../../README.md#commands) が canonical requirement を更新して下流成果物を同期する
+
+### 主要な設計判断（なぜこの形か）
+
+- レビュー最適化：実行可能プロトタイプ + HTML のシナリオ入口で、非技術ステークホルダーも参加しやすく、フィードバックが早い
+- モデル優先：用語/状態/制約を先に固め、UI での言い換えや状態追加による手戻りを減らす
+- 変更に強い：`/specs/` を 1 つの canonical requirement から派生する成果物集合として扱い、[/vspec:refine](../../README.md#commands) で源泉を更新し下流を同期する
+- 実行可能な品質：主観レビューではなく、[/vspec:qc](../../README.md#commands) で欠落/矛盾/検証不能点を機械的に露出させる
+
+### ステージマップ（Command → Outputs → V&V 観点）
+
+| ステージ | コマンド | 入力 | 主な出力（典型パス） | V&V 観点 |
+| --- | --- | --- | --- | --- |
+| 1. 構造化 | [/vspec:new](../../README.md#commands) | 原始要件 | `/specs/` の基礎成果物 | 網羅性：ロール/制約/例外/未解決事項 |
+| 2. 検証 | [/vspec:verify](../../README.md#commands) | 機能一覧 + シナリオ | `/specs/models/`、`/specs/prototypes/`（HTML 入口含む） | 正しさ：シナリオと制約に一致するか |
+| 3. 詳細化 | [/vspec:detail](../../README.md#commands) | 検証結果 | `/specs/details/` | 整合性：権限/検証/境界条件が揃うか |
+| 4. 受入 | [/vspec:accept](../../README.md#commands) | シナリオ + 詳細仕様 | `/specs/acceptance/` | 受入可能性：重要分岐と高リスクを覆うか |
+| 5. 実装入力 | [/vspec:impl](../../README.md#commands) | 詳細仕様 + リポジトリ制約 | `/specs/backend/`（有効時）など | 実装可能性：実スタック/規約に沿うか |
+| 6. QC | [/vspec:qc](../../README.md#commands) | `/specs/` 全量 | `/specs/qc_report.json`、`/specs/qc_report.html` | 交付可能性：欠落/矛盾が露出しているか |
+| 7. 変更同期 | [/vspec:refine](../../README.md#commands) | 変更/フィードバック | `original.md` 更新 + 下流同期 | 追跡性：変更が帰因され伝播するか |
+| 8. 計画 | [/vspec:plan](../../README.md#commands) | スコープ + 制約 | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` | 計画可能性：分解と範囲が評審可能か |
+
+### 追加の読み物（ライフサイクル順）
+
+| テーマ | ドキュメント | 対象 |
+| --- | --- | --- |
+| SDLC 対応 | [theory/sdlc.md](theory/sdlc.md) | PM / Tech Lead |
+| [/vspec:new](../../README.md#commands) の分析次元 | [theory/new-analysis.md](theory/new-analysis.md) | BA / PM |
+| 分析思考 | [theory/thinking-framework.md](theory/thinking-framework.md) | BA / PM |
+| 思考モード（閉ループ含む） | [theory/thinking-modes.md](theory/thinking-modes.md) | 全員 |
+| ステークホルダー識別 | [theory/stakeholder-identification.md](theory/stakeholder-identification.md) | BA / PM |
+| 抽象（flows） | [theory/abstraction.md](theory/abstraction.md) | BA / Tech Lead |
+| シナリオ分岐 | [theory/scenarios.md](theory/scenarios.md) | BA / PM / QA |
+| レビュー最適化（原型連動） | [theory/prototype-review.md](theory/prototype-review.md) | PM / 関係者 |
+| 読みやすさ（分層読書） | [theory/reading-experience.md](theory/reading-experience.md) | 全員 |
+| Verification & Validation | [theory/verification_and_validation.md](theory/verification_and_validation.md) | QA / Tech Lead |
+| 受入テスト（シナリオ駆動） | [theory/acceptance.md](theory/acceptance.md) | QA / Dev / PM |
+| 品質チェック | [theory/quality_check.md](theory/quality_check.md) | 全員 |
+| 計画と見積 | [theory/planning.md](theory/planning.md) | PM |
 
 ### 要約
 
