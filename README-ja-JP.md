@@ -2,22 +2,38 @@
 
 [English](README.md) | [中文](README-zh-CN.md) | [日本語](README-ja-JP.md)
 
-このリポジトリは、要件分析とデリバリー支援の Skill を提供します。`/vspec:*` のコマンド駆動ワークフローで、生の要件をレビュー可能かつ実装可能な成果物（spec、データモデル、実行可能プロトタイプ、詳細設計、受入ケース、テスト、統合実装入力）へ変換します。
+「一文要件」から実行可能プロトタイプと追跡可能な仕様へ。段階的な `/vspec:*` ワークフローで手戻りと齟齬を減らします。
 
-本 Skill は、独立した知的財産に基づく「可視化要件分析（visualized requirements analysis）」の方法論をベースに設計しています。目的は、要件の明確化 → 設計 → 検証のプロセスを標準化・可視化・再利用可能にし、コミュニケーションコストと手戻りを減らすことです。
+バージョン：0.1.13（2026-04-12）· License: MIT（[LICENSE](LICENSE)）
 
-バージョン：0.1.13（2026-04-12）
+## 30 秒でわかる価値
 
-## Quick Installation
+入力（生の要件）：
+
+> 「チームのタスクボード。プロジェクト作成、タスク割当、個人別の進捗集計ができる。」
+
+`/vspec:new` → `/vspec:verify` の後に得られるもの：
+
+- 実行可能プロトタイプ + シナリオレビュー入口
+- 構造化仕様：ロール/シナリオ/フロー/機能分解と詳細
+- データモデル、および権限/バリデーション/ロジックをレビューするための仕様
+
+## クイックスタート（3 ステップ）
 
 ```bash
 npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
-Docs:
-- [Installation](docs/en-US/installation.md)
-- [Multi-agent installation](docs/en-US/ai-platform-installation.md)
-- Fork guide: [docs/ja-JP/fork.md](docs/ja-JP/fork.md)
+2. `/vspec:new` を実行し、要件テキストを貼り付けます。
+3. Open Questions に答えた後、`/vspec:verify` を実行して実行可能プロトタイプでレビューします。
+
+初心者向け： [docs/ja-JP/getting-started.md](docs/ja-JP/getting-started.md)
+
+## 想定ユーザー
+
+| プロダクト / BA | 開発 | QA / 受入 |
+| --- | --- | --- |
+| 曖昧な要件をレビュー可能なシナリオと原型へ | 実装/テスト可能な詳細（権限/検証/ロジック）とモデル | 重要シナリオを受入ケースへ落とし込む |
 
 ## Overview
 
@@ -38,19 +54,18 @@ Docs:
 
 ## Commands
 
-| コマンド | 用途 | 主な入力 | 主な出力 |
+| コマンド | 用途 | 主なメリット | 主な出力 |
 | --- | --- | --- | --- |
-| `/vspec:new` | ベースライン spec の生成 | 生要件テキスト +（任意）`/docs/current/*` | `/specs/`（background/functions/flows 等） |
-| `/vspec:refine` | 要件の修正と下流成果物の同期更新 | `/docs/refine/refine.md` または貼り付け変更内容/引数 | `/specs/background/original.md` 更新 + `/specs/details/`・`/specs/prototypes/`・既存 `/specs/backend/` 同期更新 |
-| `/vspec:refine-q` | 回答済み質問を要件へ取り込み | `/specs/background/questions.md`（回答済み） | `original.md` 更新 + `questions.md` に回答マーク |
-| `/vspec:detail` | 機能ごとの詳細 spec | `/specs/functions/*` + 関連成果物 | `/specs/details/` |
-| `/vspec:verify` | モデル + 実行可能プロトタイプ | `/scheme.yaml` + 非空 `/specs/details/` | `/specs/models/`、`/specs/prototypes/` |
-| `/vspec:accept` | 受入ケース生成 | functions + scenarios + details + models | `/specs/acceptance/` |
-| `/vspec:append-test` | 自動テストコード生成 | 受入ケース + 既存テストフレームワーク | 既存テストディレクトリ or `/tests/` |
-| `/vspec:impl` | 統合実装入力の生成 | details + models + dependencies | `/specs/backend/`（有効時）および関連コード |
-| `/vspec:upgrade` | 既存資料から specs を再生成/更新 | `/docs/legacy/*` + `/docs/current/*` | `/specs/` 更新 + 技術選定を `/scheme.yaml` に同期 |
-| `/vspec:qc` | 品質チェック | `/specs/` + 標準 | `/specs/qc_report.json`、`/specs/qc_report.html` |
-| `/vspec:plan` | 見積・排期 | functions + details + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
+| `/vspec:new` | ベースライン spec の生成 | 生の要件をレビュー可能な構造へ落とし込む | `/specs/`（background/functions/flows 等） |
+| `/vspec:detail` | 機能ごとの詳細 spec | 実装/テスト可能な粒度へ展開する | `/specs/details/` |
+| `/vspec:verify` | モデル + 実行可能プロトタイプ | 期待どおりの振る舞いか早期に確認できる | `/specs/models/`、`/specs/prototypes/` |
+| `/vspec:qc` | 品質チェック | 漏れ/矛盾/テスト不能/追跡不足を早期に可視化する | `/specs/qc_report.json`、`/specs/qc_report.html` |
+| `/vspec:refine` | 要件の修正と下流成果物の同期更新 | 変更時に成果物の整合を保つ | `original.md` 更新 + 影響範囲の同期更新 |
+| `/vspec:accept` | 受入ケース生成 | シナリオを受入言語へ変換する | `/specs/acceptance/` |
+| `/vspec:append-test` | 自動テストコード生成 | テスト自動化の導入コストを下げる | 既存テストディレクトリ or `/tests/` |
+| `/vspec:impl` | 統合実装入力の生成 | スタック/規約に合わせた実装入力を出す | `/specs/backend/`（有効時）および関連コード |
+| `/vspec:plan` | 見積・排期 | スコープをレビュー可能な計画にする | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
+| `/vspec:upgrade` | 既存資料から specs を再生成/更新 | 既存資料から仕様を再構築/更新する | `/specs/` 更新 + 技術選定を `/scheme.yaml` に同期 |
 
 品質チェック（QC）機能だけを単独で使いたい場合（visual-spec のフルワークフロー不要）は、こちらを利用してください： https://github.com/visual-req/spec-review
 
@@ -75,14 +90,14 @@ Docs:
 - `skills/visual-spec/SKILL.md`：Skill 定義
 - `skills/visual-spec/prompts/`：各コマンドのプロンプト
 
-## Quick Start
+## FAQ
 
-1. Skillのインストール：`npx skills add visual-req/visual-spec --skill visual-spec`
-2. `/vspec:new` を実行し、生の要件テキストを入力します
-3. 指示に従って「Open Questions（未解決質問）」に答え、要件の方向性と前提条件を収束させます
-4. 順を追ってコマンドを実行し、最終成果物を生成します：
-   - `/vspec:detail`：詳細 spec を生成（`/specs/details/`）
-   - `/vspec:verify`：データモデルと実行可能プロトタイプを生成（`/specs/models/`、`/specs/prototypes/`）
-   - `/vspec:qc`：品質レポートを生成（`/specs/qc_report.json`、`/specs/qc_report.html`）
-   - `/vspec:plan`（任意）：見積とスケジュールを生成（`/specs/plan/`）
-5. 要件に変更がある場合：変更内容を `/docs/refine/refine.md` に記載（または対話ウィンドウに貼り付け）し、`/vspec:refine` を実行して下流の成果物と同期更新します
+- 技術スタックに合わせられますか？  
+  `/vspec:verify` のプロトタイプは Web 形態で、`/scheme.yaml` に従います。参考： [scheme.example.yaml](docs/en-US/scheme.example.yaml) と [docs/ja-JP/structure.md](docs/ja-JP/structure.md)。
+- 成果物はどこに出力されますか？  
+  主に `/specs/` 配下です（models、prototypes、details、qc report、plan）。参考： [docs/ja-JP/structure.md](docs/ja-JP/structure.md)。
+
+## Contributing
+
+- カスタマイズ： [docs/ja-JP/fork.md](docs/ja-JP/fork.md)
+- 改善提案・不具合報告：GitHub Issues / Pull Requests

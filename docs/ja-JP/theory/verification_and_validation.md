@@ -9,6 +9,8 @@ visual-spec では、Verification（仕様として正しいか）と Validation
 - Verification：仕様が整合し、漏れがなく、実装可能で、テスト可能で、追跡可能か
 - Validation：ユーザー価値と目的に合い、シナリオが end-to-end で成立するか
 
+![シナリオ起点のレビュー入口](../../assets/ja-JP/visual-spec-scenarios.svg)
+
 ### 標準化の背景
 
 Verification & Validation（V&V）は visual-spec 固有の概念ではなく、システム/ソフトウェア工学で広く使われる標準的なプロセスです。参考として ISO/IEC 26551:2016 に関連する実践があり、Validation（作るべきものか）と Verification（正しく作れているか）を分けて証拠とレビューを組み立てることで、手戻りや口径漂移を減らします。

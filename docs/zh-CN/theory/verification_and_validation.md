@@ -9,6 +9,8 @@
 - Verification：我们写的规格是否自洽、完整、可实现、可测试、可追踪
 - Validation：我们要做的东西是否真的满足目标用户与业务价值，场景是否跑得通
 
+![场景驱动的验证入口](../../assets/zh-CN/visual-spec-scenarios.svg)
+
 ### 标准化背景
 
 Verification & Validation（V&V）并不是 visual-spec 独有的概念，而是系统与软件工程中常见的标准化过程。可参考 ISO/IEC 26551:2016 的相关实践，将“符合需求/价值”（validation）与“符合规格/可测”（verification）拆开组织证据与评审，从而降低返工与口径漂移。

@@ -2,24 +2,40 @@
 
 [English](README.md) | [中文](README-zh-CN.md) | [日本語](README-ja-JP.md)
 
-This repo provides a requirements analysis and delivery assistant Skill. It offers a `/vspec:*` command-driven workflow that turns raw requirements into reviewable, shippable artifacts: specs, data models, runnable prototypes, detailed design, acceptance cases, tests, and integrated implementation inputs.
+Turn a one-sentence idea into runnable prototypes and traceable specs with a staged `/vspec:*` workflow.
 
-It is designed around an independently-owned IP methodology: “visualized requirements analysis”. The goal is to standardize and make the end-to-end workflow (clarification → design → validation) more visual, traceable, and reusable, so teams can reduce communication overhead and avoid rework.
+Version: 0.1.13 (2026-04-12) · License: MIT ([LICENSE](LICENSE))
 
-Version: 0.1.13 (2026-04-12)
+## See It In 30 Seconds
 
-## Quick Installation
+Input (your raw requirement):
 
-Install the Skill into your AI editor configuration directory (Trae / Claude Code / Cursor / GitHub Copilot, etc.):
+> “A team task board that can create projects, assign tasks, and show progress stats per person.”
+
+After running `/vspec:new` → `/vspec:verify`:
+
+- A runnable prototype + scenario review entry page
+- Structured specs: roles, scenarios, flows, and per-function details
+- Data models, plus the specs needed to review permissions/validation/logic
+
+## Quick Start (3 Steps)
+
+1. Install the Skill into your AI editor configuration directory (Trae / Claude Code / Cursor / GitHub Copilot, etc.):
 
 ```bash
 npx skills add visual-req/visual-spec --skill visual-spec
 ```
 
-Docs:
-- [Installation](docs/en-US/installation.md)
-- [Multi-agent installation](docs/en-US/ai-platform-installation.md)
-- Forking and customization: [Fork guide](docs/en-US/fork.md)
+2. Run `/vspec:new` and paste your requirement.
+3. Answer the open questions, then run `/vspec:verify` to get a runnable prototype for review.
+
+Beginner tutorial: [Getting started](docs/en-US/getting-started.md)
+
+## Who This Is For
+
+| Product / BA | Engineer | QA / Acceptance |
+| --- | --- | --- |
+| Turn fuzzy ideas into reviewable scenarios and prototypes | Get implementation-ready details (permissions/validation/logic) and models | Turn key scenarios into executable acceptance cases |
 
 ## Overview
 
@@ -27,8 +43,8 @@ Workflow diagram (SVG):
 
 ![visual-spec workflow](docs/assets/en-US/visual-spec-workflow.svg)
 
-Methodology / theory:
-- [docs/en-US/theory.md](docs/en-US/theory.md)
+Methodology: visualized requirements analysis  
+visual-spec prioritizes visualization, traceability, and early validation to reduce misunderstanding-driven rework. See: [Theory](docs/en-US/theory.md)
 
 - Requirements analysis: generate background, stakeholders, roles, terms, flows, scenarios, details, dependencies, function list, and open questions
 - Solution verification: generate data models, runnable prototypes, and a scenario review page
@@ -40,32 +56,33 @@ Methodology / theory:
 
 ## Commands
 
-| Command | Purpose | Main inputs | Main outputs |
+| Command | Purpose | Key benefit | Main outputs |
 | --- | --- | --- | --- |
-| `/vspec:new` | Generate baseline spec artifacts | raw requirement text + optional `/docs/current/*` | `/specs/` (background/functions/flows, etc.) |
-| `/vspec:refine` | Refine an existing visual-spec requirement and sync downstream artifacts | `/docs/refine/refine.md` or prompt-window pasted changes or command args | updates `/specs/background/original.md` + sync updates `/specs/details/`, `/specs/prototypes/`, existing `/specs/backend/` |
-| `/vspec:refine-q` | Merge answered questions back into the canonical spec | `/specs/background/questions.md` (answered items) | updates `/specs/background/original.md` and marks answers in `questions.md` |
-| `/vspec:detail` | Generate per-function detailed specs | `/specs/functions/*` + supporting artifacts | `/specs/details/` |
-| `/vspec:verify` | Generate data models and a stack-selected runnable prototype | `/scheme.yaml` + non-empty `/specs/details/` | `/specs/models/`, `/specs/prototypes/` |
-| `/vspec:accept` | Generate acceptance test cases | functions + scenarios + details + models | `/specs/acceptance/` |
-| `/vspec:append-test` | Generate automated test code | acceptance cases + existing test framework | existing test directories or `/tests/` |
-| `/vspec:impl` | Generate integrated backend + frontend implementation inputs | details + models + dependencies | `/specs/backend/` (if enabled) and related integration code |
-| `/vspec:upgrade` | Upgrade/redesign based on legacy + new inputs | `/docs/legacy/*` + `/docs/current/*` | regenerated `/specs/` + synced technical selections to `/scheme.yaml` |
-| `/vspec:qc` | Run quality checks on generated artifacts | `/specs/` + built-in/project standards | `/specs/qc_report.json`, `/specs/qc_report.html` |
-| `/vspec:plan` | Generate estimation and schedule | functions + details + `/specs/qc_report.json` | `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html` |
+| `/vspec:new` | Generate baseline spec artifacts | Turn raw text into structured, reviewable baseline | `/specs/` (background/functions/flows, etc.) |
+| `/vspec:detail` | Generate per-function detailed specs | Make specs implementable and testable | `/specs/details/` |
+| `/vspec:verify` | Generate data models and a runnable prototype | Validate behavior early with stakeholders | `/specs/models/`, `/specs/prototypes/` |
+| `/vspec:qc` | Run quality checks on artifacts | Surface omissions/contradictions before build | `/specs/qc_report.json`, `/specs/qc_report.html` |
+| `/vspec:refine` | Refine the canonical requirement and sync downstream artifacts | Keep all artifacts consistent as requirements change | updates `original.md` + sync updates to impacted artifacts |
+| `/vspec:accept` | Generate acceptance test cases | Turn scenarios into acceptance language | `/specs/acceptance/` |
+| `/vspec:append-test` | Generate automated test code | Reduce adoption cost for test automation | existing test directories or `/tests/` |
+| `/vspec:impl` | Generate integrated backend + frontend inputs | Produce structured implementation inputs aligned to stack | `/specs/backend/` (if enabled) and related integration code |
+| `/vspec:plan` | Generate estimation and schedule | Turn scope into a reviewable plan | `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html` |
+| `/vspec:upgrade` | Upgrade/redesign based on legacy + new inputs | Rebuild specs from existing materials | regenerated `/specs/` + synced technical selections |
 
 If you only want the standalone quality check capability (without the full visual-spec workflow), use: https://github.com/visual-req/spec-review
 
 ## Documentation
 
-| Doc | Description | Link |
-| --- | --- | --- |
-| Getting started | Run a full workflow end-to-end | [docs/en-US/getting-started.md](docs/en-US/getting-started.md) |
-| Commands | `/vspec:*` reference | [docs/en-US/commands.md](docs/en-US/commands.md) |
-| Structure | Directory structure and artifacts | [docs/en-US/structure.md](docs/en-US/structure.md) |
-| Workflows | Visual workflow overview | [docs/en-US/workflows.md](docs/en-US/workflows.md) |
-| Installation | Installation & setup | [docs/en-US/installation.md](docs/en-US/installation.md) |
-| Fork guide | How to customize after forking | [docs/en-US/fork.md](docs/en-US/fork.md) |
+Beginner:
+- [Getting started](docs/en-US/getting-started.md)
+- [Workflows](docs/en-US/workflows.md)
+- [Theory](docs/en-US/theory.md)
+
+Reference:
+- [Commands](docs/en-US/commands.md)
+- [Structure](docs/en-US/structure.md)
+- [Installation](docs/en-US/installation.md)
+- [Fork guide](docs/en-US/fork.md)
 
 ## Upgrade vs Refine
 
@@ -77,14 +94,14 @@ If you only want the standalone quality check capability (without the full visua
 - `skills/visual-spec/SKILL.md`: Skill definition and command workflow
 - `skills/visual-spec/prompts/`: prompt files used by each command
 
-## Quick Start
+## FAQ
 
-1. Install the Skill: `npx skills add visual-req/visual-spec --skill visual-spec`
-2. Run `/vspec:new` and input your raw requirement text.
-3. Answer the "Open Questions" when prompted to close gaps and assumptions.
-4. Execute the following commands in sequence to generate the final artifacts:
-   - `/vspec:detail`: Generate detailed specs (`/specs/details/`)
-   - `/vspec:verify`: Generate data models and runnable prototypes (`/specs/models/`, `/specs/prototypes/`)
-   - `/vspec:qc`: Generate quality reports (`/specs/qc_report.json`, `/specs/qc_report.html`)
-   - `/vspec:plan` (Optional): Generate estimation and schedule (`/specs/plan/`)
-5. When requirements change: write the updates in `/docs/refine/refine.md` (or paste them directly), then run `/vspec:refine` to keep downstream artifacts in sync.
+- Does this work with my tech stack?  
+  The prototype generated by `/vspec:verify` is web-based and follows `/scheme.yaml`. For deeper integration, see: [scheme.yaml](docs/en-US/scheme.example.yaml) and [Structure](docs/en-US/structure.md).
+- Where do the outputs go?  
+  Under `/specs/` (models, prototypes, details, qc reports, plan). See: [Structure](docs/en-US/structure.md).
+
+## Contributing
+
+- For customization, see: [Fork guide](docs/en-US/fork.md)
+- To report issues or contribute changes, use GitHub Issues and Pull Requests

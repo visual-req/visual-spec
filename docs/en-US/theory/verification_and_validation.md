@@ -9,6 +9,8 @@ In visual-spec, Verification (build the right spec) and Validation (build the ri
 - Verification: are the specs consistent, complete, implementable, testable, and traceable
 - Validation: does the solution satisfy user goals and business value, and do scenarios actually work end-to-end
 
+![Scenario-driven review entry](../../assets/en-US/visual-spec-scenarios.svg)
+
 ### Standards background
 
 Verification & Validation (V&V) is not unique to visual-spec. It is a widely used, standardized process in systems and software engineering. For reference, ISO/IEC 26551:2016 includes related practices that separate validation evidence (“are we building the right thing?”) from verification evidence (“are we building it right?”) to reduce late rework and spec drift.
