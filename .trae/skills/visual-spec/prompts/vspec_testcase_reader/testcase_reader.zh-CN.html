@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>用例阅读器</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; color: #111827; background: #f9fafb; }
+      header { padding: 14px 18px; background: #111827; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+      header h1 { font-size: 14px; margin: 0; font-weight: 600; }
+      header .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      button { font-size: 12px; padding: 7px 10px; border-radius: 10px; border: 1px solid #374151; background: #111827; color: #fff; cursor: pointer; }
+      button.secondary { background: #fff; color: #111827; border-color: #d1d5db; }
+      button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+      main { display: grid; grid-template-columns: 320px 1fr; gap: 12px; padding: 12px; }
+      .panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; min-height: 520px; }
+      .panel .hd { padding: 12px 14px; border-bottom: 1px solid #e5e7eb; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      .panel .bd { padding: 12px 14px; }
+
+      .tree { padding: 10px 8px; }
+      .tree ul { list-style: none; margin: 0; padding-left: 14px; }
+      .tree li { margin: 2px 0; }
+      .tree .node { display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 6px; border-radius: 8px; cursor: pointer; }
+      .tree .node:hover { background: #f3f4f6; }
+      .tree .node.active { background: #e5e7eb; }
+      .tree .caret { width: 10px; color: #6b7280; user-select: none; }
+      .tree .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .tree .muted { color: #6b7280; }
+
+      .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      label { font-size: 12px; color: #374151; }
+      input[type="file"] { display: none; }
+      select, input[type="text"] { font-size: 12px; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; color: #111827; }
+      .pill { font-size: 12px; padding: 4px 8px; border-radius: 999px; background: #f3f4f6; border: 1px solid #e5e7eb; color: #111827; }
+      table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      th, td { padding: 8px 10px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+      th { text-align: left; font-weight: 600; color: #374151; background: #f9fafb; position: sticky; top: 0; z-index: 1; }
+      tbody tr { cursor: pointer; }
+      tbody tr:hover { background: #f3f4f6; }
+      .k { font-size: 12px; color: #374151; font-weight: 600; margin: 12px 0 6px; }
+      .v { font-size: 12px; color: #111827; white-space: pre-wrap; word-break: break-word; }
+      .empty { padding: 18px; color: #6b7280; font-size: 12px; }
+
+      .split { display: grid; grid-template-rows: auto 1fr; height: 100%; }
+      .rightBody { padding: 0; }
+      .tableWrap { max-height: 360px; overflow: auto; border-top: 1px solid #e5e7eb; }
+      .detailWrap { padding: 12px 14px; border-top: 1px solid #e5e7eb; }
+
+      @media (max-width: 1080px) {
+        main { grid-template-columns: 1fr; }
+        .panel { min-height: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>用例阅读器</h1>
+      <div class="actions">
+        <button id="pickDirBtn">选择 /test 目录</button>
+        <button id="pickFilesBtn" class="secondary">选择 JSON 文件</button>
+        <input id="pickFilesInput" type="file" multiple accept="application/json,.json" />
+      </div>
+    </header>
+    <main>
+      <aside class="panel">
+        <div class="hd">
+          <span class="pill">/test</span>
+          <span id="treeHint" class="muted" style="font-size:12px">选择 /test 目录以加载 JSON 文件。</span>
+        </div>
+        <div class="bd tree" id="tree"></div>
+      </aside>
+      <section class="panel split">
+        <div class="hd">
+          <span class="pill" id="currentFilePill">未选择文件</span>
+          <div class="row" style="margin-left:auto">
+            <label>层级</label>
+            <select id="level">
+              <option value="">全部</option>
+              <option value="acceptance">验收</option>
+              <option value="integration">集成</option>
+              <option value="unit">单元</option>
+            </select>
+            <label>优先级</label>
+            <select id="priority">
+              <option value="">全部</option>
+              <option value="P0">P0</option>
+              <option value="P1">P1</option>
+              <option value="P2">P2</option>
+            </select>
+            <label>搜索</label>
+            <input id="q" type="text" placeholder="编号 / 标题 / 功能 / 场景" />
+          </div>
+        </div>
+        <div class="rightBody" id="right">
+          <div id="summary" class="bd row"></div>
+          <div id="tableWrap" class="tableWrap empty">从左侧目录树选择 JSON 文件。</div>
+          <div class="detailWrap" id="detail" class="empty">选择一条用例查看详情。</div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const state = {
+        files: new Map(),
+        cases: [],
+        selectedCaseId: null,
+        selectedFileKey: null,
+      };
+
+      function normalizeCase(c) {
+        const level = (c.level || "").toString();
+        const id = (c.id || "").toString();
+        const fn = c.function || {};
+        const sc = c.scenario || {};
+        return {
+          raw: c,
+          id,
+          level,
+          priority: (c.priority || "").toString(),
+          category: (c.category || "").toString(),
+          operation: (c.operation || "").toString(),
+          functionSlug: (fn.slug || "").toString(),
+          functionPath: (fn.path || "").toString(),
+          functionName: (fn.name || "").toString(),
+          scenarioName: (sc.name || "").toString(),
+          title: (c.title || "").toString(),
+        };
+      }
+
+      function stripJsonExt(name) {
+        return name.endsWith(".json") ? name.slice(0, -5) : name;
+      }
+
+      function labelLevel(level) {
+        if (level === "acceptance") return "验收";
+        if (level === "integration") return "集成";
+        if (level === "unit") return "单元";
+        return level || "-";
+      }
+
+      function renderSummary(list) {
+        const byLevel = {};
+        for (const c of list) byLevel[c.level] = (byLevel[c.level] || 0) + 1;
+        const keys = Object.keys(byLevel).sort();
+        const el = document.getElementById("summary");
+        el.innerHTML = "";
+        const total = document.createElement("span");
+        total.className = "pill";
+        total.textContent = `总数: ${list.length}`;
+        el.appendChild(total);
+        for (const k of keys) {
+          const pill = document.createElement("span");
+          pill.className = "pill";
+          pill.textContent = `${labelLevel(k)}: ${byLevel[k]}`;
+          el.appendChild(pill);
+        }
+      }
+
+      function matchFilter(c, level, priority, q) {
+        if (level && c.level !== level) return false;
+        if (priority && c.priority !== priority) return false;
+        if (!q) return true;
+        const hay = [
+          c.id,
+          c.title,
+          c.functionPath,
+          c.functionName,
+          c.functionSlug,
+          c.scenarioName,
+          c.category,
+          c.operation,
+        ].join(" ").toLowerCase();
+        return hay.includes(q.toLowerCase());
+      }
+
+      function renderTable() {
+        const level = document.getElementById("level").value;
+        const priority = document.getElementById("priority").value;
+        const q = document.getElementById("q").value.trim();
+        const list = state.cases.filter((c) => matchFilter(c, level, priority, q));
+        renderSummary(list);
+
+        const wrap = document.getElementById("tableWrap");
+        if (list.length === 0) {
+          wrap.className = "tableWrap empty";
+          wrap.textContent = "未找到匹配的用例。";
+          return;
+        }
+
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const trh = document.createElement("tr");
+        const headers = ["编号", "层级", "功能", "标题", "优先级", "分类", "场景"];
+        for (const h of headers) {
+          const th = document.createElement("th");
+          th.textContent = h;
+          trh.appendChild(th);
+        }
+        thead.appendChild(trh);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        for (const c of list) {
+          const tr = document.createElement("tr");
+          tr.dataset.id = c.id;
+          const cols = [
+            c.id,
+            labelLevel(c.level),
+            c.functionPath || c.functionName || c.functionSlug,
+            c.title,
+            c.priority,
+            [c.category, c.operation].filter(Boolean).join(" / "),
+            c.scenarioName,
+          ];
+          for (const v of cols) {
+            const td = document.createElement("td");
+            td.textContent = v || "";
+            tr.appendChild(td);
+          }
+          tr.addEventListener("click", () => selectCase(c.id));
+          tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+
+        wrap.className = "tableWrap";
+        wrap.innerHTML = "";
+        wrap.appendChild(table);
+      }
+
+      function renderDetail(c) {
+        const el = document.getElementById("detail");
+        if (!c) {
+          el.className = "detailWrap empty";
+          el.textContent = "选择一条用例查看详情。";
+          return;
+        }
+        const raw = c.raw;
+        const parts = [];
+        const kv = (k, v) => {
+          parts.push(`<div class="k">${k}</div><div class="v">${v}</div>`);
+        };
+        kv("编号", escapeHtml(raw.id || ""));
+        kv("层级", escapeHtml(labelLevel(raw.level || "")));
+        kv("功能", escapeHtml(((raw.function && raw.function.path) || (raw.function && raw.function.name) || (raw.function && raw.function.slug) || "")));
+        kv("标题", escapeHtml(raw.title || ""));
+        kv("优先级", escapeHtml(raw.priority || ""));
+        kv("分类", escapeHtml(raw.category || ""));
+        if (raw.operation) kv("操作", escapeHtml(raw.operation));
+        kv("场景", escapeHtml(((raw.scenario && raw.scenario.name) || "")));
+        if (raw.scenario && Array.isArray(raw.scenario.node_chain)) kv("节点链", escapeHtml(raw.scenario.node_chain.join(" → ")));
+        kv("前置条件", escapeHtml(Array.isArray(raw.preconditions) ? raw.preconditions.join("\n") : ""));
+        kv("步骤", escapeHtml(Array.isArray(raw.steps) ? raw.steps.map((s, i) => `${i + 1}. ${s}`).join("\n") : ""));
+        kv("期望结果", escapeHtml(Array.isArray(raw.expected) ? raw.expected.map((s) => `- ${s}`).join("\n") : ""));
+        kv("数据准备", escapeHtml(Array.isArray(raw.data_setup) ? raw.data_setup.join("\n") : ""));
+        kv("备注", escapeHtml(Array.isArray(raw.notes) ? raw.notes.join("\n") : ""));
+        el.className = "detailWrap";
+        el.innerHTML = parts.join("");
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll("\"", "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function selectCase(id) {
+        state.selectedCaseId = id;
+        const c = state.cases.find((x) => x.id === id);
+        renderDetail(c);
+      }
+
+      function buildTree(paths) {
+        const root = { name: "", type: "dir", children: new Map(), path: "" };
+        for (const p of paths) {
+          const parts = p.split("/").filter(Boolean);
+          let cur = root;
+          let acc = "";
+          for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            acc = acc ? `${acc}/${part}` : part;
+            const isLast = i === parts.length - 1;
+            const isFile = isLast && part.endsWith(".json");
+            const key = isFile ? stripJsonExt(part) : part;
+            const nextPath = isFile ? `${acc}` : `${acc}`;
+            if (!cur.children.has(key)) {
+              cur.children.set(key, {
+                name: key,
+                type: isFile ? "file" : "dir",
+                children: new Map(),
+                path: nextPath,
+              });
+            }
+            cur = cur.children.get(key);
+          }
+        }
+        return root;
+      }
+
+      function renderTree() {
+        const treeEl = document.getElementById("tree");
+        const keys = Array.from(state.files.keys()).sort((a, b) => a.localeCompare(b));
+        if (keys.length === 0) {
+          treeEl.innerHTML = `<div class="empty">请选择 /test 目录或选择 JSON 文件。</div>`;
+          return;
+        }
+        const tree = buildTree(keys);
+
+        function renderNode(node) {
+          if (node.type === "file") {
+            const div = document.createElement("div");
+            div.className = "node" + (state.selectedFileKey === node.path ? " active" : "");
+            div.innerHTML = `<span class="caret"></span><span class="name">${escapeHtml(node.name)}</span>`;
+            div.addEventListener("click", () => loadFile(node.path));
+            const li = document.createElement("li");
+            li.appendChild(div);
+            return li;
+          }
+
+          const li = document.createElement("li");
+          const caret = document.createElement("span");
+          caret.className = "caret";
+          caret.textContent = "▾";
+          const div = document.createElement("div");
+          div.className = "node";
+          const name = document.createElement("span");
+          name.className = "name";
+          name.textContent = node.name || "/test";
+          div.appendChild(caret);
+          div.appendChild(name);
+          li.appendChild(div);
+
+          const ul = document.createElement("ul");
+          const childNodes = Array.from(node.children.values()).sort((a, b) => {
+            if (a.type !== b.type) return a.type === "dir" ? -1 : 1;
+            return a.name.localeCompare(b.name);
+          });
+          for (const child of childNodes) ul.appendChild(renderNode(child));
+          li.appendChild(ul);
+
+          let expanded = true;
+          div.addEventListener("click", () => {
+            expanded = !expanded;
+            caret.textContent = expanded ? "▾" : "▸";
+            ul.style.display = expanded ? "" : "none";
+          });
+          return li;
+        }
+
+        const topUl = document.createElement("ul");
+        const rootChildren = Array.from(tree.children.values()).sort((a, b) => {
+          if (a.type !== b.type) return a.type === "dir" ? -1 : 1;
+          return a.name.localeCompare(b.name);
+        });
+        for (const child of rootChildren) topUl.appendChild(renderNode(child));
+        treeEl.innerHTML = "";
+        treeEl.appendChild(topUl);
+      }
+
+      async function parseJsonCases(text) {
+        const parsed = JSON.parse(text);
+        const cases = Array.isArray(parsed.cases) ? parsed.cases : [];
+        return cases.map(normalizeCase).filter((c) => c.id);
+      }
+
+      async function loadFile(fileKey) {
+        const entry = state.files.get(fileKey);
+        if (!entry) return;
+        state.selectedFileKey = fileKey;
+        state.selectedCaseId = null;
+        renderTree();
+        document.getElementById("currentFilePill").textContent = stripJsonExt(fileKey.split("/").pop() || fileKey);
+        renderDetail(null);
+        document.getElementById("tableWrap").className = "tableWrap empty";
+        document.getElementById("tableWrap").textContent = "加载中...";
+        try {
+          let text = "";
+          if (entry.kind === "handle") {
+            const f = await entry.handle.getFile();
+            text = await f.text();
+          } else {
+            text = await entry.file.text();
+          }
+          state.cases = await parseJsonCases(text);
+        } catch {
+          state.cases = [];
+        }
+        renderTable();
+      }
+
+      async function pickDirectory() {
+        if (!window.showDirectoryPicker) return;
+        const dir = await window.showDirectoryPicker();
+        const files = new Map();
+        async function walk(handle, prefix) {
+          for await (const [name, child] of handle.entries()) {
+            const p = prefix ? `${prefix}/${name}` : name;
+            if (child.kind === "directory") {
+              await walk(child, p);
+            } else if (child.kind === "file" && name.endsWith(".json")) {
+              files.set(p, { kind: "handle", handle: child });
+            }
+          }
+        }
+        await walk(dir, "");
+        state.files = files;
+        state.cases = [];
+        state.selectedCaseId = null;
+        state.selectedFileKey = null;
+        document.getElementById("currentFilePill").textContent = "未选择文件";
+        renderSummary([]);
+        document.getElementById("tableWrap").className = "tableWrap empty";
+        document.getElementById("tableWrap").textContent = "从左侧目录树选择 JSON 文件。";
+        renderDetail(null);
+        renderTree();
+      }
+
+      async function pickFiles(fileList) {
+        const files = new Map();
+        for (const f of fileList) {
+          if (!f.name.endsWith(".json")) continue;
+          files.set(f.name, { kind: "file", file: f });
+        }
+        state.files = files;
+        state.cases = [];
+        state.selectedCaseId = null;
+        state.selectedFileKey = null;
+        document.getElementById("currentFilePill").textContent = "未选择文件";
+        renderSummary([]);
+        document.getElementById("tableWrap").className = "tableWrap empty";
+        document.getElementById("tableWrap").textContent = "从左侧目录树选择 JSON 文件。";
+        renderDetail(null);
+        renderTree();
+      }
+
+      document.getElementById("pickDirBtn").addEventListener("click", async () => {
+        try {
+          await pickDirectory();
+        } catch {
+        }
+      });
+      document.getElementById("pickFilesBtn").addEventListener("click", () => document.getElementById("pickFilesInput").click());
+      document.getElementById("pickFilesInput").addEventListener("change", (e) => pickFiles(e.target.files || []));
+      document.getElementById("level").addEventListener("change", renderTable);
+      document.getElementById("priority").addEventListener("change", renderTable);
+      document.getElementById("q").addEventListener("input", renderTable);
+
+      if (!window.showDirectoryPicker) {
+        document.getElementById("treeHint").textContent = "当前浏览器不支持选择文件夹，请使用“选择 JSON 文件”。";
+        document.getElementById("pickDirBtn").disabled = true;
+      }
+      renderTree();
+    </script>
+  </body>
+</html>

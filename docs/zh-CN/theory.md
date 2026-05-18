@@ -49,7 +49,7 @@ graph LR
 - 结构化分析：[/vspec:new](../../README.md#commands) 把原始需求拆成可复用的分析产物（角色/术语/流程/场景/功能清单/开放问题等），形成 `/specs/` 的基线
 - 可运行验证：[/vspec:verify](../../README.md#commands) 生成数据模型与可运行原型，并输出 HTML 场景评审入口（典型在 `/specs/models/`、`/specs/prototypes/`）
 - 规格细化：[/vspec:detail](../../README.md#commands) 把“功能清单”细化为可落地的规格（典型在 `/specs/details/`）
-- 验收与实现输入：[/vspec:accept](../../README.md#commands) 把场景转成验收语言（`/specs/acceptance/`）；[/vspec:impl](../../README.md#commands) 生成对接仓库技术栈的实现输入
+- 验收与实现输入：[/vspec:accept](../../README.md#commands) 把场景转成验收用例（JSON：`/test/验收用例/acceptance_cases.json`，并输出 `/test/testcase_reader.html`）；[/vspec:impl](../../README.md#commands) 生成对接仓库技术栈的实现输入
 - 质量与变更闭环：[/vspec:qc](../../README.md#commands) 把质量拆成可检查维度并产出报告；[/vspec:refine](../../README.md#commands) 维护“规范化后的 canonical requirement”并同步更新受影响产物
 
 ### 关键设计决策：为什么这样设计
@@ -69,7 +69,7 @@ graph LR
 | 1. 需求结构化 | [/vspec:new](../../README.md#commands) | 原始需求/背景材料 | `/specs/`（flows/scenarios/functions/questions 等） | 完整性：是否覆盖角色/约束/异常/开放问题 |
 | 2. 方案验证 | [/vspec:verify](../../README.md#commands) | 功能清单/流程/场景 | `/specs/models/`、`/specs/prototypes/`（含 HTML 评审入口） | 正确性：行为是否符合场景与约束，歧义是否被消除 |
 | 3. 规格细化 | [/vspec:detail](../../README.md#commands) | 功能清单/验证结论 | `/specs/details/` | 一致性：权限/校验/交互/边界条件是否与模型一致 |
-| 4. 验收与测试 | [/vspec:accept](../../README.md#commands) | 场景集合/细化规格 | `/specs/acceptance/` | 可验收：用例是否覆盖关键路径与高风险分支 |
+| 4. 验收与测试 | [/vspec:accept](../../README.md#commands) | 场景集合/细化规格 | `/test/验收用例/acceptance_cases.json` | 可验收：用例是否覆盖关键路径与高风险分支 |
 | 5. 实现输入 | [/vspec:impl](../../README.md#commands) | 细化规格/仓库约束 | `/specs/backend/`（如启用）与相关集成输入 | 可实施：是否对接实际技术栈与约束 |
 | 6. 质量检查 | [/vspec:qc](../../README.md#commands) | `/specs/` 全量产物 | `/specs/qc_report.json`、`/specs/qc_report.html` | 可交付：遗漏/矛盾/不可测试点是否被暴露 |
 | 7. 变更同步 | [/vspec:refine](../../README.md#commands) | 评审反馈/新增需求 | 更新 `original.md` 并同步受影响产物 | 可追踪：变更是否被归因并同步到下游 |

@@ -98,4 +98,7 @@
 6. 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
    - 写入：`/specs/background/question_and_answer.html`
    - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
-   - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致），用于读取/编辑 `original.md` 与 `questions.md` 并回写
+   - HTML 内容要求：先读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理；`zh` 视为 `zh-CN` 的别名），再按语言复制固定模板文件（保持一致）用于读取/编辑 `original.md` 与 `questions.md` 并回写：
+     - `en` → `prompts/vspec_new/question_and_answer.en-US.html`
+     - `zh-CN` → `prompts/vspec_new/question_and_answer.html`
+     - `ja` → `prompts/vspec_new/question_and_answer.ja-JP.html`

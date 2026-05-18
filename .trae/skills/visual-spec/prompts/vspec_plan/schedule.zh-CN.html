@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>visual-spec 排期与交付地图</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: #101a2d;
+        --text: #e6edf7;
+        --muted: rgba(230, 237, 247, 0.7);
+        --border: rgba(230, 237, 247, 0.12);
+        --accent: #7aa7ff;
+        --warn: #ffcc66;
+        --chip: rgba(122, 167, 255, 0.18);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          "Apple Color Emoji", "Segoe UI Emoji";
+        background: var(--bg);
+        color: var(--text);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 22px 18px 48px;
+      }
+      .title {
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+        flex-wrap: wrap;
+      }
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: 0.2px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .banner {
+        margin-top: 14px;
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 204, 102, 0.35);
+        background: rgba(255, 204, 102, 0.08);
+        color: var(--warn);
+        border-radius: 10px;
+        display: none;
+      }
+      .panel {
+        margin-top: 14px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 14px 10px;
+      }
+      .panel h2 {
+        margin: 0 0 10px;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+      }
+      .kv {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 8px 12px;
+        font-size: 13px;
+      }
+      .k {
+        color: var(--muted);
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chip {
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(122, 167, 255, 0.32);
+        background: var(--chip);
+        font-size: 12px;
+        color: var(--text);
+      }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 14px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(16, 26, 45, 0.45);
+      }
+      thead th {
+        position: sticky;
+        top: 0;
+        background: rgba(16, 26, 45, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 12px;
+        text-align: left;
+        font-size: 13px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      tbody td,
+      tbody th {
+        border-top: 1px solid var(--border);
+        padding: 10px 10px;
+        vertical-align: top;
+      }
+      tbody th {
+        background: rgba(16, 26, 45, 0.75);
+        color: var(--text);
+        width: 160px;
+        font-size: 13px;
+        position: sticky;
+        left: 0;
+      }
+      .sprintMeta {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.35;
+      }
+      .cell {
+        min-width: 220px;
+      }
+      .card {
+        border: 1px solid rgba(230, 237, 247, 0.16);
+        background: rgba(16, 26, 45, 0.88);
+        border-radius: 12px;
+        padding: 10px 10px;
+        margin-bottom: 10px;
+      }
+      .cardTitle {
+        font-size: 13px;
+        margin: 0 0 6px;
+        line-height: 1.35;
+      }
+      .cardBody {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .cardRow {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 6px 10px;
+        margin-top: 8px;
+      }
+      .cardKey {
+        color: var(--muted);
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <h1 id="pageTitle">排期与交付地图</h1>
+        <div class="sub" id="pageSub">用户故事地图（JSON 驱动）</div>
+      </div>
+      <div class="banner" id="fallbackBanner"></div>
+
+      <div class="panel">
+        <h2 id="overviewTitle">总览</h2>
+        <div class="kv" id="overviewKv"></div>
+      </div>
+
+      <div class="panel">
+        <h2 id="assumptionsTitle">假设与缺失项</h2>
+        <div class="chips" id="assumptionChips"></div>
+      </div>
+
+      <table>
+        <thead>
+          <tr id="tableHeadRow"></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <script type="application/json" id="storyMapData">
+      {
+        "meta": {
+          "language": "zh-CN",
+          "iterationLengthDays": 10,
+          "bufferRatio": 0.2,
+          "capacitySpPerSprint": 0,
+          "capacitySource": "assumption",
+          "team": {},
+          "assumptions": [],
+          "missingInputs": []
+        },
+        "sprints": [],
+        "modules": [],
+        "cards": []
+      }
+    </script>
+
+    <script>
+      const LABELS = {
+        "en": {
+          "title": "Plan Schedule",
+          "sub": "Story map (JSON-driven)",
+          "overview": "Overview",
+          "assumptions": "Assumptions & Missing Inputs",
+          "fallback": "Loaded fallback data because plan_story_map.json could not be fetched (likely opened via file://).",
+          "sprint": "Sprint",
+          "module": "Module",
+          "goal": "Goal",
+          "total": "Total",
+          "capacity": "Capacity",
+          "buffer": "Buffer",
+          "team": "Team",
+          "capacitySource": "Capacity source",
+          "estimate": "Estimate",
+          "dependencies": "Dependencies",
+          "source": "Source"
+        },
+        "zh-CN": {
+          "title": "排期与交付地图",
+          "sub": "用户故事地图（JSON 驱动）",
+          "overview": "总览",
+          "assumptions": "假设与缺失项",
+          "fallback": "由于无法加载 plan_story_map.json（通常是 file:// 直接打开），已使用内置数据渲染。",
+          "sprint": "迭代",
+          "module": "模块",
+          "goal": "目标",
+          "total": "合计",
+          "capacity": "容量",
+          "buffer": "缓冲",
+          "team": "团队",
+          "capacitySource": "容量来源",
+          "estimate": "估算",
+          "dependencies": "依赖/阻塞",
+          "source": "来源"
+        },
+        "ja": {
+          "title": "排期とデリバリーマップ",
+          "sub": "ストーリーマップ（JSON 駆動）",
+          "overview": "概要",
+          "assumptions": "仮定と不足情報",
+          "fallback": "plan_story_map.json を取得できないため（file:// 直開き等）、内蔵データで表示しています。",
+          "sprint": "スプリント",
+          "module": "モジュール",
+          "goal": "目標",
+          "total": "合計",
+          "capacity": "容量",
+          "buffer": "バッファ",
+          "team": "チーム",
+          "capacitySource": "容量の根拠",
+          "estimate": "見積",
+          "dependencies": "依存/阻害要因",
+          "source": "参照元"
+        }
+      };
+
+      function safeText(value) {
+        if (value === null || value === undefined) return "";
+        return String(value);
+      }
+
+      function renderChips(chips, target) {
+        target.innerHTML = "";
+        if (!Array.isArray(chips) || chips.length === 0) return;
+        for (const chipText of chips) {
+          const chip = document.createElement("span");
+          chip.className = "chip";
+          chip.textContent = safeText(chipText);
+          target.appendChild(chip);
+        }
+      }
+
+      function renderOverview(meta, labels) {
+        const kv = document.getElementById("overviewKv");
+        const teamParts = Object.entries(meta.team || {})
+          .filter(([_, v]) => v !== null && v !== undefined && v !== "")
+          .map(([k, v]) => `${k}=${v}`);
+        const items = [
+          [labels.capacitySource, safeText(meta.capacitySource)],
+          [labels.capacity, `${safeText(meta.capacitySpPerSprint)} SP / ${labels.sprint}`],
+          [labels.buffer, safeText(meta.bufferRatio)],
+          ["Iteration length (days)", safeText(meta.iterationLengthDays)],
+          [labels.team, teamParts.join(", ")]
+        ];
+        kv.innerHTML = "";
+        for (const [k, v] of items) {
+          const kk = document.createElement("div");
+          kk.className = "k";
+          kk.textContent = k;
+          const vv = document.createElement("div");
+          vv.textContent = v;
+          kv.appendChild(kk);
+          kv.appendChild(vv);
+        }
+      }
+
+      function renderTable(data, labels) {
+        const headRow = document.getElementById("tableHeadRow");
+        const body = document.getElementById("tableBody");
+        headRow.innerHTML = "";
+        body.innerHTML = "";
+
+        const sprintHeader = document.createElement("th");
+        sprintHeader.textContent = labels.sprint;
+        headRow.appendChild(sprintHeader);
+
+        for (const moduleName of data.modules) {
+          const th = document.createElement("th");
+          th.textContent = safeText(moduleName);
+          headRow.appendChild(th);
+        }
+
+        const cardsBySprintAndModule = new Map();
+        for (const card of data.cards || []) {
+          const key = `${card.sprintId}||${card.module}`;
+          const list = cardsBySprintAndModule.get(key) || [];
+          list.push(card);
+          cardsBySprintAndModule.set(key, list);
+        }
+
+        for (const sprint of data.sprints || []) {
+          const tr = document.createElement("tr");
+
+          const th = document.createElement("th");
+          th.textContent = safeText(sprint.name || sprint.id);
+          const meta = document.createElement("div");
+          meta.className = "sprintMeta";
+          const goalLine = sprint.goal ? `${labels.goal}: ${safeText(sprint.goal)}` : "";
+          const totalLine =
+            sprint.totalSp !== undefined && sprint.totalSp !== null
+              ? `${labels.total}: ${safeText(sprint.totalSp)} SP`
+              : "";
+          const blockersLine =
+            Array.isArray(sprint.blockers) && sprint.blockers.length > 0
+              ? `${labels.dependencies}: ${sprint.blockers.map(safeText).join("; ")}`
+              : "";
+          meta.textContent = [goalLine, totalLine, blockersLine].filter(Boolean).join(" · ");
+          th.appendChild(meta);
+          tr.appendChild(th);
+
+          for (const moduleName of data.modules) {
+            const td = document.createElement("td");
+            td.className = "cell";
+            const key = `${sprint.id}||${moduleName}`;
+            const list = cardsBySprintAndModule.get(key) || [];
+            for (const card of list) {
+              const cardDiv = document.createElement("div");
+              cardDiv.className = "card";
+              const title = document.createElement("div");
+              title.className = "cardTitle";
+              title.textContent = safeText(card.title);
+              const bodyDiv = document.createElement("div");
+              bodyDiv.className = "cardBody";
+              bodyDiv.textContent = safeText(card.notes);
+              const grid = document.createElement("div");
+              grid.className = "cardRow";
+
+              const k1 = document.createElement("div");
+              k1.className = "cardKey";
+              k1.textContent = labels.estimate;
+              const v1 = document.createElement("div");
+              v1.textContent = safeText(card.estimate);
+
+              const k2 = document.createElement("div");
+              k2.className = "cardKey";
+              k2.textContent = labels.dependencies;
+              const v2 = document.createElement("div");
+              v2.textContent = safeText(card.dependencies || "");
+
+              const k3 = document.createElement("div");
+              k3.className = "cardKey";
+              k3.textContent = labels.source;
+              const v3 = document.createElement("div");
+              v3.className = "mono";
+              const source = card.source || {};
+              const sourceTextParts = [];
+              if (source.functionsFile) sourceTextParts.push(String(source.functionsFile));
+              if (source.rowIndex) sourceTextParts.push(`#${String(source.rowIndex)}`);
+              v3.textContent = sourceTextParts.join(" ");
+
+              grid.appendChild(k1);
+              grid.appendChild(v1);
+              grid.appendChild(k2);
+              grid.appendChild(v2);
+              grid.appendChild(k3);
+              grid.appendChild(v3);
+
+              cardDiv.appendChild(title);
+              cardDiv.appendChild(bodyDiv);
+              cardDiv.appendChild(grid);
+              td.appendChild(cardDiv);
+            }
+            tr.appendChild(td);
+          }
+          body.appendChild(tr);
+        }
+      }
+
+      async function loadStoryMap() {
+        let data = null;
+        let usedFallback = false;
+        try {
+          const resp = await fetch("./plan_story_map.json", { cache: "no-store" });
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+          data = await resp.json();
+        } catch {
+          usedFallback = true;
+          const embedded = document.getElementById("storyMapData")?.textContent || "{}";
+          data = JSON.parse(embedded);
+        }
+
+        const lang = data?.meta?.language || "en";
+        const labels = LABELS[lang] || LABELS["en"];
+        document.documentElement.lang = lang === "ja" ? "ja" : lang;
+
+        document.getElementById("pageTitle").textContent = labels.title;
+        document.getElementById("pageSub").textContent = labels.sub;
+        document.getElementById("overviewTitle").textContent = labels.overview;
+        document.getElementById("assumptionsTitle").textContent = labels.assumptions;
+
+        if (usedFallback) {
+          const banner = document.getElementById("fallbackBanner");
+          banner.textContent = labels.fallback;
+          banner.style.display = "block";
+        }
+
+        renderOverview(data.meta || {}, labels);
+        renderChips([...(data.meta?.assumptions || []), ...(data.meta?.missingInputs || [])], document.getElementById("assumptionChips"));
+        renderTable(data, labels);
+      }
+
+      loadStoryMap();
+    </script>
+  </body>
+</html>

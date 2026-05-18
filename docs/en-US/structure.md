@@ -56,14 +56,27 @@ The Skill generates artifacts under `/specs/` (incrementally by command stage) a
    │  └─ README.md
    ├─ prototypes/                          # Runnable prototype + review pages (/vspec:verify output)
    │  └─ ...
-   ├─ acceptance/                          # Acceptance cases (/vspec:accept output)
-   │  ├─ index.md
-   │  └─ ...
    ├─ qc_report.md                         # Quality report (/vspec:qc output)
    ├─ plan/                                # Planning outputs (/vspec:plan output)
    │  ├─ plan_estimate.md                  # Estimation
    │  └─ plan_schedule.html                # Schedule page
    └─ change_log.md                        # Change log (optional)
+```
+
+Test cases (JSON) and Playwright scripts are generated under:
+
+```text
+/test/
+  ├─ 验收用例/                              # /vspec:accept output (JSON)
+  │  └─ acceptance_cases.json
+  ├─ 单元测试/                              # /vspec:i-test output (JSON)
+  │  └─ unit_test_cases.json
+  ├─ 集成测试/                              # /vspec:i-test output (JSON)
+  │  └─ integration_test_cases.json
+  ├─ playwright/                           # /vspec:script output
+  │  ├─ acceptance.spec.ts
+  │  └─ integration.spec.ts
+  └─ testcase_reader.html                  # JSON reader (single-file HTML)
 ```
 
 Notes:

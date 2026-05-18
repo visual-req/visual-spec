@@ -19,7 +19,7 @@
 - 解决什么问题：只写主链路导致遗漏回滚/异常分支；功能列表缺少可验证边界，容易产生歧义
 - 在 visual-spec 中如何体现：
   - [/vspec:new](../../README.md#commands) 引导产出 flows 与场景集合（主流程 + 回滚路径），并显式记录开放问题
-  - [/vspec:accept](../../README.md#commands) 将场景转为验收用例（`/specs/acceptance/`），强制把“可执行动作 + 可验证预期结果”落到文本
+  - [/vspec:accept](../../README.md#commands) 将场景转为验收用例（JSON：`/test/验收用例/acceptance_cases.json`），强制把“可执行动作 + 可验证预期结果”固化下来
 
 ### 3. RBAC 与数据权限优先
 
@@ -50,7 +50,7 @@
 - 核心思想：以验收用例作为共同语言，把“能验收”推进到“可自动化”，再推进到“可集成落地”
 - 解决什么问题：需求正确但不可测；测试与实现脱节；自动化引入成本过高导致放弃
 - 在 visual-spec 中如何体现：
-  - [/vspec:accept](../../README.md#commands) 产出验收用例（`/specs/acceptance/`），作为研发与 QA 的共识载体
+  - [/vspec:accept](../../README.md#commands) 产出验收用例（JSON：`/test/验收用例/acceptance_cases.json`），作为研发与 QA 的共识载体
   - [/vspec:append-test](../../README.md#commands) 优先复用仓库既有测试框架与目录约定，降低维护成本
   - [/vspec:impl](../../README.md#commands) 以“最小可审查差异 + 可运行端到端闭环”为目标组织集成输入
 
@@ -74,9 +74,9 @@
 | 原则 | 重点命令 | 建议关注产物 |
 | --- | --- | --- |
 | 1. 通过产物协作 | [/vspec:new](../../README.md#commands)、[/vspec:verify](../../README.md#commands) | `/specs/`、`/specs/models/`、`/specs/prototypes/` |
-| 2. 场景驱动拆解 | [/vspec:new](../../README.md#commands)、[/vspec:accept](../../README.md#commands) | `/specs/`（flows/scenarios/functions）、`/specs/acceptance/` |
+| 2. 场景驱动拆解 | [/vspec:new](../../README.md#commands)、[/vspec:accept](../../README.md#commands) | `/specs/`（flows/scenarios/functions）、`/test/验收用例/acceptance_cases.json` |
 | 3. RBAC 与数据权限优先 | [/vspec:verify](../../README.md#commands)、[/vspec:detail](../../README.md#commands) | `/specs/prototypes/`、`/specs/details/` |
 | 4. 便于实现的细节表达 | [/vspec:detail](../../README.md#commands)、[/vspec:impl](../../README.md#commands) | `/specs/details/`、`/specs/backend/`（如启用） |
 | 5. 默认一致性与可观测性 | [/vspec:detail](../../README.md#commands)、[/vspec:qc](../../README.md#commands) | `/specs/details/`、`/specs/qc_report.*` |
-| 6. 验收→自动化→集成 | [/vspec:accept](../../README.md#commands)、[/vspec:append-test](../../README.md#commands)、[/vspec:impl](../../README.md#commands) | `/specs/acceptance/`、测试目录或 `/tests/` |
+| 6. 验收→自动化→集成 | [/vspec:accept](../../README.md#commands)、[/vspec:append-test](../../README.md#commands)、[/vspec:impl](../../README.md#commands) | `/test/验收用例/acceptance_cases.json`、测试目录或 `/tests/` |
 | 7. 易于变更的需求 | [/vspec:refine](../../README.md#commands)、[/vspec:qc](../../README.md#commands) | canonical requirement（如 `original.md`）+ 受影响的 `/specs/` 产物 |

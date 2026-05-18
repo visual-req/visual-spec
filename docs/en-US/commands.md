@@ -10,8 +10,10 @@
 | `/vspec:more-q` | Append more clarification questions | `/specs/background/original.md` + `/specs/background/questions.md` | Appends new items to `/specs/background/questions.md` (with answering guidance) |
 | `/vspec:detail` | Expand per-function detailed specs | `/specs/functions/*` + supporting artifacts (background/flows/roles; models if any) | `/specs/details/<function_slug>/*` (RBAC, interaction, validation, logging, notifications, MQ, import/export, cron, etc.) |
 | `/vspec:verify` | Generate models and prototype for fast validation | Existing `/specs/` artifacts (functions + details + roles) | `/specs/models/*.md`, `/specs/prototypes/` (stack-selected runnable prototype + `scenario.html` review page) |
-| `/vspec:accept` | Generate acceptance test cases | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`, `/specs/acceptance/index.md` |
-| `/vspec:append-test` | Generate automated test code | acceptance cases + repo test stack | Writes into existing test directories or `/tests/` |
+| `/vspec:accept` | Generate acceptance test cases (JSON) | functions/scenarios/details/roles/models | `/test/验收用例/acceptance_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:i-test` | Generate unit/integration test cases (JSON) | functions/scenarios/details/roles/models | `/test/单元测试/unit_test_cases.json`, `/test/集成测试/integration_test_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:script` | Generate Playwright scripts | JSON cases under `/test/` | `/test/playwright/acceptance.spec.ts`, `/test/playwright/integration.spec.ts` |
+| `/vspec:append-test` | Generate automated test code | acceptance cases (JSON) + repo test stack | Writes into existing test directories or `/tests/` |
 | `/vspec:impl` | Generate integrated backend + frontend implementation | specs/details/models/dependencies | Writes integrated implementation code (API contract, backend, frontend integration) |
 | `/vspec:upgrade` | Analyze and generate new specs based on legacy materials | `/docs/current/file_list.md` + `/docs/legacy/*` (optional templates/texts/assets) + existing `/specs/background/original.md` (if any) | Generate/update `/specs/` in `/vspec:new` structure + sync technical selections to `/scheme.yaml` |
 | `/vspec:qc` | Run quality checks on `/specs/` artifacts | built-in standard + optional `domain_quality_standard.md` + optional project `quality_standard.md` + `/specs/` | `/specs/qc_report.json`, `/specs/qc_report.html` |
@@ -57,7 +59,24 @@
 ## `/vspec:accept`
 
 - When to use: align delivery and acceptance with an executable set of cases
-- Key outputs: per-function acceptance case tables covering happy path, exceptions, boundaries, RBAC, and data permissions
+- Key outputs: JSON acceptance cases (happy path, exceptions, boundaries, RBAC, data scope) + local reader
+  - `/test/验收用例/acceptance_cases.json`
+  - `/test/testcase_reader.html` (open it and select JSON files)
+
+## `/vspec:i-test`
+
+- When to use: derive unit/integration test cases from scenarios and implementable details, with explicit coverage for CRUD, validations, permissions, and branching
+- Key outputs:
+  - `/test/单元测试/unit_test_cases.json`
+  - `/test/集成测试/integration_test_cases.json`
+  - `/test/testcase_reader.html`
+
+## `/vspec:script`
+
+- When to use: generate Playwright automation skeletons from JSON test cases
+- Key outputs:
+  - `/test/playwright/acceptance.spec.ts`
+  - `/test/playwright/integration.spec.ts`
 
 ## `/vspec:append-test`
 

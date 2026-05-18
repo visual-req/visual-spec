@@ -22,7 +22,8 @@ visual-spec derives acceptance cases from scenarios because scenarios naturally 
 
 - [/vspec:new](../../../README.md#commands) outputs flows/scenarios and captures uncertainty as open questions
 - [/vspec:detail](../../../README.md#commands) specifies implementable details (permissions, validation, interaction, logging, notifications, etc.)
-- [/vspec:accept](../../../README.md#commands) converts scenarios + details into structured acceptance cases (`/specs/acceptance/`)
+- [/vspec:accept](../../../README.md#commands) converts scenarios + details into structured acceptance cases (JSON: `/test/验收用例/acceptance_cases.json`) and outputs `/test/testcase_reader.html`
+- [/vspec:script](../../../README.md#commands) generates Playwright automation skeletons from JSON cases (`/test/playwright/`)
 - [/vspec:append-test](../../../README.md#commands) turns acceptance cases into automated tests, closing the loop from acceptance to automation
 
 ### Minimal coverage set (recommended)

@@ -22,7 +22,8 @@ visual-spec 选择用“场景（Scenario）”驱动验收用例，是因为场
 
 - [/vspec:new](../../../README.md#commands) 产出 flows/scenarios，并把不确定性显式化为开放问题
 - [/vspec:detail](../../../README.md#commands) 把每个功能在权限、校验、交互、日志、通知等维度细化到可实现
-- [/vspec:accept](../../../README.md#commands) 把 scenarios + details 转成结构化验收用例（`/specs/acceptance/`）
+- [/vspec:accept](../../../README.md#commands) 把 scenarios + details 转成结构化验收用例（JSON：`/test/验收用例/acceptance_cases.json`），并输出阅读器 `/test/testcase_reader.html`
+- [/vspec:script](../../../README.md#commands) 基于 JSON 用例生成 Playwright 脚本骨架（`/test/playwright/`）
 - [/vspec:append-test](../../../README.md#commands) 以验收用例为输入生成自动化测试代码，推动“验收 → 自动化”的闭环
 
 ### 用例覆盖的最小集合（建议）

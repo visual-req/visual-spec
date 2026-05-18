@@ -10,8 +10,10 @@
 | `/vspec:more-q` | 質問の追加生成（追補） | `/specs/background/original.md` + `/specs/background/questions.md` | `questions.md` へ追記（回答手順付き） |
 | `/vspec:detail` | 機能ごとの実装可能レベルの詳細 spec を生成 | `/specs/functions/*` + 関連成果物 | `/specs/details/<function_slug>/*` |
 | `/vspec:verify` | モデルと実行可能プロトタイプを生成 | 既存 `/specs/`（functions + details + roles） | `/specs/models/*.md`、`/specs/prototypes/`（原型 + `scenario.html`） |
-| `/vspec:accept` | 受入テストケースを生成 | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`、`/specs/acceptance/index.md` |
-| `/vspec:append-test` | 自動テストコードを生成 | acceptance + リポジトリのテストスタック | 既存テストディレクトリ（なければ `/tests/`）に書き込み |
+| `/vspec:accept` | 受入テストケースを生成（JSON） | functions/scenarios/details/roles/models | `/test/验收用例/acceptance_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:i-test` | 単体/結合テストケースを生成（JSON） | functions/scenarios/details/roles/models | `/test/单元测试/unit_test_cases.json`、`/test/集成测试/integration_test_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:script` | Playwright スクリプトを生成 | `/test/` 配下の JSON 用例 | `/test/playwright/acceptance.spec.ts`、`/test/playwright/integration.spec.ts` |
+| `/vspec:append-test` | 自動テストコードを生成 | acceptance（JSON） + リポジトリのテストスタック | 既存テストディレクトリ（なければ `/tests/`）に書き込み |
 | `/vspec:impl` | バックエンド + フロントエンドの統合実装を生成 | specs/details/models/dependencies | 統合実装コード（API 契約、backend、frontend 連携） |
 | `/vspec:upgrade` | 既存資料から specs を再生成/更新 | `/docs/current/file_list.md` + `/docs/legacy/*` + 既存 `original.md`（任意） | `/specs/` 更新 + `/scheme.yaml` に選定内容同期 |
 | `/vspec:qc` | `/specs/` の品質チェック | 組み込み標準 + 任意 `domain_quality_standard.md` + 任意 `quality_standard.md` | `/specs/qc_report.json`、`/specs/qc_report.html` |

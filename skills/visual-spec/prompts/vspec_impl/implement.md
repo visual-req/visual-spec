@@ -5,7 +5,7 @@
 - 细节规格（`/specs/details/`、`/specs/background/scenario_details/` 或 `/specs/background/scenario_details.md`（旧版））
 - 数据模型（`/specs/models/*.md`）
 - 外部依赖（`/specs/background/dependencies.md`）
-- 验收用例（`/specs/acceptance/` 如存在）
+- 验收用例（`/test/验收用例/acceptance_cases.json` 如存在）
 
 执行要求：
 1. 先识别当前仓库技术栈与约定（必须，优先读取 scheme.yaml）：
@@ -77,7 +77,7 @@
 8. 自动化测试（必须，目标：全面覆盖验收口径）：
    - 优先复用仓库既有测试框架与目录约定，禁止引入不必要的新框架
    - 测试覆盖必须与验收用例对齐：
-     - 若存在 `/specs/acceptance/`：必须逐条映射到自动化测试用例（允许合并同类项，但必须说明映射关系并确保覆盖）
+    - 若存在 `/test/验收用例/acceptance_cases.json`：必须逐条映射到自动化测试用例（允许合并同类项，但必须说明映射关系并确保覆盖）
      - 若不存在：以 `/specs/background/scenarios.md` + `/specs/functions/*` 作为覆盖基线生成测试
    - 测试类型（按仓库技术栈裁剪，但至少覆盖两类）：
      - 后端：API/集成测试（覆盖：成功路径、权限/数据权限、关键校验、状态流转、错误码）

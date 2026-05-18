@@ -75,7 +75,9 @@ npx skills add visual-req/visual-spec --skill visual-spec
 | `/vspec:verify` | モデル + 実行可能プロトタイプ | 期待どおりの振る舞いか早期に確認できる | `/specs/models/`、`/specs/prototypes/` |
 | `/vspec:qc` | 品質チェック | 漏れ/矛盾/テスト不能/追跡不足を早期に可視化する | `/specs/qc_report.json`、`/specs/qc_report.html` |
 | `/vspec:refine` | 要件の修正と下流成果物の同期更新 | 変更時に成果物の整合を保つ | `original.md` 更新 + 影響範囲の同期更新 |
-| `/vspec:accept` | 受入ケース生成 | シナリオを受入言語へ変換する | `/specs/acceptance/` |
+| `/vspec:accept` | 受入ケース生成（JSON） | シナリオを実行可能な受入ケースに落とす | `/test/验收用例/acceptance_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:i-test` | 単体/結合テストケース（JSON） | ロジック/権限/分岐のカバレッジを明示する | `/test/单元测试/unit_test_cases.json`、`/test/集成测试/integration_test_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:script` | Playwright スクリプト生成 | JSON ケースから自動化骨格を生成する | `/test/playwright/acceptance.spec.ts`、`/test/playwright/integration.spec.ts` |
 | `/vspec:append-test` | 自動テストコード生成 | テスト自動化の導入コストを下げる | 既存テストディレクトリ or `/tests/` |
 | `/vspec:impl` | 統合実装入力の生成 | スタック/規約に合わせた実装入力を出す | `/specs/backend/`（有効時）および関連コード |
 | `/vspec:plan` | 見積・排期 | スコープをレビュー可能な計画にする | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
@@ -110,7 +112,7 @@ npx skills add visual-req/visual-spec --skill visual-spec
 - 技術スタックに合わせられますか？  
   `/vspec:verify` のプロトタイプは Web 形態で、`/scheme.yaml` に従います。参考： [scheme.example.yaml](docs/en-US/scheme.example.yaml) と [docs/ja-JP/structure.md](docs/ja-JP/structure.md)。
 - 成果物はどこに出力されますか？  
-  主に `/specs/` 配下です（models、prototypes、details、qc report、plan）。参考： [docs/ja-JP/structure.md](docs/ja-JP/structure.md)。
+  主に `/specs/` 配下（models、prototypes、details、qc report、plan）と `/test/` 配下（JSON テストケース、Playwright スクリプト）です。参考： [docs/ja-JP/structure.md](docs/ja-JP/structure.md)。
 - Troubleshooting（よくある問題と対処）  
   参照： [docs/ja-JP/troubleshooting.md](docs/ja-JP/troubleshooting.md)。
 

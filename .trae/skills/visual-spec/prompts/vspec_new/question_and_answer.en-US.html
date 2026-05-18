@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VSpec Q&A Helper</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: rgba(17, 27, 46, 0.72);
+        --muted: #8aa0c3;
+        --text: #e6eefc;
+        --border: rgba(255, 255, 255, 0.08);
+        --primary: #3b82f6;
+        --danger: #ef4444;
+        --ok: #22c55e;
+        --warn: #f59e0b;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: linear-gradient(180deg, var(--bg), #060a13);
+        color: var(--text);
+      }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 16px 80px; }
+      h1 { margin: 6px 0 6px; font-size: 22px; letter-spacing: 0.2px; }
+      .sub { margin: 0 0 16px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+      .row { display: grid; grid-template-columns: 1fr; gap: 12px; }
+      @media (min-width: 980px) { .row { grid-template-columns: 1fr 1fr; align-items: start; } }
+      .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 14px; backdrop-filter: blur(8px); }
+      .card h2 { margin: 0 0 10px; font-size: 14px; color: #cfe0ff; }
+      .grid2 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+      @media (min-width: 640px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+      label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+      input[type="text"], input[type="datetime-local"], textarea, select {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(10, 16, 28, 0.75);
+        color: var(--text);
+        padding: 10px 10px;
+        font-size: 13px;
+        outline: none;
+      }
+      textarea { min-height: 70px; resize: vertical; }
+      input[type="file"] { display: none; }
+      .btnbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+      button { border: 1px solid var(--border); background: rgba(255, 255, 255, 0.06); color: var(--text); border-radius: 10px; padding: 9px 12px; cursor: pointer; font-size: 13px; }
+      button.primary { background: rgba(59, 130, 246, 0.18); border-color: rgba(59, 130, 246, 0.45); }
+      button.danger { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.4); }
+      button:disabled { opacity: 0.5; cursor: not-allowed; }
+      .hint { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+      .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.04); color: var(--muted); font-size: 12px; }
+      .pill.ok { color: rgba(34, 197, 94, 0.9); border-color: rgba(34, 197, 94, 0.28); }
+      .pill.warn { color: rgba(245, 158, 11, 0.95); border-color: rgba(245, 158, 11, 0.28); }
+      .pill.bad { color: rgba(239, 68, 68, 0.95); border-color: rgba(239, 68, 68, 0.28); }
+      .list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+      .q { border: 1px solid var(--border); background: rgba(8, 12, 20, 0.6); border-radius: 14px; padding: 12px; }
+      .qhead { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+      .qid { font-weight: 600; font-size: 13px; color: #d9e6ff; }
+      .qctx { color: var(--muted); font-size: 12px; }
+      .qtitle { font-size: 13px; line-height: 1.5; margin: 4px 0 10px; white-space: pre-wrap; }
+      .opt { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+      .opt .o { display: inline-flex; gap: 8px; align-items: center; border: 1px solid var(--border); border-radius: 999px; padding: 6px 10px; background: rgba(255, 255, 255, 0.03); }
+      .k { color: var(--muted); font-size: 12px; margin-top: 8px; }
+      .sep { height: 1px; background: var(--border); margin: 14px 0; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>VSpec Q&A Helper (HTML + Write Back to Markdown)</h1>
+      <p class="sub">
+        Purpose: render questions in <span class="mono">original.md</span> and <span class="mono">questions.md</span> into a form (preferably multiple choice), then write the answers back to markdown files.
+        Saving modes: if File System Access API is supported, write directly; otherwise download files and replace them manually.
+      </p>
+
+      <div class="row">
+        <div class="card">
+          <h2>1) Choose files</h2>
+          <div class="grid2">
+            <div>
+              <label>original.md (Open Questions)</label>
+              <div class="btnbar">
+                <button class="primary" id="pickOriginal">Pick file (recommended)</button>
+                <input id="fallbackOriginal" type="file" accept=".md,text/markdown,text/plain" />
+                <button id="pickOriginalFallback">Pick file (compat mode)</button>
+              </div>
+              <div class="hint">Typical path: <span class="mono">/specs/background/original.md</span></div>
+              <div class="hint" id="originalStatus"></div>
+            </div>
+            <div>
+              <label>questions.md (Q&A list)</label>
+              <div class="btnbar">
+                <button class="primary" id="pickQuestions">Pick file (recommended)</button>
+                <input id="fallbackQuestions" type="file" accept=".md,text/markdown,text/plain" />
+                <button id="pickQuestionsFallback">Pick file (compat mode)</button>
+              </div>
+              <div class="hint">Typical path: <span class="mono">/specs/background/questions.md</span></div>
+              <div class="hint" id="questionsStatus"></div>
+            </div>
+          </div>
+          <div class="sep"></div>
+          <div class="grid2">
+            <div>
+              <label>Answered By</label>
+              <input id="answeredBy" type="text" placeholder="e.g. Product owner / PM / Alice" />
+            </div>
+            <div>
+              <label>Answered At (default: now)</label>
+              <input id="answeredAt" type="datetime-local" />
+            </div>
+          </div>
+          <div class="btnbar">
+            <button id="reload" class="primary" disabled>Re-parse & render</button>
+            <button id="saveOriginal" disabled>Save original.md</button>
+            <button id="saveQuestions" disabled>Save questions.md</button>
+            <button id="downloadOriginal" disabled>Download original.md (compat)</button>
+            <button id="downloadQuestions" disabled>Download questions.md (compat)</button>
+          </div>
+          <div class="hint">
+            Tip: if you only want to answer <span class="mono">questions.md</span>, you can load and save just that file.
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>2) Parse summary</h2>
+          <div class="btnbar">
+            <span class="pill" id="statsOriginal">original.md: not loaded</span>
+            <span class="pill" id="statsQuestions">questions.md: not loaded</span>
+          </div>
+          <div class="hint">
+            Options parsing rule: contents after <span class="mono">Options:</span> / <span class="mono">选项：</span> / <span class="mono">選択肢：</span> will be split into options
+            (supports <span class="mono">;</span> / <span class="mono">；</span> delimiter, or <span class="mono">A.</span> / <span class="mono">1)</span> list).
+          </div>
+          <div class="hint">
+            Save rule (questions.md): when an answer is filled, it writes to <span class="mono">Answer</span>, fills <span class="mono">Answered By/At</span>, and updates <span class="mono">Status</span> to answered.
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 12px">
+        <h2>original.md: Open Questions</h2>
+        <div class="list" id="originalList"></div>
+      </div>
+
+      <div class="card" style="margin-top: 12px">
+        <h2>questions.md: Q&A list</h2>
+        <div class="list" id="questionsList"></div>
+      </div>
+    </div>
+
+    <script>
+      const state = {
+        original: { handle: null, name: "", text: null, items: [] },
+        questions: { handle: null, name: "", text: null, items: [], lang: null },
+      };
+
+      function nowLocalInputValue() {
+        const d = new Date();
+        const pad = (n) => String(n).padStart(2, "0");
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll("\"", "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function detectOptions(text) {
+        const m = text.match(/(?:Options|选项|選択肢)\s*[:：]\s*([\s\S]+)$/i);
+        if (!m) return [];
+        const raw = m[1].trim();
+        if (!raw) return [];
+        const parts = raw.split(/[;；]\s*/).map((x) => x.trim()).filter(Boolean);
+        if (parts.length >= 2) return parts;
+        const lines = raw.split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+        const out = [];
+        for (const l of lines) {
+          const t = l.replace(/^[A-Z]\.\s*/, "").replace(/^\d+\)\s*/, "");
+          if (t) out.push(t);
+        }
+        return out.length >= 2 ? out : [];
+      }
+
+      function parseQuestionsMd(md) {
+        const lines = md.split(/\r?\n/);
+        const startRe = /^(\d+)\.\s*(编号|ID|番号)[:：]\s*(\d+)\s*$/;
+        const items = [];
+        for (let i = 0; i < lines.length; i++) {
+          const m = lines[i].match(startRe);
+          if (!m) continue;
+          const id = Number(m[3]);
+          const headerKey = m[2];
+          const fields = {};
+          let j = i + 1;
+          while (j < lines.length) {
+            const l = lines[j];
+            if (startRe.test(l)) break;
+            const fm = l.match(/^\s*-\s*([^:：]+)[:：]\s*(.*)\s*$/);
+            if (fm) fields[fm[1].trim()] = fm[2] ?? "";
+            j++;
+          }
+          items.push({ id, headerKey, fields, startLine: i, endLine: j - 1 });
+          i = j - 1;
+        }
+        const lang = items.length ? (items[0].headerKey === "ID" ? "en" : items[0].headerKey === "番号" ? "ja" : "zh") : null;
+        const keys = lang === "en"
+          ? { context: "Context", question: "Question", answer: "Answer", answeredBy: "Answered By", answeredAt: "Answered At", status: "Status" }
+          : lang === "ja"
+            ? { context: "背景", question: "質問", answer: "回答", answeredBy: "回答者", answeredAt: "回答日時", status: "状態" }
+            : { context: "背景", question: "提问", answer: "回答", answeredBy: "回答者", answeredAt: "回答时间", status: "状态" };
+        for (const it of items) {
+          it.lang = lang;
+          it.keys = keys;
+          it.context = it.fields[keys.context] ?? "";
+          it.question = it.fields[keys.question] ?? "";
+          it.answer = it.fields[keys.answer] ?? "";
+          it.options = detectOptions(it.question);
+          it.answerPick = "";
+          it.answerFree = it.answer || "";
+        }
+        return { items, lang };
+      }
+
+      function parseOriginalOpenQuestions(md) {
+        const lines = md.split(/\r?\n/);
+        const topRe = /^#\s*(Open Questions|待确认问题|要確認事項)\s*$/;
+        let start = -1;
+        let lang = "en";
+        for (let i = 0; i < lines.length; i++) {
+          const m = lines[i].match(topRe);
+          if (m) {
+            start = i;
+            lang = m[1] === "Open Questions" ? "en" : m[1] === "要確認事項" ? "ja" : "zh";
+            break;
+          }
+        }
+        if (start === -1) return { items: [], found: false, lang: "en" };
+        let end = lines.length;
+        for (let i = start + 1; i < lines.length; i++) {
+          if (/^#\s+/.test(lines[i])) { end = i; break; }
+        }
+        const slice = lines.slice(start, end);
+        const items = [];
+        let group = "";
+        for (let i = 0; i < slice.length; i++) {
+          const gh = slice[i].match(/^##\s+(.*)\s*$/);
+          if (gh) { group = gh[1].trim(); continue; }
+          const qm = slice[i].match(/^\s*-\s+(.*)\s*$/);
+          if (!qm) continue;
+          const text = qm[1].trim();
+          if (!text) continue;
+          if (/^(Answer|回答)\s*[:：]/i.test(text)) continue;
+          let answer = "";
+          let answerLineOffset = null;
+          let j = i + 1;
+          while (j < slice.length) {
+            const l = slice[j];
+            if (/^##\s+/.test(l) || /^#\s+/.test(l) || /^\s*-\s+/.test(l)) break;
+            const ans = l.match(/^\s{2,}-\s*(Answer|回答)\s*[:：]\s*(.*)\s*$/i);
+            if (ans) { answerLineOffset = j; answer = ans[2] ?? ""; break; }
+            j++;
+          }
+          items.push({ group, qLineInSlice: i, qText: text, answerLineOffset, answerFree: answer || "" });
+        }
+        return { items, found: true, start, end, lang };
+      }
+
+      function setPill(el, level, text) {
+        el.className = "pill" + (level ? ` ${level}` : "");
+        el.textContent = text;
+      }
+
+      function updateStats() {
+        const o = document.getElementById("statsOriginal");
+        const q = document.getElementById("statsQuestions");
+        if (!state.original.text) setPill(o, null, "original.md: not loaded");
+        else {
+          const answered = state.original.items.filter((x) => (x.answerFree || "").trim()).length;
+          setPill(o, answered === state.original.items.length ? "ok" : "warn", `original.md: ${answered}/${state.original.items.length} answered`);
+        }
+        if (!state.questions.text) setPill(q, null, "questions.md: not loaded");
+        else {
+          const answered = state.questions.items.filter((x) => (x.answerFree || "").trim()).length;
+          setPill(q, answered === state.questions.items.length ? "ok" : "warn", `questions.md: ${answered}/${state.questions.items.length} answered`);
+        }
+      }
+
+      function renderOriginal() {
+        const list = document.getElementById("originalList");
+        list.innerHTML = "";
+        for (const [idx, it] of state.original.items.entries()) {
+          const el = document.createElement("div");
+          el.className = "q";
+          const head = document.createElement("div");
+          head.className = "qhead";
+          const left = document.createElement("div");
+          left.innerHTML = `<div class="qid">${escapeHtml(it.group || "Ungrouped")}</div><div class="qctx">Q${idx + 1}</div>`;
+          const right = document.createElement("div");
+          right.className = "pill";
+          right.textContent = (it.answerFree || "").trim() ? "Answered" : "Unanswered";
+          head.appendChild(left);
+          head.appendChild(right);
+          const title = document.createElement("div");
+          title.className = "qtitle";
+          title.textContent = it.qText || "";
+          const aLabel = document.createElement("div");
+          aLabel.className = "k";
+          aLabel.textContent = "Answer";
+          const ta = document.createElement("textarea");
+          ta.value = it.answerFree || "";
+          ta.placeholder = "Type your answer";
+          ta.addEventListener("input", () => { it.answerFree = ta.value; right.textContent = (it.answerFree || "").trim() ? "Answered" : "Unanswered"; updateStats(); });
+          el.appendChild(head);
+          el.appendChild(title);
+          el.appendChild(aLabel);
+          el.appendChild(ta);
+          list.appendChild(el);
+        }
+      }
+
+      function renderQuestions() {
+        const list = document.getElementById("questionsList");
+        list.innerHTML = "";
+        for (const it of state.questions.items) {
+          const el = document.createElement("div");
+          el.className = "q";
+          el.dataset.qid = String(it.id);
+          const head = document.createElement("div");
+          head.className = "qhead";
+          const left = document.createElement("div");
+          left.innerHTML = `<div class="qid">#${it.id}</div><div class="qctx">${escapeHtml(it.context || "")}</div>`;
+          const right = document.createElement("div");
+          right.className = "pill";
+          right.textContent = (it.answerFree || "").trim() ? "Answered" : "Unanswered";
+          head.appendChild(left);
+          head.appendChild(right);
+          const title = document.createElement("div");
+          title.className = "qtitle";
+          title.textContent = it.question || "";
+
+          if (it.options && it.options.length) {
+            const opt = document.createElement("div");
+            opt.className = "opt";
+            for (const o of it.options) {
+              const wrap = document.createElement("label");
+              wrap.className = "o";
+              const r = document.createElement("input");
+              r.type = "radio";
+              r.name = `q-${it.id}`;
+              r.value = o;
+              r.checked = it.answerPick === o;
+              r.addEventListener("change", () => {
+                it.answerPick = o;
+                it.answerFree = o;
+                ta.value = it.answerFree;
+                right.textContent = "Answered";
+                updateStats();
+              });
+              const span = document.createElement("span");
+              span.textContent = o;
+              wrap.appendChild(r);
+              wrap.appendChild(span);
+              opt.appendChild(wrap);
+            }
+            el.appendChild(opt);
+          }
+
+          const aLabel = document.createElement("div");
+          aLabel.className = "k";
+          aLabel.textContent = "Answer (editable)";
+          const ta = document.createElement("textarea");
+          ta.value = it.answerFree || "";
+          ta.placeholder = it.options && it.options.length ? "Select an option above, or type a custom answer" : "Type your answer";
+          ta.addEventListener("input", () => {
+            it.answerFree = ta.value;
+            right.textContent = (it.answerFree || "").trim() ? "Answered" : "Unanswered";
+            updateStats();
+          });
+          el.appendChild(head);
+          el.appendChild(title);
+          el.appendChild(aLabel);
+          el.appendChild(ta);
+          list.appendChild(el);
+        }
+      }
+
+      function rebuild() {
+        if (state.original.text != null) state.original.items = parseOriginalOpenQuestions(state.original.text).items;
+        if (state.questions.text != null) {
+          const parsed = parseQuestionsMd(state.questions.text);
+          state.questions.items = parsed.items;
+          state.questions.lang = parsed.lang;
+        }
+        renderOriginal();
+        renderQuestions();
+        updateStats();
+        document.getElementById("saveOriginal").disabled = !state.original.text;
+        document.getElementById("saveQuestions").disabled = !state.questions.text;
+        document.getElementById("downloadOriginal").disabled = !state.original.text;
+        document.getElementById("downloadQuestions").disabled = !state.questions.text;
+        document.getElementById("reload").disabled = !(state.original.text || state.questions.text);
+      }
+
+      function applyQuestionsEdits(md) {
+        const lines = md.split(/\r?\n/);
+        const parsed = parseQuestionsMd(md);
+        const items = parsed.items;
+        const lang = parsed.lang;
+        const answeredBy = document.getElementById("answeredBy").value.trim();
+        const answeredAtInput = document.getElementById("answeredAt").value.trim();
+        const answeredAt = answeredAtInput ? answeredAtInput.replace("T", " ") : "";
+        const statusAnswered = lang === "en" ? "Answered" : lang === "ja" ? "回答済み" : "已回答";
+        const sep = lang === "en" ? ":" : "：";
+        const keyset = items.length ? items[0].keys : null;
+        if (!keyset) return md;
+
+        for (const it of state.questions.items) {
+          const target = items.find((x) => x.id === it.id);
+          if (!target) continue;
+          const answerText = (it.answerFree || "").trim();
+          if (!answerText) continue;
+          for (let i = target.startLine; i <= target.endLine; i++) {
+            const line = lines[i];
+            const fm = line.match(/^\s*-\s*([^:：]+)[:：]\s*(.*)\s*$/);
+            if (!fm) continue;
+            const key = fm[1].trim();
+            if (key === keyset.answer) lines[i] = `   - ${keyset.answer}${sep} ${answerText}`;
+            if (key === keyset.answeredBy && answeredBy) lines[i] = `   - ${keyset.answeredBy}${sep} ${answeredBy}`;
+            if (key === keyset.answeredAt && answeredAt) lines[i] = `   - ${keyset.answeredAt}${sep} ${answeredAt}`;
+            if (key === keyset.status) lines[i] = `   - ${keyset.status}${sep} ${statusAnswered}`;
+          }
+        }
+        return lines.join("\n");
+      }
+
+      function applyOriginalEdits(md) {
+        const parsed = parseOriginalOpenQuestions(md);
+        if (!parsed.found) return md;
+        const lines = md.split(/\r?\n/);
+        const slice = lines.slice(parsed.start, parsed.end);
+        const lang = parsed.lang;
+        const sep = lang === "en" ? ":" : "：";
+        const answerKey = lang === "en" ? "Answer" : "回答";
+
+        let cursor = 0;
+        for (let i = 0; i < slice.length && cursor < state.original.items.length; i++) {
+          const qm = slice[i].match(/^\s*-\s+(.*)\s*$/);
+          if (!qm) continue;
+          const qText = (qm[1] || "").trim();
+          if (!qText) continue;
+          if (/^(Answer|回答)\s*[:：]/i.test(qText)) continue;
+          const uiItem = state.original.items[cursor++];
+          const answerText = (uiItem.answerFree || "").trim();
+          if (!answerText) continue;
+          let inserted = false;
+          for (let j = i + 1; j < slice.length; j++) {
+            if (/^##\s+/.test(slice[j]) || /^#\s+/.test(slice[j]) || /^\s*-\s+/.test(slice[j])) break;
+            const ans = slice[j].match(/^\s{2,}-\s*(Answer|回答)\s*[:：].*$/i);
+            if (ans) {
+              slice[j] = `  - ${answerKey}${sep} ${answerText}`;
+              inserted = true;
+              break;
+            }
+          }
+          if (!inserted) {
+            slice.splice(i + 1, 0, `  - ${answerKey}${sep} ${answerText}`);
+            i++;
+          }
+        }
+        return [...lines.slice(0, parsed.start), ...slice, ...lines.slice(parsed.end)].join("\n");
+      }
+
+      async function writeToHandle(handle, text) {
+        const writable = await handle.createWritable();
+        await writable.write(text);
+        await writable.close();
+      }
+
+      function downloadText(filename, text) {
+        const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      async function pickFile(kind) {
+        const supports = "showOpenFilePicker" in window;
+        if (!supports) throw new Error("Your browser does not support File System Access API. Use compat mode.");
+        const [handle] = await window.showOpenFilePicker({
+          multiple: false,
+          types: [{ description: "Markdown", accept: { "text/markdown": [".md"], "text/plain": [".md", ".txt"] } }],
+        });
+        const file = await handle.getFile();
+        const text = await file.text();
+        state[kind].handle = handle;
+        state[kind].name = file.name;
+        state[kind].text = text;
+      }
+
+      async function pickFileFallback(kind, file) {
+        const text = await file.text();
+        state[kind].handle = null;
+        state[kind].name = file.name;
+        state[kind].text = text;
+      }
+
+      function setStatus(kind, msg, level) {
+        const el = document.getElementById(kind === "original" ? "originalStatus" : "questionsStatus");
+        el.textContent = msg;
+        el.className = "hint";
+        el.style.color = level === "ok" ? "rgba(34, 197, 94, 0.95)" : level === "warn" ? "rgba(245, 158, 11, 0.95)" : level === "bad" ? "rgba(239, 68, 68, 0.95)" : "";
+      }
+
+      document.getElementById("answeredAt").value = nowLocalInputValue();
+
+      document.getElementById("pickOriginal").addEventListener("click", async () => {
+        try { await pickFile("original"); setStatus("original", `Loaded: ${state.original.name}`, "ok"); rebuild(); }
+        catch (e) { setStatus("original", `Load failed: ${e.message || e}`, "bad"); }
+      });
+      document.getElementById("pickQuestions").addEventListener("click", async () => {
+        try { await pickFile("questions"); setStatus("questions", `Loaded: ${state.questions.name}`, "ok"); rebuild(); }
+        catch (e) { setStatus("questions", `Load failed: ${e.message || e}`, "bad"); }
+      });
+      document.getElementById("pickOriginalFallback").addEventListener("click", () => document.getElementById("fallbackOriginal").click());
+      document.getElementById("pickQuestionsFallback").addEventListener("click", () => document.getElementById("fallbackQuestions").click());
+      document.getElementById("fallbackOriginal").addEventListener("change", async (e) => {
+        const f = (e.target.files || [])[0];
+        if (!f) return;
+        await pickFileFallback("original", f);
+        setStatus("original", `Loaded (compat): ${state.original.name}`, "warn");
+        rebuild();
+      });
+      document.getElementById("fallbackQuestions").addEventListener("change", async (e) => {
+        const f = (e.target.files || [])[0];
+        if (!f) return;
+        await pickFileFallback("questions", f);
+        setStatus("questions", `Loaded (compat): ${state.questions.name}`, "warn");
+        rebuild();
+      });
+
+      document.getElementById("reload").addEventListener("click", rebuild);
+
+      document.getElementById("saveQuestions").addEventListener("click", async () => {
+        if (!state.questions.text) return;
+        const out = applyQuestionsEdits(state.questions.text);
+        state.questions.text = out;
+        if (state.questions.handle) {
+          try { await writeToHandle(state.questions.handle, out); setStatus("questions", `Written back: ${state.questions.name}`, "ok"); rebuild(); }
+          catch (e) { setStatus("questions", `Write failed: ${e.message || e}`, "bad"); }
+        } else {
+          setStatus("questions", "Compat mode: download and replace questions.md manually", "warn");
+        }
+      });
+      document.getElementById("saveOriginal").addEventListener("click", async () => {
+        if (!state.original.text) return;
+        const out = applyOriginalEdits(state.original.text);
+        state.original.text = out;
+        if (state.original.handle) {
+          try { await writeToHandle(state.original.handle, out); setStatus("original", `Written back: ${state.original.name}`, "ok"); rebuild(); }
+          catch (e) { setStatus("original", `Write failed: ${e.message || e}`, "bad"); }
+        } else {
+          setStatus("original", "Compat mode: download and replace original.md manually", "warn");
+        }
+      });
+
+      document.getElementById("downloadQuestions").addEventListener("click", () => {
+        if (!state.questions.text) return;
+        const out = applyQuestionsEdits(state.questions.text);
+        downloadText(state.questions.name || "questions.md", out);
+        setStatus("questions", `Downloaded: ${state.questions.name || "questions.md"}`, "ok");
+      });
+      document.getElementById("downloadOriginal").addEventListener("click", () => {
+        if (!state.original.text) return;
+        const out = applyOriginalEdits(state.original.text);
+        downloadText(state.original.name || "original.md", out);
+        setStatus("original", `Downloaded: ${state.original.name || "original.md"}`, "ok");
+      });
+    </script>
+  </body>
+</html>

@@ -38,13 +38,26 @@
    │  └─ *.md
    ├─ prototypes/
    │  └─ ...
-   ├─ acceptance/
-   │  ├─ index.md
-   │  └─ ...
    ├─ qc_report.md
    └─ plan/
       ├─ plan_estimate.md
       └─ plan_schedule.html
+```
+
+テストケース（JSON）と Playwright スクリプトは `/test/` 配下に生成します：
+
+```text
+/test/
+  ├─ 验收用例/
+  │  └─ acceptance_cases.json
+  ├─ 单元测试/
+  │  └─ unit_test_cases.json
+  ├─ 集成测试/
+  │  └─ integration_test_cases.json
+  ├─ playwright/
+  │  ├─ acceptance.spec.ts
+  │  └─ integration.spec.ts
+  └─ testcase_reader.html
 ```
 
 補足：

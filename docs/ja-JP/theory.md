@@ -50,7 +50,7 @@ graph LR
 - 構造化：[/vspec:new](../../README.md#commands) が `/specs/` に基礎成果物（ロール/用語/flows/シナリオ/機能一覧/未解決事項など）を作る
 - 検証：[/vspec:verify](../../README.md#commands) がデータモデルと実行可能プロトタイプ、HTML のシナリオ評審入口を生成（典型は `/specs/models/`、`/specs/prototypes/`）
 - 詳細化：[/vspec:detail](../../README.md#commands) が機能一覧を実装可能な仕様へ落とす（典型は `/specs/details/`）
-- 受入と実装入力：[/vspec:accept](../../README.md#commands) が受入ケース（`/specs/acceptance/`）を作り、[/vspec:impl](../../README.md#commands) が技術スタックに沿った実装入力を出す
+- 受入と実装入力：[/vspec:accept](../../README.md#commands) が受入ケース（JSON：`/test/验收用例/acceptance_cases.json`）と `/test/testcase_reader.html` を出力し、[/vspec:impl](../../README.md#commands) が技術スタックに沿った実装入力を出す
 - 品質と変更：[/vspec:qc](../../README.md#commands) が QC レポートを出し、[/vspec:refine](../../README.md#commands) が canonical requirement を更新して下流成果物を同期する
 
 ### 主要な設計判断（なぜこの形か）
@@ -67,7 +67,7 @@ graph LR
 | 1. 構造化 | [/vspec:new](../../README.md#commands) | 原始要件 | `/specs/` の基礎成果物 | 網羅性：ロール/制約/例外/未解決事項 |
 | 2. 検証 | [/vspec:verify](../../README.md#commands) | 機能一覧 + シナリオ | `/specs/models/`、`/specs/prototypes/`（HTML 入口含む） | 正しさ：シナリオと制約に一致するか |
 | 3. 詳細化 | [/vspec:detail](../../README.md#commands) | 検証結果 | `/specs/details/` | 整合性：権限/検証/境界条件が揃うか |
-| 4. 受入 | [/vspec:accept](../../README.md#commands) | シナリオ + 詳細仕様 | `/specs/acceptance/` | 受入可能性：重要分岐と高リスクを覆うか |
+| 4. 受入 | [/vspec:accept](../../README.md#commands) | シナリオ + 詳細仕様 | `/test/验收用例/acceptance_cases.json` | 受入可能性：重要分岐と高リスクを覆うか |
 | 5. 実装入力 | [/vspec:impl](../../README.md#commands) | 詳細仕様 + リポジトリ制約 | `/specs/backend/`（有効時）など | 実装可能性：実スタック/規約に沿うか |
 | 6. QC | [/vspec:qc](../../README.md#commands) | `/specs/` 全量 | `/specs/qc_report.json`、`/specs/qc_report.html` | 交付可能性：欠落/矛盾が露出しているか |
 | 7. 変更同期 | [/vspec:refine](../../README.md#commands) | 変更/フィードバック | `original.md` 更新 + 下流同期 | 追跡性：変更が帰因され伝播するか |

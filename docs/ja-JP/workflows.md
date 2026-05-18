@@ -62,7 +62,19 @@
 
 ### 8. 受入ケース（[/vspec:accept](../../README.md#commands)）
 
-- `/specs/acceptance/` に受入テストケースを生成
+- JSON の受入ケースを生成：`/test/验收用例/acceptance_cases.json`
+- `/test/testcase_reader.html` で生成した JSON を閲覧
+
+### 8.1 単体/結合テストケース（[/vspec:i-test](../../README.md#commands)）
+
+- JSON のテストケースを生成：
+  - `/test/单元测试/unit_test_cases.json`
+  - `/test/集成测试/integration_test_cases.json`
+- 重点：CRUD を Query/Create/Edit/Detail/Delete に分割し、検証/権限/分岐は独立ケースとして生成
+
+### 8.2 Playwright スクリプト（[/vspec:script](../../README.md#commands)）
+
+- Playwright スクリプトを生成：`/test/playwright/`
 
 ### 9. 自動テスト（[/vspec:append-test](../../README.md#commands)）
 

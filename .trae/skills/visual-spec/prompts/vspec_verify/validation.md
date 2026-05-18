@@ -8,10 +8,10 @@
 实现目标：
 1. 在原型工程根目录新增：`/specs/prototypes/scenario.html`，可直接访问
 2. `scenario.html` 页面布局固定为：
-   - 左侧：场景列表（展示编号、名称；可搜索/筛选可选）
+   - 左侧：场景列表（展示编号、名称）
    - 右侧：当前选中场景的详细展开，包含：
      - 场景节点链条（按顺序展示 apply/approve/cancel/change/execute-start/execute-end 等节点）
-     - 每个节点对应的 Vue 页面“缩略图 + 名称”
+     - 每个节点对应的页面“缩略图 + 名称”
 3. 左侧场景列表必须与 `/specs/background/scenarios.md` 完全一致：
    - 不允许遗漏任何一条场景（即使原型未实现该场景的全部页面，也必须显示在列表中）
    - 编号、场景名、节点链条的文本必须逐条对齐 scenarios.md（允许做必要的格式化，但不得改写含义）
@@ -20,15 +20,18 @@
 3. 支持对每个场景进行确认操作：
    - 状态：待确认 / 已确认 / 需修改
    - 备注：可填写文本
-4. 提供“导出确认结果”的能力（导出为 JSON 或下载为 markdown 均可，二选一即可）
 
 实现约束：
-- 使用 Vue + Ant Design Vue 组件实现（Layout、Menu/List、Table、Tag、Radio/Button、Input/TextArea、Card、Modal）
-- `scenario.html` 不要做成简单跳转页，必须承载上述左右布局与交互
-- 场景数据来源可用两种方式之一：
-  - 方式 A：将 `/specs/background/scenarios.md` 的表格内容手工转成 `src/mock/scenarios.ts` 的数组
-  - 方式 B：在构建时预置一份 `public/scenarios.json` 并在前端加载
-- 不需要实现登录与后端存储；确认结果保存在浏览器内存或 localStorage 即可
+- 必须使用固定 HTML 模板以保证预览页面稳定性（必须）：
+  - 先读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理；`zh` 视为 `zh-CN` 的别名），并按语言选择固定模板文件：
+    - `en` → `prompts/vspec_verify/scenario.en-US.html`
+    - `zh-CN` → `prompts/vspec_verify/scenario.html`
+    - `ja` → `prompts/vspec_verify/scenario.ja-JP.html`
+  - 然后在生成时“复制模板内容”写入 `/specs/prototypes/scenario.html`。
+  - 禁止改动模板的 DOM 结构与样式；场景数据必须通过外部 JSON 文件加载，文件名固定为 `scenario.json`（与 `scenario.html` 同目录）。
+- `scenario.html` 不要做成简单跳转页，必须承载上述左右布局与交互。
+- 场景数据必须来源于 `/specs/background/scenarios.md`（必要时结合 `/specs/background/scenario_details/` 或旧版 `scenario_details.md` 进行节点补齐/纠正）。
+- 不需要实现登录与后端存储；确认结果保存在浏览器 localStorage 即可（模板已实现）。
 
 页面节点映射规则（必须）：
 1. 为每种节点类型建立默认页面映射（可用路由路径或页面组件名表达）：
@@ -39,16 +42,22 @@
    - cancel → `/cancel`
 2. 若原型中按 functions 拆分出更细页面（例如 apply/list、apply/form、approve/detail），则在 `scenario.html` 的右侧为每个节点选择“最贴近该节点操作”的页面作为缩略图来源
 3. 缩略图实现方式（必须）：
-   - 使用 `Card + 空白占位缩略图`（来自 `src/assets` 的通用占位图），并在卡片标题展示页面名称与路由路径
-   - 每张卡片必须提供“打开页面”按钮：点击后跳转到该路由的正常页面（全屏内容，带完整 Header + Menu），禁止跳到嵌入式/iframe 页面
+   - 使用“空白占位缩略图”（模板内置），并在卡片中展示页面名称与路由路径
+   - 每张卡片必须提供“打开页面（Web）”按钮：点击后跳转到该路由的正常页面（全屏内容，带完整 Header + Menu），禁止跳到嵌入式/iframe 页面
 4. 移动端入口（命中则必须）：
    - 若存在移动端页面（`/m/*`），必须在场景详情区为相关节点提供“打开移动端页面”入口（跳转到对应 `/m/*` 路由），方便评审直接访问移动端页面。
 
 输出与写入要求：
 1. 将页面代码与工程改动写入到 `/specs/prototypes/` 目录下的原型工程中
-2. 确保 `scenario.html` 可访问，但不要把它集成进任何菜单/导航：
+2. 必须在 `/specs/prototypes/` 下额外生成外部数据文件：`/specs/prototypes/scenario.json`（与 `scenario.html` 同目录，文件名固定不得改），并在 `scenario.html` 中通过相对路径 `./scenario.json` 加载。
+3. `scenario.json` 数据结构要求如下（必须）：
+   - `{ meta: { generatedAt: string }, scenarios: Scenario[] }`
+   - `Scenario = { id: string, name: string, nodes: Node[] }`
+   - `Node = { type: string, label: string, route?: string, mobileRoute?: string, pageName?: string }`
+   - `scenarios` 必须覆盖 `/specs/background/scenarios.md` 全量条目，不得遗漏；`id` 与 `name` 必须逐条对齐（允许做必要的空白/符号格式化，但不得改写含义）。
+4. 确保 `scenario.html` 可访问，但不要把它集成进任何菜单/导航：
    - 不要出现在左侧菜单
    - 不要出现在首页/工作台的任何默认展示区域
    - 不要在 Header/Toolbox 等位置增加入口链接
    - 访问方式仅保留“直接访问 URL（/scenario.html）”
-3. 若使用 Vite 多入口（multi-page）方式，必须同步更新 `vite.config.*` 以支持 `index.html` 与 `scenario.html` 同时构建与开发访问
+5. 若使用 Vite 构建且 `scenario.html` 或 `scenario.json` 在 build 后不可访问，则必须通过 Vite 多入口（multi-page）或等价方式，确保 `index.html`、`scenario.html`、`scenario.json` 均可访问。

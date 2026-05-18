@@ -21,7 +21,11 @@
 - `/specs/models/`：数据模型与字段定义（通常由 verify 输出）
 - `/specs/backend/`：后端工程代码（impl 输出；按技术栈生成 Controller/API、Service、Repository、配置、迁移、以及对应测试代码等）
 - `/specs/prototypes/`：可运行原型与评审入口（例如 `scenario.html`、角色 dashboard）
-- `/specs/acceptance/`：验收用例与测试拆分（accept 输出）
+- `/test/验收用例/`：验收用例（[/vspec:accept](../../README.md#commands) 输出，JSON）
+- `/test/单元测试/`：单元测试用例（[/vspec:i-test](../../README.md#commands) 输出，JSON）
+- `/test/集成测试/`：集成测试用例（[/vspec:i-test](../../README.md#commands) 输出，JSON）
+- `/test/playwright/`：Playwright 脚本（[/vspec:script](../../README.md#commands) 输出）
+- `/test/testcase_reader.html`：JSON 用例阅读器（单文件 HTML）
 - `/specs/plan/`：估算与排期（plan 输出）
 - `/specs/qc_report.json`、`/specs/qc_report.html`：质量检查报告（qc 输出）
 - `/tests/`：自动化验收测试代码（append-test 输出；若仓库已有测试目录则优先写入既有目录；否则使用 `/tests/`，常见子目录如 `/tests/e2e/`、`/tests/api/`、`/tests/unit/`）

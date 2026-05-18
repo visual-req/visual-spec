@@ -77,8 +77,20 @@ Optional: segmented prototype generation
 
 ### 8. Acceptance Cases ([/vspec:accept](../../README.md#commands))
 
-- Generate acceptance cases into `/specs/acceptance/`
-- Goal: define acceptance criteria and coverage (happy path, exceptions, boundaries, RBAC, data permissions)
+- Generate JSON acceptance cases into `/test/验收用例/acceptance_cases.json`
+- Use `/test/testcase_reader.html` to read the generated JSON
+- Goal: define acceptance criteria and coverage (happy path, exceptions, boundaries, RBAC, data scope)
+
+### 8.1 Unit & Integration Test Cases ([/vspec:i-test](../../README.md#commands))
+
+- Generate JSON test cases into:
+  - `/test/单元测试/unit_test_cases.json`
+  - `/test/集成测试/integration_test_cases.json`
+- Focus: split CRUD into Query/Create/Edit/Detail/Delete; generate standalone cases for validation, permissions, and branches
+
+### 8.2 Playwright Scripts ([/vspec:script](../../README.md#commands))
+
+- Generate Playwright scripts into `/test/playwright/`
 
 ### 9. Automated Tests ([/vspec:append-test](../../README.md#commands))
 

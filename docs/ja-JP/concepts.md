@@ -19,7 +19,7 @@
 - 何を解決する：主経路だけの仕様、ロールバック/例外の抜け、検証不能な曖昧仕様
 - visual-spec での現れ方：
   - [/vspec:new](../../README.md#commands) が flows とシナリオ集合（主経路 + ロールバック）を出し、未解決事項も明示する
-  - [/vspec:accept](../../README.md#commands) がシナリオを受入ケース（`/specs/acceptance/`）へ変換し、「実行可能な操作 + 検証可能な期待結果」を固定する
+  - [/vspec:accept](../../README.md#commands) がシナリオを受入ケース（JSON：`/test/验收用例/acceptance_cases.json`）へ変換し、「実行可能な操作 + 検証可能な期待結果」を固定する
 
 ### 3. RBAC とデータ権限を先に設計する
 
@@ -50,7 +50,7 @@
 - 核心思想：受入を共通言語にし、可能な限り自動化し、統合可能な入力へ接続する
 - 何を解決する：正しいがテストできない要件／自動化の導入コストが高く運用されない
 - visual-spec での現れ方：
-  - [/vspec:accept](../../README.md#commands) が受入ケース（`/specs/acceptance/`）を作る
+  - [/vspec:accept](../../README.md#commands) が受入ケース（JSON：`/test/验收用例/acceptance_cases.json`）を作る
   - [/vspec:append-test](../../README.md#commands) が既存のテストフレームワーク/ディレクトリ規約を優先して保守負担を下げる
   - [/vspec:impl](../../README.md#commands) が最小差分でレビュー可能かつ E2E で動く統合入力を志向する
 
@@ -74,9 +74,9 @@
 | 原則 | 注目コマンド | 主要成果物 |
 | --- | --- | --- |
 | 1. 成果物で合意する | [/vspec:new](../../README.md#commands)、[/vspec:verify](../../README.md#commands) | `/specs/`、`/specs/models/`、`/specs/prototypes/` |
-| 2. シナリオ駆動で分解する | [/vspec:new](../../README.md#commands)、[/vspec:accept](../../README.md#commands) | `/specs/`（flows/scenarios/functions）、`/specs/acceptance/` |
+| 2. シナリオ駆動で分解する | [/vspec:new](../../README.md#commands)、[/vspec:accept](../../README.md#commands) | `/specs/`（flows/scenarios/functions）、`/test/验收用例/acceptance_cases.json` |
 | 3. RBAC とデータ権限を先に設計する | [/vspec:verify](../../README.md#commands)、[/vspec:detail](../../README.md#commands) | `/specs/prototypes/`、`/specs/details/` |
 | 4. 実装に落ちる詳細にする | [/vspec:detail](../../README.md#commands)、[/vspec:impl](../../README.md#commands) | `/specs/details/`、`/specs/backend/`（有効時） |
 | 5. 一貫性と観測性をデフォルトにする | [/vspec:detail](../../README.md#commands)、[/vspec:qc](../../README.md#commands) | `/specs/details/`、`/specs/qc_report.*` |
-| 6. 受入→自動化→統合 | [/vspec:accept](../../README.md#commands)、[/vspec:append-test](../../README.md#commands)、[/vspec:impl](../../README.md#commands) | `/specs/acceptance/`、テストディレクトリまたは `/tests/` |
+| 6. 受入→自動化→統合 | [/vspec:accept](../../README.md#commands)、[/vspec:append-test](../../README.md#commands)、[/vspec:impl](../../README.md#commands) | `/test/验收用例/acceptance_cases.json`、テストディレクトリまたは `/tests/` |
 | 7. 変更しやすい要件 | [/vspec:refine](../../README.md#commands)、[/vspec:qc](../../README.md#commands) | canonical requirement（例：`original.md`）+ 影響する `/specs/` 成果物 |

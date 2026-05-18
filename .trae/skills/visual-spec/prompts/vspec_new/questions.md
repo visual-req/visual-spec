@@ -97,3 +97,17 @@
 
 4. 编号从 1 开始递增
 5. 提问者默认填“BA/系统分析”
+6. 操作体验强制覆盖（必须）：
+   - 至少生成 4 条与“操作体验/交互模式”相关的问题，且必须覆盖以下主题中的至少 3 个：
+     - 一步一步向导（Wizard）还是一次性表格/表单展示（Single-page）
+     - 核心列表是否需要支持批量操作（批量通过/批量驳回/批量分派/批量导出等）
+     - 表格编辑方式：行内编辑 vs 弹窗/抽屉；是否需要批量编辑
+     - 草稿/自动保存/恢复草稿/撤销（Undo）与二次确认（Confirm）的口径
+     - Web 与 Mobile 的差异：哪些步骤必须在移动端完成、哪些在 Web 完成、是否需要“只读提示/置灰”
+6. 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
+   - 写入：`/specs/background/question_and_answer.html`
+   - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
+   - HTML 内容要求：先读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理；`zh` 视为 `zh-CN` 的别名），再按语言复制固定模板文件（保持一致）用于读取/编辑 `original.md` 与 `questions.md` 并回写：
+     - `en` → `prompts/vspec_new/question_and_answer.en-US.html`
+     - `zh-CN` → `prompts/vspec_new/question_and_answer.html`
+     - `ja` → `prompts/vspec_new/question_and_answer.ja-JP.html`

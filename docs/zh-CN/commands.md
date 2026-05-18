@@ -10,8 +10,10 @@
 | `/vspec:more-q` | 追加更多“待确认问题”到 questions 清单 | `/specs/background/original.md` + `/specs/background/questions.md` | 追加写入 `/specs/background/questions.md`（新增问题 + 回答指引） |
 | `/vspec:detail` | 展开到“可实现”的单功能详细规格 | `/specs/functions/*` + 支撑产物（background/flows/roles；models 若已存在） | `/specs/details/<function_slug>/*`（RBAC、交互、校验、日志、通知、MQ、导入导出、定时任务等） |
 | `/vspec:verify` | 快速验证：生成模型与可运行原型用于评审 | 现有 `/specs/` 产物（functions + details + roles） | `/specs/models/*.md`、`/specs/prototypes/`（按 `scheme.yaml` 选栈生成可运行原型 + `scenario.html` 评审页） |
-| `/vspec:accept` | 生成验收用例 | functions/scenarios/details/roles/models | `/specs/acceptance/<function_slug>/acceptance_cases.md`、`/specs/acceptance/index.md` |
-| `/vspec:append-test` | 生成自动化测试代码 | 验收用例 + 仓库测试技术栈 | 写入既有测试目录或 `/tests/` |
+| `/vspec:accept` | 生成验收用例（JSON） | functions/scenarios/details/roles/models | `/test/验收用例/acceptance_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:i-test` | 生成单元/集成测试用例（JSON） | functions/scenarios/details/roles/models | `/test/单元测试/unit_test_cases.json`、`/test/集成测试/integration_test_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:script` | 生成 Playwright 脚本 | `/test/**.json` 用例 | `/test/playwright/acceptance.spec.ts`、`/test/playwright/integration.spec.ts` |
+| `/vspec:append-test` | 生成自动化测试代码 | 验收用例（JSON） + 仓库测试技术栈 | 写入既有测试目录或 `/tests/` |
 | `/vspec:impl` | 生成后端 + 前端联调实现代码 | specs/details/models/dependencies | 写入集成实现代码（API 合同、后端、前端对接） |
 | `/vspec:upgrade` | 基于遗留材料做升级/重构分析并生成新规格 | `/docs/current/file_list.md` + `/docs/legacy/*`（可选 templates/texts/assets）+ 既有 `/specs/background/original.md`（可选） | 生成/更新 `/specs/`（沿用 `/vspec:new` 结构）+ 同步技术选型到 `/scheme.yaml` |
 | `/vspec:qc` | 对 `/specs/` 产物做质量检查 | 内置标准 + 可选 `domain_quality_standard.md` + 可选 `quality_standard.md` + `/specs/` | `/specs/qc_report.json`、`/specs/qc_report.html` |
@@ -68,7 +70,24 @@
 ## `/vspec:accept`
 
 - 适用场景：用“可执行用例”对齐交付与验收
-- 关键输出：每功能点验收用例表，覆盖主流程、异常、边界、RBAC、数据权限
+- 关键输出：JSON 验收用例（覆盖主流程、异常、边界、RBAC、数据权限）+ 本地阅读器
+  - `/test/验收用例/acceptance_cases.json`
+  - `/test/testcase_reader.html`（打开后选择 JSON 文件即可阅读）
+
+## `/vspec:i-test`
+
+- 适用场景：需要把“细节规格”进一步拆成单元/集成测试用例，并显式覆盖 CRUD、校验、权限与分支
+- 关键输出：JSON 测试用例 + 本地阅读器
+  - `/test/单元测试/unit_test_cases.json`
+  - `/test/集成测试/integration_test_cases.json`
+  - `/test/testcase_reader.html`
+
+## `/vspec:script`
+
+- 适用场景：基于 JSON 测试用例生成 Playwright 自动化脚本骨架
+- 关键输出：
+  - `/test/playwright/acceptance.spec.ts`
+  - `/test/playwright/integration.spec.ts`
 
 ## `/vspec:append-test`
 

@@ -229,12 +229,55 @@ Use this command to generate acceptance test cases.
 
 Language:
 - Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
-- All acceptance documents under `/specs/acceptance/` must use the selected language consistently.
+- All acceptance artifacts under `/test/验收用例/` must use the selected language consistently.
 
 Flow:
 1. Read `/specs/functions/*`, `/specs/background/scenarios.md`, `/specs/background/scenario_details/`, `/specs/background/roles.md`, `/specs/models/*.md`.
-2. Load `prompts/vspec_accept/accept.md` to generate acceptance test cases covering core flows, exceptions, boundary, permissions, and data scope.
-3. Write results to `/specs/acceptance/` (one subfolder per function) and generate an index at `/specs/acceptance/index.md`.
+2. Ensure `/test/` exists, and ensure subfolders exist:
+   - `/test/验收用例/`
+   - `/test/单元测试/`
+   - `/test/集成测试/`
+   - `/test/playwright/`
+3. Copy the built-in testcase reader HTML to `/test/testcase_reader.html` (overwrite), based on `/scheme.yaml` `selected.language`:
+   - `en` → `prompts/vspec_testcase_reader/testcase_reader.en-US.html` (fallback: `prompts/vspec_testcase_reader/testcase_reader.html`)
+   - `zh` → `prompts/vspec_testcase_reader/testcase_reader.zh-CN.html`
+   - `ja` → `prompts/vspec_testcase_reader/testcase_reader.ja-JP.html`
+4. Load `prompts/vspec_accept/accept.md` to generate scenario-driven acceptance test cases (JSON) covering happy path, exceptions, boundaries, permissions, and data scope.
+5. Write acceptance cases to `/test/验收用例/acceptance_cases.json`.
+
+### `/vspec:i-test`
+
+Use this command to generate unit-test and integration-test cases (JSON), derived from scenarios and detailed specs.
+
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
+- All test case titles/descriptions in JSON must follow the selected language consistently.
+
+Flow:
+1. Read `/specs/functions/*`, `/specs/background/scenarios.md`, `/specs/background/scenario_details/`, `/specs/background/roles.md`, `/specs/details/`, `/specs/models/*.md` (if any).
+2. Ensure `/test/` exists, and ensure subfolders exist:
+   - `/test/单元测试/`
+   - `/test/集成测试/`
+3. Copy the built-in testcase reader HTML to `/test/testcase_reader.html` (overwrite), based on `/scheme.yaml` `selected.language`:
+   - `en` → `prompts/vspec_testcase_reader/testcase_reader.en-US.html` (fallback: `prompts/vspec_testcase_reader/testcase_reader.html`)
+   - `zh` → `prompts/vspec_testcase_reader/testcase_reader.zh-CN.html`
+   - `ja` → `prompts/vspec_testcase_reader/testcase_reader.ja-JP.html`
+4. Load `prompts/vspec_i_test/i_test.md` to generate unit test cases (JSON) and write to `/test/单元测试/unit_test_cases.json`.
+5. Load `prompts/vspec_i_test/i_test.md` again to generate integration test cases (JSON) and write to `/test/集成测试/integration_test_cases.json`.
+
+### `/vspec:script`
+
+Use this command to generate Playwright scripts from JSON test cases.
+
+Flow:
+1. Read JSON cases when available:
+   - `/test/验收用例/acceptance_cases.json`
+   - `/test/集成测试/integration_test_cases.json`
+2. Ensure `/test/playwright/` exists.
+3. Load `prompts/vspec_script/script.md` to generate Playwright tests.
+4. Write outputs to:
+   - `/test/playwright/acceptance.spec.ts`
+   - `/test/playwright/integration.spec.ts`
 
 ### `/vspec:append-test`
 
@@ -245,7 +288,7 @@ Language:
 - Test case titles/descriptions should follow the selected language as much as possible.
 
 Flow:
-1. Read `/specs/acceptance/`, `/specs/functions/*`, `/specs/details/`, and detect the existing test frameworks in the repository.
+1. Read `/test/验收用例/acceptance_cases.json`, `/specs/functions/*`, `/specs/details/`, and detect the existing test frameworks in the repository.
 2. Load `prompts/vspec_test/test.md` to generate automation tests using the existing frameworks and conventions.
 3. Write test code to the project test directories (or `/tests/` if no standard exists) and ensure it can run with existing scripts.
 4. Load `prompts/harness/post_append_test_coverage_check.md` to verify whether test coverage is sufficiently complete; if it outputs any issues, continue.
@@ -357,6 +400,9 @@ Flow:
 - `prompts/vspec_detail/file_export.md`: the prompt used by `/vspec:detail` to generate file export docs.
 - `prompts/vspec_detail/cron_job.md`: the prompt used by `/vspec:detail` to generate scheduled job docs.
 - `prompts/vspec_accept/accept.md`: the prompt used by `/vspec:accept` to generate acceptance test cases.
+- `prompts/vspec_i_test/i_test.md`: the prompt used by `/vspec:i-test` to generate unit/integration test cases (JSON).
+- `prompts/vspec_script/script.md`: the prompt used by `/vspec:script` to generate Playwright scripts.
+- `prompts/vspec_testcase_reader/testcase_reader.html`: the single-file HTML used as a local testcase reader.
 - `prompts/vspec_test/test.md`: the prompt used by `/vspec:append-test` to generate automation test code.
 - `prompts/vspec_impl/implement.md`: the prompt used by `/vspec:impl` to generate integrated frontend/backend code.
 - `prompts/vspec_upgrade/upgrade.md`: the prompt used by `/vspec:upgrade` to generate upgraded specs from `/docs/` inputs.

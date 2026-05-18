@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1280" viewBox="0 0 1400 1280">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1480" viewBox="0 0 1400 1480">
   <defs>
     <style>
       .bg { fill: #ffffff; }
@@ -19,13 +19,13 @@
     </marker>
   </defs>
 
-  <rect class="bg" x="0" y="0" width="1400" height="1280"/>
+  <rect class="bg" x="0" y="0" width="1400" height="1480"/>
   <text class="title" x="36" y="42">visual-spec Workflow Overview</text>
   <text class="note" x="36" y="66">Commands (/vspec:*) read materials under /docs and /specs, then generate/update specs, prototypes, and QC reports.</text>
 
-  <rect class="lane" x="30" y="90" width="410" height="1160"/>
-  <rect class="lane" x="460" y="90" width="440" height="1160"/>
-  <rect class="lane" x="920" y="90" width="450" height="1160"/>
+  <rect class="lane" x="30" y="90" width="410" height="1360"/>
+  <rect class="lane" x="460" y="90" width="440" height="1360"/>
+  <rect class="lane" x="920" y="90" width="450" height="1360"/>
 
   <text class="laneTitle" x="50" y="122">Users / Stakeholders</text>
   <text class="laneTitle" x="480" y="122">Commands (/vspec:*)</text>
@@ -70,16 +70,20 @@
   <text class="boxText" x="510" y="875">- Generate acceptance cases (decomposed by key scenarios)</text>
 
   <rect class="box" x="490" y="920" width="380" height="70" rx="10"/>
-  <text class="boxTitle" x="510" y="950">/vspec:impl (optional)</text>
-  <text class="boxText" x="510" y="975">- Generate integrated implementation inputs (aligned with stack)</text>
+  <text class="boxTitle" x="510" y="950">/vspec:i-test (optional)</text>
+  <text class="boxText" x="510" y="975">- Generate unit/integration test cases (JSON)</text>
 
   <rect class="box" x="490" y="1020" width="380" height="70" rx="10"/>
-  <text class="boxTitle" x="510" y="1050">/vspec:append-test (optional)</text>
-  <text class="boxText" x="510" y="1075">- Generate automated test skeletons from acceptance cases</text>
+  <text class="boxTitle" x="510" y="1050">/vspec:impl (optional)</text>
+  <text class="boxText" x="510" y="1075">- Generate integrated implementation inputs (aligned with stack)</text>
 
   <rect class="box" x="490" y="1120" width="380" height="70" rx="10"/>
-  <text class="boxTitle" x="510" y="1150">/vspec:plan (optional)</text>
-  <text class="boxText" x="510" y="1175">- Generate estimation and schedule (HTML)</text>
+  <text class="boxTitle" x="510" y="1150">/vspec:append-test (optional)</text>
+  <text class="boxText" x="510" y="1175">- Generate automated test skeletons from acceptance cases</text>
+
+  <rect class="box" x="490" y="1220" width="380" height="70" rx="10"/>
+  <text class="boxTitle" x="510" y="1250">/vspec:plan (optional)</text>
+  <text class="boxText" x="510" y="1275">- Generate estimation and schedule (HTML)</text>
 
   <rect class="box" x="945" y="150" width="400" height="150" rx="10"/>
   <rect class="box" x="945" y="150" width="400" height="150" rx="10"/>
@@ -108,20 +112,26 @@
 
   <rect class="box" x="945" y="820" width="400" height="80" rx="10"/>
   <text class="boxTitle" x="965" y="850">Acceptance Cases (/vspec:accept)</text>
-  <text class="path" x="965" y="876">/specs/acceptance/**</text>
+  <text class="path" x="965" y="876">/test/验收用例/acceptance_cases.json</text>
+  <text class="path" x="965" y="898">/test/testcase_reader.html</text>
 
   <rect class="box" x="945" y="920" width="400" height="80" rx="10"/>
-  <text class="boxTitle" x="965" y="950">Implementation Inputs (/vspec:impl)</text>
-  <text class="path" x="965" y="976">/specs/backend/** (if enabled)</text>
+  <text class="boxTitle" x="965" y="950">Unit &amp; Integration Cases (/vspec:i-test)</text>
+  <text class="path" x="965" y="976">/test/单元测试/unit_test_cases.json</text>
+  <text class="path" x="965" y="998">/test/集成测试/integration_test_cases.json</text>
 
   <rect class="box" x="945" y="1020" width="400" height="80" rx="10"/>
-  <text class="boxTitle" x="965" y="1050">Automated Tests (/vspec:append-test)</text>
-  <text class="path" x="965" y="1076">/tests/** (or your existing test directories)</text>
+  <text class="boxTitle" x="965" y="1050">Implementation Inputs (/vspec:impl)</text>
+  <text class="path" x="965" y="1076">/specs/backend/** (if enabled)</text>
 
   <rect class="box" x="945" y="1120" width="400" height="80" rx="10"/>
-  <text class="boxTitle" x="965" y="1150">Estimation &amp; Schedule (/vspec:plan)</text>
-  <text class="path" x="965" y="1176">/specs/plan/plan_estimate.md</text>
-  <text class="path" x="965" y="1198">/specs/plan/plan_schedule.html</text>
+  <text class="boxTitle" x="965" y="1150">Automated Tests (/vspec:append-test)</text>
+  <text class="path" x="965" y="1176">/tests/** (or your existing test directories)</text>
+
+  <rect class="box" x="945" y="1220" width="400" height="80" rx="10"/>
+  <text class="boxTitle" x="965" y="1250">Estimation &amp; Schedule (/vspec:plan)</text>
+  <text class="path" x="965" y="1276">/specs/plan/plan_estimate.md</text>
+  <text class="path" x="965" y="1298">/specs/plan/plan_schedule.html</text>
 
   <path class="arrow" marker-end="url(#arrowHead)" d="M 415 205 C 460 205, 465 205, 490 205"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 870 215 C 905 215, 920 215, 945 215"/>
@@ -138,12 +148,14 @@
   <path class="arrow" marker-end="url(#arrowHead)" d="M 680 890 C 680 905, 680 910, 680 920"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 680 990 C 680 1005, 680 1010, 680 1020"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 680 1090 C 680 1105, 680 1110, 680 1120"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 680 1190 C 680 1205, 680 1210, 680 1220"/>
 
   <path class="arrow" marker-end="url(#arrowHead)" d="M 870 755 C 905 755, 920 755, 945 755"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 870 855 C 905 855, 920 855, 945 855"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 870 955 C 905 955, 920 955, 945 955"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 870 1055 C 905 1055, 920 1055, 945 1055"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 870 1155 C 905 1155, 920 1155, 945 1155"/>
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 870 1255 C 905 1255, 920 1255, 945 1255"/>
 
   <path class="arrow" marker-end="url(#arrowHead)" d="M 945 560 C 820 610, 640 645, 415 665"/>
   <path class="arrow" marker-end="url(#arrowHead)" d="M 415 665 C 440 665, 465 665, 490 665"/>

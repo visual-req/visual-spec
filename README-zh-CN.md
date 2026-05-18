@@ -87,7 +87,9 @@ npx skills add visual-req/visual-spec --skill visual-spec
 | `/vspec:verify` | 生成数据模型与可运行原型 | 让干系人在原型/场景里尽早对齐行为 | `/specs/models/`、`/specs/prototypes/` |
 | `/vspec:qc` | 对产物做质量检查并输出报告 | 提前发现遗漏/矛盾/不可测/不可追踪 | `/specs/qc_report.json`、`/specs/qc_report.html` |
 | `/vspec:refine` | 按变更内容持续修订需求并同步下游产物 | 需求变更时保持产物一致更新 | 更新 `original.md` + 同步更新受影响产物 |
-| `/vspec:accept` | 生成验收用例 | 把场景变成可核对的验收语言 | `/specs/acceptance/` |
+| `/vspec:accept` | 生成验收用例（JSON） | 把场景变成可执行的验收用例 | `/test/验收用例/acceptance_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:i-test` | 生成单元/集成测试用例（JSON） | 显式覆盖逻辑/权限/分支 | `/test/单元测试/unit_test_cases.json`、`/test/集成测试/integration_test_cases.json` + `/test/testcase_reader.html` |
+| `/vspec:script` | 生成 Playwright 脚本 | 把 JSON 用例转换成可运行自动化骨架 | `/test/playwright/acceptance.spec.ts`、`/test/playwright/integration.spec.ts` |
 | `/vspec:append-test` | 生成自动化测试代码 | 降低测试自动化落地成本 | 写入既有测试目录或 `/tests/` |
 | `/vspec:impl` | 生成后端 + 前端联调实现输入 | 产出对齐技术栈的结构化实现输入 | `/specs/backend/`（如启用）及相关集成代码 |
 | `/vspec:plan` | 生成估算与排期 | 把范围变成可评审的计划 | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
@@ -110,7 +112,7 @@ npx skills add visual-req/visual-spec --skill visual-spec
 - 是否适配我的技术栈？  
   `/vspec:verify` 生成的原型是 Web 形态，并遵循 `/scheme.yaml`。更深入的对齐方式可参考：[scheme.example.yaml](docs/en-US/scheme.example.yaml) 与 [docs/zh-CN/structure.md](docs/zh-CN/structure.md)。
 - 产物输出到哪里？  
-  主要在 `/specs/` 下（models、prototypes、details、qc report、plan）。详见：[docs/zh-CN/structure.md](docs/zh-CN/structure.md)。
+  主要在 `/specs/` 下（models、prototypes、details、qc report、plan）以及 `/test/` 下（JSON 用例、Playwright 脚本）。详见：[docs/zh-CN/structure.md](docs/zh-CN/structure.md)。
 - Troubleshooting（常见问题与排障）  
   详见：[docs/zh-CN/troubleshooting.md](docs/zh-CN/troubleshooting.md)。
 

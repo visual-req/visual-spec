@@ -19,7 +19,7 @@ These 7 principles are the design creed behind visual-spec. They influence comma
 - What it fixes: happy-path-only specs; missing rollback/exception branches; untestable “feature lists”
 - How it shows up in visual-spec:
   - [/vspec:new](../../README.md#commands) outputs flows + scenario sets (happy path + rollback paths) and explicit open questions
-  - [/vspec:accept](../../README.md#commands) converts scenarios into acceptance cases (`/specs/acceptance/`), enforcing “executable actions + verifiable outcomes”
+  - [/vspec:accept](../../README.md#commands) converts scenarios into acceptance cases (JSON: `/test/验收用例/acceptance_cases.json`), enforcing “executable actions + verifiable outcomes”
 
 ### 3. RBAC and Data Permissions First
 
@@ -50,7 +50,7 @@ These 7 principles are the design creed behind visual-spec. They influence comma
 - Core idea: make acceptance the shared language, then push toward automation and integration
 - What it fixes: requirements that are “right” but not testable; high adoption cost for test automation
 - How it shows up in visual-spec:
-  - [/vspec:accept](../../README.md#commands) produces acceptance cases (`/specs/acceptance/`)
+  - [/vspec:accept](../../README.md#commands) produces acceptance cases (JSON: `/test/验收用例/acceptance_cases.json`)
   - [/vspec:append-test](../../README.md#commands) reuses existing test frameworks and directory conventions whenever possible
   - [/vspec:impl](../../README.md#commands) organizes inputs around minimal reviewable diffs and a runnable end-to-end loop
 
@@ -74,9 +74,9 @@ These 7 principles are the design creed behind visual-spec. They influence comma
 | Principle | Focus commands | Key artifacts |
 | --- | --- | --- |
 | 1. Collaborate through artifacts | [/vspec:new](../../README.md#commands), [/vspec:verify](../../README.md#commands) | `/specs/`, `/specs/models/`, `/specs/prototypes/` |
-| 2. Scenario-driven decomposition | [/vspec:new](../../README.md#commands), [/vspec:accept](../../README.md#commands) | `/specs/` (flows/scenarios/functions), `/specs/acceptance/` |
+| 2. Scenario-driven decomposition | [/vspec:new](../../README.md#commands), [/vspec:accept](../../README.md#commands) | `/specs/` (flows/scenarios/functions), `/test/验收用例/acceptance_cases.json` |
 | 3. RBAC and data permissions first | [/vspec:verify](../../README.md#commands), [/vspec:detail](../../README.md#commands) | `/specs/prototypes/`, `/specs/details/` |
 | 4. Implementation-friendly detail | [/vspec:detail](../../README.md#commands), [/vspec:impl](../../README.md#commands) | `/specs/details/`, `/specs/backend/` (if enabled) |
 | 5. Consistency & observability by default | [/vspec:detail](../../README.md#commands), [/vspec:qc](../../README.md#commands) | `/specs/details/`, `/specs/qc_report.*` |
-| 6. Acceptance→automation→integration | [/vspec:accept](../../README.md#commands), [/vspec:append-test](../../README.md#commands), [/vspec:impl](../../README.md#commands) | `/specs/acceptance/`, test directories or `/tests/` |
+| 6. Acceptance→automation→integration | [/vspec:accept](../../README.md#commands), [/vspec:append-test](../../README.md#commands), [/vspec:impl](../../README.md#commands) | `/test/验收用例/acceptance_cases.json`, test directories or `/tests/` |
 | 7. Requirements that are easy to change | [/vspec:refine](../../README.md#commands), [/vspec:qc](../../README.md#commands) | canonical requirement (e.g. `original.md`) + impacted `/specs/` artifacts |

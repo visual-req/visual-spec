@@ -5,7 +5,7 @@
 - 测试用例的标题/描述/断言信息（例如 test name、describe name、测试用例注释、快照标题等）必须尽量使用该语言；代码标识符（变量名/函数名）保持工程惯例
 
 输入信息包含：
-- 验收用例（`/specs/acceptance/`）
+- 验收用例（`/test/验收用例/acceptance_cases.json`，JSON）
 - 功能清单与细节（`/specs/functions/*`、`/specs/details/`）
 - 原型（`/specs/prototypes/` 如存在）
 - 数据模型（`/specs/models/*.md`）

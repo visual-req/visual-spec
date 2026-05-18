@@ -23,7 +23,11 @@
 
 实现约束：
 - 必须使用固定 HTML 模板以保证预览页面稳定性（必须）：
-  - 先读取 `prompts/vspec_verify/scenario.html`（固定模板），然后在生成时“复制模板内容”写入 `/specs/prototypes/scenario.html`。
+  - 先读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理；`zh` 视为 `zh-CN` 的别名），并按语言选择固定模板文件：
+    - `en` → `prompts/vspec_verify/scenario.en-US.html`
+    - `zh-CN` → `prompts/vspec_verify/scenario.html`
+    - `ja` → `prompts/vspec_verify/scenario.ja-JP.html`
+  - 然后在生成时“复制模板内容”写入 `/specs/prototypes/scenario.html`。
   - 禁止改动模板的 DOM 结构与样式；场景数据必须通过外部 JSON 文件加载，文件名固定为 `scenario.json`（与 `scenario.html` 同目录）。
 - `scenario.html` 不要做成简单跳转页，必须承载上述左右布局与交互。
 - 场景数据必须来源于 `/specs/background/scenarios.md`（必要时结合 `/specs/background/scenario_details/` 或旧版 `scenario_details.md` 进行节点补齐/纠正）。

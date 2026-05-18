@@ -51,7 +51,7 @@ Command-to-artifact mapping:
 - Structured analysis: [/vspec:new](../../README.md#commands) creates the baseline under `/specs/` (roles/terms/flows/scenarios/function list/open questions, etc.)
 - Validation via runnable artifacts: [/vspec:verify](../../README.md#commands) generates data models + a runnable prototype, plus an HTML scenario review entry (typically `/specs/models/`, `/specs/prototypes/`)
 - Detailed specs: [/vspec:detail](../../README.md#commands) turns the function list into implementable specs (typically `/specs/details/`)
-- Acceptance + implementation inputs: [/vspec:accept](../../README.md#commands) writes acceptance cases (`/specs/acceptance/`); [/vspec:impl](../../README.md#commands) produces stack-aligned implementation inputs
+- Acceptance + implementation inputs: [/vspec:accept](../../README.md#commands) writes acceptance cases (JSON: `/test/验收用例/acceptance_cases.json`, plus `/test/testcase_reader.html`); [/vspec:impl](../../README.md#commands) produces stack-aligned implementation inputs
 - Quality + change loop: [/vspec:qc](../../README.md#commands) outputs QC reports; [/vspec:refine](../../README.md#commands) updates the canonical requirement and syncs impacted downstream artifacts
 
 ### Key design decisions (the “why” behind the workflow)
@@ -68,7 +68,7 @@ Command-to-artifact mapping:
 | 1. Structure | [/vspec:new](../../README.md#commands) | Raw requirement | `/specs/` baseline artifacts | Completeness: roles/constraints/exceptions/questions |
 | 2. Verify | [/vspec:verify](../../README.md#commands) | Function list + scenarios | `/specs/models/`, `/specs/prototypes/` (incl. HTML review entry) | Correctness: behaviors match scenarios and constraints |
 | 3. Detail | [/vspec:detail](../../README.md#commands) | Verified conclusions | `/specs/details/` | Consistency: permissions/validation/edge cases align |
-| 4. Accept | [/vspec:accept](../../README.md#commands) | Scenarios + detailed specs | `/specs/acceptance/` | Testability: coverage of critical and risky branches |
+| 4. Accept | [/vspec:accept](../../README.md#commands) | Scenarios + detailed specs | `/test/验收用例/acceptance_cases.json` | Testability: coverage of critical and risky branches |
 | 5. Implement inputs | [/vspec:impl](../../README.md#commands) | Detailed specs + repo constraints | `/specs/backend/` (if enabled) and integration inputs | Feasibility: aligned with actual stack and conventions |
 | 6. Quality check | [/vspec:qc](../../README.md#commands) | All `/specs/` artifacts | `/specs/qc_report.json`, `/specs/qc_report.html` | Deliverability: omissions/contradictions surfaced |
 | 7. Refine & sync | [/vspec:refine](../../README.md#commands) | Review feedback/changes | updates `original.md` + synced artifacts | Traceability: changes attributed and propagated |

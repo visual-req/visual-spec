@@ -55,14 +55,27 @@ Skill 会按命令阶段逐步在 `/specs/` 下生成产物，并维护少量项
    │  └─ README.md
    ├─ prototypes/                         # 可运行原型 + 评审页（/vspec:verify 输出）
    │  └─ ...
-   ├─ acceptance/                         # 验收用例（/vspec:accept 输出）
-   │  ├─ index.md
-   │  └─ ...
    ├─ qc_report.md                        # 质量报告（/vspec:qc 输出）
    ├─ plan/                               # 规划输出（/vspec:plan 输出）
    │  ├─ plan_estimate.md                 # 估算
    │  └─ plan_schedule.html               # 排期页面
    └─ change_log.md                       # 变更日志（可选）
+```
+
+测试用例（JSON）与 Playwright 脚本输出到：
+
+```text
+/test/
+  ├─ 验收用例/                              # [/vspec:accept](../../README.md#commands) 输出（JSON）
+  │  └─ acceptance_cases.json
+  ├─ 单元测试/                              # [/vspec:i-test](../../README.md#commands) 输出（JSON）
+  │  └─ unit_test_cases.json
+  ├─ 集成测试/                              # [/vspec:i-test](../../README.md#commands) 输出（JSON）
+  │  └─ integration_test_cases.json
+  ├─ playwright/                           # [/vspec:script](../../README.md#commands) 输出
+  │  ├─ acceptance.spec.ts
+  │  └─ integration.spec.ts
+  └─ testcase_reader.html                  # JSON 用例阅读器（单文件 HTML）
 ```
 
 说明：

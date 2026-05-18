@@ -79,8 +79,20 @@
 
 ### 8. 验收用例（[/vspec:accept](../../README.md#commands)）
 
-- 在 `/specs/acceptance/` 下生成验收用例
-- 目标：定义验收口径与覆盖范围（主流程、异常、边界、RBAC、数据权限）
+- 生成 JSON 验收用例：`/test/验收用例/acceptance_cases.json`
+- 用 `/test/testcase_reader.html` 阅读生成的 JSON
+- 目标：定义验收口径与覆盖范围（主流程、异常、边界、RBAC、数据范围）
+
+### 8.1 单元/集成测试用例（[/vspec:i-test](../../README.md#commands)）
+
+- 生成 JSON 用例：
+  - `/test/单元测试/unit_test_cases.json`
+  - `/test/集成测试/integration_test_cases.json`
+- 重点：CRUD 拆为 查询/新建/编辑/详情/删除；校验/权限/分支必须拆成独立用例
+
+### 8.2 Playwright 脚本（[/vspec:script](../../README.md#commands)）
+
+- 生成 Playwright 脚本：`/test/playwright/`
 
 ### 9. 自动化测试（[/vspec:append-test](../../README.md#commands)）
 
