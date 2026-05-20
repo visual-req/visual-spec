@@ -47,7 +47,10 @@ Flow:
 2. 入力を raw requirement として扱う
 3. `prompts/vspec_new/background.md` を読み込み、要件分析と背景補完を実行
 4. `/specs/background/original.md` に書き込み
-5. `/specs/background/question_and_answer.html` を生成（`prompts/vspec_new/question_and_answer.html` をそのままコピー）。このページで `original.md` / `questions.md` の質問に回答し、md に書き戻せるようにする。
+5. `/specs/background/question_and_answer.html` を生成（単一 HTML、CSS/JS は内包）。このページで `original.md` / `questions.md` の質問に回答し、md に書き戻せるようにする。
+   - 既に存在する場合：上書きせず、そのまま再利用する。
+   - 無い場合のみ：本 Skill 内蔵テンプレート `prompts/vspec_new/question_and_answer.html` を読み込み（テンプレートは読み取り専用）、目標パスへ 1 回だけ書き出す。
+   - プロジェクト側に `prompt/` または `prompts/` ディレクトリを作成しない。`prompts/**` 配下へは一切書き込まない。
 6. Open Questions/要確認事項の回答を促す（`/specs/background/question_and_answer.html` を開き、`/specs/background/original.md` を選択して回答・保存）。この時点で必ず停止して待機し、回答が揃うまで次のステップへ進まない（「続けて/继续/continue」等で回答完了を明示してもらう）。
 6. ユーザーの回答後（または「続けて/继续/continue」等で回答完了を明示した後）、`prompts/vspec_new/*` に従い `/specs/` 配下の成果物を生成
 

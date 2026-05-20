@@ -114,7 +114,16 @@
      - 表格编辑方式：行内编辑 vs 弹窗/抽屉；是否需要批量编辑
      - 草稿/自动保存/恢复草稿/撤销（Undo）与二次确认（Confirm）的口径
      - Web 与 Mobile 的差异：哪些步骤必须在移动端完成、哪些在 Web 完成、是否需要“只读提示/置灰”
-9. 同时写入固定的 HTML 交互问答页面（用于更容易回答并导出 questions.json）：
-   - 写入：`/specs/background/question_and_answer.html`
+9. 固定的 HTML 交互问答页面（用于更容易回答并导出 questions.json）：
+   - 目标路径：`/specs/background/question_and_answer.html`
+   - 若该文件已存在：先读取并检查是否为“旧版蓝底主题/非模板生成”的遗留文件：
+     - 若包含任一特征字符串：`--bg: #0b1220` 或 `background: linear-gradient(180deg, var(--bg), #060a13)`：视为旧版，必须用最新模板覆盖（升级）
+     - 否则：不得覆盖、不得重复生成，直接复用现有文件
+   - 若该文件不存在：才生成一次
    - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
-   - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致），页面自动加载同目录下的 `questions.json`，并可导出更新后的 `questions.json`（以及可选导出的 `questions.md`）。该单文件已内置中英日三语及切换功能。
+   - 模板来源：读取本 Skill 内置模板 `prompts/vspec_new/question_and_answer.html` 并写入目标路径（只读读取模板）；页面自动加载同目录下的 `questions.json`，并可导出更新后的 `questions.json`（以及可选导出的 `questions.md`）。该单文件已内置中英日三语及切换功能。
+   - 复制规则（必须）：写入内容必须与模板文件内容完全一致（逐字节一致）；不得由你“重新生成/改写/美化/格式化”HTML
+   - 写入后自检（必须）：
+     - 重新读取目标文件，必须包含 `--bg: #ffffff` 且包含 `--text: #111827`
+     - 若不满足：视为复制失败，必须立即用模板覆盖一次并再次自检直到满足
+   - 禁止在项目中创建 `prompt/` 或 `prompts/` 目录；不得向 `prompts/**` 写入任何文件

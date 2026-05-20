@@ -6,15 +6,15 @@
     <title id="uiTitle">VSpec Q&A Assistant</title>
     <style>
       :root {
-        --bg: #0b1220;
-        --panel: #111b2e;
-        --muted: #8aa0c3;
-        --text: #e6eefc;
-        --border: rgba(255, 255, 255, 0.08);
-        --primary: #3b82f6;
-        --danger: #ef4444;
-        --ok: #22c55e;
-        --warn: #f59e0b;
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --muted: rgba(17, 24, 39, 0.72);
+        --text: #111827;
+        --border: rgba(17, 24, 39, 0.14);
+        --primary: #2563eb;
+        --danger: #dc2626;
+        --ok: #16a34a;
+        --warn: #d97706;
       }
       body {
         margin: 0;
@@ -27,7 +27,7 @@
           Arial,
           "Apple Color Emoji",
           "Segoe UI Emoji";
-        background: linear-gradient(180deg, var(--bg), #060a13);
+        background: var(--bg);
         color: var(--text);
       }
       .wrap {
@@ -57,17 +57,82 @@
           align-items: start;
         }
       }
+      .layout {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 12px;
+        align-items: start;
+      }
+      @media (max-width: 979px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+      .leftCol {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: calc(100vh - 140px);
+        overflow: auto;
+        padding-right: 6px;
+      }
+      .rightCol {
+        max-height: calc(100vh - 140px);
+        overflow: auto;
+        padding-right: 6px;
+      }
+      .navlist {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .navitem {
+        border: 1px solid var(--border);
+        background: rgba(17, 24, 39, 0.03);
+        border-radius: 14px;
+        padding: 10px 12px;
+        cursor: pointer;
+      }
+      .navitem:hover {
+        background: rgba(17, 24, 39, 0.05);
+      }
+      .navitem.active {
+        border-color: rgba(37, 99, 235, 0.42);
+        background: rgba(37, 99, 235, 0.08);
+      }
+      .navline {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .navtitle {
+        font-size: 13px;
+        line-height: 1.35;
+        margin-top: 6px;
+        white-space: pre-wrap;
+      }
+      .langSelect {
+        background: rgba(17, 24, 39, 0.04);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 8px;
+        padding: 6px 8px;
+        font-size: 12px;
+        outline: none;
+      }
       .card {
-        background: rgba(17, 27, 46, 0.72);
+        background: var(--panel);
         border: 1px solid var(--border);
         border-radius: 14px;
         padding: 14px;
-        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 20px rgba(17, 24, 39, 0.06);
       }
       .card h2 {
         margin: 0 0 10px;
         font-size: 14px;
-        color: #cfe0ff;
+        color: var(--text);
       }
       .grid2 {
         display: grid;
@@ -93,7 +158,7 @@
         box-sizing: border-box;
         border-radius: 10px;
         border: 1px solid var(--border);
-        background: rgba(10, 16, 28, 0.75);
+        background: #ffffff;
         color: var(--text);
         padding: 10px 10px;
         font-size: 13px;
@@ -111,7 +176,7 @@
       }
       button {
         border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(17, 24, 39, 0.04);
         color: var(--text);
         border-radius: 10px;
         padding: 9px 12px;
@@ -119,12 +184,12 @@
         font-size: 13px;
       }
       button.primary {
-        background: rgba(59, 130, 246, 0.18);
-        border-color: rgba(59, 130, 246, 0.45);
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.32);
       }
       button.danger {
-        background: rgba(239, 68, 68, 0.12);
-        border-color: rgba(239, 68, 68, 0.4);
+        background: rgba(220, 38, 38, 0.08);
+        border-color: rgba(220, 38, 38, 0.26);
       }
       button:disabled {
         opacity: 0.5;
@@ -143,7 +208,7 @@
         padding: 6px 10px;
         border-radius: 999px;
         border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(17, 24, 39, 0.03);
         color: var(--muted);
         font-size: 12px;
       }
@@ -167,7 +232,7 @@
       }
       .q {
         border: 1px solid var(--border);
-        background: rgba(8, 12, 20, 0.6);
+        background: #ffffff;
         border-radius: 14px;
         padding: 12px;
       }
@@ -182,7 +247,7 @@
       .qid {
         font-weight: 600;
         font-size: 13px;
-        color: #d9e6ff;
+        color: var(--text);
       }
       .qctx {
         color: var(--muted);
@@ -212,7 +277,7 @@
         border: 1px solid var(--border);
         border-radius: 999px;
         padding: 6px 10px;
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(17, 24, 39, 0.03);
       }
       .k {
         color: var(--muted);
@@ -232,7 +297,7 @@
   </head>
   <body>
     <div style="position: absolute; top: 12px; right: 16px; z-index: 100;">
-      <select id="globalLangSelect" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #e6eefc; border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
+      <select id="globalLangSelect" class="langSelect">
         <option value="en">English</option>
         <option value="zh-CN">中文</option>
         <option value="ja">日本語</option>
@@ -242,67 +307,72 @@
       <h1 id="uiTitleH1">VSpec 问答助手（questions.json 驱动）</h1>
       <p class="sub" id="uiSub"></p>
 
-      <div class="row">
-        <div class="card">
-          <h2 id="uiStep1">1) 加载与导出</h2>
-
-          <label id="uiJsonLabel">questions.json（唯一数据源）</label>
-          <div class="btnbar">
-            <button class="primary" id="reload" disabled>重新加载并渲染</button>
-            <button class="primary" id="pickQuestionsJson">手动选择 questions.json（兼容）</button>
-            <input id="fallbackQuestionsJson" type="file" accept="application/json,.json" style="display:none" />
-            <button id="pickQuestionsJsonFallback">选择文件（兼容模式）</button>
-          </div>
-          <div class="hint" id="uiAutoHint">
-            默认会尝试自动加载：<span class="mono">./questions.json</span>（建议把本 HTML 与 questions.json 放在同一目录，例如：<span class="mono">/specs/background/</span>）
-          </div>
-          <div class="hint" id="questionsJsonStatus"></div>
-
-          <div class="sep"></div>
-
-          <div class="grid2">
-            <div>
-              <label id="uiAnsweredByLabel">回答者（写入 Answered By/回答者/回答者）</label>
-              <input id="answeredBy" type="text" placeholder="例如：业务负责人/产品经理/张三" />
+      <div class="layout">
+        <div class="leftCol">
+          <div class="card">
+            <h2 id="uiListTitle">questions.json：问题汇总</h2>
+            <div class="btnbar">
+              <span class="pill" id="statsQuestions">questions.json：未加载</span>
             </div>
-            <div>
-              <label id="uiAnsweredAtLabel">回答时间（默认现在）</label>
-              <input id="answeredAt" type="datetime-local" />
+            <div class="hint" id="uiMcqHint">
+              选择题解析规则：
+              <span class="mono">选项：</span>/<span class="mono">Options:</span>/<span class="mono">選択肢：</span>
+              之后的内容会被拆成选项（支持 <span class="mono">；</span>/<span class="mono">;</span> 分隔，或 <span class="mono">A.</span>/<span class="mono">1)</span> 列表）。
+              若无法解析到选项，则提供自由文本回答框。
             </div>
+            <div id="summaryList" class="navlist"></div>
           </div>
 
-          <div class="btnbar">
-            <button id="saveQuestionsJson" disabled>保存 questions.json</button>
-            <button id="downloadQuestionsJson" disabled>下载 questions.json</button>
-            <button id="downloadQuestionsMd" disabled>下载 questions.md</button>
+          <div class="card">
+            <h2 id="uiStep1">1) 加载与导出</h2>
+
+              <label id="uiJsonLabel">questions.json（唯一数据源）</label>
+              <div class="btnbar">
+                <button class="primary" id="reload" disabled>重新加载并渲染</button>
+                <button class="primary" id="pickQuestionsJson">手动选择 questions.json（兼容）</button>
+                <input id="fallbackQuestionsJson" type="file" accept="application/json,.json" style="display:none" />
+                <button id="pickQuestionsJsonFallback">选择文件（兼容模式）</button>
+              </div>
+              <div class="hint" id="uiAutoHint">
+                默认会尝试自动加载：<span class="mono">./questions.json</span>（建议把本 HTML 与 questions.json 放在同一目录，例如：<span class="mono">/specs/background/</span>）
+              </div>
+              <div class="hint" id="questionsJsonStatus"></div>
+
+              <div class="sep"></div>
+
+              <div class="grid2">
+                <div>
+                  <label id="uiAnsweredByLabel">回答者（写入 Answered By/回答者/回答者）</label>
+                  <input id="answeredBy" type="text" placeholder="例如：业务负责人/产品经理/张三" />
+                </div>
+                <div>
+                  <label id="uiAnsweredAtLabel">回答时间（默认现在）</label>
+                  <input id="answeredAt" type="datetime-local" />
+                </div>
+              </div>
+
+              <div class="btnbar">
+                <button id="saveQuestionsJson" disabled>保存 questions.json</button>
+                <button id="downloadQuestionsJson" disabled>下载 questions.json</button>
+                <button id="downloadQuestionsMd" disabled>下载 questions.md</button>
+              </div>
+
+              <div class="hint" id="uiTip">
+                提示：页面只基于 <span class="mono">questions.json</span> 渲染与保存；若希望在 md 中回答，可导出 <span class="mono">questions.md</span> 后用编辑器直接修改，再由工具链同步回 json。
+              </div>
           </div>
 
-          <div class="hint" id="uiTip">
-            提示：页面只基于 <span class="mono">questions.json</span> 渲染与保存；若希望在 md 中回答，可导出 <span class="mono">questions.md</span> 后用编辑器直接修改，再由工具链同步回 json。
+          <div class="card">
+            <h2 id="uiStep2">2) 当前解析结果</h2>
+            <div class="hint" id="uiSaveRuleHint">
+              保存规则（questions.json）：当填写了回答，将写入 answer 字段，并填充 answered_by / answered_at / status（按 meta.language 生成）。
+            </div>
           </div>
         </div>
 
-        <div class="card">
-          <h2 id="uiStep2">2) 当前解析结果</h2>
-          <div class="btnbar">
-            <span class="pill" id="statsQuestions">questions.json：未加载</span>
-          </div>
-          <div class="hint" id="uiMcqHint">
-            选择题解析规则：
-            <span class="mono">选项：</span>/<span class="mono">Options:</span>/<span class="mono">選択肢：</span>
-            之后的内容会被拆成选项（支持 <span class="mono">；</span>/<span class="mono">;</span> 分隔，或 <span class="mono">A.</span>/<span class="mono">1)</span> 列表）。
-            若无法解析到选项，则提供自由文本回答框。
-          </div>
-          <div class="hint" id="uiSaveRuleHint">
-            保存规则（questions.json）：当填写了回答，将写入 answer 字段，并填充 answered_by / answered_at / status（按 meta.language 生成）。
-          </div>
-        </div>
-      </div>
-
-      <div class="row" style="margin-top: 14px">
-        <div class="card">
-          <h2 id="uiListTitle">questions.json：问题列表</h2>
-          <div id="questionsList" class="list"></div>
+        <div class="card rightCol">
+          <h2 id="uiDetailTitle">3) 问题与回答</h2>
+          <div id="questionDetail"></div>
         </div>
       </div>
     </div>
@@ -332,7 +402,8 @@
           statsFilled: "questions.json: {0}/{1} answered",
           mcqHint: "Option parsing rule: supports <span class=\"mono\">Options:</span>/<span class=\"mono\">选项：</span>/<span class=\"mono\">選択肢：</span> and separators like <span class=\"mono\">;</span> or <span class=\"mono\">A.</span>/<span class=\"mono\">1)</span>.",
           saveRuleHint: "Save rule: will write answer + answered_by/answered_at/status based on meta.language.",
-          listTitle: "Questions",
+          listTitle: "Questions (Summary)",
+          detailTitle: "3) Question & Answer",
           filled: "Answered",
           empty: "Unanswered",
           noOptions: "No options parsed: use free-text answer.",
@@ -371,7 +442,8 @@
           statsFilled: "questions.json：{0}/{1} 已填写",
           mcqHint: "选择题解析规则：支持 <span class=\"mono\">选项：</span>/<span class=\"mono\">Options:</span>/<span class=\"mono\">選択肢：</span>，分隔符支持 <span class=\"mono\">；</span>/<span class=\"mono\">;</span>，或 <span class=\"mono\">A.</span>/<span class=\"mono\">1)</span> 列表。",
           saveRuleHint: "保存规则：写入 answer，并填充 answered_by / answered_at / status（按 meta.language 生成）。",
-          listTitle: "questions.json：问题列表",
+          listTitle: "questions.json：问题汇总",
+          detailTitle: "3) 问题与回答",
           filled: "已填写",
           empty: "未填写",
           noOptions: "未解析到选项：使用自由文本回答",
@@ -410,7 +482,8 @@
           statsFilled: "questions.json：{0}/{1} 回答済み",
           mcqHint: "選択肢の解析：<span class=\"mono\">選択肢：</span>/<span class=\"mono\">Options:</span>/<span class=\"mono\">选项：</span> と <span class=\"mono\">;</span>、<span class=\"mono\">A.</span>/<span class=\"mono\">1)</span> をサポート。",
           saveRuleHint: "保存：answer と answered_by/answered_at/status を meta.language に従って更新します。",
-          listTitle: "questions.json：質問一覧",
+          listTitle: "questions.json：質問サマリー",
+          detailTitle: "3) 質問と回答",
           filled: "回答済み",
           empty: "未回答",
           noOptions: "選択肢を解析できません：自由記入で回答してください。",
@@ -461,11 +534,13 @@
         document.getElementById("uiMcqHint").innerHTML = t("mcqHint");
         document.getElementById("uiSaveRuleHint").textContent = t("saveRuleHint");
         document.getElementById("uiListTitle").textContent = t("listTitle");
+        document.getElementById("uiDetailTitle").textContent = t("detailTitle");
       }
 
       const state = {
         questionsJson: { handle: null, name: null, text: null, items: [], lang: null },
         questions: { items: [], lang: null },
+        selectedQuestionId: null,
       };
 
       function setPill(el, kind, text) {
@@ -828,82 +903,153 @@
         return lines.join("\n").trimEnd() + "\n";
       }
 
-      function renderQuestions() {
-        const answeredBy = document.getElementById("answeredBy").value.trim();
-        const list = document.getElementById("questionsList");
+      function getSelectedQuestion() {
+        const items = state.questions.items || [];
+        if (!items.length) return null;
+        const byId = items.find((x) => String(x.id) === String(state.selectedQuestionId));
+        return byId || items[0];
+      }
+
+      function ensureSelection() {
+        const items = state.questions.items || [];
+        if (!items.length) {
+          state.selectedQuestionId = null;
+          return;
+        }
+        if (state.selectedQuestionId == null) {
+          const firstUnanswered = items.find((x) => !((x.answerFree || "").trim()));
+          state.selectedQuestionId = (firstUnanswered || items[0]).id;
+          return;
+        }
+        const exists = items.some((x) => String(x.id) === String(state.selectedQuestionId));
+        if (!exists) state.selectedQuestionId = items[0].id;
+      }
+
+      function renderSummaryList() {
+        const list = document.getElementById("summaryList");
         list.innerHTML = "";
         for (const it of state.questions.items) {
-          const el = document.createElement("div");
-          el.className = "q";
-          el.dataset.qid = String(it.id);
-          const head = document.createElement("div");
-          head.className = "qhead";
+          const item = document.createElement("div");
+          item.className = "navitem" + (String(it.id) === String(state.selectedQuestionId) ? " active" : "");
+          item.addEventListener("click", () => {
+            state.selectedQuestionId = it.id;
+            renderQuestions();
+          });
+
+          const line = document.createElement("div");
+          line.className = "navline";
+
           const left = document.createElement("div");
-          left.innerHTML = `<div class="qid">#${it.id}</div><div class="qctx">${escapeHtml(it.context || "")}</div>`;
+          left.innerHTML = `<span class="qid">#${escapeHtml(it.id)}</span>`;
+
           const right = document.createElement("div");
           right.className = "pill";
           right.textContent = it.answerFree && it.answerFree.trim() ? t("filled") : t("empty");
-          head.appendChild(left);
-          head.appendChild(right);
+
+          line.appendChild(left);
+          line.appendChild(right);
 
           const title = document.createElement("div");
-          title.className = "qtitle";
-          title.textContent = it.question || "";
-
-          const opt = document.createElement("div");
-          opt.className = "opt";
-          if (it.options && it.options.length) {
-            const name = `q_${it.id}`;
-            for (const o of it.options) {
-              const wrap = document.createElement("label");
-              wrap.className = "o";
-              const radio = document.createElement("input");
-              radio.type = "radio";
-              radio.name = name;
-              radio.value = o;
-              radio.checked = it.answerPick === o;
-              radio.addEventListener("change", () => {
-                it.answerPick = o;
-                if (!it.answerFree.trim()) it.answerFree = o;
-                renderQuestions();
-              });
-              const span = document.createElement("span");
-              span.textContent = o;
-              wrap.appendChild(radio);
-              wrap.appendChild(span);
-              opt.appendChild(wrap);
-            }
-          } else {
-            const k = document.createElement("div");
-            k.className = "k";
-            k.textContent = t("noOptions");
-            opt.appendChild(k);
-          }
-
-          const answerBox = document.createElement("div");
-          const aLabel = document.createElement("label");
-          aLabel.textContent = t("answerEditable");
-          const ta = document.createElement("textarea");
-          ta.value = it.answerFree || "";
-          ta.placeholder = it.options && it.options.length ? t("answerPlaceholderWithOptions") : t("answerPlaceholder");
-          ta.addEventListener("input", (e) => {
-            it.answerFree = e.target.value;
-            renderQuestions();
-          });
-          answerBox.appendChild(aLabel);
-          answerBox.appendChild(ta);
+          title.className = "navtitle";
+          title.textContent = (it.question || "").toString().trim();
 
           const meta = document.createElement("div");
-          meta.className = "k";
-          meta.textContent = answeredBy ? t("answeredByMeta", [answeredBy]) : t("answeredByEmpty");
+          meta.className = "qctx";
+          meta.textContent = (it.context || "").toString().trim();
 
-          el.appendChild(head);
-          el.appendChild(title);
-          el.appendChild(opt);
-          el.appendChild(answerBox);
-          el.appendChild(meta);
-          list.appendChild(el);
+          item.appendChild(line);
+          if (meta.textContent) item.appendChild(meta);
+          if (title.textContent) item.appendChild(title);
+          list.appendChild(item);
         }
+      }
+
+      function renderDetail() {
+        const answeredBy = document.getElementById("answeredBy").value.trim();
+        const root = document.getElementById("questionDetail");
+        root.innerHTML = "";
+
+        const it = getSelectedQuestion();
+        if (!it) return;
+
+        const el = document.createElement("div");
+        el.className = "q";
+        el.dataset.qid = String(it.id);
+
+        const head = document.createElement("div");
+        head.className = "qhead";
+        const left = document.createElement("div");
+        left.innerHTML = `<div class="qid">#${escapeHtml(it.id)}</div><div class="qctx">${escapeHtml(it.context || "")}</div>`;
+        const right = document.createElement("div");
+        right.className = "pill";
+        right.textContent = it.answerFree && it.answerFree.trim() ? t("filled") : t("empty");
+        head.appendChild(left);
+        head.appendChild(right);
+
+        const title = document.createElement("div");
+        title.className = "qtitle";
+        title.textContent = it.question || "";
+
+        const opt = document.createElement("div");
+        opt.className = "opt";
+        if (it.options && it.options.length) {
+          const name = `q_${it.id}`;
+          for (const o of it.options) {
+            const wrap = document.createElement("label");
+            wrap.className = "o";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = name;
+            radio.value = o;
+            radio.checked = it.answerPick === o;
+            radio.addEventListener("change", () => {
+              it.answerPick = o;
+              if (!it.answerFree.trim()) it.answerFree = o;
+              renderQuestions();
+            });
+            const span = document.createElement("span");
+            span.textContent = o;
+            wrap.appendChild(radio);
+            wrap.appendChild(span);
+            opt.appendChild(wrap);
+          }
+        } else {
+          const k = document.createElement("div");
+          k.className = "k";
+          k.textContent = t("noOptions");
+          opt.appendChild(k);
+        }
+
+        const answerBox = document.createElement("div");
+        const aLabel = document.createElement("label");
+        aLabel.textContent = t("answerEditable");
+        const ta = document.createElement("textarea");
+        ta.value = it.answerFree || "";
+        ta.placeholder = it.options && it.options.length ? t("answerPlaceholderWithOptions") : t("answerPlaceholder");
+        ta.addEventListener("input", (e) => {
+          it.answerFree = e.target.value;
+          renderSummaryList();
+          updateStats();
+        });
+        answerBox.appendChild(aLabel);
+        answerBox.appendChild(ta);
+
+        const meta = document.createElement("div");
+        meta.className = "k";
+        meta.textContent = answeredBy ? t("answeredByMeta", [answeredBy]) : t("answeredByEmpty");
+
+        el.appendChild(head);
+        el.appendChild(title);
+        el.appendChild(opt);
+        el.appendChild(answerBox);
+        el.appendChild(meta);
+        root.appendChild(el);
+      }
+
+      function renderQuestions() {
+        ensureSelection();
+        renderSummaryList();
+        renderDetail();
       }
 
       function renderOriginal() {

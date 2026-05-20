@@ -576,8 +576,17 @@ catalog:
       - `status`：string（值必须与所选语言一致：Unanswered/未回答/未回答）
 - 同时写入固定的 HTML 交互问答页面（用于回答 `original.md` 中的“待确认问题/Open Questions/要確認事項”，并可回写 markdown）：
   - 写入：`/specs/background/question_and_answer.html`
+  - 若该文件已存在：先读取并检查是否为“旧版蓝底主题/非模板生成”的遗留文件：
+    - 若包含任一特征字符串：`--bg: #0b1220` 或 `background: linear-gradient(180deg, var(--bg), #060a13)`：视为旧版，必须用最新模板覆盖（升级）
+    - 否则：不得覆盖、不得重复生成，直接复用现有文件
+  - 若该文件不存在：才生成一次
   - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
-  - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致）
+  - 模板来源：读取本 Skill 内置模板 `prompts/vspec_new/question_and_answer.html` 并写入目标路径（只读读取模板）
+  - 复制规则（必须）：写入内容必须与模板文件内容完全一致（逐字节一致）；不得由你“重新生成/改写/美化/格式化”HTML
+  - 写入后自检（必须）：
+    - 重新读取目标文件，必须包含 `--bg: #ffffff` 且包含 `--text: #111827`
+    - 若不满足：视为复制失败，必须立即用模板覆盖一次并再次自检直到满足
+  - 禁止在项目中创建 `prompt/` 或 `prompts/` 目录；不得向 `prompts/**` 写入任何文件
 - 交互提示（必须在对话中输出；不要写入 `/specs/background/original.md`）：
   - 重要：在你输出并写入 `original.md` 之后，必须立刻停止；不要继续生成 stakeholders/roles/terms/flows/scenarios 等后续产物。必须等待用户先把“待确认问题/Open Questions/要確認事項”回答完毕（或用户明确回复“继续/continue/続けて”表示已完成问答）后，才能进入下一步。
   - 告知用户：请打开 `/specs/background/question_and_answer.html`，页面会自动加载同目录下的 `questions.json`；在页面中回答并导出更新后的 `questions.json`（与可选导出的 `questions.md`）；完成后再回复“继续/continue/続けて”

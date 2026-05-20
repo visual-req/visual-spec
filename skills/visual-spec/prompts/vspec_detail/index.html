@@ -6,22 +6,22 @@
     <title id="uiTitle">VSpec Details</title>
     <style>
       :root {
-        --bg: #0b1220;
-        --panel: rgba(17, 27, 46, 0.76);
-        --panel2: rgba(10, 16, 28, 0.82);
-        --text: #e6eefc;
-        --muted: #8aa0c3;
-        --border: rgba(255, 255, 255, 0.09);
-        --primary: #3b82f6;
-        --accent: #22c55e;
-        --warn: #f59e0b;
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --panel2: #ffffff;
+        --text: #111827;
+        --muted: rgba(17, 24, 39, 0.72);
+        --border: rgba(17, 24, 39, 0.14);
+        --primary: #2563eb;
+        --accent: #16a34a;
+        --warn: #d97706;
       }
       * {
         box-sizing: border-box;
       }
       body {
         margin: 0;
-        background: linear-gradient(180deg, var(--bg), #060a13);
+        background: var(--bg);
         color: var(--text);
         font-family:
           -apple-system,
@@ -37,9 +37,8 @@
         position: sticky;
         top: 0;
         z-index: 20;
-        background: rgba(245, 158, 11, 0.14);
-        border-bottom: 1px solid rgba(245, 158, 11, 0.35);
-        backdrop-filter: blur(10px);
+        background: rgba(217, 119, 6, 0.10);
+        border-bottom: 1px solid rgba(217, 119, 6, 0.28);
       }
       .top-banner .inner {
         max-width: 1400px;
@@ -53,10 +52,10 @@
       }
       .top-banner .msg {
         font-size: 13px;
-        color: rgba(245, 158, 11, 0.98);
+        color: rgba(217, 119, 6, 0.98);
       }
       .top-banner .msg b {
-        color: rgba(255, 255, 255, 0.92);
+        color: var(--text);
       }
       .wrap {
         max-width: 1400px;
@@ -78,17 +77,17 @@
         border: 1px solid var(--border);
         border-radius: 14px;
         background: var(--panel);
-        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
         overflow: hidden;
       }
       .sidebar-header {
         padding: 12px;
         border-bottom: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(17, 24, 39, 0.02);
       }
       .sidebar-title {
         font-size: 13px;
-        color: #cfe0ff;
+        color: var(--text);
         margin: 0 0 8px;
         display: flex;
         align-items: center;
@@ -109,7 +108,7 @@
         width: 100%;
         border-radius: 10px;
         border: 1px solid var(--border);
-        background: rgba(10, 16, 28, 0.78);
+        background: #ffffff;
         color: var(--text);
         padding: 9px 10px;
         font-size: 13px;
@@ -117,7 +116,7 @@
       }
       button {
         border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(17, 24, 39, 0.04);
         color: var(--text);
         border-radius: 10px;
         padding: 8px 10px;
@@ -125,8 +124,8 @@
         font-size: 13px;
       }
       button.primary {
-        background: rgba(59, 130, 246, 0.18);
-        border-color: rgba(59, 130, 246, 0.45);
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.30);
       }
       .tree {
         padding: 8px 8px 12px;
@@ -147,7 +146,7 @@
         user-select: none;
         padding: 7px 8px;
         border-radius: 10px;
-        color: #dbe8ff;
+        color: var(--text);
         font-size: 13px;
         display: flex;
         align-items: center;
@@ -162,7 +161,7 @@
       .node {
         margin-left: 10px;
         padding-left: 8px;
-        border-left: 1px dashed rgba(255, 255, 255, 0.12);
+        border-left: 1px dashed rgba(17, 24, 39, 0.16);
       }
       .file {
         display: flex;
@@ -177,11 +176,11 @@
         font-size: 13px;
       }
       .file:hover {
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(17, 24, 39, 0.04);
       }
       .file.active {
-        background: rgba(59, 130, 246, 0.16);
-        border-color: rgba(59, 130, 246, 0.34);
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.28);
       }
       .main-header {
         padding: 12px 12px 0;
@@ -212,11 +211,11 @@
         border: 1px solid var(--border);
         border-radius: 999px;
         padding: 4px 10px;
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(17, 24, 39, 0.02);
       }
       .path {
         font-size: 13px;
-        color: #dbe8ff;
+        color: var(--text);
         word-break: break-all;
       }
       .content {
@@ -225,7 +224,7 @@
       .doc {
         border: 1px solid var(--border);
         border-radius: 14px;
-        background: rgba(8, 12, 20, 0.6);
+        background: #ffffff;
         padding: 16px 16px 18px;
       }
       .doc h1,
@@ -235,7 +234,7 @@
       .doc h5,
       .doc h6 {
         margin: 18px 0 10px;
-        color: #dbe8ff;
+        color: var(--text);
       }
       .doc h1 {
         font-size: 22px;
@@ -248,23 +247,23 @@
       }
       .doc p {
         margin: 10px 0;
-        color: rgba(230, 238, 252, 0.92);
+        color: rgba(17, 24, 39, 0.92);
         line-height: 1.55;
       }
       .doc a {
-        color: rgba(59, 130, 246, 0.95);
+        color: rgba(37, 99, 235, 0.95);
       }
       .doc code {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
           monospace;
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(17, 24, 39, 0.04);
         padding: 2px 5px;
         border-radius: 6px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(17, 24, 39, 0.10);
       }
       .doc pre {
-        background: #0a1020;
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: #f8fafc;
+        border: 1px solid rgba(17, 24, 39, 0.12);
         border-radius: 12px;
         padding: 12px;
         overflow: auto;
@@ -282,13 +281,13 @@
       }
       .doc th,
       .doc td {
-        border: 1px solid rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(17, 24, 39, 0.14);
         padding: 8px 10px;
         vertical-align: top;
       }
       .doc th {
-        background: rgba(255, 255, 255, 0.04);
-        color: #dbe8ff;
+        background: rgba(17, 24, 39, 0.03);
+        color: var(--text);
         text-align: left;
       }
       .doc ul,
@@ -304,13 +303,13 @@
       .puml img {
         max-width: 100%;
         border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(17, 24, 39, 0.12);
+        background: rgba(17, 24, 39, 0.02);
       }
       iframe {
         width: 100%;
         height: calc(100vh - 240px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(17, 24, 39, 0.12);
         border-radius: 12px;
         background: #fff;
       }
@@ -336,17 +335,17 @@
         display: block;
         padding: 6px 10px;
         border-radius: 10px;
-        color: rgba(230, 238, 252, 0.92);
+        color: rgba(17, 24, 39, 0.92);
         text-decoration: none;
         border: 1px solid transparent;
         font-size: 13px;
       }
       .outline a:hover {
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(17, 24, 39, 0.04);
       }
       .outline a.active {
-        background: rgba(34, 197, 94, 0.12);
-        border-color: rgba(34, 197, 94, 0.28);
+        background: rgba(22, 163, 74, 0.10);
+        border-color: rgba(22, 163, 74, 0.22);
       }
       .file.missing {
         opacity: 0.55;
@@ -361,7 +360,7 @@
         padding: 10px 12px;
         border: 1px solid var(--border);
         border-radius: 14px;
-        background: rgba(10, 16, 28, 0.82);
+        background: rgba(17, 24, 39, 0.02);
         margin-bottom: 12px;
       }
       .md-toolbar .left,
@@ -391,7 +390,7 @@
         min-height: calc(100vh - 330px);
         border-radius: 14px;
         border: 1px solid var(--border);
-        background: rgba(10, 16, 28, 0.78);
+        background: #ffffff;
         color: var(--text);
         padding: 12px;
         font-size: 13px;
@@ -401,14 +400,23 @@
           monospace;
       }
       .mode-btn.active {
-        background: rgba(59, 130, 246, 0.18);
-        border-color: rgba(59, 130, 246, 0.45);
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.30);
+      }
+      .langSelect {
+        background: rgba(17, 24, 39, 0.04);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 8px;
+        padding: 6px 8px;
+        font-size: 12px;
+        outline: none;
       }
     </style>
   </head>
   <body>
     <div style="position: absolute; top: 12px; right: 16px; z-index: 100;">
-      <select id="globalLangSelect" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #e6eefc; border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
+      <select id="globalLangSelect" class="langSelect">
         <option value="en">English</option>
         <option value="zh-CN">中文</option>
         <option value="ja">日本語</option>
@@ -430,7 +438,7 @@
             </div>
             <div class="sidebar-meta" id="uiClickToRender">Click a file to render it on the right.</div>
             <div class="search">
-              <input id="search" type="text" placeholder="Search path..." id="uiSearchPath" />
+              <input id="search" type="text" placeholder="Search path..." />
               <button id="collapseAll">Collapse</button>
             </div>
           </div>
@@ -731,118 +739,31 @@
         return m;
       }
 
-      function buildChapters() {
-        const original = pickFirst(["/specs/background/original.md"]);
-        const stakeholder = pickFirst(["/specs/background/stakeholder.md", "/specs/background/stakeholders.md"]);
-        const roles = pickFirst(["/specs/background/roles.md"]);
-        const terms = pickFirst(["/specs/background/terms.md"]);
-        const scenarios = pickFirst(["/specs/background/scenarios.md"]);
-        const dependencies = pickFirst(["/specs/background/dependencies.md"]);
-        const questions = pickFirst(["/specs/background/questions.md"]);
-
-        const functions = listByPrefix("/specs/functions/").filter((p) => p.toLowerCase().endsWith(".md"));
-        const flows = listByPrefix("/specs/flows/").filter((p) => p.toLowerCase().endsWith(".puml"));
-        const models = listByPrefix("/specs/models/").filter((p) => p.toLowerCase().endsWith(".md"));
-
-        const detailTypes = [
-          { dir: "rbac", label: "RBAC" },
-          { dir: "data_permission", label: "Data Permission" },
-          { dir: "page_load", label: "Page Load" },
-          { dir: "interaction", label: "Interaction" },
-          { dir: "service_logic", label: "Service Logic" },
-          { dir: "job_logic", label: "Job Logic" },
-          { dir: "message_queue", label: "Message Queue" },
-          { dir: "mq", label: "MQ" },
-          { dir: "cache", label: "Cache" },
-          { dir: "logging_matrix", label: "Logging Matrix" },
-          { dir: "notification_matrix", label: "Notification Matrix" },
-          { dir: "nfp", label: "Non-Functional" },
-          { dir: "validation_matrix", label: "Validation Matrix" },
-          { dir: "judgemental_matrix", label: "Decision Matrix" },
-          { dir: "code_rules", label: "Code Rules" },
-          { dir: "timeline", label: "Timeline" },
-          { dir: "formula", label: "Formula" },
-          { dir: "expression_tree", label: "Expression Tree" },
-          { dir: "file_import", label: "File Import" },
-          { dir: "file_export", label: "File Export" },
-          { dir: "cron_job", label: "Cron Jobs" },
-        ];
-
-        const detailGroups = [];
-        for (const dt of detailTypes) {
-          const prefix = `/specs/details/`;
-          const hits = state.paths.filter((p) => p.startsWith(prefix) && p.includes(`/${dt.dir}/`));
-          if (!hits.length) continue;
-          const byModule = groupBy(hits, (p) => getModuleSlug(p) || "unknown");
-          const modules = Array.from(byModule.entries()).sort((a, b) => a[0].localeCompare(b[0]));
-          const children = modules.map(([module, files]) => ({
-            type: "group",
-            label: module,
-            children: files
-              .slice()
-              .sort((a, b) => a.localeCompare(b))
-              .map((p) => ({ type: "file", label: basename(p), path: p })),
-          }));
-          detailGroups.push({ type: "group", label: dt.label, children });
+      function buildDirectoryTree(paths) {
+        const root = { type: "group", label: "/", dirs: new Map(), files: [] };
+        const ensureDir = (node, label) => {
+          const k = String(label || "");
+          if (!node.dirs.has(k)) node.dirs.set(k, { type: "group", label: k, dirs: new Map(), files: [] });
+          return node.dirs.get(k);
+        };
+        for (const p of paths || []) {
+          const parts = String(p || "").split("/").filter(Boolean);
+          if (!parts.length) continue;
+          let cur = root;
+          for (let i = 0; i < parts.length - 1; i++) {
+            cur = ensureDir(cur, parts[i]);
+          }
+          const name = parts[parts.length - 1];
+          cur.files.push({ type: "file", label: name, path: p });
         }
-
-        const chapters = [];
-        chapters.push({
-          label: t("chapRequirement"),
-          children: [
-            { type: "file", label: t("chapOriginal"), path: original || "/specs/background/original.md", missing: !original },
-            {
-              type: "file",
-              label: t("chapStakeholders"),
-              path: stakeholder || "/specs/background/stakeholders.md",
-              missing: !stakeholder,
-            },
-            { type: "file", label: t("chapRoles"), path: roles || "/specs/background/roles.md", missing: !roles },
-            { type: "file", label: t("chapTerms"), path: terms || "/specs/background/terms.md", missing: !terms },
-            { type: "file", label: t("chapScenarios"), path: scenarios || "/specs/background/scenarios.md", missing: !scenarios },
-            {
-              type: "file",
-              label: t("chapDependencies"),
-              path: dependencies || "/specs/background/dependencies.md",
-              missing: !dependencies,
-            },
-            { type: "file", label: t("chapQuestions"), path: questions || "/specs/background/questions.md", missing: !questions },
-          ].filter(Boolean),
-        });
-
-        const coreFunctions = pickFirst(["/specs/functions/core.md"]);
-        chapters.push({
-          label: t("chapS2F"),
-          children: [
-            scenarios ? { type: "file", label: t("chapScenarioList"), path: scenarios } : null,
-            flows.length
-              ? { type: "group", label: t("chapFlowDiagrams"), children: flows.map((p) => ({ type: "file", label: basename(p), path: p })) }
-              : null,
-            coreFunctions ? { type: "file", label: t("chapCoreFunctions"), path: coreFunctions } : null,
-          ].filter(Boolean),
-        });
-
-        chapters.push({
-          label: t("chapFlows"),
-          children: flows.map((p) => ({ type: "file", label: basename(p), path: p })),
-        });
-
-        chapters.push({
-          label: t("chapFunctions"),
-          children: functions.map((p) => ({ type: "file", label: displayTitle(p), path: p })),
-        });
-
-        chapters.push({
-          label: t("chapDetails"),
-          children: detailGroups,
-        });
-
-        chapters.push({
-          label: t("chapModels"),
-          children: models.map((p) => ({ type: "file", label: displayTitle(p), path: p })),
-        });
-
-        return chapters.filter((c) => (c.children || []).length);
+        const finalize = (node) => {
+          const dirChildren = Array.from(node.dirs.values())
+            .sort((a, b) => a.label.localeCompare(b.label))
+            .map(finalize);
+          const fileChildren = (node.files || []).slice().sort((a, b) => a.label.localeCompare(b.label));
+          return { type: "group", label: node.label, children: [...dirChildren, ...fileChildren] };
+        };
+        return finalize(root);
       }
 
       function anyChildMatches(node, filterLower) {
@@ -886,10 +807,8 @@
       function renderSidebar() {
         dom.nav.innerHTML = "";
         const filterLower = (dom.search.value || "").trim().toLowerCase();
-        const chapters = buildChapters();
-        for (const ch of chapters) {
-          renderNavNode({ type: "group", label: ch.label, children: ch.children }, dom.nav, filterLower);
-        }
+        const tree = buildDirectoryTree(state.paths);
+        renderNavNode(tree, dom.nav, filterLower);
       }
 
       function renderOutline(headings) {
@@ -1399,7 +1318,7 @@
         document.getElementById("uiWordExport").innerHTML = t("wordExport");
         document.getElementById("uiDetailsIndex").textContent = t("detailsIndex");
         document.getElementById("uiClickToRender").textContent = t("clickToRender");
-        document.getElementById("uiSearchPath").placeholder = t("searchPath");
+        dom.search.placeholder = t("searchPath");
         document.getElementById("collapseAll").textContent = t("collapse");
         document.getElementById("uiOutline").textContent = t("outline");
         document.getElementById("uiCopyPath").textContent = t("copyPath");
