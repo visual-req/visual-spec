@@ -5,11 +5,13 @@
 - 新增问题的字段名、状态值与内容必须统一使用该语言；禁止混用其他语言
 
 终止条件（必须）：
-1. 若 `/specs/background/questions.md` 不存在：立即结束，不做任何写入；仅输出一句“未找到 questions.md，请先执行 /vspec:new 生成基础 questions 清单，再执行 /vspec:more-q”。
+1. 若 `/specs/background/questions.md` 与 `/specs/background/questions.json` 均不存在：立即结束，不做任何写入；仅输出一句“未找到 questions.md/questions.json，请先执行 /vspec:new 生成基础 questions 清单，再执行 /vspec:more-q”。
 
 输入信息包含：
 - 现有需求归档与分析：`/specs/background/original.md`
-- 现有问答列表：`/specs/background/questions.md`（必须读取，用于去重与续编号）
+- 现有问答列表（至少其一必须读取，用于去重与续编号）：
+  - `/specs/background/questions.md`
+  - `/specs/background/questions.json`
 - 可参考：`/specs/background/*.md`、`/specs/flows/*.puml`、`/specs/functions/*`、`/specs/background/dependencies.md`
 
 梳理规则（必须）：
@@ -88,10 +90,14 @@
    - 语言=ja：`## 回答手順`
 
    指引内容（按语言输出）必须包含：
-   - 建议的回答方式（在 `questions.md` 逐条填写“回答/回答者/回答时间/状态”）
+   - 建议的回答方式（在 `questions.md` 或 `questions.json` 逐条填写“回答/回答者/回答时间/状态”）
    - 填写完成后执行 `/vspec:refine-q` 合并答案进入 `original.md`
    - 若暂时无法回答：允许先保留未回答，但需要标注原因/预计时间（写在“回答”里即可）
-5. 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
+5. 同时保证双格式存储（必须）：
+   - `/specs/background/questions.md` 与 `/specs/background/questions.json` 必须保持问题条目一致
+   - 若只存在其中之一：必须先根据现有文件生成另一份（内容逐条一致）再继续追加
+   - 对 `questions.json`：必须读取现有 JSON，向 `items` 追加新增条目，并更新 `meta.total` 与 `meta.generated_at`
+6. 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写文件）：
    - 写入：`/specs/background/question_and_answer.html`
    - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
-   - HTML 内容要求：从 `prompts/vspec_more_q/question_and_answer.html` 复制（保持一致），用于读取/编辑 `original.md` 与 `questions.md` 并回写。该单文件已内置中英日三语及切换功能。
+   - HTML 内容要求：从 `prompts/vspec_more_q/question_and_answer.html` 复制（保持一致），页面自动加载同目录下的 `questions.json`，并可导出更新后的 `questions.json`（以及可选导出的 `questions.md`）。该单文件已内置中英日三语及切换功能。

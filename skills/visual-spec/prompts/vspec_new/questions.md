@@ -47,9 +47,15 @@
    - “回答/回答者/回答时间”先留空
 
 写入要求：
-1. 将结果写入：`/specs/background/questions.md`
-2. 如果 `/specs/background` 不存在，请先创建目录
-3. 输出为 markdown 列表（字段名与顺序必须严格按所选语言使用以下版本之一）：
+1. 将结果同时写入两份等价内容（必须保持问题条目逐条一致）：
+   - Markdown：`/specs/background/questions.md`
+   - JSON：`/specs/background/questions.json`
+2. 若 `/specs/background/questions.json` 已存在（例如由 /vspec:new 的 background 阶段从 original.md 的“待确认问题”抽取生成）：必须先读取并保留其中条目，再追加本次新生成的问题：
+   - 不得覆盖/丢失已存在条目
+   - 新增问题的 `id` 必须从现有最大 id + 1 开始递增
+   - 若与已有问题语义重复：不得重复追加（语义相同视为重复）
+3. 如果 `/specs/background` 不存在，请先创建目录
+4. Markdown 输出为列表（字段名与顺序必须严格按所选语言使用以下版本之一）：
 
 ```md
 语言=en：
@@ -86,16 +92,29 @@
    - 状態：未回答
 ```
 
-4. 编号从 1 开始递增
-5. 提问者默认填“BA/系统分析”
-6. 操作体验强制覆盖（必须）：
+4. JSON 输出格式（必须）：
+   - 顶层为 object：`{ meta, items }`
+   - `meta` 至少包含：`language`（en/zh-CN/ja）、`generated_at`（ISO 字符串）、`total`（数字）
+   - `items` 为 array；每项必须包含字段（字段名固定，不随语言变化）：
+     - `id`：number（从 1 递增，与 Markdown 编号一致）
+     - `context`：string
+     - `question`：string
+     - `asker`：string（默认 `BA/System Analyst`）
+     - `asked_at`：string（可空）
+     - `answer`：string（可空）
+     - `answered_by`：string（可空）
+     - `answered_at`：string（可空）
+     - `status`：string（值必须与所选语言一致：Unanswered/未回答/未回答）
+5. 编号从 1 开始递增（Markdown 与 JSON 必须一致）
+6. 提问者默认填“BA/系统分析”（同时在 JSON 中写入 `asker: BA/System Analyst`）
+7. 操作体验强制覆盖（必须）：
    - 至少生成 4 条与“操作体验/交互模式”相关的问题，且必须覆盖以下主题中的至少 3 个：
      - 一步一步向导（Wizard）还是一次性表格/表单展示（Single-page）
      - 核心列表是否需要支持批量操作（批量通过/批量驳回/批量分派/批量导出等）
      - 表格编辑方式：行内编辑 vs 弹窗/抽屉；是否需要批量编辑
      - 草稿/自动保存/恢复草稿/撤销（Undo）与二次确认（Confirm）的口径
      - Web 与 Mobile 的差异：哪些步骤必须在移动端完成、哪些在 Web 完成、是否需要“只读提示/置灰”
-6. 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
+9. 同时写入固定的 HTML 交互问答页面（用于更容易回答并导出 questions.json）：
    - 写入：`/specs/background/question_and_answer.html`
    - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
-   - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致），用于读取/编辑 `original.md` 与 `questions.md` 并回写。该单文件已内置中英日三语及切换功能。
+   - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致），页面自动加载同目录下的 `questions.json`，并可导出更新后的 `questions.json`（以及可选导出的 `questions.md`）。该单文件已内置中英日三语及切换功能。

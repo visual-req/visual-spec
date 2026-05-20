@@ -239,90 +239,69 @@
       </select>
     </div>
     <div class="wrap">
-      <h1>VSpec 问答助手（HTML 交互 + 回写 Markdown）</h1>
+      <h1 id="uiTitleH1">VSpec 问答助手（questions.json 驱动）</h1>
       <p class="sub" id="uiSub"></p>
 
       <div class="row">
         <div class="card">
-          <h2>1) 选择要回答的文件</h2>
-          <div class="grid2">
-            <div>
-              <label>original.md（待确认问题）</label>
-              <div class="btnbar">
-                <button class="primary" id="pickOriginal">选择文件（推荐）</button>
-                <input id="fallbackOriginal" type="file" accept=".md,text/markdown,text/plain" style="display:none" />
-                <button id="pickOriginalFallback">选择文件（兼容模式）</button>
-              </div>
-              <div class="hint">
-                目标路径通常是：<span class="mono">/specs/background/original.md</span>
-              </div>
-              <div class="hint" id="originalStatus"></div>
-            </div>
-            <div>
-              <label>questions.md（问答清单）</label>
-              <div class="btnbar">
-                <button class="primary" id="pickQuestions">选择文件（推荐）</button>
-                <input id="fallbackQuestions" type="file" accept=".md,text/markdown,text/plain" style="display:none" />
-                <button id="pickQuestionsFallback">选择文件（兼容模式）</button>
-              </div>
-              <div class="hint">
-                目标路径通常是：<span class="mono">/specs/background/questions.md</span>
-              </div>
-              <div class="hint" id="questionsStatus"></div>
-            </div>
+          <h2 id="uiStep1">1) 加载与导出</h2>
+
+          <label id="uiJsonLabel">questions.json（唯一数据源）</label>
+          <div class="btnbar">
+            <button class="primary" id="reload" disabled>重新加载并渲染</button>
+            <button class="primary" id="pickQuestionsJson">手动选择 questions.json（兼容）</button>
+            <input id="fallbackQuestionsJson" type="file" accept="application/json,.json" style="display:none" />
+            <button id="pickQuestionsJsonFallback">选择文件（兼容模式）</button>
           </div>
+          <div class="hint" id="uiAutoHint">
+            默认会尝试自动加载：<span class="mono">./questions.json</span>（建议把本 HTML 与 questions.json 放在同一目录，例如：<span class="mono">/specs/background/</span>）
+          </div>
+          <div class="hint" id="questionsJsonStatus"></div>
 
           <div class="sep"></div>
 
           <div class="grid2">
             <div>
-              <label>回答者（写入 Answered By/回答者/回答者）</label>
+              <label id="uiAnsweredByLabel">回答者（写入 Answered By/回答者/回答者）</label>
               <input id="answeredBy" type="text" placeholder="例如：业务负责人/产品经理/张三" />
             </div>
             <div>
-              <label>回答时间（默认现在）</label>
+              <label id="uiAnsweredAtLabel">回答时间（默认现在）</label>
               <input id="answeredAt" type="datetime-local" />
             </div>
           </div>
 
           <div class="btnbar">
-            <button id="reload" class="primary" disabled>重新解析并渲染</button>
-            <button id="saveOriginal" disabled>保存 original.md</button>
-            <button id="saveQuestions" disabled>保存 questions.md</button>
-            <button id="downloadOriginal" disabled>下载 original.md（兼容模式）</button>
-            <button id="downloadQuestions" disabled>下载 questions.md（兼容模式）</button>
+            <button id="saveQuestionsJson" disabled>保存 questions.json</button>
+            <button id="downloadQuestionsJson" disabled>下载 questions.json</button>
+            <button id="downloadQuestionsMd" disabled>下载 questions.md</button>
           </div>
 
-          <div class="hint">
-            提示：若你只想回答 <span class="mono">questions.md</span>，可以只选择 questions.md 文件并保存。original.md 的“待确认问题”通常偏方向性澄清；questions.md 偏可追踪 Q&A。
+          <div class="hint" id="uiTip">
+            提示：页面只基于 <span class="mono">questions.json</span> 渲染与保存；若希望在 md 中回答，可导出 <span class="mono">questions.md</span> 后用编辑器直接修改，再由工具链同步回 json。
           </div>
         </div>
 
         <div class="card">
-          <h2>2) 当前解析结果</h2>
+          <h2 id="uiStep2">2) 当前解析结果</h2>
           <div class="btnbar">
-            <span class="pill" id="statsOriginal">original.md：未加载</span>
-            <span class="pill" id="statsQuestions">questions.md：未加载</span>
+            <span class="pill" id="statsQuestions">questions.json：未加载</span>
           </div>
-          <div class="hint">
+          <div class="hint" id="uiMcqHint">
             选择题解析规则：
             <span class="mono">选项：</span>/<span class="mono">Options:</span>/<span class="mono">選択肢：</span>
             之后的内容会被拆成选项（支持 <span class="mono">；</span>/<span class="mono">;</span> 分隔，或 <span class="mono">A.</span>/<span class="mono">1)</span> 列表）。
             若无法解析到选项，则提供自由文本回答框。
           </div>
-          <div class="hint">
-            保存规则（questions.md）：当填写了回答，将自动写入 Answer 字段，填充 Answered By/At，并把 Status 置为已回答（按文件语言自动识别）。
+          <div class="hint" id="uiSaveRuleHint">
+            保存规则（questions.json）：当填写了回答，将写入 answer 字段，并填充 answered_by / answered_at / status（按 meta.language 生成）。
           </div>
         </div>
       </div>
 
       <div class="row" style="margin-top: 14px">
         <div class="card">
-          <h2>original.md：待确认问题</h2>
-          <div id="originalList" class="list"></div>
-        </div>
-        <div class="card">
-          <h2>questions.md：问答清单</h2>
+          <h2 id="uiListTitle">questions.json：问题列表</h2>
           <div id="questionsList" class="list"></div>
         </div>
       </div>
@@ -332,97 +311,121 @@
 
       const i18n = {
         en: {
-          title: "VSpec Q&A Assistant",
-          sub: "Export standard <code>questions.md</code> for requirements communication.<br>How to use: Share this file with stakeholders > Let them fill in answers > Click Export > Overwrite <code>/specs/background/questions.md</code>.",
-          projectInfo: "Project Info",
-          projName: "Project Name",
-          projDesc: "Project Description",
-          stakeholders: "Stakeholders",
-          exportAction: "Export Action",
-          dlLabel: "Export Format",
-          dlBtn: "Download questions.md",
-          dlHint: "After downloading, rename it to questions.md and overwrite the original file in the project.",
-          qs: "Questions ({0})",
-          copyQ: "Copy Questions Only",
-          copyAll: "Copy All",
-          emptyQ: "No questions provided.",
-          qTitle: "Q{0}: {1}",
-          qLevel: "Level",
-          qModule: "Module",
-          qType: "Type",
-          qTarget: "Target",
-          qRisk: "Risk",
-          qDesc: "Description",
-          aTitle: "Answer",
-          aHint: "Please enter your answer here...",
-          aBy: "Answered By",
-          aAt: "Answered At",
-          mdHeader: "# Questions & Answers\n\n",
-          mdProj: "## Project Info\n",
-          mdStake: "## Stakeholders\n",
-          mdQList: "## Questions List\n"
+          titleH1: "VSpec Q&A Assistant (questions.json driven)",
+          sub: "This page reads <code>questions.json</code> and exports an updated <code>questions.json</code> after you answer. If auto-load fails, run a local HTTP server and open this page via <code>http://</code>.",
+          step1: "1) Load & Export",
+          jsonLabel: "questions.json (single source of truth)",
+          btnReload: "Reload & Render",
+          btnPickJson: "Pick questions.json (fallback)",
+          btnPickJsonFallback: "Pick file (fallback)",
+          autoHint: "Auto-load tries: <span class=\"mono\">./questions.json</span> (place this HTML and questions.json in the same folder, e.g. <span class=\"mono\">/specs/background/</span>).",
+          answeredByLabel: "Answered By",
+          answeredByPlaceholder: "e.g. Product Owner / Alice",
+          answeredAtLabel: "Answered At (default now)",
+          btnSaveJson: "Save questions.json",
+          btnDownloadJson: "Download questions.json",
+          btnDownloadMd: "Download questions.md",
+          tip: "The page only renders/saves based on <span class=\"mono\">questions.json</span>. Export <span class=\"mono\">questions.md</span> if you prefer answering in Markdown.",
+          step2: "2) Summary",
+          statsNotLoaded: "questions.json: not loaded",
+          statsEmpty: "questions.json: no items",
+          statsFilled: "questions.json: {0}/{1} answered",
+          mcqHint: "Option parsing rule: supports <span class=\"mono\">Options:</span>/<span class=\"mono\">选项：</span>/<span class=\"mono\">選択肢：</span> and separators like <span class=\"mono\">;</span> or <span class=\"mono\">A.</span>/<span class=\"mono\">1)</span>.",
+          saveRuleHint: "Save rule: will write answer + answered_by/answered_at/status based on meta.language.",
+          listTitle: "Questions",
+          filled: "Answered",
+          empty: "Unanswered",
+          noOptions: "No options parsed: use free-text answer.",
+          answerEditable: "Answer",
+          answerPlaceholder: "Type your answer…",
+          answerPlaceholderWithOptions: "Pick an option above, or add notes here…",
+          answeredByMeta: "Answered by: {0}",
+          answeredByEmpty: "Answered by is empty (will be left blank on export).",
+          statusAutoLoaded: "Auto-loaded: ./questions.json",
+          statusAutoLoadFailed: "Auto-load failed: {0}. Use the fallback picker or open via http://",
+          statusLoaded: "Loaded: {0}",
+          statusLoadedFallback: "Loaded (fallback): {0}",
+          statusParseFailed: "Parse failed: {0}",
+          statusSaved: "Saved: {0}",
+          statusExported: "Exported questions.json (please replace your project file manually)."
         },
         "zh-CN": {
-          title: "VSpec 问答助手",
-          sub: "导出标准的 <code>questions.md</code> 用于需求沟通。<br>使用方式：将本文件发给业务方/产品经理 > 填写回答 > 点击导出 > 覆盖项目中的 <code>/specs/background/questions.md</code>。",
-          projectInfo: "项目信息",
-          projName: "项目名称",
-          projDesc: "项目描述",
-          stakeholders: "干系人",
-          exportAction: "导出操作",
-          dlLabel: "导出格式",
-          dlBtn: "下载 questions.md",
-          dlHint: "下载后，请将其重命名为 questions.md 并覆盖项目中的源文件。",
-          qs: "问题列表 ({0})",
-          copyQ: "仅复制问题",
-          copyAll: "复制全部",
-          emptyQ: "没有提供任何问题数据。",
-          qTitle: "Q{0}: {1}",
-          qLevel: "级别",
-          qModule: "模块",
-          qType: "类型",
-          qTarget: "提问对象",
-          qRisk: "不解决的风险",
-          qDesc: "问题描述",
-          aTitle: "回答",
-          aHint: "请在此输入回答...",
-          aBy: "回答人",
-          aAt: "回答时间",
-          mdHeader: "# 疑问与解答\n\n",
-          mdProj: "## 基础信息\n",
-          mdStake: "## 干系人\n",
-          mdQList: "## 问题列表\n"
+          titleH1: "VSpec 问答助手（questions.json 驱动）",
+          sub: "本页面读取 <code>questions.json</code> 并在你回答后导出更新后的 <code>questions.json</code>。若自动加载失败，请用本地 HTTP 服务通过 <code>http://</code> 打开本页。",
+          step1: "1) 加载与导出",
+          jsonLabel: "questions.json（唯一数据源）",
+          btnReload: "重新加载并渲染",
+          btnPickJson: "手动选择 questions.json（兼容）",
+          btnPickJsonFallback: "选择文件（兼容模式）",
+          autoHint: "默认会尝试自动加载：<span class=\"mono\">./questions.json</span>（建议把本 HTML 与 questions.json 放在同一目录，例如：<span class=\"mono\">/specs/background/</span>）。",
+          answeredByLabel: "回答者",
+          answeredByPlaceholder: "例如：业务负责人/产品经理/张三",
+          answeredAtLabel: "回答时间（默认现在）",
+          btnSaveJson: "保存 questions.json",
+          btnDownloadJson: "下载 questions.json",
+          btnDownloadMd: "下载 questions.md",
+          tip: "页面只基于 <span class=\"mono\">questions.json</span> 渲染与保存；若希望在 md 中回答，可导出 <span class=\"mono\">questions.md</span> 后直接编辑。",
+          step2: "2) 当前解析结果",
+          statsNotLoaded: "questions.json：未加载",
+          statsEmpty: "questions.json：未解析到条目",
+          statsFilled: "questions.json：{0}/{1} 已填写",
+          mcqHint: "选择题解析规则：支持 <span class=\"mono\">选项：</span>/<span class=\"mono\">Options:</span>/<span class=\"mono\">選択肢：</span>，分隔符支持 <span class=\"mono\">；</span>/<span class=\"mono\">;</span>，或 <span class=\"mono\">A.</span>/<span class=\"mono\">1)</span> 列表。",
+          saveRuleHint: "保存规则：写入 answer，并填充 answered_by / answered_at / status（按 meta.language 生成）。",
+          listTitle: "questions.json：问题列表",
+          filled: "已填写",
+          empty: "未填写",
+          noOptions: "未解析到选项：使用自由文本回答",
+          answerEditable: "回答（可编辑）",
+          answerPlaceholder: "请输入回答…",
+          answerPlaceholderWithOptions: "可直接选上方选项，或在此补充原因/备注/口径…",
+          answeredByMeta: "回答者：{0}",
+          answeredByEmpty: "回答者未填写（导出时会留空）",
+          statusAutoLoaded: "已自动加载：./questions.json",
+          statusAutoLoadFailed: "自动加载失败：{0}。请使用兼容选择，或用 http:// 方式打开",
+          statusLoaded: "已加载：{0}",
+          statusLoadedFallback: "已加载（兼容模式）：{0}",
+          statusParseFailed: "解析失败：{0}",
+          statusSaved: "已写回：{0}",
+          statusExported: "已导出 questions.json（请手动替换项目中的 questions.json）"
         },
         ja: {
-          title: "VSpec Q&A アシスタント",
-          sub: "要件確認用の標準 <code>questions.md</code> をエクスポートします。<br>使い方: このファイルを関係者に共有 > 回答を記入 > エクスポートをクリック > <code>/specs/background/questions.md</code> を上書きします。",
-          projectInfo: "プロジェクト情報",
-          projName: "プロジェクト名",
-          projDesc: "プロジェクト説明",
-          stakeholders: "ステークホルダー",
-          exportAction: "エクスポート",
-          dlLabel: "エクスポート形式",
-          dlBtn: "questions.md をダウンロード",
-          dlHint: "ダウンロード後、questions.md にリネームして元のファイルを上書きしてください。",
-          qs: "質問リスト ({0})",
-          copyQ: "質問のみコピー",
-          copyAll: "すべてコピー",
-          emptyQ: "質問データが提供されていません。",
-          qTitle: "Q{0}: {1}",
-          qLevel: "レベル",
-          qModule: "モジュール",
-          qType: "タイプ",
-          qTarget: "対象者",
-          qRisk: "未解決リスク",
-          qDesc: "質問の詳細",
-          aTitle: "回答",
-          aHint: "ここに回答を入力してください...",
-          aBy: "回答者",
-          aAt: "回答日時",
-          mdHeader: "# 質問と回答\n\n",
-          mdProj: "## プロジェクト情報\n",
-          mdStake: "## ステークホルダー\n",
-          mdQList: "## 質問リスト\n"
+          titleH1: "VSpec Q&A アシスタント（questions.json）",
+          sub: "このページは <code>questions.json</code> を読み込み、回答後に更新された <code>questions.json</code> をエクスポートします。自動読み込みに失敗する場合は、ローカルHTTPサーバーで <code>http://</code> 経由で開いてください。",
+          step1: "1) 読み込みとエクスポート",
+          jsonLabel: "questions.json（単一の正）",
+          btnReload: "再読み込みして表示",
+          btnPickJson: "questions.json を選択（互換）",
+          btnPickJsonFallback: "ファイルを選択（互換）",
+          autoHint: "自動読み込み: <span class=\"mono\">./questions.json</span>（HTMLとquestions.jsonを同一フォルダに配置：例 <span class=\"mono\">/specs/background/</span>）。",
+          answeredByLabel: "回答者",
+          answeredByPlaceholder: "例：PO / 山田",
+          answeredAtLabel: "回答日時（既定は現在）",
+          btnSaveJson: "questions.json を保存",
+          btnDownloadJson: "questions.json をダウンロード",
+          btnDownloadMd: "questions.md をダウンロード",
+          tip: "このページは <span class=\"mono\">questions.json</span> を唯一の入力/出力として扱います。Markdownで回答したい場合は <span class=\"mono\">questions.md</span> をエクスポートしてください。",
+          step2: "2) 集計",
+          statsNotLoaded: "questions.json：未読み込み",
+          statsEmpty: "questions.json：項目なし",
+          statsFilled: "questions.json：{0}/{1} 回答済み",
+          mcqHint: "選択肢の解析：<span class=\"mono\">選択肢：</span>/<span class=\"mono\">Options:</span>/<span class=\"mono\">选项：</span> と <span class=\"mono\">;</span>、<span class=\"mono\">A.</span>/<span class=\"mono\">1)</span> をサポート。",
+          saveRuleHint: "保存：answer と answered_by/answered_at/status を meta.language に従って更新します。",
+          listTitle: "questions.json：質問一覧",
+          filled: "回答済み",
+          empty: "未回答",
+          noOptions: "選択肢を解析できません：自由記入で回答してください。",
+          answerEditable: "回答",
+          answerPlaceholder: "回答を入力…",
+          answerPlaceholderWithOptions: "上の選択肢を選ぶか、補足を入力…",
+          answeredByMeta: "回答者：{0}",
+          answeredByEmpty: "回答者は未入力（エクスポート時は空欄）",
+          statusAutoLoaded: "自動読み込み：./questions.json",
+          statusAutoLoadFailed: "自動読み込み失敗：{0}。互換の選択、または http:// で開いてください",
+          statusLoaded: "読み込み：{0}",
+          statusLoadedFallback: "読み込み（互換）：{0}",
+          statusParseFailed: "解析失敗：{0}",
+          statusSaved: "保存：{0}",
+          statusExported: "questions.json をエクスポートしました（手動で置換してください）"
         }
       };
 
@@ -437,9 +440,32 @@
         return text;
       }
 
+      function applyUi() {
+        document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+        document.getElementById("uiTitleH1").textContent = t("titleH1");
+        document.getElementById("uiSub").innerHTML = t("sub");
+        document.getElementById("uiStep1").textContent = t("step1");
+        document.getElementById("uiJsonLabel").textContent = t("jsonLabel");
+        document.getElementById("reload").textContent = t("btnReload");
+        document.getElementById("pickQuestionsJson").textContent = t("btnPickJson");
+        document.getElementById("pickQuestionsJsonFallback").textContent = t("btnPickJsonFallback");
+        document.getElementById("uiAutoHint").innerHTML = t("autoHint");
+        document.getElementById("uiAnsweredByLabel").textContent = t("answeredByLabel");
+        document.getElementById("answeredBy").placeholder = t("answeredByPlaceholder");
+        document.getElementById("uiAnsweredAtLabel").textContent = t("answeredAtLabel");
+        document.getElementById("saveQuestionsJson").textContent = t("btnSaveJson");
+        document.getElementById("downloadQuestionsJson").textContent = t("btnDownloadJson");
+        document.getElementById("downloadQuestionsMd").textContent = t("btnDownloadMd");
+        document.getElementById("uiTip").innerHTML = t("tip");
+        document.getElementById("uiStep2").textContent = t("step2");
+        document.getElementById("uiMcqHint").innerHTML = t("mcqHint");
+        document.getElementById("uiSaveRuleHint").textContent = t("saveRuleHint");
+        document.getElementById("uiListTitle").textContent = t("listTitle");
+      }
+
       const state = {
-        original: { handle: null, name: null, text: null, items: [] },
-        questions: { handle: null, name: null, text: null, items: [], lang: null, format: null },
+        questionsJson: { handle: null, name: null, text: null, items: [], lang: null },
+        questions: { items: [], lang: null },
       };
 
       function setPill(el, kind, text) {
@@ -536,6 +562,119 @@
         return { items, lang };
       }
 
+      function normalizeLang(lang) {
+        if (!lang) return "en";
+        if (lang === "zh") return "zh-CN";
+        if (lang === "zh-CN" || lang === "en" || lang === "ja") return lang;
+        return "en";
+      }
+
+      function statusAnsweredValue(lang) {
+        return lang === "en" ? "Answered" : lang === "ja" ? "回答済み" : "已回答";
+      }
+
+      function statusUnansweredValue(lang) {
+        return lang === "en" ? "Unanswered" : "未回答";
+      }
+
+      function parseQuestionsJson(text) {
+        const data = JSON.parse(text);
+        const meta = data && typeof data === "object" ? (data.meta || {}) : {};
+        const lang = normalizeLang(meta.language || meta.lang || meta.locale);
+        const items = Array.isArray(data.items) ? data.items : [];
+        const keyset = lang === "en"
+          ? { context: "Context", question: "Question", answer: "Answer", answeredBy: "Answered By", answeredAt: "Answered At", status: "Status", asker: "Asker", askedAt: "Asked At" }
+          : lang === "ja"
+            ? { context: "背景", question: "質問", answer: "回答", answeredBy: "回答者", answeredAt: "回答日時", status: "状態", asker: "質問者", askedAt: "質問日時" }
+            : { context: "背景", question: "提问", answer: "回答", answeredBy: "回答者", answeredAt: "回答时间", status: "状态", asker: "提问者", askedAt: "提问时间" };
+
+        const parsed = [];
+        for (const it of items) {
+          const id = Number(it.id);
+          if (!Number.isFinite(id)) continue;
+          const question = (it.question || "").toString();
+          const answer = (it.answer || "").toString();
+          parsed.push({
+            id,
+            lang: lang === "zh-CN" ? "zh" : lang,
+            keys: keyset,
+            context: (it.context || "").toString(),
+            question,
+            answer,
+            status: (it.status || "").toString(),
+            askedAt: (it.asked_at || "").toString(),
+            asker: (it.asker || "").toString(),
+            answeredBy: (it.answered_by || "").toString(),
+            answeredAt: (it.answered_at || "").toString(),
+            options: detectOptions(question),
+            answerPick: "",
+            answerFree: answer || "",
+          });
+        }
+        return { meta, items: parsed, lang };
+      }
+
+      function buildQuestionsJsonObject(lang, items) {
+        const l = normalizeLang(lang);
+        const answeredBy = document.getElementById("answeredBy").value.trim();
+        const answeredAtInput = document.getElementById("answeredAt").value.trim();
+        const answeredAt = answeredAtInput ? answeredAtInput.replace("T", " ") : "";
+        const outItems = [];
+        const answeredVal = statusAnsweredValue(l);
+        const unansweredVal = statusUnansweredValue(l);
+        const sorted = [...items].sort((a, b) => Number(a.id) - Number(b.id));
+        for (const it of sorted) {
+          const answerText = (it.answerFree || "").trim();
+          outItems.push({
+            id: Number(it.id),
+            context: (it.context || "").toString(),
+            question: (it.question || "").toString(),
+            asker: (it.asker || "").toString() || "BA/System Analyst",
+            asked_at: (it.askedAt || "").toString(),
+            answer: answerText,
+            answered_by: answeredBy || (it.answeredBy || "").toString(),
+            answered_at: answeredAt || (it.answeredAt || "").toString(),
+            status: answerText ? answeredVal : (it.status || unansweredVal).toString() || unansweredVal,
+          });
+        }
+        return {
+          meta: {
+            language: l,
+            generated_at: new Date().toISOString(),
+            total: outItems.length,
+          },
+          items: outItems,
+        };
+      }
+
+      function buildQuestionsMdFromItems(lang, items) {
+        const l = normalizeLang(lang);
+        const headerKey = l === "en" ? "ID" : l === "ja" ? "番号" : "编号";
+        const labels = l === "en"
+          ? { context: "Context", question: "Question", asker: "Asker", askedAt: "Asked At", answer: "Answer", answeredBy: "Answered By", answeredAt: "Answered At", status: "Status", defaultAsker: "BA/System Analyst" }
+          : l === "ja"
+            ? { context: "背景", question: "質問", asker: "質問者", askedAt: "質問日時", answer: "回答", answeredBy: "回答者", answeredAt: "回答日時", status: "状態", defaultAsker: "BA/システム分析" }
+            : { context: "背景", question: "提问", asker: "提问者", askedAt: "提问时间", answer: "回答", answeredBy: "回答者", answeredAt: "回答时间", status: "状态", defaultAsker: "BA/系统分析" };
+
+        const sorted = [...items].sort((a, b) => Number(a.id) - Number(b.id));
+        const lines = [];
+        for (let idx = 0; idx < sorted.length; idx++) {
+          const it = sorted[idx];
+          const id = Number(it.id);
+          lines.push(`${idx + 1}. ${headerKey}: ${id}`);
+          lines.push(`   - ${labels.context}：${(it.context || "").toString()}`);
+          lines.push(`   - ${labels.question}：${(it.question || "").toString()}`);
+          lines.push(`   - ${labels.asker}：${(it.asker || "").toString() || labels.defaultAsker}`);
+          lines.push(`   - ${labels.askedAt}：${(it.askedAt || "").toString()}`);
+          lines.push(`   - ${labels.answer}：${(it.answerFree || it.answer || "").toString()}`);
+          lines.push(`   - ${labels.answeredBy}：${(it.answeredBy || "").toString()}`);
+          lines.push(`   - ${labels.answeredAt}：${(it.answeredAt || "").toString()}`);
+          lines.push(`   - ${labels.status}：${(it.status || statusUnansweredValue(l)).toString()}`);
+          lines.push("");
+        }
+        return lines.join("\n").trimEnd() + "\n";
+      }
+
       function parseOriginalOpenQuestions(md) {
         const lines = md.split(/\r?\n/);
         const topRe = /^#\s*(待确认问题|Open Questions|要確認事項)\s*$/;
@@ -613,6 +752,82 @@
         return { items, found: true, start, end };
       }
 
+      function parseOpenQuestionsJson(text) {
+        const data = JSON.parse(text);
+        const meta = data && typeof data === "object" ? (data.meta || {}) : {};
+        const lang = normalizeLang(meta.language || meta.lang || meta.locale);
+        const items = Array.isArray(data.items) ? data.items : [];
+        const parsed = [];
+        for (const it of items) {
+          const group = (it.group || "").toString();
+          const qText = (it.question || "").toString();
+          if (!qText) continue;
+          parsed.push({
+            group,
+            qText,
+            options: Array.isArray(it.options) ? it.options.map((x) => (x || "").toString()).filter(Boolean) : [],
+            answer: (it.answer || "").toString(),
+            answerPick: "",
+            answerFree: (it.answer || "").toString(),
+          });
+        }
+        return { meta, items: parsed, lang };
+      }
+
+      function buildOpenQuestionsJsonObject(lang, items) {
+        const l = normalizeLang(lang);
+        const outItems = [];
+        const sorted = [...items];
+        for (let i = 0; i < sorted.length; i++) {
+          const it = sorted[i];
+          outItems.push({
+            id: i + 1,
+            group: (it.group || "").toString(),
+            question: (it.qText || "").toString(),
+            options: Array.isArray(it.options) ? it.options.map((x) => (x || "").toString()).filter(Boolean) : [],
+            answer: ((it.answerFree || it.answer || "").toString()).trim(),
+          });
+        }
+        return {
+          meta: {
+            language: l,
+            generated_at: new Date().toISOString(),
+            total: outItems.length,
+          },
+          items: outItems,
+        };
+      }
+
+      function buildOpenQuestionsMdText(lang, items) {
+        const l = normalizeLang(lang);
+        const title = l === "en" ? "# Open Questions" : l === "ja" ? "# 要確認事項" : "# 待确认问题";
+        const optKey = l === "en" ? "Options" : l === "ja" ? "選択肢" : "选项";
+        const ansKey = l === "en" ? "Answer" : "回答";
+        const groupOrder = [];
+        const byGroup = new Map();
+        for (const it of items) {
+          const g = (it.group || "").toString() || (l === "en" ? "Background" : "背景");
+          if (!byGroup.has(g)) {
+            byGroup.set(g, []);
+            groupOrder.push(g);
+          }
+          byGroup.get(g).push(it);
+        }
+        const lines = [title, ""];
+        for (const g of groupOrder) {
+          lines.push(`## ${g}`);
+          for (const it of byGroup.get(g) || []) {
+            lines.push(`- ${(it.qText || "").toString()}`);
+            if (it.options && it.options.length) {
+              lines.push(`  - ${optKey}：${it.options.join("；")}`);
+            }
+            lines.push(`  - ${ansKey}：${((it.answerFree || it.answer || "").toString()).trim()}`);
+          }
+          lines.push("");
+        }
+        return lines.join("\n").trimEnd() + "\n";
+      }
+
       function renderQuestions() {
         const answeredBy = document.getElementById("answeredBy").value.trim();
         const list = document.getElementById("questionsList");
@@ -627,7 +842,7 @@
           left.innerHTML = `<div class="qid">#${it.id}</div><div class="qctx">${escapeHtml(it.context || "")}</div>`;
           const right = document.createElement("div");
           right.className = "pill";
-          right.textContent = it.answerFree && it.answerFree.trim() ? "已填写" : "未填写";
+          right.textContent = it.answerFree && it.answerFree.trim() ? t("filled") : t("empty");
           head.appendChild(left);
           head.appendChild(right);
 
@@ -661,16 +876,16 @@
           } else {
             const k = document.createElement("div");
             k.className = "k";
-            k.textContent = "未解析到选项：使用自由文本回答";
+            k.textContent = t("noOptions");
             opt.appendChild(k);
           }
 
           const answerBox = document.createElement("div");
           const aLabel = document.createElement("label");
-          aLabel.textContent = "回答（可编辑）";
+          aLabel.textContent = t("answerEditable");
           const ta = document.createElement("textarea");
           ta.value = it.answerFree || "";
-          ta.placeholder = it.options && it.options.length ? "可直接选上方选项，或在此补充“原因/备注/补充口径”" : "请输入回答";
+          ta.placeholder = it.options && it.options.length ? t("answerPlaceholderWithOptions") : t("answerPlaceholder");
           ta.addEventListener("input", (e) => {
             it.answerFree = e.target.value;
             renderQuestions();
@@ -680,7 +895,7 @@
 
           const meta = document.createElement("div");
           meta.className = "k";
-          meta.textContent = answeredBy ? `回答者：${answeredBy}` : "回答者未填写（保存时会留空）";
+          meta.textContent = answeredBy ? t("answeredByMeta", [answeredBy]) : t("answeredByEmpty");
 
           el.appendChild(head);
           el.appendChild(title);
@@ -773,118 +988,51 @@
       }
 
       function updateStats() {
-        const o = document.getElementById("statsOriginal");
-        if (!state.original.text) {
-          setPill(o, null, "original.md：未加载");
-        } else if (!state.original.items.length) {
-          setPill(o, "warn", "original.md：未解析到待确认问题");
-        } else {
-          const answered = state.original.items.filter((x) => (x.answerFree || "").trim()).length;
-          setPill(o, answered === state.original.items.length ? "ok" : "warn", `original.md：${answered}/${state.original.items.length} 已填写`);
-        }
-
         const q = document.getElementById("statsQuestions");
-        if (!state.questions.text) {
-          setPill(q, null, "questions.md：未加载");
+        if (!state.questionsJson.text) {
+          setPill(q, null, t("statsNotLoaded"));
         } else if (!state.questions.items.length) {
-          setPill(q, "warn", "questions.md：未解析到条目");
+          setPill(q, "warn", t("statsEmpty"));
         } else {
           const answered = state.questions.items.filter((x) => (x.answerFree || "").trim()).length;
-          setPill(q, answered === state.questions.items.length ? "ok" : "warn", `questions.md：${answered}/${state.questions.items.length} 已填写`);
+          setPill(q, answered === state.questions.items.length ? "ok" : "warn", t("statsFilled", [answered, state.questions.items.length]));
         }
       }
 
       function rebuild() {
-        if (state.original.text != null) {
-          const parsed = parseOriginalOpenQuestions(state.original.text);
-          state.original.items = parsed.items;
+        if (!state.questionsJson.text) {
+          state.questions.items = [];
+          renderQuestions();
+          updateStats();
+          document.getElementById("saveQuestionsJson").disabled = true;
+          document.getElementById("downloadQuestionsJson").disabled = true;
+          document.getElementById("downloadQuestionsMd").disabled = true;
+          return;
         }
-        if (state.questions.text != null) {
-          const parsed = parseQuestionsMd(state.questions.text);
+        try {
+          const parsed = parseQuestionsJson(state.questionsJson.text);
+          state.questionsJson.items = parsed.items;
+          state.questionsJson.lang = parsed.lang;
           state.questions.items = parsed.items;
           state.questions.lang = parsed.lang;
+          currentLang = parsed.lang || currentLang;
+          document.getElementById("globalLangSelect").value = currentLang;
+          applyUi();
+          setStatus("questionsJson", t("statusLoaded", [state.questionsJson.name || "questions.json"]), "ok");
+          renderQuestions();
+          updateStats();
+          document.getElementById("saveQuestionsJson").disabled = false;
+          document.getElementById("downloadQuestionsJson").disabled = false;
+          document.getElementById("downloadQuestionsMd").disabled = false;
+        } catch (e) {
+          state.questions.items = [];
+          renderQuestions();
+          updateStats();
+          setStatus("questionsJson", t("statusParseFailed", [e.message || e]), "bad");
+          document.getElementById("saveQuestionsJson").disabled = true;
+          document.getElementById("downloadQuestionsJson").disabled = true;
+          document.getElementById("downloadQuestionsMd").disabled = true;
         }
-        renderOriginal();
-        renderQuestions();
-        updateStats();
-        document.getElementById("saveOriginal").disabled = !state.original.text;
-        document.getElementById("saveQuestions").disabled = !state.questions.text;
-        document.getElementById("downloadOriginal").disabled = !state.original.text;
-        document.getElementById("downloadQuestions").disabled = !state.questions.text;
-        document.getElementById("reload").disabled = !(state.original.text || state.questions.text);
-      }
-
-      function applyQuestionsEdits(md) {
-        const lines = md.split(/\r?\n/);
-        const parsed = parseQuestionsMd(md);
-        const items = parsed.items;
-        const lang = parsed.lang;
-        const answeredBy = document.getElementById("answeredBy").value.trim();
-        const answeredAtInput = document.getElementById("answeredAt").value.trim();
-        const answeredAt = answeredAtInput ? answeredAtInput.replace("T", " ") : "";
-        const statusAnswered = lang === "en" ? "Answered" : lang === "ja" ? "回答済み" : "已回答";
-
-        const keyset = items.length ? items[0].keys : null;
-        if (!keyset) return md;
-
-        for (const it of state.questions.items) {
-          const target = items.find((x) => x.id === it.id);
-          if (!target) continue;
-          const answerText = (it.answerFree || "").trim();
-          if (!answerText) continue;
-          const start = target.startLine;
-          const end = target.endLine;
-          for (let i = start; i <= end; i++) {
-            const line = lines[i];
-            const fm = line.match(/^\s*-\s*([^:：]+)[:：]\s*(.*)\s*$/);
-            if (!fm) continue;
-            const key = fm[1].trim();
-            if (key === keyset.answer) lines[i] = `   - ${keyset.answer}：${answerText}`;
-            if (key === keyset.answeredBy && answeredBy) lines[i] = `   - ${keyset.answeredBy}：${answeredBy}`;
-            if (key === keyset.answeredAt && answeredAt) lines[i] = `   - ${keyset.answeredAt}：${answeredAt}`;
-            if (key === keyset.status) lines[i] = `   - ${keyset.status}：${statusAnswered}`;
-          }
-        }
-        return lines.join("\n");
-      }
-
-      function applyOriginalEdits(md) {
-        const lines = md.split(/\r?\n/);
-        const parsed = parseOriginalOpenQuestions(md);
-        if (!parsed.found) return md;
-        const start = parsed.start;
-        const end = parsed.end;
-        const slice = lines.slice(start, end);
-        const items = parseOriginalOpenQuestions(md).items;
-        let cursor = 0;
-        for (let i = 0; i < slice.length && cursor < state.original.items.length; i++) {
-          const line = slice[i];
-          const qm = line.match(/^\s*-\s+(.*)\s*$/);
-          if (!qm) continue;
-          const qText = qm[1].trim();
-          if (!qText) continue;
-          if (qText.startsWith("Answer:") || qText.startsWith("回答：") || qText.startsWith("回答:")) continue;
-          const uiItem = state.original.items[cursor];
-          cursor++;
-          const answerText = (uiItem.answerFree || "").trim();
-          if (!answerText) continue;
-          let inserted = false;
-          for (let j = i + 1; j < slice.length; j++) {
-            if (/^##\s+/.test(slice[j]) || /^#\s+/.test(slice[j]) || /^\s*-\s+/.test(slice[j])) break;
-            const ans = slice[j].match(/^\s{2,}-\s*(Answer|回答)\s*[:：].*$/i);
-            if (ans) {
-              slice[j] = `  - 回答：${answerText}`;
-              inserted = true;
-              break;
-            }
-          }
-          if (!inserted) {
-            slice.splice(i + 1, 0, `  - 回答：${answerText}`);
-            i++;
-          }
-        }
-        const out = [...lines.slice(0, start), ...slice, ...lines.slice(end)].join("\n");
-        return out;
       }
 
       async function writeToHandle(handle, text) {
@@ -895,6 +1043,19 @@
 
       function downloadText(filename, text) {
         const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function downloadJson(filename, obj) {
+        const text = JSON.stringify(obj, null, 2);
+        const blob = new Blob([text], { type: "application/json;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -919,6 +1080,20 @@
         state[kind].text = text;
       }
 
+      async function pickJson(kind) {
+        const supports = "showOpenFilePicker" in window;
+        if (!supports) throw new Error("浏览器不支持文件写入 API，请使用兼容模式");
+        const [handle] = await window.showOpenFilePicker({
+          multiple: false,
+          types: [{ description: "JSON", accept: { "application/json": [".json"] } }],
+        });
+        const file = await handle.getFile();
+        const text = await file.text();
+        state[kind].handle = handle;
+        state[kind].name = file.name;
+        state[kind].text = text;
+      }
+
       async function pickFileFallback(kind, file) {
         const text = await file.text();
         state[kind].handle = null;
@@ -927,7 +1102,7 @@
       }
 
       function setStatus(kind, msg, level) {
-        const el = document.getElementById(kind === "original" ? "originalStatus" : "questionsStatus");
+        const el = document.getElementById("questionsJsonStatus");
         el.textContent = msg;
         el.className = "hint";
         if (level === "ok") el.style.color = "rgba(34, 197, 94, 0.95)";
@@ -937,88 +1112,99 @@
 
       document.getElementById("answeredAt").value = nowLocalInputValue();
 
-      document.getElementById("pickOriginal").addEventListener("click", async () => {
+      {
+        const nav = (navigator.language || "en").toLowerCase();
+        if (nav.startsWith("zh")) currentLang = "zh-CN";
+        else if (nav.startsWith("ja")) currentLang = "ja";
+        else currentLang = "en";
+        document.getElementById("globalLangSelect").value = currentLang;
+        applyUi();
+      }
+
+      document.getElementById("globalLangSelect").addEventListener("change", (e) => {
+        currentLang = normalizeLang(e.target.value);
+        applyUi();
+        renderQuestions();
+        updateStats();
+      });
+
+      async function autoLoadQuestionsJson() {
         try {
-          await pickFile("original");
-          setStatus("original", `已加载：${state.original.name}`, "ok");
+          const res = await fetch("./questions.json");
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const text = await res.text();
+          state.questionsJson.handle = null;
+          state.questionsJson.name = "questions.json";
+          state.questionsJson.text = text;
+          setStatus("questionsJson", t("statusAutoLoaded"), "ok");
           rebuild();
         } catch (e) {
-          setStatus("original", `加载失败：${e.message || e}`, "bad");
+          setStatus("questionsJson", t("statusAutoLoadFailed", [e.message || e]), "warn");
+          document.getElementById("saveQuestionsJson").disabled = true;
+          document.getElementById("downloadQuestionsJson").disabled = true;
+          document.getElementById("downloadQuestionsMd").disabled = true;
+        } finally {
+          document.getElementById("reload").disabled = false;
         }
-      });
-      document.getElementById("pickQuestions").addEventListener("click", async () => {
+      }
+
+      document.getElementById("pickQuestionsJson").addEventListener("click", async () => {
         try {
-          await pickFile("questions");
-          setStatus("questions", `已加载：${state.questions.name}`, "ok");
+          await pickJson("questionsJson");
+          setStatus("questionsJson", t("statusLoaded", [state.questionsJson.name]), "ok");
           rebuild();
         } catch (e) {
-          setStatus("questions", `加载失败：${e.message || e}`, "bad");
+          setStatus("questionsJson", t("statusAutoLoadFailed", [e.message || e]), "bad");
         }
       });
 
-      document.getElementById("pickOriginalFallback").addEventListener("click", () => {
-        document.getElementById("fallbackOriginal").click();
+      document.getElementById("pickQuestionsJsonFallback").addEventListener("click", () => {
+        document.getElementById("fallbackQuestionsJson").click();
       });
-      document.getElementById("pickQuestionsFallback").addEventListener("click", () => {
-        document.getElementById("fallbackQuestions").click();
-      });
-      document.getElementById("fallbackOriginal").addEventListener("change", async (e) => {
+
+      document.getElementById("fallbackQuestionsJson").addEventListener("change", async (e) => {
         const file = e.target.files && e.target.files[0];
         if (!file) return;
-        await pickFileFallback("original", file);
-        setStatus("original", `已加载（兼容模式）：${state.original.name}`, "warn");
-        rebuild();
-      });
-      document.getElementById("fallbackQuestions").addEventListener("change", async (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        await pickFileFallback("questions", file);
-        setStatus("questions", `已加载（兼容模式）：${state.questions.name}`, "warn");
+        await pickFileFallback("questionsJson", file);
+        setStatus("questionsJson", t("statusLoadedFallback", [state.questionsJson.name]), "warn");
         rebuild();
       });
 
-      document.getElementById("reload").addEventListener("click", () => rebuild());
+      document.getElementById("reload").addEventListener("click", () => autoLoadQuestionsJson());
 
-      document.getElementById("saveQuestions").addEventListener("click", async () => {
+      document.getElementById("saveQuestionsJson").addEventListener("click", async () => {
         try {
-          const out = applyQuestionsEdits(state.questions.text || "");
-          state.questions.text = out;
-          if (state.questions.handle) {
-            await writeToHandle(state.questions.handle, out);
-            setStatus("questions", `已写回：${state.questions.name}`, "ok");
+          const lang = state.questions.lang || state.questionsJson.lang || currentLang;
+          const obj = buildQuestionsJsonObject(lang, state.questions.items);
+          const text = JSON.stringify(obj, null, 2);
+          state.questionsJson.text = text;
+          if (state.questionsJson.handle) {
+            await writeToHandle(state.questionsJson.handle, text);
+            setStatus("questionsJson", t("statusSaved", [state.questionsJson.name]), "ok");
           } else {
-            setStatus("questions", "当前为兼容模式：请点击“下载 questions.md”后手动替换文件", "warn");
+            downloadJson(state.questionsJson.name || "questions.json", obj);
+            setStatus("questionsJson", t("statusExported"), "warn");
           }
           rebuild();
         } catch (e) {
-          setStatus("questions", `写回失败：${e.message || e}`, "bad");
+          setStatus("questionsJson", t("statusParseFailed", [e.message || e]), "bad");
         }
       });
-      document.getElementById("saveOriginal").addEventListener("click", async () => {
-        try {
-          const out = applyOriginalEdits(state.original.text || "");
-          state.original.text = out;
-          if (state.original.handle) {
-            await writeToHandle(state.original.handle, out);
-            setStatus("original", `已写回：${state.original.name}`, "ok");
-          } else {
-            setStatus("original", "当前为兼容模式：请点击“下载 original.md”后手动替换文件", "warn");
-          }
-          rebuild();
-        } catch (e) {
-          setStatus("original", `写回失败：${e.message || e}`, "bad");
-        }
+
+      document.getElementById("downloadQuestionsJson").addEventListener("click", () => {
+        const lang = state.questions.lang || state.questionsJson.lang || currentLang;
+        const obj = buildQuestionsJsonObject(lang, state.questions.items);
+        downloadJson(state.questionsJson.name || "questions.json", obj);
       });
-      document.getElementById("downloadQuestions").addEventListener("click", () => {
-        const out = applyQuestionsEdits(state.questions.text || "");
-        const name = state.questions.name || "questions.md";
-        downloadText(name, out);
+
+      document.getElementById("downloadQuestionsMd").addEventListener("click", () => {
+        const lang = state.questions.lang || state.questionsJson.lang || currentLang;
+        const out = buildQuestionsMdFromItems(lang, state.questions.items);
+        downloadText("questions.md", out);
       });
-      document.getElementById("downloadOriginal").addEventListener("click", () => {
-        const out = applyOriginalEdits(state.original.text || "");
-        const name = state.original.name || "original.md";
-        downloadText(name, out);
-      });
+
+      document.getElementById("reload").disabled = true;
+      setTimeout(autoLoadQuestionsJson, 100);
     </script>
   </body>
 </html>
