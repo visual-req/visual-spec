@@ -1,17 +1,22 @@
-## 决策矩阵（Decision Matrix）
+## Decision Matrix
 
-用于表达“在多个可选动作/策略之间如何选择”，强调可解释性：为什么选 A 而不是 B。
+Used to express "how to choose among multiple optional actions/strategies", emphasizing explainability: why choose A instead of B.
 
-适用场景：
-- 路由策略（走自动化还是人工、走哪个通道/供应商）
-- 资源分配（库存分配、额度分配、队列优先级）
-- 降级与容错（失败后切换策略、重试/回退）
+Applicable Scenarios:
+- Routing strategies (automated vs. manual, which channel/vendor to use)
+- Resource allocation (inventory allocation, quota allocation, queue priority)
+- Degradation and fault tolerance (switching strategies after failure, retry/fallback)
 
-建议结构：
-- 决策对象：要选的策略/动作列表（候选项）
-- 决策条件：触发条件、约束条件、权重/优先级
-- 决策输出：最终选择、原因、可追踪的证据（字段/指标/阈值）
+Matrix Definition (Orthogonal Matrix):
+- Horizontal axis: State, marked with letter coordinates: A / B / C ...
+- Vertical axis: Action, marked with number coordinates: 1 / 2 / 3 ...
+- Cells: The decision result and rule entry point when "State=Column" and "Action=Row"
 
-落地建议：
-- 明确默认策略与不可用时的替代策略
-- 把“决策过程”映射到可记录/可审计的日志字段
+Decision Matrix Example (SVG):
+
+![Decision Matrix Example](../../assets/en-US/tools/decision-matrix-example.svg)
+
+Coordinate-driven Rule Description (Use coordinates to reference logic instead of repeating texts):
+- A1: State=Draft, Action=Submit → Allow; Rule entry: `draft_can_submit` (RBAC + field validation + idempotency check)
+- B2: State=Pending, Action=Approve → Allow; Rule entry: `rbac & quota` (permission point + quota/limit + approval chain)
+- C3: State=Approved, Action=Cancel → Deny; Reason: Cannot cancel after approval (unified error code and prompt)

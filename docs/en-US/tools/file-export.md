@@ -1,18 +1,18 @@
-## 文件导出（File Export）
+## File Export
 
-用于定义“系统以文件输出”的数据流：导出范围、权限、格式、性能与审计。
+Used to define the data flow of "system outputting as a file": export scope, permissions, format, performance, and auditing.
 
-适用场景：
-- 报表导出、对账导出、批量数据交付第三方
-- 数据留存与归档、审计取证
+Applicable Scenarios:
+- Report export, reconciliation export, bulk data delivery to third parties
+- Data retention and archiving, audit evidence collection
 
-建议包含的信息：
-- 导出范围：筛选条件、字段集、排序规则
-- 权限与脱敏：哪些角色可导出、敏感字段处理
-- 文件格式：CSV/XLSX/JSON，编码、日期/金额格式
-- 性能：分页/异步任务、下载链接有效期、并发限制
-- 审计：导出人、导出时间、条件、文件校验值
+Suggested Information to Include:
+- Export Scope: filter conditions, field set, sorting rules
+- Permissions and Desensitization: which roles can export, handling of sensitive fields
+- File Format: CSV/XLSX/JSON, encoding, date/amount formats
+- Performance: pagination/async tasks, download link validity, concurrency limits
+- Audit: exporter, export time, conditions, file checksum
 
-落地建议：
-- 统一导出任务状态机与错误回执
-- 明确大数据量策略（分片、压缩、分卷、断点续传）
+Implementation Suggestions:
+- Unify export task state machine and error receipts
+- Clarify strategies for large data volumes (sharding, compression, volume splitting, resumable downloads)

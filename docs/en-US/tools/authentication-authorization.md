@@ -1,17 +1,17 @@
-## 鉴权与授权（Authentication & Authorization）
+## Authentication & Authorization
 
-用于把“你是谁（Authentication）”与“你能做什么（Authorization）”拆开表达，并落到可实现/可审计/可测试的规则与接口契约中。
+Used to separate "who you are (Authentication)" and "what you can do (Authorization)", translating them into implementable, auditable, and testable rules and API contracts.
 
-适用场景：
-- 任何需要登录、角色权限（RBAC）、数据权限、审计追责的系统
-- 需要多端接入（Web/App/第三方）或对外开放 API 的系统
+Applicable Scenarios:
+- Any system requiring login, role permissions (RBAC), data permissions, and audit accountability
+- Systems requiring multi-client access (Web/App/Third-party) or exposing open APIs
 
-建议结构：
-- 身份认证（AuthN）：账号体系、登录方式、会话（cookie/token）、过期与刷新、登出
-- 授权（AuthZ）：RBAC 权限点、数据权限范围、条件权限（状态/字段/时间窗）
-- 凭证与安全：密钥轮换、token 绑定设备/客户端、重放攻击防护
-- 审计：登录/关键操作留痕（who/when/where/what/result）
+Suggested Structure:
+- Authentication (AuthN): account system, login methods, session (cookie/token), expiration and refresh, logout
+- Authorization (AuthZ): RBAC permission points, data permission scopes, conditional permissions (state/fields/time window)
+- Credentials and Security: key rotation, token binding to device/client, replay attack prevention
+- Audit: trace of logins/critical operations (who/when/where/what/result)
 
-落地建议：
-- 前端按钮控制与后端鉴权必须一致：以“权限点 + 数据范围”作为统一口径。
-- 把鉴权失败分类：未登录（401）、无权限（403）、数据范围不命中（404/403，按策略），并在验收用例中覆盖。
+Implementation Suggestions:
+- Frontend button control and backend authorization must be consistent: use "permission point + data scope" as the unified standard.
+- Categorize authorization failures: not logged in (401), unauthorized (403), data scope miss (404/403, depending on strategy), and cover these in acceptance test cases.

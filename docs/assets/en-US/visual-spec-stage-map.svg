@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="2700" height="600" viewBox="0 0 2700 600">
+<svg xmlns="http://www.w3.org/2000/svg" width="2980" height="600" viewBox="0 0 2980 600">
   <defs>
     <style>
       .bg { fill: #ffffff; }
@@ -19,7 +19,7 @@
     </marker>
   </defs>
 
-  <rect class="bg" x="0" y="0" width="2700" height="600"/>
+  <rect class="bg" x="0" y="0" width="2980" height="600"/>
 
   <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 96 260 L 160 260"/>
   <rect x="22" y="218" width="90" height="84" fill="none" stroke="rgba(15, 23, 42, 0.55)" stroke-width="2" rx="10"/>
@@ -34,6 +34,7 @@
   <line class="sep" x1="1880" y1="22" x2="1880" y2="578"/>
   <line class="sep" x1="2160" y1="22" x2="2160" y2="578"/>
   <line class="sep" x1="2440" y1="22" x2="2440" y2="578"/>
+  <line class="sep" x1="2720" y1="22" x2="2720" y2="578"/>
 
   <text class="title" x="345" y="52" text-anchor="middle">Initial Analysis</text>
   <text class="title" x="670" y="52" text-anchor="middle">Confirm &amp; Validate</text>
@@ -42,7 +43,8 @@
   <text class="title" x="1740" y="52" text-anchor="middle">Clarify</text>
   <text class="title" x="2020" y="52" text-anchor="middle">Plan</text>
   <text class="title" x="2300" y="52" text-anchor="middle">Develop</text>
-  <text class="title" x="2570" y="52" text-anchor="middle">Accept</text>
+  <text class="title" x="2580" y="52" text-anchor="middle">Integrate</text>
+  <text class="title" x="2850" y="52" text-anchor="middle">Accept</text>
 
   <g>
     <rect class="boxBlue" x="215" y="92" width="120" height="40"/>
@@ -212,18 +214,47 @@
     <text class="boxTextBlue" x="2235" y="166" text-anchor="middle">Change Ctrl</text>
     <rect class="boxYellow" x="2310" y="142" width="110" height="40"/>
     <text class="boxTextYellow" x="2365" y="166" text-anchor="middle">PRD Update</text>
-    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2300 192 L 2300 510"/>
+
+    <rect class="boxBlue" x="2180" y="192" width="110" height="40"/>
+    <text class="boxTextBlue" x="2235" y="216" text-anchor="middle">VibeCoding</text>
+    <rect class="boxYellow" x="2310" y="192" width="110" height="40"/>
+    <text class="boxTextYellow" x="2365" y="216" text-anchor="middle">Code</text>
+
+    <rect class="boxBlue" x="2180" y="242" width="110" height="40"/>
+    <text class="boxTextBlue" x="2235" y="266" text-anchor="middle">Unit Tests</text>
+    <rect class="boxYellow" x="2310" y="242" width="110" height="40"/>
+    <text class="boxTextYellow" x="2365" y="266" text-anchor="middle">Automation</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2300 292 L 2300 510"/>
     <rect class="outBox" x="2180" y="518" width="240" height="38"/>
-    <text class="outText" x="2300" y="543" text-anchor="middle">PRD Update</text>
+    <text class="outText" x="2300" y="543" text-anchor="middle">Implementation</text>
   </g>
 
   <g>
     <rect class="boxBlue" x="2460" y="92" width="110" height="40"/>
-    <text class="boxTextBlue" x="2515" y="116" text-anchor="middle">Acceptance</text>
+    <text class="boxTextBlue" x="2515" y="116" text-anchor="middle">Unit Tests</text>
     <rect class="boxYellow" x="2590" y="92" width="110" height="40"/>
-    <text class="boxTextYellow" x="2645" y="116" text-anchor="middle">Test Cases</text>
-    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2570 142 L 2570 510"/>
-    <rect class="outBox" x="2460" y="518" width="220" height="38"/>
-    <text class="outText" x="2570" y="543" text-anchor="middle">Test Cases</text>
+    <text class="boxTextYellow" x="2645" y="114" text-anchor="middle">unit_test</text>
+    <text class="boxTextYellow" x="2645" y="130" text-anchor="middle">_cases.json</text>
+
+    <rect class="boxBlue" x="2460" y="142" width="110" height="40"/>
+    <text class="boxTextBlue" x="2515" y="166" text-anchor="middle">Integration</text>
+    <rect class="boxYellow" x="2590" y="142" width="110" height="40"/>
+    <text class="boxTextYellow" x="2645" y="164" text-anchor="middle">integration</text>
+    <text class="boxTextYellow" x="2645" y="180" text-anchor="middle">_cases.json</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2580 202 L 2580 510"/>
+    <rect class="outBox" x="2460" y="518" width="240" height="38"/>
+    <text class="outText" x="2580" y="543" text-anchor="middle">Integrated</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="2740" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="2795" y="116" text-anchor="middle">Acceptance</text>
+    <rect class="boxYellow" x="2870" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="2925" y="116" text-anchor="middle">Test Cases</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2850 142 L 2850 510"/>
+    <rect class="outBox" x="2740" y="518" width="220" height="38"/>
+    <text class="outText" x="2850" y="543" text-anchor="middle">Test Cases</text>
   </g>
 </svg>

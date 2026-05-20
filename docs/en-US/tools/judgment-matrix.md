@@ -1,16 +1,30 @@
-## 判定矩阵（Judgment Matrix）
+## Judgment Matrix
 
-用于把“条件组合 → 判定结果”显式化，避免隐含规则散落在文字中，便于评审与测试覆盖。
+Used to make "condition combinations → judgment results" explicit, preventing implicit rules from being scattered in texts, facilitating review and test coverage.
 
-适用场景：
-- 资格/准入判定（是否可申请、是否可执行）
-- 风控/合规判定（是否拦截、是否转人工、是否需要补充材料）
-- 计费/优惠/结算规则（费率选择、封顶、阶梯）
+Applicable Scenarios:
+- Qualification/admission judgments (whether it can be applied/executed)
+- Risk/compliance judgments (whether to block/transfer to manual/require supplementary materials)
+- Billing/discount/settlement rules (rate selection, caps, tiers)
 
-建议结构：
-- 条件列：关键输入、阈值、枚举值、来源（字段/外部系统）
-- 结果列：判定结果（通过/拒绝/转人工/提示补充）、返回码/提示文案
-- 备注列：边界条件、冲突优先级、默认值与兜底策略
+Mathematical Principle (Permutations and Combinations / Cartesian Product):
+- A judgment matrix essentially enumerates the Cartesian product of "condition dimensions": `C = D1 × D2 × ... × Dk`
+- Each dimension `Di` is a set of values for a key condition (enums/interval buckets/threshold segments/booleans)
+- Total combinations: `|C| = Π |Di|` (combinations grow multiplicatively with more dimensions and values)
+- Matrix purpose: maps each combination to a unique result `f(c) -> outcome`, making each outcome traceable to coordinates (combinations)
 
-测试映射：
-- 每一行/每一类组合都应对应至少 1 条验收用例
+Value of Expression (why use a matrix):
+- Visible coverage: which combinations are undefined and which use default fallbacks are clear at a glance
+- Controllable conflicts: the same combination can only have one result; conflicts/priorities must be explicit
+- Generatable test cases: each coordinate is an executable test input (can be sampled by risk or fully covered)
+
+2D Orthogonal Matrix Format (SVG Example):
+
+![Judgment Matrix 2D Example](../../assets/en-US/tools/judgment-matrix-2d-example.svg)
+
+Multi-dimensional Judgment Matrix Structure (SVG Example: 3rd dimension uses "slices"):
+
+![Judgment Matrix Multi-dimensional Example](../../assets/en-US/tools/judgment-matrix-3d-slices-example.svg)
+
+Test Mapping:
+- Each row/category of combinations should correspond to at least 1 acceptance test case

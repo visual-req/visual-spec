@@ -12,6 +12,6 @@
 - 并发与去重：雪花/数据库序列/分布式号段
 - 可读性与敏感信息：避免泄露用户隐私与业务机密
 
-落地建议：
-- 明确幂等键与重试策略（重复请求是否复用同一编号）
-- 明确跨系统对齐规则（外部编号与内部编号的映射）
+编号示例（SVG）：
+
+![Numbering Rules Example](../../assets/zh-CN/tools/numbering-rules-example.svg)

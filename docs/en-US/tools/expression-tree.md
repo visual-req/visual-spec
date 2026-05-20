@@ -1,17 +1,23 @@
-## 表达式树（Expression Tree）
+## Expression Tree
 
-用于表达“复杂条件/公式的可计算结构”，把长条件拆成可复用子表达式，便于实现与测试。
+Used to express the "computable structure of complex conditions/formulas", breaking long conditions into reusable sub-expressions for easier implementation and testing.
 
-适用场景：
-- 复杂准入/风控条件（AND/OR/NOT 组合很深）
-- 计费/评分/排序公式
-- 权限判定（角色 + 数据范围 + 状态）
+Applicable Scenarios:
+- Complex admission/risk conditions (deep AND/OR/NOT combinations)
+- Billing/scoring/ranking formulas
+- Permission judgments (role + data scope + state)
 
-建议结构：
-- 节点类型：运算符（AND/OR/比较/函数）与操作数（字段/常量）
-- 子表达式命名：可复用、可被日志记录
-- 计算顺序：短路规则与优先级
+Role of Expression Tree:
+- Make complex rules computable: break "long conditions/formulas" into a tree, recursively evaluating the tree structure during execution
+- Make rules explainable: each node has explicit semantics, useful for logs, audits, error prompts, and backtracking
+- Make rules reusable/testable: subtrees can be named and reused, with unit tests covering critical subtrees
 
-落地建议：
-- 每个叶子节点都能映射到字段来源与校验规则
-- 为关键子表达式提供单测/验收用例覆盖
+Role of Nodes (Minimal Set):
+- Operator Nodes: AND/OR/NOT, determining combinational logic and short-circuit strategies
+- Comparison Nodes: = / != / > / >= / IN / LIKE, etc., comparing "field values" with "constants/other fields"
+- Function Nodes: e.g., `contains` / `regex` / `abs` / `round` / `date_diff`, processing inputs into comparable values
+- Leaf Nodes: Fields and Constants, providing traceable data sources
+
+Expression Tree Example (SVG):
+
+![Expression Tree Example](../../assets/en-US/tools/expression-tree-example.svg)

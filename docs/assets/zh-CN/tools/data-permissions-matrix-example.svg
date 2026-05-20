@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="520" viewBox="0 0 1160 520" role="img" aria-label="数据权限矩阵示例">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .grid { stroke: #cbd5e1; stroke-width: 1; }
+      .head { fill: #f1f5f9; }
+      .text { fill: #0f172a; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .title { fill: #0f172a; font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .muted { fill: #334155; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .tag { fill: #e2e8f0; stroke: #cbd5e1; }
+      .tagText { fill: #0f172a; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1160" height="520"/>
+
+  <text class="title" x="40" y="48">数据权限矩阵</text>
+  <text class="muted" x="40" y="72">行=实体，列=角色；单元格定义读/写范围与过滤策略。</text>
+
+  <rect class="head" x="40" y="100" width="1080" height="64" rx="10"/>
+
+  <line class="grid" x1="40" y1="100" x2="40" y2="420"/>
+  <line class="grid" x1="220" y1="100" x2="220" y2="420"/>
+  <line class="grid" x1="380" y1="100" x2="380" y2="420"/>
+  <line class="grid" x1="540" y1="100" x2="540" y2="420"/>
+  <line class="grid" x1="700" y1="100" x2="700" y2="420"/>
+  <line class="grid" x1="1120" y1="100" x2="1120" y2="420"/>
+
+  <line class="grid" x1="40" y1="100" x2="1120" y2="100"/>
+  <line class="grid" x1="40" y1="164" x2="1120" y2="164"/>
+  <line class="grid" x1="40" y1="228" x2="1120" y2="228"/>
+  <line class="grid" x1="40" y1="292" x2="1120" y2="292"/>
+  <line class="grid" x1="40" y1="356" x2="1120" y2="356"/>
+  <line class="grid" x1="40" y1="420" x2="1120" y2="420"/>
+
+  <text class="title" x="60" y="138">实体</text>
+  <text class="title" x="240" y="138">管理员</text>
+  <text class="title" x="400" y="138">经理</text>
+  <text class="title" x="560" y="138">操作员</text>
+  <text class="title" x="720" y="138">单元格格式</text>
+
+  <text class="text" x="60" y="202">订单</text>
+  <text class="text" x="240" y="192">读：全量</text>
+  <text class="text" x="240" y="212">写：全量</text>
+  <text class="text" x="400" y="192">读：组织</text>
+  <text class="text" x="400" y="212">写：组织</text>
+  <text class="text" x="560" y="192">读：本人</text>
+  <text class="text" x="560" y="212">写：本人</text>
+  <text class="text" x="720" y="192">读范围：全量/组织/部门/本人/名单</text>
+  <text class="text" x="720" y="212">写范围可与读范围不同</text>
+
+  <text class="text" x="60" y="266">退款</text>
+  <text class="text" x="240" y="256">读：全量</text>
+  <text class="text" x="240" y="276">写：全量</text>
+  <text class="text" x="400" y="256">读：组织</text>
+  <text class="text" x="400" y="276">写：部门</text>
+  <text class="text" x="560" y="256">读：部门</text>
+  <text class="text" x="560" y="276">写：拒绝</text>
+  <text class="text" x="720" y="256">过滤：默认 WHERE + 可选附加过滤</text>
+  <text class="text" x="720" y="276">导出必须遵循读范围</text>
+
+  <text class="text" x="60" y="330">报表</text>
+  <text class="text" x="240" y="320">读：全量</text>
+  <text class="text" x="240" y="340">写：拒绝</text>
+  <text class="text" x="400" y="320">读：组织</text>
+  <text class="text" x="400" y="340">写：拒绝</text>
+  <text class="text" x="560" y="320">读：本人</text>
+  <text class="text" x="560" y="340">写：拒绝</text>
+  <text class="text" x="720" y="320">审计：记录范围命中 &amp; 导出记录</text>
+  <text class="text" x="720" y="340">拒绝=必须返回一致的错误码</text>
+
+  <rect class="tag" x="40" y="450" width="1080" height="48" rx="10"/>
+  <text class="tagText" x="60" y="480">范围关键字：全量/组织/部门/本人/名单/拒绝。用 tenantId + orgId/departmentId + ownerId + regionId/customerId... 构建过滤条件。</text>
+</svg>

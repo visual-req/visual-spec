@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520" role="img" aria-label="多维判定矩阵示例">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .grid { stroke: #cbd5e1; stroke-width: 1; }
+      .head { fill: #f1f5f9; }
+      .title { fill: #0f172a; font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .text { fill: #0f172a; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .muted { fill: #334155; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1120" height="520"/>
+  <text class="title" x="40" y="46">通过切片展示三维结构（Z=两个取值）</text>
+  <text class="muted" x="40" y="70">矩阵 = A × B × Z。用两个二维矩阵展示：Z=0 切片与 Z=1 切片。</text>
+
+  <text class="title" x="60" y="112">切片：Z = 0</text>
+  <rect class="head" x="40" y="130" width="500" height="52" rx="10"/>
+  <line class="grid" x1="40" y1="182" x2="540" y2="182"/>
+  <line class="grid" x1="40" y1="246" x2="540" y2="246"/>
+  <line class="grid" x1="40" y1="310" x2="540" y2="310"/>
+  <line class="grid" x1="40" y1="374" x2="540" y2="374"/>
+  <line class="grid" x1="40" y1="130" x2="540" y2="130"/>
+  <line class="grid" x1="40" y1="130" x2="40" y2="374"/>
+  <line class="grid" x1="160" y1="130" x2="160" y2="374"/>
+  <line class="grid" x1="300" y1="130" x2="300" y2="374"/>
+  <line class="grid" x1="420" y1="130" x2="420" y2="374"/>
+  <line class="grid" x1="540" y1="130" x2="540" y2="374"/>
+  <text class="title" x="70" y="162">B\\A</text>
+  <text class="title" x="210" y="162">A</text>
+  <text class="title" x="350" y="162">B</text>
+  <text class="title" x="470" y="162">C</text>
+  <text class="title" x="95" y="226">1</text>
+  <text class="title" x="95" y="290">2</text>
+  <text class="title" x="95" y="354">3</text>
+  <text class="text" x="175" y="226">(A,1,0)→允许</text>
+  <text class="text" x="315" y="226">(B,1,0)→拒绝</text>
+  <text class="text" x="435" y="226">(C,1,0)→人工</text>
+  <text class="text" x="175" y="290">(A,2,0)→拒绝</text>
+  <text class="text" x="315" y="290">(B,2,0)→允许</text>
+  <text class="text" x="435" y="290">(C,2,0)→允许</text>
+  <text class="text" x="175" y="354">(A,3,0)→人工</text>
+  <text class="text" x="315" y="354">(B,3,0)→人工</text>
+  <text class="text" x="435" y="354">(C,3,0)→拒绝</text>
+
+  <text class="title" x="620" y="112">切片：Z = 1</text>
+  <rect class="head" x="600" y="130" width="500" height="52" rx="10"/>
+  <line class="grid" x1="600" y1="182" x2="1100" y2="182"/>
+  <line class="grid" x1="600" y1="246" x2="1100" y2="246"/>
+  <line class="grid" x1="600" y1="310" x2="1100" y2="310"/>
+  <line class="grid" x1="600" y1="374" x2="1100" y2="374"/>
+  <line class="grid" x1="600" y1="130" x2="1100" y2="130"/>
+  <line class="grid" x1="600" y1="130" x2="600" y2="374"/>
+  <line class="grid" x1="720" y1="130" x2="720" y2="374"/>
+  <line class="grid" x1="860" y1="130" x2="860" y2="374"/>
+  <line class="grid" x1="980" y1="130" x2="980" y2="374"/>
+  <line class="grid" x1="1100" y1="130" x2="1100" y2="374"/>
+  <text class="title" x="630" y="162">B\\A</text>
+  <text class="title" x="770" y="162">A</text>
+  <text class="title" x="910" y="162">B</text>
+  <text class="title" x="1030" y="162">C</text>
+  <text class="title" x="655" y="226">1</text>
+  <text class="title" x="655" y="290">2</text>
+  <text class="title" x="655" y="354">3</text>
+  <text class="text" x="735" y="226">(A,1,1)→拒绝</text>
+  <text class="text" x="875" y="226">(B,1,1)→允许</text>
+  <text class="text" x="995" y="226">(C,1,1)→允许</text>
+  <text class="text" x="735" y="290">(A,2,1)→允许</text>
+  <text class="text" x="875" y="290">(B,2,1)→拒绝</text>
+  <text class="text" x="995" y="290">(C,2,1)→人工</text>
+  <text class="text" x="735" y="354">(A,3,1)→拒绝</text>
+  <text class="text" x="875" y="354">(B,3,1)→允许</text>
+  <text class="text" x="995" y="354">(C,3,1)→人工</text>
+
+  <text class="muted" x="40" y="440">对于 k 维：定义每一维 Di（分桶），枚举笛卡尔积坐标，并将每个坐标映射到唯一结果。</text>
+</svg>

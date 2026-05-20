@@ -90,6 +90,7 @@ graph LR
 | 评审友好（原型联动） | [theory/prototype-review.md](theory/prototype-review.md) | PM/Stakeholder |
 | 阅读体验（分层阅读） | [theory/reading-experience.md](theory/reading-experience.md) | 所有人 |
 | Verification & Validation | [theory/verification_and_validation.md](theory/verification_and_validation.md) | QA/Tech Lead |
+| 测试覆盖率 | [theory/test-coverage.md](theory/test-coverage.md) | QA/Dev/Tech Lead |
 | 验收用例（场景驱动） | [theory/acceptance.md](theory/acceptance.md) | QA/Dev/PM |
 | 质量检查 | [theory/quality_check.md](theory/quality_check.md) | 所有人 |
 | 变更友好 | [theory/change-responsiveness.md](theory/change-responsiveness.md) | PM/Tech Lead |

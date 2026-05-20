@@ -13,6 +13,6 @@
 - 边界与异常：除零、空值、负数、溢出与取整策略
 - 示例：给一组输入与期望输出，作为验收用例基线
 
-落地建议：
-- 对齐四舍五入/精度策略（前端展示 vs 后端存储）
-- 对齐时区/周期窗口（按天/按自然月/按账期）
+复杂公式示例（SVG：海关关税/税费计算器）
+
+![Customs Duty and Tax Formula Example](../../assets/zh-CN/tools/customs-duty-tax-formula-example.svg)

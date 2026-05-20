@@ -120,11 +120,11 @@ Flow:
 
 ### `/vspec:accept`
 
-受入テストケースを JSON で生成し、`/test/验收用例/acceptance_cases.json` に書き出します。あわせて、`/scheme.yaml` の `selected.language` に応じた閲覧用テンプレート（`prompts/vspec_testcase_reader/testcase_reader.*.html`）を `/test/testcase_reader.html` として出力します。
+受入テストケースを JSON で生成し、`/test/验收用例/acceptance_cases.json` に書き出します。あわせて、閲覧用テンプレート（`prompts/vspec_testcase_reader/testcase_reader.html`、3言語切替対応）を `/test/testcase_reader.html` として出力します。
 
 ### `/vspec:i-test`
 
-単体テストと結合テストのテストケースを JSON で生成し、`/test/单元测试/unit_test_cases.json` と `/test/集成测试/integration_test_cases.json` に書き出します。あわせて、`/scheme.yaml` の `selected.language` に応じた閲覧用テンプレート（`prompts/vspec_testcase_reader/testcase_reader.*.html`）を `/test/testcase_reader.html` として出力します。
+単体テストと結合テストのテストケースを JSON で生成し、`/test/单元测试/unit_test_cases.json` と `/test/集成测试/integration_test_cases.json` に書き出します。あわせて、閲覧用テンプレート（`prompts/vspec_testcase_reader/testcase_reader.html`、3言語切替対応）を `/test/testcase_reader.html` として出力します。
 
 ### `/vspec:script`
 

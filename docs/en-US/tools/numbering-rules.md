@@ -1,17 +1,17 @@
-## 编号规则（Numbering Rules）
+## Numbering Rules
 
-用于定义“单据/实体的唯一编号生成策略”，确保可追踪、可对账、可排障。
+Used to define the "unique ID generation strategy for documents/entities", ensuring they are traceable, reconcilable, and troubleshootable.
 
-适用场景：
-- 业务单据号（申请单/订单/退款单）
-- 对账批次号、导入批次号、任务执行批次号
+Applicable Scenarios:
+- Business document numbers (application form/order/refund slip)
+- Reconciliation batch numbers, import batch numbers, task execution batch numbers
 
-建议包含的信息：
-- 格式：前缀/日期/序列/分段规则（例如 `PAY-20260512-000123`）
-- 生成时机：创建时生成 / 审批通过后生成 / 外部回传后生成
-- 并发与去重：雪花/数据库序列/分布式号段
-- 可读性与敏感信息：避免泄露用户隐私与业务机密
+Suggested Information to Include:
+- Format: prefix/date/sequence/segmentation rules (e.g., `PAY-20260512-000123`)
+- Generation Timing: generated upon creation / upon approval / upon external callback
+- Concurrency and Deduplication: Snowflake / DB sequence / distributed segments
+- Readability and Sensitive Info: avoid leaking user privacy and business secrets
 
-落地建议：
-- 明确幂等键与重试策略（重复请求是否复用同一编号）
-- 明确跨系统对齐规则（外部编号与内部编号的映射）
+Numbering Example (SVG):
+
+![Numbering Rules Example](../../assets/en-US/tools/numbering-rules-example.svg)

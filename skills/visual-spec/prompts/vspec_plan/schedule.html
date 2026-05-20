@@ -175,6 +175,11 @@
       <div class="title">
         <h1 id="pageTitle">Plan Schedule</h1>
         <div class="sub" id="pageSub">Story map (JSON-driven)</div>
+        <select id="langSelect" style="margin-left: auto; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #e6edf7; border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
+          <option value="en">English</option>
+          <option value="zh-CN">中文</option>
+          <option value="ja">日本語</option>
+        </select>
       </div>
       <div class="banner" id="fallbackBanner"></div>
 
@@ -414,6 +419,9 @@
         }
       }
 
+      let currentLang = "en";
+      let globalData = null;
+
       async function loadStoryMap() {
         let data = null;
         let usedFallback = false;
@@ -426,10 +434,17 @@
           const embedded = document.getElementById("storyMapData")?.textContent || "{}";
           data = JSON.parse(embedded);
         }
-
-        const lang = data?.meta?.language || "en";
-        const labels = LABELS[lang] || LABELS["en"];
-        document.documentElement.lang = lang === "ja" ? "ja" : lang;
+        globalData = data;
+        
+        currentLang = data?.meta?.language || navigator.language.startsWith("zh") ? "zh-CN" : navigator.language.startsWith("ja") ? "ja" : "en";
+        document.getElementById("langSelect").value = currentLang;
+        renderAll(usedFallback);
+      }
+      
+      function renderAll(usedFallback) {
+        const data = globalData;
+        const labels = LABELS[currentLang] || LABELS["en"];
+        document.documentElement.lang = currentLang === "ja" ? "ja" : currentLang;
 
         document.getElementById("pageTitle").textContent = labels.title;
         document.getElementById("pageSub").textContent = labels.sub;
@@ -446,6 +461,11 @@
         renderChips([...(data.meta?.assumptions || []), ...(data.meta?.missingInputs || [])], document.getElementById("assumptionChips"));
         renderTable(data, labels);
       }
+      
+      document.getElementById("langSelect").addEventListener("change", (e) => {
+        currentLang = e.target.value;
+        if (globalData) renderAll(false);
+      });
 
       loadStoryMap();
     </script>

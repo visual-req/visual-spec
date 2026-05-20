@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="560" viewBox="0 0 1100 560" role="img" aria-label="工作区目录结构示意">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .title { font: 800 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #334155; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 12; }
+      .boxStrong { fill: #eff6ff; stroke: rgba(37, 99, 235, 0.35); stroke-width: 1.5; rx: 12; }
+      .label { font: 800 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .item { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .muted { fill: #475569; }
+      .arrow { stroke: rgba(37, 99, 235, 0.7); stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <marker id="arrowHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(37, 99, 235, 0.7)"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1100" height="560"/>
+
+  <text class="title" x="40" y="48">工作区目录结构（输入 → 约束 → 产物）</text>
+  <text class="subtitle" x="40" y="74">visual-spec 把原始材料统一收敛到 /docs，将生成约束集中到 /scheme.yaml，并把过程/最终产物写入 /specs 与 /test。</text>
+
+  <rect class="boxStrong" x="40" y="110" width="320" height="380"/>
+  <text class="label" x="60" y="145">输入材料：/docs</text>
+  <text class="item muted" x="60" y="175">/docs/current/（当前需求材料）</text>
+  <text class="item muted" x="60" y="198">/docs/refine/（变更迭代输入）</text>
+  <text class="item muted" x="60" y="221">/docs/legacy/（遗留系统资料）</text>
+  <text class="item muted" x="60" y="244">/docs/input/（归一化输入区）</text>
+  <text class="item muted" x="60" y="282">示例：原始需求、截图、表格、PPT/Word/PDF</text>
+
+  <rect class="boxStrong" x="40" y="510" width="320" height="0"/>
+
+  <rect class="boxStrong" x="420" y="110" width="240" height="140"/>
+  <text class="label" x="440" y="145">生成约束：/scheme.yaml</text>
+  <text class="item muted" x="440" y="175">selected.language</text>
+  <text class="item muted" x="440" y="198">技术栈/目录偏好</text>
+  <text class="item muted" x="440" y="221">命名规范/输出形态</text>
+
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 360 300 L 420 300"/>
+
+  <rect class="box" x="700" y="110" width="360" height="210"/>
+  <text class="label" x="720" y="145">过程/最终产物：/specs</text>
+  <text class="item" x="720" y="175">/specs/background/（背景/口径/角色/术语/Q&amp;A）</text>
+  <text class="item" x="720" y="198">/specs/functions/（功能清单）</text>
+  <text class="item" x="720" y="221">/specs/details/（详细规格：权限/校验/MQ/导入导出/定时任务等）</text>
+  <text class="item" x="720" y="244">/specs/models/（数据模型）</text>
+  <text class="item" x="720" y="267">/specs/prototypes/（可运行原型与评审入口）</text>
+  <text class="item" x="720" y="290">/specs/plan/（估算与排期）</text>
+  <text class="item" x="720" y="313">/specs/qc_report.json / qc_report.html</text>
+
+  <rect class="box" x="700" y="350" width="360" height="140"/>
+  <text class="label" x="720" y="385">测试资产：/test</text>
+  <text class="item" x="720" y="415">/test/验收用例/acceptance_cases.json</text>
+  <text class="item" x="720" y="438">/test/单元测试/unit_test_cases.json</text>
+  <text class="item" x="720" y="461">/test/集成测试/integration_test_cases.json</text>
+  <text class="item" x="720" y="484">/test/playwright/（脚本） &amp; /test/testcase_reader.html</text>
+
+  <path class="arrow" marker-end="url(#arrowHead)" d="M 540 250 L 540 330 L 700 330"/>
+
+  <rect class="box" x="420" y="280" width="240" height="210"/>
+  <text class="label" x="440" y="315">技能实现：/skills</text>
+  <text class="item muted" x="440" y="345">/skills/visual-spec/（命令与提示词）</text>
+  <text class="item muted" x="440" y="368">/skills/visual-spec/prompts/</text>
+  <text class="item muted" x="440" y="406">注：这是 Skill 本身的代码与模板</text>
+  <text class="item muted" x="440" y="429">工作区产物写入 /specs 与 /test</text>
+</svg>

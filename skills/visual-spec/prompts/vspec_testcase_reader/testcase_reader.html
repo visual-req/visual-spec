@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Testcase Reader</title>
+    <title id="uiTitle">Testcase Reader</title>
     <style>
       body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; color: #111827; background: #f9fafb; }
       header { padding: 14px 18px; background: #111827; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -54,11 +54,18 @@
     </style>
   </head>
   <body>
+    <div style="position: absolute; top: 12px; right: 16px; z-index: 100;">
+      <select id="globalLangSelect" style="background: rgba(255,255,255,0.9); border: 1px solid #d1d5db; color: #111827; border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
+        <option value="en">English</option>
+        <option value="zh-CN">中文</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
     <header>
-      <h1>Testcase Reader</h1>
+      <h1 id="uiH1">Testcase Reader</h1>
       <div class="actions">
-        <button id="pickDirBtn">Pick /test folder</button>
-        <button id="pickFilesBtn" class="secondary">Pick JSON files</button>
+        <button id="pickDirBtn"><span id="uiPickDir">Pick /test folder</span></button>
+        <button id="pickFilesBtn" class="secondary"><span id="uiPickFiles">Pick JSON files</span></button>
         <input id="pickFilesInput" type="file" multiple accept="application/json,.json" />
       </div>
     </header>
@@ -74,32 +81,111 @@
         <div class="hd">
           <span class="pill" id="currentFilePill">No file selected</span>
           <div class="row" style="margin-left:auto">
-            <label>Level</label>
+            <label id="uiLevel">Level</label>
             <select id="level">
-              <option value="">All</option>
+              <option value="" id="uiAll1">All</option>
               <option value="acceptance">acceptance</option>
               <option value="integration">integration</option>
               <option value="unit">unit</option>
             </select>
-            <label>Priority</label>
+            <label id="uiPriority">Priority</label>
             <select id="priority">
-              <option value="">All</option>
+              <option value="" id="uiAll2">All</option>
               <option value="P0">P0</option>
               <option value="P1">P1</option>
               <option value="P2">P2</option>
             </select>
-            <label>Search</label>
-            <input id="q" type="text" placeholder="id / title / function / scenario" />
+            <label id="uiSearch">Search</label>
+            <input id="q" type="text" placeholder="id / title / function / scenario" id="uiSearchInput" />
           </div>
         </div>
         <div class="rightBody" id="right">
           <div id="summary" class="bd row"></div>
-          <div id="tableWrap" class="tableWrap empty">Select a JSON file from the left tree.</div>
-          <div class="detailWrap" id="detail" class="empty">Select a test case row to view details.</div>
+          <div id="tableWrap" class="tableWrap empty"></div>
+          <div class="detailWrap" id="detail" class="empty"></div>
         </div>
       </section>
     </main>
     <script>
+
+      const i18n = {
+        en: {
+          title: "Testcase Reader",
+          pickDir: "Pick /test folder",
+          pickFiles: "Pick JSON files",
+          treeHint: "Pick the /test folder to load JSON files.",
+          noFile: "No file selected",
+          level: "Level",
+          priority: "Priority",
+          search: "Search",
+          searchPlaceholder: "id / title / function / scenario",
+          emptyTable: "Select a JSON file from the left tree.",
+          emptyDetail: "Select a test case row to view details.",
+          all: "All",
+          tableCols: ["ID", "Level", "Priority", "Title", "Function", "Scenario"],
+          total: "Total",
+          summary: "{0} cases loaded.",
+          kPre: "Preconditions",
+          kSteps: "Steps",
+          kExpected: "Expected Result",
+          kTags: "Tags",
+          kFunction: "Function",
+          kScenario: "Scenario",
+          kAuto: "Automation"
+        },
+        "zh-CN": {
+          title: "测试用例阅读器",
+          pickDir: "选择 /test 文件夹",
+          pickFiles: "选择 JSON 文件",
+          treeHint: "请选择包含测试用例 JSON 的 /test 文件夹。",
+          noFile: "未选择文件",
+          level: "级别",
+          priority: "优先级",
+          search: "搜索",
+          searchPlaceholder: "编号 / 标题 / 功能 / 场景",
+          emptyTable: "请从左侧树中选择一个 JSON 文件。",
+          emptyDetail: "请点击表格行以查看用例详情。",
+          all: "全部",
+          tableCols: ["编号", "级别", "优先级", "标题", "关联功能", "关联场景"],
+          total: "共计",
+          summary: "已加载 {0} 条用例。",
+          kPre: "前置条件",
+          kSteps: "操作步骤",
+          kExpected: "预期结果",
+          kTags: "标签",
+          kFunction: "关联功能",
+          kScenario: "关联场景",
+          kAuto: "自动化"
+        },
+        ja: {
+          title: "テストケースリーダー",
+          pickDir: "/test フォルダを選択",
+          pickFiles: "JSONファイルを選択",
+          treeHint: "テストケースJSONを含む /test フォルダを選択してください。",
+          noFile: "ファイルが選択されていません",
+          level: "レベル",
+          priority: "優先度",
+          search: "検索",
+          searchPlaceholder: "ID / タイトル / 機能 / シナリオ",
+          emptyTable: "左側のツリーから JSON ファイルを選択してください。",
+          emptyDetail: "行をクリックしてテストケースの詳細を表示します。",
+          all: "すべて",
+          tableCols: ["ID", "レベル", "優先度", "タイトル", "関連機能", "関連シナリオ"],
+          total: "合計",
+          summary: "{0} 件のケースを読み込みました。",
+          kPre: "前提条件",
+          kSteps: "操作手順",
+          kExpected: "期待される結果",
+          kTags: "タグ",
+          kFunction: "関連機能",
+          kScenario: "関連シナリオ",
+          kAuto: "自動化"
+        }
+      };
+
+      let currentLang = "en";
+      function t(key) { return i18n[currentLang][key] || i18n["en"][key] || key; }
+
       const state = {
         files: new Map(),
         cases: [],

@@ -72,7 +72,7 @@ Flow:
 26. Write the function lists to `/specs/functions/`.
 27. Load `prompts/vspec_new/questions.md` to generate question lists and required business materials.
 28. Write the questions result to `/specs/background/questions.md` (markdown list).
-29. Load `prompts/harness/post_new_verify.md` to validate whether functions and scenario_details are complete (login/config/master-data/approval). If it outputs any issues, show the issue list and stop.
+29. Load `prompts/harness/new/post_new_verify.md` to validate whether functions and scenario_details are complete (login/config/master-data/approval). If it outputs any issues, show the issue list and stop.
 30. Return the structured analysis result and continue to the next requirement-design step.
 
 ### `/vspec:interview`
@@ -197,14 +197,14 @@ Flow:
 4. Generate a runnable page prototype based on functions, details, models, and roles; the prototype tech stack can be selected via `/scheme.yaml` (auto-created with defaults if missing).
    - Load `prompts/vspec_verify/prototype.md` for the prototype generation rules (must follow `scheme.yaml` stack; do not output html-only).
 5. Write the prototype to `/specs/prototypes/`.
-6. Load `prompts/harness/post_verify_stack_verify.md` to validate whether the prototype frontend stack matches `/scheme.yaml`. If it outputs any issues, show the issue list and stop.
+6. Load `prompts/harness/verify/post_verify_stack_verify.md` to validate whether the prototype frontend stack matches `/scheme.yaml`. If it outputs any issues, show the issue list and stop.
 7. Load `prompts/vspec_verify/validation.md` to generate a scenario validation web page.
 8. Write the validation page to `/specs/prototypes/` and provide a `scenario.html` entry for access.
 9. Load `prompts/vspec_verify/entries.md` to generate an entry page and write it to `/specs/prototypes/entries.html` (do not link it from any menu/header).
-10. Load `prompts/harness/post_verify_mobile_selection_check.md` to ensure mobile data selection uses a picker page (list-based), not dropdown Select. If it outputs any issues, show the issue list and stop.
-11. Load `prompts/harness/post_verify_price_format_check.md` to validate money/price formatting (right aligned, 2 decimals, thousand separators). If it outputs any issues, show the issue list and stop.
-12. Load `prompts/harness/post_verify_click_check.md` to detect clickable UI elements that do nothing. If it outputs any issues, show the issue list and stop.
-13. Load `prompts/harness/post_verify_verify.md` to validate the prototype completeness. If it outputs any issues, show the issue list and stop.
+10. Load `prompts/harness/verify/post_verify_mobile_selection_check.md` to ensure mobile data selection uses a picker page (list-based), not dropdown Select. If it outputs any issues, show the issue list and stop.
+11. Load `prompts/harness/verify/post_verify_price_format_check.md` to validate money/price formatting (right aligned, 2 decimals, thousand separators). If it outputs any issues, show the issue list and stop.
+12. Load `prompts/harness/verify/post_verify_click_check.md` to detect clickable UI elements that do nothing. If it outputs any issues, show the issue list and stop.
+13. Load `prompts/harness/verify/post_verify_verify.md` to validate the prototype completeness. If it outputs any issues, show the issue list and stop.
 
 ### `/vspec:qc`
 
@@ -291,7 +291,7 @@ Flow:
 1. Read `/test/验收用例/acceptance_cases.json`, `/specs/functions/*`, `/specs/details/`, and detect the existing test frameworks in the repository.
 2. Load `prompts/vspec_test/test.md` to generate automation tests using the existing frameworks and conventions.
 3. Write test code to the project test directories (or `/tests/` if no standard exists) and ensure it can run with existing scripts.
-4. Load `prompts/harness/post_append_test_coverage_check.md` to verify whether test coverage is sufficiently complete; if it outputs any issues, continue.
+4. Load `prompts/harness/append-test/post_append_test_coverage_check.md` to verify whether test coverage is sufficiently complete; if it outputs any issues, continue.
 5. If issues exist, rerun `/vspec:append-test` once focusing only on the missing items from the issue list, then rerun the coverage check.
 6. If issues still exist after the second coverage check, show the issue list and stop.
 7. This command generates/adds tests to improve coverage; it does not execute test commands.
@@ -304,7 +304,7 @@ Flow:
 1. Read `/specs/functions/*`, `/specs/details/`, `/specs/models/*.md`, `/specs/background/dependencies.md`, and detect the current frontend/backend stacks and code conventions.
 2. Load `prompts/vspec_impl/implement.md` and implement backend-first: generate a runnable backend project under `/specs/backend/` (health check + core APIs/services), then generate frontend integration after backend APIs are available.
 3. Write code only under `/specs/` with minimal diffs and keep it reviewable; backend must be under `/specs/backend/` and prototype frontend under `/specs/prototypes/`.
-4. Load `prompts/harness/post_impl_verify.md` to validate backend MVC structure and test coverage. If it outputs any issues, show the issue list and stop.
+4. Load `prompts/harness/impl/post_impl_verify.md` to validate backend MVC structure and test coverage. If it outputs any issues, show the issue list and stop.
 
 ### `/vspec:upgrade`
 

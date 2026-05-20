@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="420" viewBox="0 0 1040 420" role="img" aria-label="2次元判定行列の例">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .grid { stroke: #cbd5e1; stroke-width: 1; }
+      .head { fill: #f1f5f9; }
+      .corner { fill: #e2e8f0; }
+      .title { fill: #0f172a; font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .text { fill: #0f172a; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .muted { fill: #334155; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1040" height="420"/>
+  <text class="title" x="40" y="46">2次元の直交判定行列（2次元のデカルト積）</text>
+  <text class="muted" x="40" y="70">X軸=条件Aの区分、Y軸=条件Bの区分。各セルは一意の組合せ座標。</text>
+
+  <rect class="corner" x="40" y="100" width="180" height="64" rx="10"/>
+  <rect class="head" x="220" y="100" width="780" height="64" rx="10"/>
+  <rect class="head" x="40" y="164" width="180" height="216" rx="10"/>
+
+  <line class="grid" x1="40" y1="100" x2="1000" y2="100"/>
+  <line class="grid" x1="40" y1="164" x2="1000" y2="164"/>
+  <line class="grid" x1="40" y1="236" x2="1000" y2="236"/>
+  <line class="grid" x1="40" y1="308" x2="1000" y2="308"/>
+  <line class="grid" x1="40" y1="380" x2="1000" y2="380"/>
+
+  <line class="grid" x1="40" y1="100" x2="40" y2="380"/>
+  <line class="grid" x1="220" y1="100" x2="220" y2="380"/>
+  <line class="grid" x1="480" y1="100" x2="480" y2="380"/>
+  <line class="grid" x1="740" y1="100" x2="740" y2="380"/>
+  <line class="grid" x1="1000" y1="100" x2="1000" y2="380"/>
+
+  <text class="title" x="60" y="138">B \\ A</text>
+  <text class="title" x="330" y="138">A</text>
+  <text class="title" x="590" y="138">B</text>
+  <text class="title" x="850" y="138">C</text>
+
+  <text class="title" x="110" y="210">1</text>
+  <text class="title" x="110" y="282">2</text>
+  <text class="title" x="110" y="354">3</text>
+
+  <text class="text" x="245" y="206">(A,1) → 許可</text>
+  <text class="muted" x="245" y="226">rule: r1</text>
+  <text class="text" x="505" y="206">(B,1) → 手動</text>
+  <text class="muted" x="505" y="226">rule: r2</text>
+  <text class="text" x="765" y="206">(C,1) → 拒否</text>
+  <text class="muted" x="765" y="226">rule: r3</text>
+
+  <text class="text" x="245" y="278">(A,2) → 拒否</text>
+  <text class="muted" x="245" y="298">理由：資料不足</text>
+  <text class="text" x="505" y="278">(B,2) → 許可</text>
+  <text class="muted" x="505" y="298">rule: r4</text>
+  <text class="text" x="765" y="278">(C,2) → 手動</text>
+  <text class="muted" x="765" y="298">rule: r5</text>
+
+  <text class="text" x="245" y="350">(A,3) → 手動</text>
+  <text class="muted" x="245" y="370">rule: r6</text>
+  <text class="text" x="505" y="350">(B,3) → 拒否</text>
+  <text class="muted" x="505" y="370">rule: r7</text>
+  <text class="text" x="765" y="350">(C,3) → 許可</text>
+  <text class="muted" x="765" y="370">rule: r8</text>
+</svg>

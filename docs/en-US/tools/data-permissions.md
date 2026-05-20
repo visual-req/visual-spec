@@ -1,25 +1,18 @@
-## 数据权限（Data Permissions）
+## Data Permissions
 
-用于把“同一角色在不同数据范围下能看到/能操作哪些数据”显式化，避免 RBAC 只解决“能不能点”，却没解决“能看哪些数据、能改哪些数据”。
+Used to make explicit "what data a role can see/operate under different data scopes", avoiding the situation where RBAC only solves "can click" but not "what data can be seen/modified".
 
-适用场景：
-- 多租户/多组织/多部门/多项目/多区域的数据隔离
-- 需要按创建人、所属组织、业务线、客户、区域、资源归属进行数据范围控制
+Applicable Scenarios:
+- Data isolation for multi-tenant/multi-org/multi-dept/multi-project/multi-region
+- Data scope control by creator, affiliated org, business line, customer, region, or resource ownership
 
-常见数据范围维度：
-- 租户：tenantId
-- 组织：orgId / departmentId
-- 归属：ownerId / assigneeId / dispatcherId / driverId
-- 区域：regionId / cityCode / siteId
-- 业务对象：customerId / projectId / fleetId
+Common Data Scope Dimensions:
+- Tenant: tenantId
+- Organization: orgId / departmentId
+- Ownership: ownerId / assigneeId / dispatcherId / driverId
+- Region: regionId / cityCode / siteId
+- Business Object: customerId / projectId / fleetId
 
-建议输出结构：
-- 数据对象清单：哪些实体需要数据权限（订单、申请单、资源、报表等）
-- 数据范围规则：每个角色在每个实体上的范围（全量/本组织/本部门/本人/指定列表）
-- 读写差异：读范围与写范围可以不同（例如可看全局，但只能改自己负责的）
-- 过滤策略：列表/搜索默认过滤、可选筛选项、导出范围限制
-- 审计与追责：权限命中规则、越权访问拦截日志、导出留痕
+Data Permissions Matrix Format (SVG Example):
 
-落地建议：
-- 把数据权限做成可复用的“范围解析 + 过滤器”：避免每个接口手写 where 条件。
-- 与 RBAC 联动：先判定是否有动作权限，再判定数据范围是否命中；两者都要覆盖到验收与自动化测试里。
+![Data Permissions Matrix Example](../../assets/en-US/tools/data-permissions-matrix-example.svg)

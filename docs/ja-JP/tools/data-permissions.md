@@ -1,25 +1,18 @@
-## 数据权限（Data Permissions）
+## データ権限 (Data Permissions)
 
-用于把“同一角色在不同数据范围下能看到/能操作哪些数据”显式化，避免 RBAC 只解决“能不能点”，却没解决“能看哪些数据、能改哪些数据”。
+「同じロールが異なるデータスコープでどのデータを表示/操作できるか」を明示的にするために使用され、RBACが「クリックできるかどうか」しか解決せず、「どのデータを表示/変更できるか」を解決しない状況を回避します。
 
-适用场景：
-- 多租户/多组织/多部门/多项目/多区域的数据隔离
-- 需要按创建人、所属组织、业务线、客户、区域、资源归属进行数据范围控制
+適用シナリオ:
+- マルチテナント/マルチ組織/マルチ部門/マルチプロジェクト/マルチリージョンのデータ分離
+- 作成者、所属組織、ビジネスライン、顧客、地域、またはリソースの所有権によるデータスコープ制御
 
-常见数据范围维度：
-- 租户：tenantId
-- 组织：orgId / departmentId
-- 归属：ownerId / assigneeId / dispatcherId / driverId
-- 区域：regionId / cityCode / siteId
-- 业务对象：customerId / projectId / fleetId
+一般的なデータスコープのディメンション:
+- テナント: tenantId
+- 組織: orgId / departmentId
+- 所有権: ownerId / assigneeId / dispatcherId / driverId
+- 地域: regionId / cityCode / siteId
+- ビジネスオブジェクト: customerId / projectId / fleetId
 
-建议输出结构：
-- 数据对象清单：哪些实体需要数据权限（订单、申请单、资源、报表等）
-- 数据范围规则：每个角色在每个实体上的范围（全量/本组织/本部门/本人/指定列表）
-- 读写差异：读范围与写范围可以不同（例如可看全局，但只能改自己负责的）
-- 过滤策略：列表/搜索默认过滤、可选筛选项、导出范围限制
-- 审计与追责：权限命中规则、越权访问拦截日志、导出留痕
+データ権限マトリックス形式 (SVGの例):
 
-落地建议：
-- 把数据权限做成可复用的“范围解析 + 过滤器”：避免每个接口手写 where 条件。
-- 与 RBAC 联动：先判定是否有动作权限，再判定数据范围是否命中；两者都要覆盖到验收与自动化测试里。
+![Data Permissions Matrix Example](../../assets/ja-JP/tools/data-permissions-matrix-example.svg)

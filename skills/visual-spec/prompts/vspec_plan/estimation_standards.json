@@ -1,0 +1,259 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-05-19",
+  "allowedStoryPoints": [0, 0.5, 1, 2, 3, 5, 8, 13],
+  "scalePoints": [
+    {
+      "sp": 0,
+      "range": { "en": "Docs only / no implementation", "zh-CN": "纯文档/无需实现", "ja": "ドキュメントのみ/実装なし" },
+      "description": { "en": "No code and no verifiable behavior.", "zh-CN": "不产生代码与可验证行为。", "ja": "コードと検証可能な挙動が発生しない。" }
+    },
+    {
+      "sp": 0.5,
+      "range": { "en": "Tiny change", "zh-CN": "极小改动", "ja": "ごく小さい変更" },
+      "description": { "en": "Copy/label/small field or logic; no integration.", "zh-CN": "文案/小字段/小逻辑，不涉及联调。", "ja": "文言/小さな項目/小ロジック。結合なし。" }
+    },
+    {
+      "sp": 1,
+      "range": { "en": "Small change", "zh-CN": "小改动", "ja": "小変更" },
+      "description": { "en": "Single simple logic point or small UI adjustment.", "zh-CN": "单点简单逻辑/简单页面调整。", "ja": "単一点の簡単なロジック/軽微なUI調整。" }
+    },
+    {
+      "sp": 2,
+      "range": { "en": "Small feature", "zh-CN": "小功能", "ja": "小機能" },
+      "description": { "en": "Typical CRUD subset or a small slice of an integration.", "zh-CN": "典型 CRUD 子集或简单对接的一部分。", "ja": "CRUDの一部、または簡単な連携の一部。" }
+    },
+    {
+      "sp": 3,
+      "range": { "en": "Medium feature", "zh-CN": "中等功能", "ja": "中程度の機能" },
+      "description": { "en": "One coherent capability with validation/permissions/interaction details.", "zh-CN": "含校验/权限/交互细节的单块能力。", "ja": "検証/権限/インタラクションを含む一塊の能力。" }
+    },
+    {
+      "sp": 5,
+      "range": { "en": "Complex feature", "zh-CN": "较复杂功能", "ja": "複雑な機能" },
+      "description": { "en": "Combined work with import/integration/permissions/exception handling.", "zh-CN": "涉及导入/对接/权限/异常处理的组合。", "ja": "取込/連携/権限/例外処理が組み合わさる。" }
+    },
+    {
+      "sp": 8,
+      "range": { "en": "Very complex feature", "zh-CN": "复杂功能", "ja": "非常に複雑" },
+      "description": { "en": "Approval/state machine/callbacks/high uncertainty.", "zh-CN": "审批/状态机/回调对接/高不确定性。", "ja": "承認/状態機械/コールバック連携/高い不確実性。" }
+    },
+    {
+      "sp": 13,
+      "range": { "en": "Extreme complexity (cap)", "zh-CN": "极复杂（上限）", "ja": "極めて複雑（上限）" },
+      "description": { "en": "Allowed but strongly prefer splitting; must split if it exceeds 13.", "zh-CN": "允许但强烈建议进一步拆分；超过必须拆分。", "ja": "許容するが分割を強く推奨。13を超える場合は必ず分割。" }
+    }
+  ],
+  "workItemBenchmarks": [
+    {
+      "key": "crud_list_detail",
+      "type": { "en": "CRUD (list + detail)", "zh-CN": "CRUD（列表+详情）", "ja": "CRUD（一覧+詳細）" },
+      "deliverables": {
+        "en": "List + detail pages/APIs; basic query and display",
+        "zh-CN": "列表+详情页/接口；基础查询与展示",
+        "ja": "一覧+詳細（画面/API）；基本検索と表示"
+      },
+      "recommendedSp": 2,
+      "notes": {
+        "en": "No complex validation/state machine/external integration; simple fields and permissions.",
+        "zh-CN": "无复杂校验、无审批、无外部对接；字段/权限简单。",
+        "ja": "複雑な検証/承認/外部連携なし。項目/権限が単純。"
+      }
+    },
+    {
+      "key": "crud_list_detail_form",
+      "type": { "en": "CRUD (list + detail + create/edit form)", "zh-CN": "CRUD（列表+详情+新建/编辑表单）", "ja": "CRUD（一覧+詳細+作成/編集フォーム）" },
+      "deliverables": {
+        "en": "List + detail + form; field validation; basic RBAC",
+        "zh-CN": "列表+详情+表单；字段校验；基础 RBAC",
+        "ja": "一覧+詳細+フォーム；項目検証；基本RBAC"
+      },
+      "recommendedSp": 3,
+      "notes": {
+        "en": "Standard validations and errors; no complex state machine.",
+        "zh-CN": "含常规校验与错误提示；无复杂状态机。",
+        "ja": "通常の検証とエラー表示。複雑な状態機械なし。"
+      }
+    },
+    {
+      "key": "file_import",
+      "type": { "en": "File import", "zh-CN": "文件导入", "ja": "ファイル取込" },
+      "deliverables": {
+        "en": "Template; row-level validation; error report; rollback/idempotency",
+        "zh-CN": "xlsx/csv 模板；逐行校验；错误明细下载；回滚/幂等策略",
+        "ja": "テンプレート；行単位検証；エラー明細；ロールバック/冪等"
+      },
+      "recommendedSp": 5,
+      "notes": {
+        "en": "More rules and error handling increase cost; large batch should be async.",
+        "zh-CN": "规则与异常处理越多越大；大批量建议异步化。",
+        "ja": "ルール/例外が増えるほど増大。大容量は非同期推奨。"
+      }
+    },
+    {
+      "key": "file_export",
+      "type": { "en": "File export", "zh-CN": "文件导出", "ja": "ファイル出力" },
+      "deliverables": {
+        "en": "Field list; masking; async export for large data; download management",
+        "zh-CN": "字段清单；脱敏；大数据量异步导出；下载管理",
+        "ja": "項目一覧；マスキング；大量は非同期；ダウンロード管理"
+      },
+      "recommendedSp": 3,
+      "notes": {
+        "en": "Permission filtering/masking/async tasks increase cost.",
+        "zh-CN": "涉及权限过滤/脱敏/异步任务会增加成本。",
+        "ja": "権限フィルタ/マスキング/非同期化で増大。"
+      }
+    },
+    {
+      "key": "approval_state_machine",
+      "type": { "en": "Approval / state machine", "zh-CN": "审批/状态机", "ja": "承認/状態機械" },
+      "deliverables": {
+        "en": "State + transition tables; operability matrix; withdraw/reject/change",
+        "zh-CN": "状态表+迁移表；可操作性矩阵；撤回/驳回/变更",
+        "ja": "状態/遷移表；操作可否行列；取下げ/却下/変更"
+      },
+      "recommendedSp": 8,
+      "notes": {
+        "en": "More states/branches/finer permissions raise cost.",
+        "zh-CN": "状态越多、分支越多、权限越细成本越高。",
+        "ja": "状態/分岐/権限が増えるほど増大。"
+      }
+    },
+    {
+      "key": "rbac_control_level",
+      "type": { "en": "RBAC (control-level)", "zh-CN": "RBAC（控件级）", "ja": "RBAC（コントロール単位）" },
+      "deliverables": {
+        "en": "Permission keys; route/menu/control matrix",
+        "zh-CN": "权限点设计；路由/菜单/控件访问控制矩阵",
+        "ja": "権限キー設計；ルート/メニュー/コントロール行列"
+      },
+      "recommendedSp": 3,
+      "notes": {
+        "en": "Many control points or dynamic permission increases cost.",
+        "zh-CN": "若需要大量控件点位或动态权限，会增加成本。",
+        "ja": "点位が多い/動的権限で増大。"
+      }
+    },
+    {
+      "key": "data_permissions",
+      "type": { "en": "Data permissions", "zh-CN": "数据权限", "ja": "データ権限" },
+      "deliverables": {
+        "en": "Read/write scope matrix; filtering semantics; composition with RBAC",
+        "zh-CN": "读/写范围矩阵；过滤表达式口径；与 RBAC 合成",
+        "ja": "読書き範囲行列；フィルタ表現の口径；RBAC合成"
+      },
+      "recommendedSp": 5,
+      "notes": {
+        "en": "Multi-org, hierarchy, multi-dimension scopes increase complexity sharply.",
+        "zh-CN": "多组织、多层级、多维度范围会显著增加复杂度。",
+        "ja": "多組織/階層/多次元で大きく増大。"
+      }
+    },
+    {
+      "key": "integration_one_way",
+      "type": { "en": "External integration (one-way)", "zh-CN": "外部系统对接（单向）", "ja": "外部連携（片方向）" },
+      "deliverables": {
+        "en": "Call/sync; timeout/retry/fallback; idempotency; logging",
+        "zh-CN": "调用/同步；超时/重试/降级；幂等；日志",
+        "ja": "呼出/同期；タイムアウト/リトライ/フォールバック；冪等；ログ"
+      },
+      "recommendedSp": 5,
+      "notes": {
+        "en": "Unstable APIs/unclear fields/reconciliation requirements add risk.",
+        "zh-CN": "API 不稳定/字段不清/对账要求会增加成本。",
+        "ja": "API不安定/項目不明/突合せ要件で増大。"
+      }
+    },
+    {
+      "key": "integration_callback",
+      "type": { "en": "External integration (two-way/callback)", "zh-CN": "外部系统对接（双向/回调）", "ja": "外部連携（双方向/コールバック）" },
+      "deliverables": {
+        "en": "Callback signature; idempotency/compensation; reconciliation; replay entry",
+        "zh-CN": "回调验签；幂等/补偿；对账；重放入口",
+        "ja": "コールバック署名検証；冪等/補償；突合せ；再実行入口"
+      },
+      "recommendedSp": 8,
+      "notes": {
+        "en": "High dependency on external parties; recommend splitting and buffering.",
+        "zh-CN": "强依赖外部配合，风险高；建议拆分与预留缓冲。",
+        "ja": "外部依存が強く高リスク。分割とバッファ推奨。"
+      }
+    },
+    {
+      "key": "notifications",
+      "type": { "en": "Notifications", "zh-CN": "通知", "ja": "通知" },
+      "deliverables": {
+        "en": "Notification matrix; templates; dedupe/rate limit; failure fallback",
+        "zh-CN": "通知矩阵；模板变量；去重/频控；失败兜底",
+        "ja": "通知行列；テンプレ変数；重複排除/頻度制御；失敗時フォールバック"
+      },
+      "recommendedSp": 2,
+      "notes": {
+        "en": "More channels/roles/triggers increase cost.",
+        "zh-CN": "多渠道、多角色、多触发点会增加成本。",
+        "ja": "チャネル/役割/トリガ増で増大。"
+      }
+    },
+    {
+      "key": "message_queue",
+      "type": { "en": "Message queue", "zh-CN": "MQ", "ja": "メッセージキュー" },
+      "deliverables": {
+        "en": "Message list; consistency (outbox); retry/DLQ/alerts",
+        "zh-CN": "消息清单；一致性方案（outbox）；重试/DLQ/告警",
+        "ja": "メッセージ一覧；整合性（outbox）；リトライ/DLQ/アラート"
+      },
+      "recommendedSp": 5,
+      "notes": {
+        "en": "End-to-end observability, replay and compensation increase cost.",
+        "zh-CN": "需要端到端可观测、回溯与补偿会增加成本。",
+        "ja": "可観測性/再実行/補償が必要だと増大。"
+      }
+    },
+    {
+      "key": "cron_simple",
+      "type": { "en": "Cron/batch (simple)", "zh-CN": "定时任务/批处理（简单）", "ja": "定期ジョブ/バッチ（簡単）" },
+      "deliverables": {
+        "en": "Cron config; single-table scan/aggregate; logs; retry",
+        "zh-CN": "cron 配置；单表扫描/聚合；运行日志；失败重试",
+        "ja": "cron設定；単表スキャン/集計；実行ログ；リトライ"
+      },
+      "recommendedSp": 3,
+      "notes": {
+        "en": "No complex sharding; small data; retry is enough.",
+        "zh-CN": "无复杂分片；数据量小；失败可重试即可。",
+        "ja": "分割なし/少量データ。リトライで足りる。"
+      }
+    },
+    {
+      "key": "cron_medium",
+      "type": { "en": "Cron/batch (medium)", "zh-CN": "定时任务/批处理（中等）", "ja": "定期ジョブ/バッチ（中程度）" },
+      "deliverables": {
+        "en": "Multi-step; idempotency; resume; alerts; compensation entry",
+        "zh-CN": "多步处理；幂等；断点续跑；告警；补偿入口",
+        "ja": "多段処理；冪等；再開；アラート；補償入口"
+      },
+      "recommendedSp": 5,
+      "notes": {
+        "en": "Multi-table/states; needs recoverability and traceability.",
+        "zh-CN": "涉及多表/多状态；需要可恢复与可追踪。",
+        "ja": "多表/多状態で、復旧性と追跡性が必要。"
+      }
+    },
+    {
+      "key": "cron_complex",
+      "type": { "en": "Cron/batch (complex)", "zh-CN": "定时任务/批处理（复杂）", "ja": "定期ジョブ/バッチ（複雑）" },
+      "deliverables": {
+        "en": "Sharding/concurrency; orchestration; resource control; replay/reconcile",
+        "zh-CN": "分片/并发；任务编排；资源控制；回溯/重放；对账",
+        "ja": "分割/並行；編成；資源制御；再実行/突合せ"
+      },
+      "recommendedSp": 8,
+      "notes": {
+        "en": "Recommend splitting into orchestration/execution/reconcile/replay items.",
+        "zh-CN": "建议拆分为“编排/执行/对账/回放”等子项。",
+        "ja": "編成/実行/突合せ/再生に分割推奨。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Estimation Standards</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: rgba(255, 255, 255, 0.08);
+        --panel2: rgba(255, 255, 255, 0.06);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.72);
+        --line: rgba(255, 255, 255, 0.14);
+        --accent: rgba(47, 120, 255, 0.9);
+        --danger: rgba(244, 63, 94, 0.85);
+        --ok: rgba(34, 197, 94, 0.85);
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: radial-gradient(1100px 560px at 16% -10%, rgba(47, 120, 255, 0.25), transparent 55%),
+          radial-gradient(900px 520px at 85% 0%, rgba(34, 197, 94, 0.18), transparent 55%),
+          var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+      }
+
+      header {
+        padding: 20px 18px 10px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(11, 18, 32, 0.55);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .titleRow {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+      }
+
+      .controls {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      select, button, input[type="file"] {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      button.primary {
+        border-color: rgba(47, 120, 255, 0.55);
+        background: rgba(47, 120, 255, 0.18);
+      }
+
+      .note {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .layout {
+        padding: 18px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin: 10px 0 12px;
+        flex-wrap: wrap;
+      }
+
+      .tab {
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.06);
+        font-size: 12px;
+        color: var(--muted);
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .tab.active {
+        border-color: rgba(47, 120, 255, 0.55);
+        background: rgba(47, 120, 255, 0.18);
+        color: var(--text);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: hidden;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      th, td {
+        padding: 10px 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+        vertical-align: top;
+        font-size: 12.5px;
+        line-height: 1.35;
+      }
+
+      th {
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      tr:last-child td { border-bottom: none; }
+      code { font-family: var(--mono); font-size: 12px; color: rgba(255, 255, 255, 0.92); }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
+        font-family: var(--mono);
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.88);
+      }
+
+      .error {
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(244, 63, 94, 0.12);
+        border: 1px solid rgba(244, 63, 94, 0.28);
+        padding: 10px 12px;
+        border-radius: 12px;
+        margin-top: 10px;
+      }
+
+      .ok {
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(34, 197, 94, 0.10);
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        padding: 10px 12px;
+        border-radius: 12px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="titleRow">
+        <h1 id="pageTitle">Estimation Standards</h1>
+        <span class="pill" id="versionPill">v-</span>
+      </div>
+      <div class="controls">
+        <label>
+          <select id="languageSelect" aria-label="Language">
+            <option value="en">English</option>
+            <option value="zh-CN">中文</option>
+            <option value="ja">日本語</option>
+          </select>
+        </label>
+        <button class="primary" id="reloadBtn" type="button">Reload</button>
+        <label>
+          <input id="fileInput" type="file" accept="application/json" />
+        </label>
+        <span class="pill" id="jsonPathPill">estimation_standards.json</span>
+      </div>
+      <div class="note" id="helpText"></div>
+      <div id="statusBox"></div>
+    </header>
+
+    <main class="layout">
+      <div class="panel">
+        <div class="tabs">
+          <div class="tab active" data-tab="scale" id="tabScale">Scale</div>
+          <div class="tab" data-tab="benchmarks" id="tabBenchmarks">Benchmarks</div>
+        </div>
+        <div id="content"></div>
+      </div>
+    </main>
+
+    <script>
+      const i18n = {
+        "en": {
+          pageTitle: "Estimation Standards",
+          help: "Default loads <code>estimation_standards.json</code> from the same folder. If your browser blocks it, pick the JSON file with the file input.",
+          okLoaded: "Loaded estimation standards.",
+          errLoad: "Failed to load JSON. Use the file picker to select estimation_standards.json.",
+          tabScale: "Scale",
+          tabBenchmarks: "Benchmarks",
+          thSp: "SP",
+          thRange: "Typical range",
+          thDesc: "Description",
+          thType: "Work item type",
+          thDeliverables: "Typical deliverables",
+          thRec: "Recommended SP",
+          thNotes: "Notes"
+        },
+        "zh-CN": {
+          pageTitle: "标准估算值（Story Points）",
+          help: "默认从同目录加载 <code>estimation_standards.json</code>。如果浏览器限制读取，请用文件选择器手动选择该 JSON。",
+          okLoaded: "已加载标准估算值。",
+          errLoad: "加载 JSON 失败，请用文件选择器选择 estimation_standards.json。",
+          tabScale: "标准点数表",
+          tabBenchmarks: "工作项参考表",
+          thSp: "故事点",
+          thRange: "典型范围",
+          thDesc: "说明",
+          thType: "工作项类型",
+          thDeliverables: "典型交付物",
+          thRec: "推荐 SP",
+          thNotes: "适用边界/说明"
+        },
+        "ja": {
+          pageTitle: "標準見積（Story Points）",
+          help: "同じフォルダの <code>estimation_standards.json</code> を読み込みます。ブラウザ制限で失敗した場合はファイル選択で JSON を指定してください。",
+          okLoaded: "標準見積を読み込みました。",
+          errLoad: "JSON の読み込みに失敗しました。ファイル選択で estimation_standards.json を指定してください。",
+          tabScale: "ポイント表",
+          tabBenchmarks: "作業項目の目安",
+          thSp: "SP",
+          thRange: "典型範囲",
+          thDesc: "説明",
+          thType: "作業タイプ",
+          thDeliverables: "成果物例",
+          thRec: "推奨 SP",
+          thNotes: "備考"
+        }
+      };
+
+      let currentLang = "en";
+      let currentTab = "scale";
+      let data = null;
+
+      const el = {
+        languageSelect: document.getElementById("languageSelect"),
+        reloadBtn: document.getElementById("reloadBtn"),
+        fileInput: document.getElementById("fileInput"),
+        content: document.getElementById("content"),
+        helpText: document.getElementById("helpText"),
+        statusBox: document.getElementById("statusBox"),
+        pageTitle: document.getElementById("pageTitle"),
+        versionPill: document.getElementById("versionPill"),
+        tabScale: document.getElementById("tabScale"),
+        tabBenchmarks: document.getElementById("tabBenchmarks")
+      };
+
+      function setStatus(kind, message) {
+        el.statusBox.innerHTML = "";
+        if (!message) return;
+        const div = document.createElement("div");
+        div.className = kind === "ok" ? "ok" : "error";
+        div.innerHTML = message;
+        el.statusBox.appendChild(div);
+      }
+
+      function t(key) {
+        return (i18n[currentLang] && i18n[currentLang][key]) || (i18n["en"][key] || key);
+      }
+
+      function textByLang(value) {
+        if (value == null) return "";
+        if (typeof value === "string") return value;
+        if (typeof value === "object") return value[currentLang] || value["en"] || "";
+        return String(value);
+      }
+
+      function render() {
+        if (!data) {
+          el.content.innerHTML = "";
+          return;
+        }
+
+        el.pageTitle.textContent = t("pageTitle");
+        el.helpText.innerHTML = t("help");
+        el.versionPill.textContent = `v${data.version || "-"}`;
+        el.tabScale.textContent = t("tabScale");
+        el.tabBenchmarks.textContent = t("tabBenchmarks");
+
+        const tabs = document.querySelectorAll(".tab");
+        tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === currentTab));
+
+        if (currentTab === "scale") {
+          const rows = (data.scalePoints || []).slice().sort((a, b) => Number(a.sp) - Number(b.sp));
+          el.content.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 90px;">${t("thSp")}</th>
+                  <th style="width: 260px;">${t("thRange")}</th>
+                  <th>${t("thDesc")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map((r) => `
+                  <tr>
+                    <td><span class="pill">SP=${r.sp}</span></td>
+                    <td>${textByLang(r.range)}</td>
+                    <td>${textByLang(r.description)}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          `;
+          return;
+        }
+
+        const rows = (data.workItemBenchmarks || []).slice();
+        el.content.innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 280px;">${t("thType")}</th>
+                <th>${t("thDeliverables")}</th>
+                <th style="width: 120px;">${t("thRec")}</th>
+                <th>${t("thNotes")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map((r) => `
+                <tr>
+                  <td>${textByLang(r.type)}<div style="margin-top:6px;"><code>${r.key || ""}</code></div></td>
+                  <td>${textByLang(r.deliverables)}</td>
+                  <td><span class="pill">SP=${r.recommendedSp}</span></td>
+                  <td>${textByLang(r.notes)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+      }
+
+      async function loadDefaultJson() {
+        setStatus("", "");
+        try {
+          const resp = await fetch("./estimation_standards.json", { cache: "no-store" });
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+          data = await resp.json();
+          setStatus("ok", t("okLoaded"));
+          render();
+        } catch (e) {
+          data = null;
+          setStatus("err", t("errLoad"));
+          render();
+        }
+      }
+
+      async function loadFromFile(file) {
+        setStatus("", "");
+        try {
+          const text = await file.text();
+          data = JSON.parse(text);
+          setStatus("ok", t("okLoaded"));
+          render();
+        } catch (e) {
+          data = null;
+          setStatus("err", t("errLoad"));
+          render();
+        }
+      }
+
+      el.languageSelect.addEventListener("change", () => {
+        currentLang = el.languageSelect.value;
+        document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+        render();
+      });
+
+      el.reloadBtn.addEventListener("click", () => {
+        loadDefaultJson();
+      });
+
+      el.fileInput.addEventListener("change", (e) => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        loadFromFile(f);
+      });
+
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          currentTab = tab.dataset.tab;
+          render();
+        });
+      });
+
+      (function init() {
+        currentLang = el.languageSelect.value;
+        loadDefaultJson();
+      })();
+    </script>
+  </body>
+</html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VSpec 问答助手</title>
+    <title id="uiTitle">VSpec Q&A Assistant</title>
     <style>
       :root {
         --bg: #0b1220;
@@ -231,12 +231,16 @@
     </style>
   </head>
   <body>
+    <div style="position: absolute; top: 12px; right: 16px; z-index: 100;">
+      <select id="globalLangSelect" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #e6eefc; border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
+        <option value="en">English</option>
+        <option value="zh-CN">中文</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
     <div class="wrap">
       <h1>VSpec 问答助手（HTML 交互 + 回写 Markdown）</h1>
-      <p class="sub">
-        作用：把 <span class="mono">original.md</span> 与 <span class="mono">questions.md</span> 里的提问渲染成表单（尽量按选择题），并在填写后回写到对应的
-        markdown 文件。支持两种保存方式：若浏览器支持文件写入 API，则直接覆盖写回；否则导出下载文件，由你手动替换。
-      </p>
+      <p class="sub" id="uiSub"></p>
 
       <div class="row">
         <div class="card">
@@ -325,6 +329,114 @@
     </div>
 
     <script>
+
+      const i18n = {
+        en: {
+          title: "VSpec Q&A Assistant",
+          sub: "Export standard <code>questions.md</code> for requirements communication.<br>How to use: Share this file with stakeholders > Let them fill in answers > Click Export > Overwrite <code>/specs/background/questions.md</code>.",
+          projectInfo: "Project Info",
+          projName: "Project Name",
+          projDesc: "Project Description",
+          stakeholders: "Stakeholders",
+          exportAction: "Export Action",
+          dlLabel: "Export Format",
+          dlBtn: "Download questions.md",
+          dlHint: "After downloading, rename it to questions.md and overwrite the original file in the project.",
+          qs: "Questions ({0})",
+          copyQ: "Copy Questions Only",
+          copyAll: "Copy All",
+          emptyQ: "No questions provided.",
+          qTitle: "Q{0}: {1}",
+          qLevel: "Level",
+          qModule: "Module",
+          qType: "Type",
+          qTarget: "Target",
+          qRisk: "Risk",
+          qDesc: "Description",
+          aTitle: "Answer",
+          aHint: "Please enter your answer here...",
+          aBy: "Answered By",
+          aAt: "Answered At",
+          mdHeader: "# Questions & Answers\n\n",
+          mdProj: "## Project Info\n",
+          mdStake: "## Stakeholders\n",
+          mdQList: "## Questions List\n"
+        },
+        "zh-CN": {
+          title: "VSpec 问答助手",
+          sub: "导出标准的 <code>questions.md</code> 用于需求沟通。<br>使用方式：将本文件发给业务方/产品经理 > 填写回答 > 点击导出 > 覆盖项目中的 <code>/specs/background/questions.md</code>。",
+          projectInfo: "项目信息",
+          projName: "项目名称",
+          projDesc: "项目描述",
+          stakeholders: "干系人",
+          exportAction: "导出操作",
+          dlLabel: "导出格式",
+          dlBtn: "下载 questions.md",
+          dlHint: "下载后，请将其重命名为 questions.md 并覆盖项目中的源文件。",
+          qs: "问题列表 ({0})",
+          copyQ: "仅复制问题",
+          copyAll: "复制全部",
+          emptyQ: "没有提供任何问题数据。",
+          qTitle: "Q{0}: {1}",
+          qLevel: "级别",
+          qModule: "模块",
+          qType: "类型",
+          qTarget: "提问对象",
+          qRisk: "不解决的风险",
+          qDesc: "问题描述",
+          aTitle: "回答",
+          aHint: "请在此输入回答...",
+          aBy: "回答人",
+          aAt: "回答时间",
+          mdHeader: "# 疑问与解答\n\n",
+          mdProj: "## 基础信息\n",
+          mdStake: "## 干系人\n",
+          mdQList: "## 问题列表\n"
+        },
+        ja: {
+          title: "VSpec Q&A アシスタント",
+          sub: "要件確認用の標準 <code>questions.md</code> をエクスポートします。<br>使い方: このファイルを関係者に共有 > 回答を記入 > エクスポートをクリック > <code>/specs/background/questions.md</code> を上書きします。",
+          projectInfo: "プロジェクト情報",
+          projName: "プロジェクト名",
+          projDesc: "プロジェクト説明",
+          stakeholders: "ステークホルダー",
+          exportAction: "エクスポート",
+          dlLabel: "エクスポート形式",
+          dlBtn: "questions.md をダウンロード",
+          dlHint: "ダウンロード後、questions.md にリネームして元のファイルを上書きしてください。",
+          qs: "質問リスト ({0})",
+          copyQ: "質問のみコピー",
+          copyAll: "すべてコピー",
+          emptyQ: "質問データが提供されていません。",
+          qTitle: "Q{0}: {1}",
+          qLevel: "レベル",
+          qModule: "モジュール",
+          qType: "タイプ",
+          qTarget: "対象者",
+          qRisk: "未解決リスク",
+          qDesc: "質問の詳細",
+          aTitle: "回答",
+          aHint: "ここに回答を入力してください...",
+          aBy: "回答者",
+          aAt: "回答日時",
+          mdHeader: "# 質問と回答\n\n",
+          mdProj: "## プロジェクト情報\n",
+          mdStake: "## ステークホルダー\n",
+          mdQList: "## 質問リスト\n"
+        }
+      };
+
+      let currentLang = "en";
+      function t(key, params) { 
+        let text = i18n[currentLang][key] || i18n["en"][key] || key; 
+        if (params) {
+          for (let i=0; i<params.length; i++) {
+            text = text.replace('{' + i + '}', params[i]);
+          }
+        }
+        return text;
+      }
+
       const state = {
         original: { handle: null, name: null, text: null, items: [] },
         questions: { handle: null, name: null, text: null, items: [], lang: null, format: null },

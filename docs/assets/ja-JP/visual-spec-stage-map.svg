@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="2700" height="600" viewBox="0 0 2700 600">
+<svg xmlns="http://www.w3.org/2000/svg" width="2980" height="600" viewBox="0 0 2980 600">
   <defs>
     <style>
       .bg { fill: #ffffff; }
@@ -19,7 +19,7 @@
     </marker>
   </defs>
 
-  <rect class="bg" x="0" y="0" width="2700" height="600"/>
+  <rect class="bg" x="0" y="0" width="2980" height="600"/>
 
   <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 96 260 L 160 260"/>
   <rect x="22" y="218" width="90" height="84" fill="none" stroke="rgba(15, 23, 42, 0.55)" stroke-width="2" rx="10"/>
@@ -34,6 +34,7 @@
   <line class="sep" x1="1880" y1="22" x2="1880" y2="578"/>
   <line class="sep" x1="2160" y1="22" x2="2160" y2="578"/>
   <line class="sep" x1="2440" y1="22" x2="2440" y2="578"/>
+  <line class="sep" x1="2720" y1="22" x2="2720" y2="578"/>
 
   <text class="title" x="345" y="52" text-anchor="middle">初期分析</text>
   <text class="title" x="670" y="52" text-anchor="middle">確認と検証</text>
@@ -42,7 +43,8 @@
   <text class="title" x="1740" y="52" text-anchor="middle">要件明確化</text>
   <text class="title" x="2020" y="52" text-anchor="middle">要件計画</text>
   <text class="title" x="2300" y="52" text-anchor="middle">要件開発</text>
-  <text class="title" x="2570" y="52" text-anchor="middle">要件受入</text>
+  <text class="title" x="2580" y="52" text-anchor="middle">統合</text>
+  <text class="title" x="2850" y="52" text-anchor="middle">要件受入</text>
 
   <g>
     <rect class="boxBlue" x="215" y="92" width="120" height="40"/>
@@ -75,28 +77,33 @@
     <rect class="boxYellow" x="355" y="342" width="140" height="40"/>
     <text class="boxTextYellow" x="425" y="366" text-anchor="middle">表</text>
 
-    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 345 390 L 345 510"/>
+    <rect class="boxBlue" x="215" y="392" width="120" height="40"/>
+    <text class="boxTextBlue" x="275" y="416" text-anchor="middle">機能一覧</text>
+    <rect class="boxYellow" x="355" y="392" width="140" height="40"/>
+    <text class="boxTextYellow" x="425" y="416" text-anchor="middle">機能リスト</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 345 440 L 345 510"/>
     <rect class="outBox" x="255" y="518" width="180" height="38"/>
     <text class="outText" x="345" y="543" text-anchor="middle">最適化後要件</text>
   </g>
 
   <g>
-    <rect class="boxBlue" x="560" y="120" width="120" height="40"/>
-    <text class="boxTextBlue" x="620" y="144" text-anchor="middle">データモデル</text>
-    <rect class="boxYellow" x="695" y="120" width="105" height="40"/>
-    <text class="boxTextYellow" x="747.5" y="144" text-anchor="middle">モデル</text>
+    <rect class="boxBlue" x="560" y="92" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="116" text-anchor="middle">データモデル</text>
+    <rect class="boxYellow" x="695" y="92" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="116" text-anchor="middle">モデル</text>
 
-    <rect class="boxBlue" x="560" y="175" width="120" height="40"/>
-    <text class="boxTextBlue" x="620" y="199" text-anchor="middle">UI分析</text>
-    <rect class="boxYellow" x="695" y="175" width="105" height="40"/>
-    <text class="boxTextYellow" x="747.5" y="199" text-anchor="middle">UI図</text>
+    <rect class="boxBlue" x="560" y="142" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="166" text-anchor="middle">UI分析</text>
+    <rect class="boxYellow" x="695" y="142" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="166" text-anchor="middle">UI図</text>
 
-    <rect class="boxBlue" x="560" y="230" width="120" height="40"/>
-    <text class="boxTextBlue" x="620" y="254" text-anchor="middle">ストーリー線</text>
-    <rect class="boxYellow" x="695" y="230" width="105" height="40"/>
-    <text class="boxTextYellow" x="747.5" y="254" text-anchor="middle">線</text>
+    <rect class="boxBlue" x="560" y="192" width="120" height="40"/>
+    <text class="boxTextBlue" x="620" y="216" text-anchor="middle">ストーリー線</text>
+    <rect class="boxYellow" x="695" y="192" width="105" height="40"/>
+    <text class="boxTextYellow" x="747.5" y="216" text-anchor="middle">線</text>
 
-    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 670 280 L 670 510"/>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 670 242 L 670 510"/>
     <rect class="outBox" x="590" y="518" width="160" height="38"/>
     <text class="outText" x="670" y="543" text-anchor="middle">UI + ストーリー</text>
   </g>
@@ -121,9 +128,9 @@
     <text class="boxTextYellow" x="1248" y="166" text-anchor="middle">数式</text>
 
     <rect class="boxBlue" x="860" y="192" width="100" height="40"/>
-    <text class="boxTextBlue" x="910" y="216" text-anchor="middle">状態木</text>
+    <text class="boxTextBlue" x="910" y="216" text-anchor="middle">状態ツリー</text>
     <rect class="boxYellow" x="968" y="192" width="100" height="40"/>
-    <text class="boxTextYellow" x="1018" y="216" text-anchor="middle">木</text>
+    <text class="boxTextYellow" x="1018" y="216" text-anchor="middle">ツリー</text>
     <rect class="boxBlue" x="1090" y="192" width="100" height="40"/>
     <text class="boxTextBlue" x="1140" y="216" text-anchor="middle">役割権限</text>
     <rect class="boxYellow" x="1198" y="192" width="100" height="40"/>
@@ -152,11 +159,23 @@
     <rect class="boxYellow" x="968" y="342" width="100" height="40"/>
     <text class="boxTextYellow" x="1018" y="366" text-anchor="middle">線</text>
     <rect class="boxBlue" x="1090" y="342" width="100" height="40"/>
-    <text class="boxTextBlue" x="1140" y="366" text-anchor="middle">式木</text>
+    <text class="boxTextBlue" x="1140" y="366" text-anchor="middle">式ツリー</text>
     <rect class="boxYellow" x="1198" y="342" width="100" height="40"/>
-    <text class="boxTextYellow" x="1248" y="366" text-anchor="middle">木</text>
+    <text class="boxTextYellow" x="1248" y="366" text-anchor="middle">ツリー</text>
 
-    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1070 392 L 1070 510"/>
+    <rect class="boxBlue" x="860" y="392" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="416" text-anchor="middle">ファイル</text>
+    <rect class="boxYellow" x="968" y="392" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="410" text-anchor="middle">取込</text>
+    <text class="boxTextYellow" x="1018" y="428" text-anchor="middle">出力</text>
+    <rect class="boxBlue" x="1090" y="392" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="416" text-anchor="middle">基盤</text>
+    <rect class="boxYellow" x="1198" y="392" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="406" text-anchor="middle">定期ジョブ</text>
+    <text class="boxTextYellow" x="1248" y="418" text-anchor="middle">メッセージ</text>
+    <text class="boxTextYellow" x="1248" y="430" text-anchor="middle">キュー/キャッシュ</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1070 442 L 1070 510"/>
     <rect class="outBox" x="990" y="518" width="160" height="38"/>
     <text class="outText" x="1070" y="543" text-anchor="middle">新版PRD</text>
   </g>
@@ -212,18 +231,47 @@
     <text class="boxTextBlue" x="2235" y="166" text-anchor="middle">変更管理</text>
     <rect class="boxYellow" x="2310" y="142" width="110" height="40"/>
     <text class="boxTextYellow" x="2365" y="166" text-anchor="middle">PRD更新</text>
-    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2300 192 L 2300 510"/>
+
+    <rect class="boxBlue" x="2180" y="192" width="110" height="40"/>
+    <text class="boxTextBlue" x="2235" y="216" text-anchor="middle">VibeCoding</text>
+    <rect class="boxYellow" x="2310" y="192" width="110" height="40"/>
+    <text class="boxTextYellow" x="2365" y="216" text-anchor="middle">実装</text>
+
+    <rect class="boxBlue" x="2180" y="242" width="110" height="40"/>
+    <text class="boxTextBlue" x="2235" y="266" text-anchor="middle">単体テスト</text>
+    <rect class="boxYellow" x="2310" y="242" width="110" height="40"/>
+    <text class="boxTextYellow" x="2365" y="266" text-anchor="middle">自動化</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2300 292 L 2300 510"/>
     <rect class="outBox" x="2180" y="518" width="240" height="38"/>
-    <text class="outText" x="2300" y="543" text-anchor="middle">PRD更新</text>
+    <text class="outText" x="2300" y="543" text-anchor="middle">実装成果物</text>
   </g>
 
   <g>
     <rect class="boxBlue" x="2460" y="92" width="110" height="40"/>
-    <text class="boxTextBlue" x="2515" y="116" text-anchor="middle">受入</text>
+    <text class="boxTextBlue" x="2515" y="116" text-anchor="middle">単体テスト</text>
     <rect class="boxYellow" x="2590" y="92" width="110" height="40"/>
-    <text class="boxTextYellow" x="2645" y="116" text-anchor="middle">テストケース</text>
-    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2570 142 L 2570 510"/>
-    <rect class="outBox" x="2460" y="518" width="220" height="38"/>
-    <text class="outText" x="2570" y="543" text-anchor="middle">テストケース</text>
+    <text class="boxTextYellow" x="2645" y="114" text-anchor="middle">unit_test</text>
+    <text class="boxTextYellow" x="2645" y="130" text-anchor="middle">_cases.json</text>
+
+    <rect class="boxBlue" x="2460" y="142" width="110" height="40"/>
+    <text class="boxTextBlue" x="2515" y="166" text-anchor="middle">結合テスト</text>
+    <rect class="boxYellow" x="2590" y="142" width="110" height="40"/>
+    <text class="boxTextYellow" x="2645" y="164" text-anchor="middle">integration</text>
+    <text class="boxTextYellow" x="2645" y="180" text-anchor="middle">_cases.json</text>
+
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2580 202 L 2580 510"/>
+    <rect class="outBox" x="2460" y="518" width="240" height="38"/>
+    <text class="outText" x="2580" y="543" text-anchor="middle">統合結果</text>
+  </g>
+
+  <g>
+    <rect class="boxBlue" x="2740" y="92" width="110" height="40"/>
+    <text class="boxTextBlue" x="2795" y="116" text-anchor="middle">受入</text>
+    <rect class="boxYellow" x="2870" y="92" width="110" height="40"/>
+    <text class="boxTextYellow" x="2925" y="116" text-anchor="middle">テストケース</text>
+    <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 2850 142 L 2850 510"/>
+    <rect class="outBox" x="2740" y="518" width="220" height="38"/>
+    <text class="outText" x="2850" y="543" text-anchor="middle">テストケース</text>
   </g>
 </svg>

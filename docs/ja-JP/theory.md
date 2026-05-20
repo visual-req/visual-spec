@@ -87,6 +87,7 @@ graph LR
 | レビュー最適化（原型連動） | [theory/prototype-review.md](theory/prototype-review.md) | PM / 関係者 |
 | 読みやすさ（分層読書） | [theory/reading-experience.md](theory/reading-experience.md) | 全員 |
 | Verification & Validation | [theory/verification_and_validation.md](theory/verification_and_validation.md) | QA / Tech Lead |
+| テストカバレッジ | [theory/test-coverage.md](theory/test-coverage.md) | QA / Dev / Tech Lead |
 | 受入テスト（シナリオ駆動） | [theory/acceptance.md](theory/acceptance.md) | QA / Dev / PM |
 | 品質チェック | [theory/quality_check.md](theory/quality_check.md) | 全員 |
 | 計画と見積 | [theory/planning.md](theory/planning.md) | PM |

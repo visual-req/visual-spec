@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520" role="img" aria-label="フロー図の例">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .edge { stroke: #64748b; stroke-width: 1.6; fill: none; }
+      .arrow { fill: #64748b; }
+      .node { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .startEnd { fill: #e0f2fe; stroke: #38bdf8; }
+      .action { fill: #ecfccb; stroke: #84cc16; }
+      .decision { fill: #fef9c3; stroke: #facc15; }
+      .text { fill: #0f172a; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .title { fill: #0f172a; font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .hint { fill: #334155; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path class="arrow" d="M 0 0 L 10 5 L 0 10 z"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1120" height="520"/>
+  <text class="title" x="40" y="46">例：注文送信 + 決済</text>
+  <text class="hint" x="40" y="70">正常系 + タイムアウト + 補償。判定は実フィールドに紐付け（status、amount、payment_state...）。</text>
+
+  <rect class="node startEnd" x="60" y="110" width="180" height="54" rx="18"/>
+  <text class="text" x="150" y="142" text-anchor="middle">開始</text>
+
+  <rect class="node action" x="300" y="98" width="220" height="78" rx="12"/>
+  <text class="text" x="410" y="128" text-anchor="middle">注文作成</text>
+  <text class="hint" x="410" y="148" text-anchor="middle">DB挿入 + 冪等キー</text>
+
+  <polygon class="node decision" points="640,98 710,137 640,176 570,137"/>
+  <text class="text" x="640" y="132" text-anchor="middle">金額</text>
+  <text class="hint" x="640" y="150" text-anchor="middle">&gt; 0 ?</text>
+
+  <rect class="node action" x="780" y="98" width="240" height="78" rx="12"/>
+  <text class="text" x="900" y="128" text-anchor="middle">決済ゲートウェイ呼出</text>
+  <text class="hint" x="900" y="148" text-anchor="middle">create_payment()</text>
+
+  <polygon class="node decision" points="900,220 970,260 900,300 830,260"/>
+  <text class="text" x="900" y="254" text-anchor="middle">決済</text>
+  <text class="hint" x="900" y="272" text-anchor="middle">成功？</text>
+
+  <rect class="node action" x="520" y="220" width="240" height="80" rx="12"/>
+  <text class="text" x="640" y="250" text-anchor="middle">支払済みに更新</text>
+  <text class="hint" x="640" y="270" text-anchor="middle">order.status=PAID</text>
+
+  <rect class="node action" x="520" y="340" width="240" height="80" rx="12"/>
+  <text class="text" x="640" y="370" text-anchor="middle">注文取消</text>
+  <text class="hint" x="640" y="390" text-anchor="middle">補償 + 通知</text>
+
+  <rect class="node startEnd" x="60" y="340" width="180" height="54" rx="18"/>
+  <text class="text" x="150" y="372" text-anchor="middle">終了</text>
+
+  <path class="edge" d="M240 137 L300 137" marker-end="url(#arrow)"/>
+  <path class="edge" d="M520 137 L570 137" marker-end="url(#arrow)"/>
+  <path class="edge" d="M710 137 L780 137" marker-end="url(#arrow)"/>
+
+  <path class="edge" d="M640 176 L640 220" marker-end="url(#arrow)"/>
+  <text class="hint" x="650" y="210">いいえ</text>
+  <text class="hint" x="735" y="128">はい</text>
+
+  <path class="edge" d="M900 176 L900 220" marker-end="url(#arrow)"/>
+  <path class="edge" d="M830 260 L760 260" marker-end="url(#arrow)"/>
+  <text class="hint" x="810" y="250">はい</text>
+  <path class="edge" d="M900 300 L900 380 L760 380" marker-end="url(#arrow)"/>
+  <text class="hint" x="910" y="336">いいえ / タイムアウト</text>
+
+  <path class="edge" d="M520 260 L240 260 L240 367 L240 367" marker-end="url(#arrow)"/>
+  <path class="edge" d="M520 380 L240 380 L240 367" marker-end="url(#arrow)"/>
+</svg>

@@ -63,14 +63,8 @@
      - `fix_suggestion`：字符串
      - `keywords`：string[]（用于“关键词过滤”，从问题与标准中抽取 3-8 个关键词）
 3. HTML 渲染（必须）：
-   - `qc_report.html` 必须使用原生 HTML/CSS/JS（禁止外链库），并在页面加载后读取同目录下的 `qc_report.json`（相对路径）。
-   - UI 必须提供：
-     - 类型过滤：下拉框（默认 All）
-     - 严重程度过滤：下拉框（All/P0/P1/P2）
-     - 关键词过滤：输入框（支持子串匹配 keywords 与文本字段）
-   - 列表布局：每个问题占 1 行（List），至少显示：`id`、`severity`、`type`、`checkpoint`、`location`（可点击展开显示 `excerpt`/`nonconformance`/`fix_suggestion`）。
-   - 翻页控件：每页固定 10 条，提供上一页/下一页与当前页信息。
-   - 文案本地化：所有 UI 文案（标题/按钮/占位符）必须与 `meta.language` 一致（en/zh/ja）。
+   - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源。
+   - HTML 内容要求：从 `prompts/vspec_qc/qc_report.html` 复制（保持一致）。该单文件已内置中英日三语及切换功能，页面加载后会自动读取同目录下的 `qc_report.json`（相对路径）并进行列表与详情渲染。
 4. 覆盖性要求（必须）：
    - 必须覆盖以下检查类型（至少各输出 1 条合格或不合格结论；若全部合格则 `items` 为空，并在 `meta.total=0`，同时 HTML 显示“无不合格项/No issues/不適合なし”）：
      - 目录与路径是否符合标准（models/prototypes 等）

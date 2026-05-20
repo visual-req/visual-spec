@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>场景确认</title>
+    <title>Scenario Review</title>
     <style>
       :root {
         --bg: #0b1020;
@@ -74,6 +74,15 @@
         gap: 10px;
         align-items: center;
       }
+      .langSelect {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: var(--text);
+        border-radius: 6px;
+        padding: 4px 6px;
+        font-size: 12px;
+        outline: none;
+      }
       .btn {
         appearance: none;
         border: 1px solid var(--border);
@@ -86,6 +95,7 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
+        text-decoration: none;
       }
       .btn:hover {
         border-color: rgba(255, 255, 255, 0.22);
@@ -307,7 +317,7 @@
         overflow: hidden;
       }
       .thumb::after {
-        content: "预览占位";
+        content: attr(data-preview);
         position: absolute;
         right: 10px;
         bottom: 10px;
@@ -373,7 +383,7 @@
     <div class="app">
       <div class="panel left">
         <div class="panelHeader">
-          <div class="panelHeaderTitle">场景列表</div>
+          <div class="panelHeaderTitle" id="uiScenarios">Scenarios</div>
           <div class="panelHeaderMeta">
             <span id="sceneCount" class="chip">0</span>
           </div>
@@ -385,13 +395,18 @@
 
       <div class="panel main">
         <div class="panelHeader">
-          <div class="panelHeaderTitle">场景确认</div>
+          <div class="panelHeaderTitle" id="uiScenarioReview">Scenario Review</div>
           <div class="panelHeaderMeta">
+            <select id="langSelect" class="langSelect">
+              <option value="en">English</option>
+              <option value="zh-CN">中文</option>
+              <option value="ja">日本語</option>
+            </select>
             <span id="generatedAt" class="chip">-</span>
           </div>
         </div>
         <div class="mainBody">
-          <div id="emptyState" class="empty">未加载任何场景数据。请确保生成时已将场景 JSON 写入到本页面。</div>
+          <div id="emptyState" class="empty"></div>
           <div id="sceneView" style="display: none">
             <div class="sceneHeader">
               <div>
@@ -399,18 +414,18 @@
                 <div id="sceneSub" class="sceneSub">-</div>
               </div>
               <div class="statusGroup">
-                <span id="statusChip" class="chip">待确认</span>
-                <div id="statusGroup" class="radioGroup" role="radiogroup" aria-label="确认状态">
-                  <div class="radioBtn" data-status="pending">待确认</div>
-                  <div class="radioBtn" data-status="confirmed">已确认</div>
-                  <div class="radioBtn" data-status="need_change">需修改</div>
+                <span id="statusChip" class="chip"></span>
+                <div id="statusGroup" class="radioGroup" role="radiogroup" aria-label="Confirmation status">
+                  <div class="radioBtn" data-status="pending" id="uiPending"></div>
+                  <div class="radioBtn" data-status="confirmed" id="uiConfirmed"></div>
+                  <div class="radioBtn" data-status="need_change" id="uiNeedChange"></div>
                 </div>
               </div>
             </div>
 
             <div class="noteBox">
-              <div class="noteLabel">备注（可选）：</div>
-              <textarea id="note" class="input textArea" placeholder="记录需要修改的点、补充说明、风险等"></textarea>
+              <div class="noteLabel" id="uiNotes"></div>
+              <textarea id="note" class="input textArea"></textarea>
             </div>
 
             <div id="nodes" class="nodes"></div>
@@ -421,19 +436,85 @@
 
     <script>
       (function () {
+        const i18n = {
+          "en": {
+            title: "Scenario Review",
+            scenarios: "Scenarios",
+            scenarioReview: "Scenario Review",
+            pending: "Pending",
+            confirmed: "Confirmed",
+            need_change: "Needs change",
+            notes: "Notes (optional):",
+            notePlaceholder: "Record changes, clarifications, risks, etc.",
+            emptyNoData: "No scenario data loaded. Ensure scenario.json exists next to /scenario.html and access it via a dev server.",
+            emptyNoNodes: "This scenario does not provide a node chain. Fill it from scenarios.md / scenario_details during generation.",
+            page: "Page",
+            webRoute: "Web route",
+            mobileRoute: "Mobile route",
+            openWeb: "Open (Web)",
+            openMobile: "Open (Mobile)",
+            preview: "Preview",
+            nodesCount: "Nodes: {n}"
+          },
+          "zh-CN": {
+            title: "场景确认",
+            scenarios: "场景列表",
+            scenarioReview: "场景确认",
+            pending: "待确认",
+            confirmed: "已确认",
+            need_change: "需修改",
+            notes: "备注（可选）：",
+            notePlaceholder: "记录需要修改的点、补充说明、风险等",
+            emptyNoData: "未加载任何场景数据。请确保生成时已将 scenario.json 写入同目录，并通过开发服务器访问。",
+            emptyNoNodes: "该场景未提供节点链条数据。请在生成时从 scenarios.md / scenario_details 补齐。",
+            page: "页面",
+            webRoute: "Web 路由",
+            mobileRoute: "Mobile 路由",
+            openWeb: "打开页面（Web）",
+            openMobile: "打开页面（Mobile）",
+            preview: "预览占位",
+            nodesCount: "节点数：{n}"
+          },
+          "ja": {
+            title: "シナリオ確認",
+            scenarios: "シナリオ一覧",
+            scenarioReview: "シナリオ確認",
+            pending: "未確認",
+            confirmed: "確認済",
+            need_change: "要修正",
+            notes: "備考（任意）：",
+            notePlaceholder: "修正点、補足、リスクなどを記録",
+            emptyNoData: "シナリオデータが読み込まれていません。scenario.json が同じディレクトリにあることを確認し、開発サーバー経由でアクセスしてください。",
+            emptyNoNodes: "このシナリオにはノードチェーンデータがありません。生成時に scenarios.md / scenario_details から補完してください。",
+            page: "ページ",
+            webRoute: "Web ルート",
+            mobileRoute: "Mobile ルート",
+            openWeb: "開く（Web）",
+            openMobile: "開く（Mobile）",
+            preview: "プレビュー",
+            nodesCount: "ノード数: {n}"
+          }
+        };
+
+        let currentLang = "en";
+
+        function t(key, params) {
+          let text = i18n[currentLang][key] || i18n["en"][key] || key;
+          if (params) {
+            for (const k in params) {
+              text = text.replace(`{${k}}`, params[k]);
+            }
+          }
+          return text;
+        }
+
         const LS_KEY = "__vspec_scenario_confirmations__";
 
         function safeJsonParse(text, fallback) {
-          try {
-            return JSON.parse(text);
-          } catch {
-            return fallback;
-          }
+          try { return JSON.parse(text); } catch { return fallback; }
         }
 
-        function nowIso() {
-          return new Date().toISOString();
-        }
+        function nowIso() { return new Date().toISOString(); }
 
         async function loadScenarioData() {
           const url = "./scenario.json";
@@ -476,9 +557,9 @@
         }
 
         function getStatusLabel(status) {
-          if (status === "confirmed") return "已确认";
-          if (status === "need_change") return "需修改";
-          return "待确认";
+          if (status === "confirmed") return t("confirmed");
+          if (status === "need_change") return t("need_change");
+          return t("pending");
         }
 
         function getStatusChipClass(status) {
@@ -487,14 +568,10 @@
           return "chip chipWarn";
         }
 
-        function loadStore() {
-          return safeJsonParse(localStorage.getItem(LS_KEY) || "{}", {});
-        }
+        function loadStore() { return safeJsonParse(localStorage.getItem(LS_KEY) || "{}", {}); }
+        function saveStore(store) { localStorage.setItem(LS_KEY, JSON.stringify(store)); }
 
-        function saveStore(store) {
-          localStorage.setItem(LS_KEY, JSON.stringify(store));
-        }
-
+        const $langSelect = document.getElementById("langSelect");
         const $sceneCount = document.getElementById("sceneCount");
         const $generatedAt = document.getElementById("generatedAt");
         const $sceneList = document.getElementById("sceneList");
@@ -522,6 +599,17 @@
           const prev = getSceneStore(id);
           store[id] = { ...prev, ...partial, updatedAt: nowIso() };
           saveStore(store);
+        }
+
+        function updateStaticUi() {
+          document.title = t("title");
+          document.getElementById("uiScenarios").textContent = t("scenarios");
+          document.getElementById("uiScenarioReview").textContent = t("scenarioReview");
+          document.getElementById("uiPending").textContent = t("pending");
+          document.getElementById("uiConfirmed").textContent = t("confirmed");
+          document.getElementById("uiNeedChange").textContent = t("need_change");
+          document.getElementById("uiNotes").textContent = t("notes");
+          $note.placeholder = t("notePlaceholder");
         }
 
         function renderList() {
@@ -576,7 +664,7 @@
           if (!scene.nodes.length) {
             const empty = document.createElement("div");
             empty.className = "empty";
-            empty.textContent = "该场景未提供节点链条数据。请在生成时从 scenarios.md / scenario_details 补齐。";
+            empty.textContent = t("emptyNoNodes");
             $nodes.appendChild(empty);
             return;
           }
@@ -588,48 +676,45 @@
             const head = document.createElement("div");
             head.className = "nodeHead";
 
-            const t = document.createElement("div");
-            t.className = "nodeType";
-            t.textContent = n.type || "-";
+            const typeEl = document.createElement("div");
+            typeEl.className = "nodeType";
+            typeEl.textContent = n.type || "-";
 
-            const l = document.createElement("div");
-            l.className = "nodeLabel";
-            l.textContent = n.label || "-";
+            const labelEl = document.createElement("div");
+            labelEl.className = "nodeLabel";
+            labelEl.textContent = n.label || "-";
 
-            head.appendChild(t);
-            head.appendChild(l);
+            head.appendChild(typeEl);
+            head.appendChild(labelEl);
 
             const body = document.createElement("div");
             body.className = "nodeBody";
 
             const thumb = document.createElement("div");
             thumb.className = "thumb";
+            thumb.setAttribute("data-preview", t("preview"));
 
             const kv = document.createElement("div");
             kv.className = "kv";
 
             const r1 = document.createElement("div");
             r1.className = "kvRow";
-            r1.innerHTML = `<div class="kvKey">页面</div><div class="kvVal">${escapeHtml(n.pageName || "-")}</div>`;
+            r1.innerHTML = `<div class="kvKey">${escapeHtml(t("page"))}</div><div class="kvVal">${escapeHtml(n.pageName || "-")}</div>`;
 
             const r2 = document.createElement("div");
             r2.className = "kvRow";
-            r2.innerHTML = `<div class="kvKey">Web 路由</div><div class="kvVal routeMono">${escapeHtml(
-              n.route || "-"
-            )}</div>`;
+            r2.innerHTML = `<div class="kvKey">${escapeHtml(t("webRoute"))}</div><div class="kvVal routeMono">${escapeHtml(n.route || "-")}</div>`;
 
             const r3 = document.createElement("div");
             r3.className = "kvRow";
-            r3.innerHTML = `<div class="kvKey">Mobile 路由</div><div class="kvVal routeMono">${escapeHtml(
-              n.mobileRoute || "-"
-            )}</div>`;
+            r3.innerHTML = `<div class="kvKey">${escapeHtml(t("mobileRoute"))}</div><div class="kvVal routeMono">${escapeHtml(n.mobileRoute || "-")}</div>`;
 
             const actions = document.createElement("div");
             actions.className = "actions";
 
             const openWeb = document.createElement("a");
             openWeb.className = "btn btnPrimary";
-            openWeb.textContent = "打开页面（Web）";
+            openWeb.textContent = t("openWeb");
             openWeb.href = n.route ? n.route : "javascript:void(0)";
             openWeb.target = "_blank";
             openWeb.rel = "noopener";
@@ -637,7 +722,7 @@
 
             const openMobile = document.createElement("a");
             openMobile.className = "btn";
-            openMobile.textContent = "打开页面（Mobile）";
+            openMobile.textContent = t("openMobile");
             openMobile.href = n.mobileRoute ? n.mobileRoute : "javascript:void(0)";
             openMobile.target = "_blank";
             openMobile.rel = "noopener";
@@ -675,19 +760,29 @@
 
           const saved = getSceneStore(scene.id);
           $sceneTitle.textContent = `${scene.id || "-"} · ${scene.name || "-"}`;
-          $sceneSub.textContent = `节点数：${scene.nodes.length}`;
+          $sceneSub.textContent = t("nodesCount", { n: scene.nodes.length });
           $note.value = saved.note || "";
           setStatusUi(saved.status);
           renderNodes(scene);
         }
 
         function render() {
+          updateStaticUi();
+          if (!scenarios.length) {
+             $emptyState.textContent = t("emptyNoData");
+             return;
+          }
           renderList();
-          if (!scenarios.length) return;
           $emptyState.style.display = "none";
           $sceneView.style.display = "block";
           renderScene();
         }
+
+        $langSelect.addEventListener("change", () => {
+          currentLang = $langSelect.value;
+          document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+          render();
+        });
 
         $statusGroup.addEventListener("click", (e) => {
           const target = e.target;
@@ -706,6 +801,13 @@
         });
 
         (async function init() {
+          const navLang = navigator.language || "";
+          if (navLang.startsWith("zh")) currentLang = "zh-CN";
+          else if (navLang.startsWith("ja")) currentLang = "ja";
+          else currentLang = "en";
+          $langSelect.value = currentLang;
+          document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+
           try {
             const data = await loadScenarioData();
             const scenariosRaw = Array.isArray(data?.scenarios) ? data.scenarios : [];
@@ -719,13 +821,16 @@
               render();
             } else {
               $sceneCount.textContent = "0";
+              updateStaticUi();
+              $emptyState.textContent = t("emptyNoData");
               $emptyState.style.display = "block";
               $sceneView.style.display = "none";
             }
           } catch (err) {
             $sceneCount.textContent = "0";
             $generatedAt.textContent = "-";
-            $emptyState.textContent = "未加载任何场景数据。请确保 /scenario.html 同目录下存在 scenario.json，并通过开发服务器访问（例如 Vite dev server）。";
+            updateStaticUi();
+            $emptyState.textContent = t("emptyNoData");
             $emptyState.style.display = "block";
             $sceneView.style.display = "none";
           }

@@ -88,6 +88,7 @@ Command-to-artifact mapping:
 | Review ergonomics (prototype linkage) | [theory/prototype-review.md](theory/prototype-review.md) | PM / Stakeholders |
 | Reading ergonomics (layered reading) | [theory/reading-experience.md](theory/reading-experience.md) | Everyone |
 | Verification & Validation | [theory/verification_and_validation.md](theory/verification_and_validation.md) | QA / Tech Lead |
+| Test coverage | [theory/test-coverage.md](theory/test-coverage.md) | QA / Dev / Tech Lead |
 | Acceptance cases (scenario-driven) | [theory/acceptance.md](theory/acceptance.md) | QA / Dev / PM |
 | Quality check | [theory/quality_check.md](theory/quality_check.md) | Everyone |
 | Planning | [theory/planning.md](theory/planning.md) | PM |

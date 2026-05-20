@@ -1,27 +1,79 @@
-## 非功能性需求（Non-functional Requirements）
+## Non-functional Requirements (NFRs)
 
-用于在需求拆分的早期，把“系统必须具备的质量属性”显式化并可验证化，避免只拆业务功能，到了实现/压测/上线才补救。
+Used early in requirement breakdown to make "quality attributes the system must possess" explicit and verifiable, avoiding breaking down only business features and patching them during implementation/stress testing/launch.
 
-适用场景：
-- 任意业务需求在进入 detail/verify/impl 前的“范围与口径对齐”
-- 对性能、稳定性、安全、合规、可观测、可运维有明确约束的系统
+Applicable Scenarios:
+- "Scope and alignment" of any business requirement before entering detail/verify/impl
+- Systems with explicit constraints on performance, stability, security, compliance, observability, and operability
 
-建议分类（按需裁剪）：
-- 性能：响应时间、吞吐、并发、峰值、批处理窗口、限流策略
-- 稳定性/可用性：SLA、降级、熔断、重试、幂等、容灾、备份与恢复
-- 安全：认证、授权（RBAC/数据权限）、加密、敏感信息处理、审计、漏洞风险
-- 合规：留痕、数据保留期限、访问控制、导出限制、隐私与跨境
-- 可观测：日志、指标、链路追踪、告警、关键事件埋点
-- 可运维：配置管理、灰度发布、回滚策略、变更窗口、数据迁移
-- 兼容性：浏览器/设备、API 版本、外部依赖兼容与替换策略
+Types (tailor as needed; each category must be written to be "verifiable"):
 
-建议输出结构：
-- 目标：为什么要这条非功能性要求（业务/风险/合规原因）
-- 指标：可度量阈值（例如 P95、QPS、RTO/RPO、错误率）
-- 范围：适用哪些场景/接口/页面/任务
-- 验证：如何验收（压测、演练、审计检查、自动化用例）
-- 取舍：与成本/复杂度的权衡与默认值
+### Performance
 
-落地建议：
-- 把非功能性需求映射到“场景 + 约束”：明确哪些场景属于 P0，并在验收用例中覆盖。
-- 对权限与数据权限单独列出矩阵与规则，避免在每个功能里重复且不一致。
+Focuses on "is it fast, can it handle the load", and whether it remains controllable under peaks and anomalies.
+- Common Concerns: Response time (P50/P95/P99), throughput (QPS/TPS), concurrency, peaks, queue backlogs, batch processing windows, rate limiting and queuing strategies.
+- Capacity Guidelines: Define capacity by "critical scenarios" rather than single APIs; e.g., end-to-end latency and success rate of "Order + Payment Callback + Inventory Deduction".
+- Verification: Stress testing plan (dataset/concurrency model/peak curve/scaling strategy) + Post-launch dashboards (SLOs and alert thresholds).
+
+### Reliability / Availability
+
+Focuses on "can it consistently provide service", and whether it can recover and mitigate losses during faults.
+- Common Concerns: SLA/SLO, degradation, circuit breaking, timeouts, retries, idempotency, rate limiting, isolation, disaster recovery, backup and restore, data consistency strategies.
+- Fault Boundaries: Clarify which faults allow "partial unavailability" (e.g., exports/reports) and which must keep the "core flow available".
+- Verification: Chaos engineering (injecting timeouts/dependency unavailability/rate limiting/active-standby switching) + RTO/RPO acceptance.
+
+### Security
+
+Focuses on "can it be bypassed, tampered with, leaked", and whether risks are auditable and traceable.
+- Common Concerns: Authentication, authorization (RBAC/data permissions), session and token management, encryption (transit/storage), sensitive info handling, auditing, vulnerability risks (OWASP), supply chain security.
+- Data Protection: Clarify which fields are sensitive (desensitized display/export limits/watermarks/access audits/least privilege).
+- Verification: Permission cases (allow/deny/prompts), security testing (scanning/penetration/baseline checks), audit log sampling.
+
+### Compliance
+
+Focuses on "are mandatory rules implemented in system behavior", including retention, data lifecycles, privacy, and cross-border transfers.
+- Common Concerns: Traceability and non-repudiation, data retention periods, access control, export limits, privacy terms, cross-border transmission, log retention, audit forensics.
+- Lifecycle: Clarify the "collection → usage → sharing → archiving → deletion" strategy for data, defining trigger conditions and responsible parties.
+- Verification: Audit checklist + forensics drill (can events be reconstructed by time/operator/object).
+
+### Observability
+
+Focuses on "can issues be quickly located", and whether key metrics are continuously monitored.
+- Common Concerns: Logs (structured/correlation IDs), metrics (RED/USE), distributed tracing, alerts, key event tracking, business funnels, and anomaly rates.
+- Minimum Observability Set: Every critical flow must have a `trace_id`, and critical actions must have operation logs and audit fields.
+- Verification: Dashboard and alert drills (simulating increased error rates/latency/queue backlogs) to locate root causes within a time limit.
+
+### Operability
+
+Focuses on "are launches and changes controllable", and whether ops actions are repeatable, rollback-able, and auditable.
+- Common Concerns: Configuration management, canary releases, rollback strategies, change windows, data migrations, feature flags, runbooks, on-call and emergency plans.
+- Change Control: Clarify which changes require canary releases, which require downtime windows, rollback trigger conditions, and rollback steps.
+- Verification: A simulated release (canary → expand → rollback) to verify the operability of data migration and rollbacks.
+
+### Accessibility (a11y)
+
+Focuses on "is it usable by disabled/elderly/temporarily restricted users", complying with laws or organizational standards (e.g., WCAG).
+- Common Concerns: Keyboard accessibility (Tab order/visible focus), semantic structure (ARIA), contrast, scalable fonts, screen reader support, form error prompts, toggleable animations.
+- Interaction Requirements: All core operations must be completable without mouse/touch precision; error prompts must be readable by screen readers.
+- Verification: Automated scanning (a11y lint) + manual walkthroughs (keyboard/screen reader/high contrast) + key page acceptance checklists.
+
+### Locale & Cultural Conventions
+
+Focuses on "are habits of users in different regions respected", avoiding misuse or complaints due to incompatible formats, expressions, or processes.
+- Common Concerns: Language and terminology, time/time zones/calendars, number and currency formats, decimal/thousands separators, address formats, name order, phone number rules, holidays and workdays, color/icon meanings, compliance copy differences.
+- Interaction Requirements: Time and amounts must specify time zones/currencies; default formats vary by region but allow user switching; don't hardcode cultural assumptions in rules.
+- Verification: Regional test cases (formatting/sorting/searching/validation/exports) + key copy reviews (localization and compliance).
+
+### Compatibility
+
+Focuses on "can it run in target environments", including browsers, devices, OS versions, API versions, and external dependencies.
+- Common Concerns: Browser/device matrix, resolutions and input methods (mouse/touch), API version compatibility, external dependency compatibility and replacement strategies, degradation strategies.
+- Version Strategy: Clarify minimum supported versions and deprecation strategies; breaking changes require migration windows and compatibility layers.
+- Verification: Compatibility matrix testing (mainstream + minimum support) + regression baselines + dependency replacement drills (mock/degradation).
+
+### Portability
+
+Focuses on "how high is the migration cost", including deployment environment migration, cloud vendor migration, DB/middleware replacement, and regional expansion.
+- Common Concerns: Environment-agnostic configurations (12-factor), infrastructure abstractions, replaceable dependencies (DB/Cache/MQ/Object Storage), data migration and rollback, cross-region deployment.
+- Architectural Constraints: Avoid hardcoding vendor features in the business layer; dependencies must have minimum feature sets and adapter layers.
+- Verification: Complete an end-to-end deployment and regression in a second environment (or local containerized environment); perform replacement verification on core dependencies (e.g., switching DB/MQ).

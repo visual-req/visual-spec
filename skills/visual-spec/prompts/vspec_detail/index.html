@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VSpec Details</title>
+    <title id="uiTitle">VSpec Details</title>
     <style>
       :root {
         --bg: #0b1220;
@@ -407,11 +407,16 @@
     </style>
   </head>
   <body>
+    <div style="position: absolute; top: 12px; right: 16px; z-index: 100;">
+      <select id="globalLangSelect" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #e6eefc; border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
+        <option value="en">English</option>
+        <option value="zh-CN">中文</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
     <div class="top-banner">
       <div class="inner">
-        <div class="msg">
-          <b>Word export:</b> run <b>/vspec:doc</b> to generate <b>/docs/current/requirement_detail.docx</b>
-        </div>
+        <div class="msg" id="uiWordExport"></div>
       </div>
     </div>
 
@@ -420,17 +425,17 @@
         <div class="panel">
           <div class="sidebar-header">
             <div class="sidebar-title">
-              <span>Details Index</span>
+              <span id="uiDetailsIndex">Details Index</span>
               <span class="badge" id="fileCount">0 files</span>
             </div>
-            <div class="sidebar-meta">Click a file to render it on the right.</div>
+            <div class="sidebar-meta" id="uiClickToRender">Click a file to render it on the right.</div>
             <div class="search">
-              <input id="search" type="text" placeholder="Search path..." />
+              <input id="search" type="text" placeholder="Search path..." id="uiSearchPath" />
               <button id="collapseAll">Collapse</button>
             </div>
           </div>
           <div class="tree">
-            <div class="outline-title">Outline</div>
+            <div class="outline-title" id="uiOutline">Outline</div>
             <div id="outline" class="outline"></div>
             <div class="tree-sep"></div>
             <div id="nav"></div>
@@ -445,20 +450,13 @@
                 <span class="path" id="currentPath">No file selected</span>
               </div>
               <div class="right">
-                <button id="copyPath">Copy Path</button>
+                <button id="copyPath"><span id="uiCopyPath">Copy Path</span></button>
               </div>
             </div>
           </div>
           <div class="content">
             <div class="doc" id="viewer">
-              <div class="empty">
-                Select a document from the left navigation. Markdown supports editing + live preview.
-                <ul>
-                  <li><code>.md</code> rendered as markdown</li>
-                  <li><code>.html</code> rendered via iframe</li>
-                  <li><code>.puml</code> and markdown <code>```plantuml</code> blocks rendered via PlantUML server</li>
-                </ul>
-              </div>
+              <div class="empty" id="uiEmptyDoc"></div>
             </div>
           </div>
         </div>
@@ -466,6 +464,139 @@
     </div>
 
     <script>
+
+      const i18n = {
+        en: {
+          title: "VSpec Details",
+          wordExport: "<b>Word export:</b> run <b>/vspec:doc</b> to generate <b>/docs/current/requirement_detail.docx</b>",
+          detailsIndex: "Details Index",
+          clickToRender: "Click a file to render it on the right.",
+          searchPath: "Search path...",
+          collapse: "Collapse",
+          outline: "Outline",
+          noFile: "No file selected",
+          copyPath: "Copy Path",
+          emptyDoc: "Select a document from the left navigation. Markdown supports editing + live preview.<ul><li><code>.md</code> rendered as markdown</li><li><code>.html</code> rendered via iframe</li><li><code>.puml</code> and markdown <code>```plantuml</code> blocks rendered via PlantUML server</li></ul>",
+          files: "files",
+          fileType: "FILE",
+          errBrowserFS: t("errBrowserFS"),
+          linkedOk: t("linkedOk"),
+          saveFailed: t("saveFailed"),
+          savedOk: t("savedOk"),
+          noLinkedFile: t("noLinkedFile"),
+          split: "Split",
+          edit: "Edit",
+          preview: "Preview",
+          linkFile: "Link File",
+          save: "Save",
+          download: "Download",
+          mdHint: "Edit markdown and preview on the right. Save requires linking a local file.",
+          chapRequirement: "Requirement",
+          chapOriginal: "Original Requirement",
+          chapStakeholders: "Stakeholders",
+          chapRoles: "Roles",
+          chapTerms: "Terms",
+          chapScenarios: "Scenarios",
+          chapDependencies: "Dependencies",
+          chapQuestions: "Questions",
+          chapS2F: "Scenarios ↔ Functions",
+          chapScenarioList: "Scenario List",
+          chapFlowDiagrams: "Flow Diagrams",
+          chapCoreFunctions: "Core Functions",
+          chapFlows: "Flows",
+          chapFunctions: "Functions",
+          chapDetails: "Details",
+          chapModels: "Models"
+        },
+        "zh-CN": {
+          title: "VSpec 详情",
+          wordExport: "<b>Word 导出：</b>运行 <b>/vspec:doc</b> 生成 <b>/docs/current/requirement_detail.docx</b>",
+          detailsIndex: "详情索引",
+          clickToRender: "点击文件，在右侧渲染。",
+          searchPath: "搜索路径...",
+          collapse: "折叠",
+          outline: "大纲",
+          noFile: "未选择文件",
+          copyPath: "复制路径",
+          emptyDoc: "从左侧导航选择文档。Markdown 支持编辑与实时预览。<ul><li><code>.md</code>：以 Markdown 渲染</li><li><code>.html</code>：通过 iframe 渲染</li><li><code>.puml</code> 与 Markdown 的 <code>```plantuml</code>：通过 PlantUML Server 渲染</li></ul>",
+          files: "个文件",
+          fileType: "文件",
+          errBrowserFS: "浏览器不支持 File System Access API，请使用 Download。",
+          linkedOk: "已链接，现在可以使用 Save 直接保存到本地。",
+          saveFailed: "保存失败。",
+          savedOk: "已保存。",
+          noLinkedFile: "未链接本地文件。请先点击 Link File，或使用 Download。",
+          split: "分屏",
+          edit: "编辑",
+          preview: "预览",
+          linkFile: "链接文件",
+          save: "保存",
+          download: "下载",
+          mdHint: "编辑 markdown 并在右侧预览。直接保存需要先链接本地文件。",
+          chapRequirement: "需求",
+          chapOriginal: "原始需求",
+          chapStakeholders: "干系人",
+          chapRoles: "角色",
+          chapTerms: "名词解释",
+          chapScenarios: "场景",
+          chapDependencies: "依赖关系",
+          chapQuestions: "问题",
+          chapS2F: "场景 ↔ 功能",
+          chapScenarioList: "场景列表",
+          chapFlowDiagrams: "流程图",
+          chapCoreFunctions: "核心功能",
+          chapFlows: "流程",
+          chapFunctions: "功能",
+          chapDetails: "细节",
+          chapModels: "模型"
+        },
+        ja: {
+          title: "VSpec 詳細",
+          wordExport: "<b>Word エクスポート：</b> <b>/vspec:doc</b> を実行して <b>/docs/current/requirement_detail.docx</b> を生成します",
+          detailsIndex: "詳細インデックス",
+          clickToRender: "ファイルをクリックして右側に表示します。",
+          searchPath: "パスを検索...",
+          collapse: "折りたたむ",
+          outline: "アウトライン",
+          noFile: "ファイルが選択されていません",
+          copyPath: "パスをコピー",
+          emptyDoc: "左側のナビゲーションからドキュメントを選択してください。Markdownは編集とリアルタイムプレビューをサポートしています。<ul><li><code>.md</code>: Markdownとしてレンダリング</li><li><code>.html</code>: iframe経由でレンダリング</li><li><code>.puml</code> と <code>```plantuml</code>: PlantUML Server経由でレンダリング</li></ul>",
+          files: "ファイル",
+          fileType: "ファイル",
+          errBrowserFS: "ブラウザが File System Access API をサポートしていません。Download を使用してください。",
+          linkedOk: "リンクされました。Save で保存できます。",
+          saveFailed: "保存に失敗しました。",
+          savedOk: "保存しました。",
+          noLinkedFile: "リンクされたファイルがありません。Link File をクリックするか、Download を使用してください。",
+          split: "分割",
+          edit: "編集",
+          preview: "プレビュー",
+          linkFile: "ファイルリンク",
+          save: "保存",
+          download: "ダウンロード",
+          mdHint: "Markdownを編集し、右側でプレビューします。保存にはローカルファイルのリンクが必要です。",
+          chapRequirement: "要件",
+          chapOriginal: "元の要件",
+          chapStakeholders: "ステークホルダー",
+          chapRoles: "ロール",
+          chapTerms: "用語",
+          chapScenarios: "シナリオ",
+          chapDependencies: "依存関係",
+          chapQuestions: "質問",
+          chapS2F: "シナリオ ↔ 機能",
+          chapScenarioList: "シナリオ一覧",
+          chapFlowDiagrams: "フロー図",
+          chapCoreFunctions: "コア機能",
+          chapFlows: "フロー",
+          chapFunctions: "機能",
+          chapDetails: "詳細",
+          chapModels: "モデル"
+        }
+      };
+
+      let currentLang = "en";
+      function t(key) { return i18n[currentLang][key] || i18n["en"][key] || key; }
+
       window.__VSPEC_DETAILS_FILES__ = window.__VSPEC_DETAILS_FILES__ || {};
 
       const PLANTUML_SERVER = "https://www.plantuml.com/plantuml/svg/";
@@ -507,7 +638,7 @@
         if (ext === "md") return "Markdown";
         if (ext === "html") return "HTML";
         if (ext === "puml") return "PlantUML";
-        return ext ? ext.toUpperCase() : "FILE";
+        return ext ? ext.toUpperCase() : t("fileType");
       }
 
       function setActive(path, button) {
@@ -515,7 +646,7 @@
         state.activeButton = button || null;
         if (state.activeButton) state.activeButton.classList.add("active");
         state.activePath = path;
-        dom.currentPath.textContent = path || "No file selected";
+        dom.currentPath.textContent = path || t("noFile");
         dom.typeBadge.textContent = path ? fileType(path) : "—";
         if (path) location.hash = encodeURIComponent(path);
       }
@@ -657,57 +788,57 @@
 
         const chapters = [];
         chapters.push({
-          label: "Requirement",
+          label: t("chapRequirement"),
           children: [
-            { type: "file", label: "Original Requirement", path: original || "/specs/background/original.md", missing: !original },
+            { type: "file", label: t("chapOriginal"), path: original || "/specs/background/original.md", missing: !original },
             {
               type: "file",
-              label: "Stakeholders",
+              label: t("chapStakeholders"),
               path: stakeholder || "/specs/background/stakeholders.md",
               missing: !stakeholder,
             },
-            { type: "file", label: "Roles", path: roles || "/specs/background/roles.md", missing: !roles },
-            { type: "file", label: "Terms", path: terms || "/specs/background/terms.md", missing: !terms },
-            { type: "file", label: "Scenarios", path: scenarios || "/specs/background/scenarios.md", missing: !scenarios },
+            { type: "file", label: t("chapRoles"), path: roles || "/specs/background/roles.md", missing: !roles },
+            { type: "file", label: t("chapTerms"), path: terms || "/specs/background/terms.md", missing: !terms },
+            { type: "file", label: t("chapScenarios"), path: scenarios || "/specs/background/scenarios.md", missing: !scenarios },
             {
               type: "file",
-              label: "Dependencies",
+              label: t("chapDependencies"),
               path: dependencies || "/specs/background/dependencies.md",
               missing: !dependencies,
             },
-            { type: "file", label: "Questions", path: questions || "/specs/background/questions.md", missing: !questions },
+            { type: "file", label: t("chapQuestions"), path: questions || "/specs/background/questions.md", missing: !questions },
           ].filter(Boolean),
         });
 
         const coreFunctions = pickFirst(["/specs/functions/core.md"]);
         chapters.push({
-          label: "Scenarios ↔ Functions",
+          label: t("chapS2F"),
           children: [
-            scenarios ? { type: "file", label: "Scenario List", path: scenarios } : null,
+            scenarios ? { type: "file", label: t("chapScenarioList"), path: scenarios } : null,
             flows.length
-              ? { type: "group", label: "Flow Diagrams", children: flows.map((p) => ({ type: "file", label: basename(p), path: p })) }
+              ? { type: "group", label: t("chapFlowDiagrams"), children: flows.map((p) => ({ type: "file", label: basename(p), path: p })) }
               : null,
-            coreFunctions ? { type: "file", label: "Core Functions", path: coreFunctions } : null,
+            coreFunctions ? { type: "file", label: t("chapCoreFunctions"), path: coreFunctions } : null,
           ].filter(Boolean),
         });
 
         chapters.push({
-          label: "Flows",
+          label: t("chapFlows"),
           children: flows.map((p) => ({ type: "file", label: basename(p), path: p })),
         });
 
         chapters.push({
-          label: "Functions",
+          label: t("chapFunctions"),
           children: functions.map((p) => ({ type: "file", label: displayTitle(p), path: p })),
         });
 
         chapters.push({
-          label: "Details",
+          label: t("chapDetails"),
           children: detailGroups,
         });
 
         chapters.push({
-          label: "Models",
+          label: t("chapModels"),
           children: models.map((p) => ({ type: "file", label: displayTitle(p), path: p })),
         });
 
@@ -1113,16 +1244,16 @@
 
           const modeSplit = document.createElement("button");
           modeSplit.className = "mode-btn active";
-          modeSplit.textContent = "Split";
+          modeSplit.textContent = t("split");
           const modeEdit = document.createElement("button");
           modeEdit.className = "mode-btn";
-          modeEdit.textContent = "Edit";
+          modeEdit.textContent = t("edit");
           const modePreview = document.createElement("button");
           modePreview.className = "mode-btn";
-          modePreview.textContent = "Preview";
+          modePreview.textContent = t("preview");
 
           const linkBtn = document.createElement("button");
-          linkBtn.textContent = "Link File";
+          linkBtn.textContent = t("linkFile");
           linkBtn.addEventListener("click", async () => {
             try {
               await linkLocalFileForWriteBack(path);
@@ -1132,14 +1263,14 @@
 
           const saveBtn = document.createElement("button");
           saveBtn.className = "primary";
-          saveBtn.textContent = "Save";
+          saveBtn.textContent = t("save");
 
           const dlBtn = document.createElement("button");
-          dlBtn.textContent = "Download";
+          dlBtn.textContent = t("download");
 
           const hint = document.createElement("div");
           hint.className = "hint";
-          hint.textContent = "Edit markdown and preview on the right. Save requires linking a local file.";
+          hint.textContent = t("mdHint");
 
           left.appendChild(modeSplit);
           left.appendChild(modeEdit);
@@ -1234,7 +1365,7 @@
               !p.endsWith("/specs/details/index.html"),
           )
           .sort((a, b) => a.localeCompare(b));
-        dom.fileCount.textContent = `${state.paths.length} files`;
+        dom.fileCount.textContent = `${state.paths.length} ${t("files")}`;
         renderSidebar();
         renderOutline([]);
         const fromHash = decodeURIComponent((location.hash || "").replace(/^#/, "")) || "";
@@ -1262,6 +1393,42 @@
         for (const d of ds) d.open = false;
       });
 
+      
+      function updateStaticUi() {
+        document.getElementById("uiTitle").textContent = t("title");
+        document.getElementById("uiWordExport").innerHTML = t("wordExport");
+        document.getElementById("uiDetailsIndex").textContent = t("detailsIndex");
+        document.getElementById("uiClickToRender").textContent = t("clickToRender");
+        document.getElementById("uiSearchPath").placeholder = t("searchPath");
+        document.getElementById("collapseAll").textContent = t("collapse");
+        document.getElementById("uiOutline").textContent = t("outline");
+        document.getElementById("uiCopyPath").textContent = t("copyPath");
+        if (!state.activePath) {
+          dom.currentPath.textContent = t("noFile");
+        }
+        dom.fileCount.textContent = `${state.paths.length} ${t("files")}`;
+        
+        const emptyDoc = document.getElementById("uiEmptyDoc");
+        if (emptyDoc) emptyDoc.innerHTML = t("emptyDoc");
+      }
+      
+      document.getElementById("globalLangSelect").addEventListener("change", (e) => {
+        currentLang = e.target.value;
+        document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+        updateStaticUi();
+        renderSidebar();
+        if (state.activePath) openFile(state.activePath, state.activeButton);
+      });
+      
+      // Auto-detect lang
+      const navLang = navigator.language || "";
+      if (navLang.startsWith("zh")) currentLang = "zh-CN";
+      else if (navLang.startsWith("ja")) currentLang = "ja";
+      else currentLang = "en";
+      document.getElementById("globalLangSelect").value = currentLang;
+      document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+
+      updateStaticUi();
       setFiles(window.__VSPEC_DETAILS_FILES__);
     </script>
   </body>

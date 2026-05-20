@@ -77,53 +77,53 @@
   - [/vspec:proto-execute](../../README.md#commands)：执行流页面（包含移动端 `/m/*`）
   - [/vspec:proto-crud](../../README.md#commands)：配置/主数据 CRUD 管理页
 
-### 8. 验收用例（[/vspec:accept](../../README.md#commands)）
-
-- 生成 JSON 验收用例：`/test/验收用例/acceptance_cases.json`
-- 用 `/test/testcase_reader.html` 阅读生成的 JSON
-- 目标：定义验收口径与覆盖范围（主流程、异常、边界、RBAC、数据范围）
-
-### 8.1 单元/集成测试用例（[/vspec:i-test](../../README.md#commands)）
-
-- 生成 JSON 用例：
-  - `/test/单元测试/unit_test_cases.json`
-  - `/test/集成测试/integration_test_cases.json`
-- 重点：CRUD 拆为 查询/新建/编辑/详情/删除；校验/权限/分支必须拆成独立用例
-
-### 8.2 Playwright 脚本（[/vspec:script](../../README.md#commands)）
-
-- 生成 Playwright 脚本：`/test/playwright/`
-
-### 9. 自动化测试（[/vspec:append-test](../../README.md#commands)）
-
-- 读取验收用例与仓库现有测试技术栈
-- 生成最小可运行的一组 E2E/API/单测
-- Note：该步骤只生成/补齐测试代码以提升覆盖率，不负责执行测试命令（例如 mvn test）。
-
-### 10. 集成实现（[/vspec:impl](../../README.md#commands)）
-
-- 读取 specs、details、models、dependencies
-- 按仓库约定生成后端 + 前端联调代码（API 合同 → 后端实现 → 前端对接）
-
-### 11. 质量检查（[/vspec:qc](../../README.md#commands)）
+### 8. 质量检查（[/vspec:qc](../../README.md#commands)）
 
 - 对 `/specs/` 下产物做质量检查
 - 输出：`/specs/qc_report.md`
 
-### 12. 估算与排期（[/vspec:plan](../../README.md#commands)）
+### 9. 估算与排期（[/vspec:plan](../../README.md#commands)）
 
 - 把功能与场景拆成用户故事，估算工作量，并生成迭代排期
 - 输出：
   - `/specs/plan/plan_estimate.md`
   - `/specs/plan/plan_schedule.html`
 
-### 13. 升级/改造（[/vspec:upgrade](../../README.md#commands)）
+### 10. 升级/改造（[/vspec:upgrade](../../README.md#commands)）
 
 - 适用场景：基于遗留系统材料做“升级/重构/迁移”分析，继承必要部分并生成新规格
 - 入口清单：`/docs/current/file_list.md`（缺失时生成模板）
 - 输出：生成/更新 `/specs/`（沿用 [/vspec:new](../../README.md#commands) 结构）+ 同步技术选型到 `/scheme.yaml`
 
-### 14. MRD 分析包（[/vspec:mrd](../../README.md#commands)）
+### 11. 单元/集成测试用例（[/vspec:i-test](../../README.md#commands)）
+
+- 生成 JSON 用例：
+  - `/test/单元测试/unit_test_cases.json`
+  - `/test/集成测试/integration_test_cases.json`
+- 重点：CRUD 拆为 查询/新建/编辑/详情/删除；校验/权限/分支必须拆成独立用例
+
+### 12. Playwright 脚本（[/vspec:script](../../README.md#commands)）
+
+- 生成 Playwright 脚本：`/test/playwright/`
+
+### 13. 集成实现（[/vspec:impl](../../README.md#commands)）
+
+- 读取 specs、details、models、dependencies
+- 按仓库约定生成后端 + 前端联调代码（API 合同 → 后端实现 → 前端对接）
+
+### 14. 自动化测试（[/vspec:append-test](../../README.md#commands)）
+
+- 读取验收用例与仓库现有测试技术栈
+- 生成最小可运行的一组 E2E/API/单测
+- Note：该步骤只生成/补齐测试代码以提升覆盖率，不负责执行测试命令（例如 mvn test）。
+
+### 15. 验收用例（[/vspec:accept](../../README.md#commands)）
+
+- 生成 JSON 验收用例：`/test/验收用例/acceptance_cases.json`
+- 用 `/test/testcase_reader.html` 阅读生成的 JSON
+- 目标：定义验收口径与覆盖范围（主流程、异常、边界、RBAC、数据范围）
+
+### 16. MRD 分析包（[/vspec:mrd](../../README.md#commands)）
 
 - 输出市场/竞品/用户/产品设计分析包
 - 输出目录：`/docs/market/`（market/competitors/users/product_design）

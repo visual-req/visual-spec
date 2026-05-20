@@ -2,6 +2,8 @@
 
 本页用于说明 visual-spec 在工作区中的“输入材料、过程产物、最终产物”分别放在哪，以及每类目录的用途。
 
+![工作区目录结构示意](../assets/zh-CN/directories-structure.svg)
+
 ### 1) 输入材料（你提供的原始信息）
 
 - `/docs/current/`：当前需求相关材料（原始需求、补充说明、截图、表格、PPT/Word/PDF 等）

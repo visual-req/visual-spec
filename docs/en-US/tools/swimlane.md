@@ -1,16 +1,16 @@
-## 泳道图（Swimlane Diagram）
+## Swimlane Diagram
 
-用于表达“跨角色/跨系统的协作流程”，强调责任边界：谁做、在哪做、交接点在哪。
+Used to express "cross-role/cross-system collaboration processes", emphasizing responsibility boundaries: who does it, where it is done, and where the handover points are.
 
-适用场景：
-- 多角色参与（客户/运营/财务/合规/第三方）
-- 多系统协同（主系统 + 外部通道 + 对账系统）
+Applicable Scenarios:
+- Multi-role participation (customer/ops/finance/compliance/third-party)
+- Multi-system collaboration (main system + external channels + reconciliation system)
 
-建议结构：
-- 泳道维度：角色 / 系统 / 部门 / 服务（选其一为主）
-- 交接点：事件/消息/接口调用/文件交付
-- 关键产出：每个泳道阶段的输入/输出
+Suggested Structure:
+- Swimlane Dimension: Role / System / Department / Service (choose one as primary)
+- Handover Points: Events/messages/API calls/file deliveries
+- Key Outputs: Inputs/outputs for each swimlane stage
 
-落地建议：
-- 明确每个交接点的协议（API、MQ、文件、人工操作）
-- 明确失败归属与补偿责任（哪一方重试/回滚/人工介入）
+Implementation Suggestions:
+- Clarify the protocol for each handover point (API, MQ, File, Manual Operation)
+- Clarify failure attribution and compensation responsibilities (which party retries/rollbacks/intervenes manually)

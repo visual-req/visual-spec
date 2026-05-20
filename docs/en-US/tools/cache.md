@@ -1,17 +1,17 @@
-## 缓存（Cache）
+## Cache
 
-用于表达“哪些数据可以缓存、缓存在哪里、何时失效、如何一致性与回源”，避免缓存只在实现阶段临时加，导致脏读、穿透与雪崩。
+Used to express "what data can be cached, where it is cached, when it invalidates, and how to maintain consistency and origin fallback", avoiding caches being added ad-hoc during implementation which leads to dirty reads, penetration, and avalanches.
 
-适用场景：
-- 热点读（列表/详情/配置/字典）
-- 计算开销大或外部依赖慢（聚合报表、权限/范围解析、第三方查询）
+Applicable Scenarios:
+- Hotspot reads (lists/details/configs/dictionaries)
+- Computationally expensive or slow external dependencies (aggregated reports, permission/scope resolution, third-party queries)
 
-建议结构：
-- 缓存对象：缓存的 key、value、维度（tenant/user/role/resource）
-- 位置：浏览器/本地进程/Redis/CDN
-- TTL 与失效：过期策略、主动失效、双写/延迟双删
-- 一致性：允许的陈旧窗口、回源策略、幂等与并发控制（单飞/锁）
-- 风险：穿透/击穿/雪崩与兜底（降级、限流、预热）
+Suggested Structure:
+- Cache Object: cache key, value, dimension (tenant/user/role/resource)
+- Location: browser/local process/Redis/CDN
+- TTL and Invalidation: expiration strategy, active invalidation, double-write/delayed double-delete
+- Consistency: allowed stale window, origin fallback strategy, idempotency and concurrency control (single flight/lock)
+- Risks: penetration/breakdown/avalanche and fallbacks (degradation, rate limiting, warmup)
 
-落地建议：
-- 对每个缓存都写清“命中率目标”和“失效触发条件”，并在关键场景变更时验证失效是否正确。
+Implementation Suggestions:
+- Clearly state "hit rate target" and "invalidation trigger conditions" for each cache, and verify invalidation correctness when key scenarios change.

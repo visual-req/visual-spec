@@ -23,17 +23,21 @@
 
 ### 2) 見積の基準をカスタマイズ（推奨）
 
-見積基準は以下にあります：
+見積の標準値は JSON で管理します：
 
-- `skills/visual-spec/prompts/vspec_plan/estimate.md`
+- `skills/visual-spec/prompts/vspec_plan/estimation_standards.json`
 
-このファイルには、fork 後に調整できる参照表が含まれています：
-- Story Points の標準スケール
-- 代表的な作業項目の見積参考（CRUD、入出力、承認/状態機械、RBAC、データ権限、外部連携、定期実行など）
+閲覧用（単一 HTML、EN/中文/日本語の切替対応）：
 
-推奨アプローチ：
-- チームの生産性、コード生成比率、テスト強度、リリース運用に合わせて SP の目安を調整
-- 自組織で頻出する作業カテゴリを追加（例：チケット/工単、レポート、決済、CMS、設定配信など）
+- `skills/visual-spec/prompts/vspec_plan/estimation_standards_reader.html`
+
+`/vspec:plan` の見積フェーズは、この JSON を Story Points の共通口径として参照します（許可される点数は `0/0.5/1/2/3/5/8/13` のみ）。
+
+fork 後に JSON を拡張/修正する方法：
+- `allowedStoryPoints` は基本的に固定（変更する場合は見積運用全体を合わせないと点数が漂流します）
+- `scalePoints` を調整して、各 SP の意味（範囲/説明）をチームに合わせて明確化
+- `workItemBenchmarks` に自組織で頻出する作業カテゴリを追加（安定した `key` を推奨）し、`en/zh-CN/ja` の三言語テキストを必ず埋める
+- 監査・追跡のため `version` と `updatedAt` を更新
 
 ### 3) “間違い集” を再利用・継続保守
 

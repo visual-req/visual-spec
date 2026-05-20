@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="520" viewBox="0 0 1160 520" role="img" aria-label="Data Permissions Matrix Example">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .grid { stroke: #cbd5e1; stroke-width: 1; }
+      .head { fill: #f1f5f9; }
+      .text { fill: #0f172a; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .title { fill: #0f172a; font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .muted { fill: #334155; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .tag { fill: #e2e8f0; stroke: #cbd5e1; }
+      .tagText { fill: #0f172a; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1160" height="520"/>
+
+  <text class="title" x="40" y="48">Data Permissions Matrix</text>
+  <text class="muted" x="40" y="72">Rows = entity, columns = role; each cell defines read/write scope and filter strategy.</text>
+
+  <rect class="head" x="40" y="100" width="1080" height="64" rx="10"/>
+
+  <line class="grid" x1="40" y1="100" x2="40" y2="420"/>
+  <line class="grid" x1="220" y1="100" x2="220" y2="420"/>
+  <line class="grid" x1="380" y1="100" x2="380" y2="420"/>
+  <line class="grid" x1="540" y1="100" x2="540" y2="420"/>
+  <line class="grid" x1="700" y1="100" x2="700" y2="420"/>
+  <line class="grid" x1="1120" y1="100" x2="1120" y2="420"/>
+
+  <line class="grid" x1="40" y1="100" x2="1120" y2="100"/>
+  <line class="grid" x1="40" y1="164" x2="1120" y2="164"/>
+  <line class="grid" x1="40" y1="228" x2="1120" y2="228"/>
+  <line class="grid" x1="40" y1="292" x2="1120" y2="292"/>
+  <line class="grid" x1="40" y1="356" x2="1120" y2="356"/>
+  <line class="grid" x1="40" y1="420" x2="1120" y2="420"/>
+
+  <text class="title" x="60" y="138">Entity</text>
+  <text class="title" x="240" y="138">Admin</text>
+  <text class="title" x="400" y="138">Manager</text>
+  <text class="title" x="560" y="138">Operator</text>
+  <text class="title" x="720" y="138">Cell format</text>
+
+  <text class="text" x="60" y="202">Order</text>
+  <text class="text" x="240" y="192">R: All</text>
+  <text class="text" x="240" y="212">W: All</text>
+  <text class="text" x="400" y="192">R: Org</text>
+  <text class="text" x="400" y="212">W: Org</text>
+  <text class="text" x="560" y="192">R: Self</text>
+  <text class="text" x="560" y="212">W: Self</text>
+  <text class="text" x="720" y="192">R scope: All/Org/Dept/Self/List</text>
+  <text class="text" x="720" y="212">W scope can differ from R scope</text>
+
+  <text class="text" x="60" y="266">Refund</text>
+  <text class="text" x="240" y="256">R: All</text>
+  <text class="text" x="240" y="276">W: All</text>
+  <text class="text" x="400" y="256">R: Org</text>
+  <text class="text" x="400" y="276">W: Dept</text>
+  <text class="text" x="560" y="256">R: Dept</text>
+  <text class="text" x="560" y="276">W: Deny</text>
+  <text class="text" x="720" y="256">Filters: default WHERE + optional filters</text>
+  <text class="text" x="720" y="276">Export must follow R scope</text>
+
+  <text class="text" x="60" y="330">Report</text>
+  <text class="text" x="240" y="320">R: All</text>
+  <text class="text" x="240" y="340">W: Deny</text>
+  <text class="text" x="400" y="320">R: Org</text>
+  <text class="text" x="400" y="340">W: Deny</text>
+  <text class="text" x="560" y="320">R: Self</text>
+  <text class="text" x="560" y="340">W: Deny</text>
+  <text class="text" x="720" y="320">Audit: log scope hit &amp; export records</text>
+  <text class="text" x="720" y="340">Deny = must return consistent error code</text>
+
+  <rect class="tag" x="40" y="450" width="1080" height="48" rx="10"/>
+  <text class="tagText" x="60" y="480">Scope keywords: All / Org / Dept / Self / List / Deny. Use tenantId + orgId/departmentId + ownerId + regionId/customerId... to build filters.</text>
+</svg>

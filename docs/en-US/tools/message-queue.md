@@ -1,18 +1,18 @@
-## 消息队列（Message Queue）
+## Message Queue (MQ)
 
-用于表达“异步事件/任务如何流转”的逻辑：事件是什么、谁生产/谁消费、顺序与幂等、失败重试与死信，避免只写“发 MQ”但无法验收。
+Used to express the logic of "how asynchronous events/tasks flow": what the event is, who produces/consumes it, ordering and idempotency, failure retries, and dead letters, avoiding just saying "send to MQ" without being verifiable.
 
-适用场景：
-- 异步解耦（提交后异步处理、通知、对账）
-- 事件驱动（状态变化触发下游动作）
-- 削峰填谷（高峰写入队列，后台慢慢消费）
+Applicable Scenarios:
+- Asynchronous decoupling (async processing after submission, notifications, reconciliation)
+- Event-driven (state changes trigger downstream actions)
+- Peak shaving and valley filling (writing to queue during peaks, background consuming slowly)
 
-建议结构：
-- 事件定义：topic、事件名、schema、版本策略
-- 生产者：在哪个场景产生、触发条件、事务一致性（outbox/事务消息）
-- 消费者：处理逻辑、幂等键、重试策略、顺序要求
-- 失败处理：DLQ、告警、人工补偿、可重放
-- 可观测：投递/消费延迟、堆积量、失败率、traceId 贯穿
+Suggested Structure:
+- Event Definition: topic, event name, schema, versioning strategy
+- Producer: in which scenario it's generated, trigger conditions, transactional consistency (outbox/transactional messages)
+- Consumer: processing logic, idempotency keys, retry strategy, ordering requirements
+- Failure Handling: DLQ, alerts, manual compensation, replayability
+- Observability: delivery/consumption latency, backlog volume, failure rate, traceId penetration
 
-落地建议：
-- 每个事件都要定义“幂等键 + 去重窗口”，并在验收用例里覆盖重复投递与乱序场景。
+Implementation Suggestions:
+- Every event must define an "idempotency key + deduplication window", and acceptance test cases must cover duplicate delivery and out-of-order scenarios.

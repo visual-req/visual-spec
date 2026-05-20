@@ -1,17 +1,17 @@
-## 时间轴（Timeline）
+## Timeline
 
-用于表达“事件随时间发生的顺序、依赖与并行关系”，以及不同阶段的输入/产出与责任边界。
+Used to express "the sequence, dependencies, and parallel relationships of events over time", as well as the inputs/outputs and responsibility boundaries of different stages.
 
-适用场景：
-- 业务生命周期（申请 → 审批 → 执行 → 对账/结算 → 归档）
-- 状态演进与关键里程碑（开始/暂停/回滚/终止）
-- 版本发布节奏、灰度、回滚窗口、数据迁移窗口
+Applicable Scenarios:
+- Business lifecycle (Application → Approval → Execution → Reconciliation/Settlement → Archiving)
+- State evolution and key milestones (Start/Pause/Rollback/Terminate)
+- Version release rhythm, canary, rollback windows, data migration windows
 
-建议包含的信息：
-- 时间点/时间段：触发条件、前置依赖、输出结果
-- 参与角色：谁触发/谁审批/谁执行/谁监控
-- 风险点：失败回退、补偿路径、超时策略
+Suggested Information to Include:
+- Time Points/Periods: trigger conditions, prerequisites, output results
+- Participating Roles: who triggers/who approves/who executes/who monitors
+- Risk Points: failure fallbacks, compensation paths, timeout strategies
 
-产出形式建议：
-- 线性时间轴（单主线）
-- 带分支时间轴（并行/分叉/合并）
+Suggested Output Formats:
+- Linear Timeline (single main thread)
+- Branching Timeline (parallel/fork/merge)

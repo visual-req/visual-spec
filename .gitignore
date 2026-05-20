@@ -3,4 +3,3 @@
 *.tgz
 dist/
 *.skill
-skills/**/prompts/harness/

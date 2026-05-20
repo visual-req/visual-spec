@@ -1,24 +1,36 @@
-## 访问权限（RBAC）
+## Access Control (RBAC)
 
-用于把“谁能做什么”变成可实现、可测试、可审计的权限模型，避免权限只写成一句话导致实现分散且口径不一致。
+Turns “who can do what” into an implementable, testable, auditable permission model, so permissions don’t degrade into vague one-liners and inconsistent implementations.
 
-适用场景：
-- 多角色系统（运营/审核/财务/合规/管理员/外部协作方）
-- 需要到页面按钮、接口、操作动作粒度的权限控制
+When to use:
+- Multi-role systems (ops/reviewer/finance/compliance/admin/external collaborators)
+- Permissions must reach page areas/buttons, APIs, and operation/action level
 
-核心要素：
-- 角色（Role）：一组权限的集合（例如派车员、司机、财务、管理员）
-- 权限点（Permission）：可授权的最小动作（例如 `order:approve`、`dispatch:revoke`）
-- 资源（Resource）：权限作用对象（页面、接口、功能、菜单、数据实体）
-- 操作（Action）：对资源的动作（read/create/update/delete/approve/export）
+Core concepts:
+- Role: a bundle of permissions (e.g., dispatcher, driver, finance, admin)
+- Permission key: the smallest grantable action (e.g., `order:approve`, `dispatch:revoke`)
+- Resource: what the permission applies to (page, API, feature, menu, data entity)
+- Action: the operation on the resource (read/create/update/delete/approve/export)
 
-建议输出结构：
-- 角色清单：角色定义、职责、常用任务
-- 权限点清单：命名规范、描述、对应页面/接口/动作
-- 角色-权限矩阵：角色 × 权限点（允许/禁止/条件允许）
-- UI 规则：按钮可见/可点、禁用原因提示、无权限时的默认落点
-- API 规则：鉴权方式、错误码、审计字段（操作者、角色、请求来源）
+RBAC table format (recommended to be written directly into each feature’s `rbac.md`):
 
-落地建议：
-- 前后端统一以权限点为口径：UI 控制和后端鉴权都基于同一权限点，禁止只做前端隐藏或只靠后端报错。
-- 把权限与场景绑定：在场景表中标注“触发者角色”，并在验收用例里覆盖“允许/拒绝/提示文案”。
+Role table:
+| Role | Responsibility / Boundary | Typical Operations | Notes |
+|---|---|---|---|
+| Admin | ... | ... | ... |
+
+Permission key table (single source of truth for both frontend and backend):
+| Permission Key | Name | Resource Type | Resource Path | Action | Description | Related API | UI Control Point |
+|---|---|---|---|---|---|---|---|
+| order:approve | Approve Order | Page/Button | /orders/{id}#approve | approve | ... | POST /api/orders/{id}/approve | Order detail - Approve button |
+
+Role-permission matrix (Allow / Deny / Conditional):
+| Permission Key | Admin | Reviewer | Operator | Conditions (e.g., data scope / status) |
+|---|---|---|---|---|
+| order:approve | Allow | Allow | Deny | Only when status=Pending; org-scoped data only |
+
+Execution notes:
+- Use permission keys end-to-end: UI gating and backend authorization must share the same permission keys; never rely on “frontend hide-only” or “backend error-only”.
+- Bind permissions to scenarios/cases: mark the triggering role in scenarios; acceptance cases must cover allow/deny copy and the default landing page when unauthorized.
+- Default deny: anything not explicitly allowed in the matrix is denied, with consistent error codes and messages.
+- Conditional must be executable: express conditions as implementable fields (data scope, org/tenant, status, ownership, time window), not free text.

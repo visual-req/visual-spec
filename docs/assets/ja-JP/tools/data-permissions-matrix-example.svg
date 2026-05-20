@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="520" viewBox="0 0 1160 520" role="img" aria-label="データ権限行列の例">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .grid { stroke: #cbd5e1; stroke-width: 1; }
+      .head { fill: #f1f5f9; }
+      .text { fill: #0f172a; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .title { fill: #0f172a; font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .muted { fill: #334155; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+      .tag { fill: #e2e8f0; stroke: #cbd5e1; }
+      .tagText { fill: #0f172a; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1160" height="520"/>
+
+  <text class="title" x="40" y="48">データ権限行列</text>
+  <text class="muted" x="40" y="72">行=エンティティ、列=ロール。各セルで読取/書込スコープとフィルタ戦略を定義。</text>
+
+  <rect class="head" x="40" y="100" width="1080" height="64" rx="10"/>
+
+  <line class="grid" x1="40" y1="100" x2="40" y2="420"/>
+  <line class="grid" x1="220" y1="100" x2="220" y2="420"/>
+  <line class="grid" x1="380" y1="100" x2="380" y2="420"/>
+  <line class="grid" x1="540" y1="100" x2="540" y2="420"/>
+  <line class="grid" x1="700" y1="100" x2="700" y2="420"/>
+  <line class="grid" x1="1120" y1="100" x2="1120" y2="420"/>
+
+  <line class="grid" x1="40" y1="100" x2="1120" y2="100"/>
+  <line class="grid" x1="40" y1="164" x2="1120" y2="164"/>
+  <line class="grid" x1="40" y1="228" x2="1120" y2="228"/>
+  <line class="grid" x1="40" y1="292" x2="1120" y2="292"/>
+  <line class="grid" x1="40" y1="356" x2="1120" y2="356"/>
+  <line class="grid" x1="40" y1="420" x2="1120" y2="420"/>
+
+  <text class="title" x="60" y="138">エンティティ</text>
+  <text class="title" x="240" y="138">管理者</text>
+  <text class="title" x="400" y="138">マネージャー</text>
+  <text class="title" x="560" y="138">オペレーター</text>
+  <text class="title" x="720" y="138">セル形式</text>
+
+  <text class="text" x="60" y="202">注文</text>
+  <text class="text" x="240" y="192">R：全体</text>
+  <text class="text" x="240" y="212">W：全体</text>
+  <text class="text" x="400" y="192">R：組織</text>
+  <text class="text" x="400" y="212">W：組織</text>
+  <text class="text" x="560" y="192">R：本人</text>
+  <text class="text" x="560" y="212">W：本人</text>
+  <text class="text" x="720" y="192">Rスコープ：全体/組織/部門/本人/リスト</text>
+  <text class="text" x="720" y="212">WスコープはRと異なってよい</text>
+
+  <text class="text" x="60" y="266">返金</text>
+  <text class="text" x="240" y="256">R：全体</text>
+  <text class="text" x="240" y="276">W：全体</text>
+  <text class="text" x="400" y="256">R：組織</text>
+  <text class="text" x="400" y="276">W：部門</text>
+  <text class="text" x="560" y="256">R：部門</text>
+  <text class="text" x="560" y="276">W：拒否</text>
+  <text class="text" x="720" y="256">フィルタ：既定 WHERE + 任意条件</text>
+  <text class="text" x="720" y="276">エクスポートはRスコープに従う</text>
+
+  <text class="text" x="60" y="330">レポート</text>
+  <text class="text" x="240" y="320">R：全体</text>
+  <text class="text" x="240" y="340">W：拒否</text>
+  <text class="text" x="400" y="320">R：組織</text>
+  <text class="text" x="400" y="340">W：拒否</text>
+  <text class="text" x="560" y="320">R：本人</text>
+  <text class="text" x="560" y="340">W：拒否</text>
+  <text class="text" x="720" y="320">監査：スコープ命中 &amp; エクスポート記録</text>
+  <text class="text" x="720" y="340">拒否=一貫したエラーコード</text>
+
+  <rect class="tag" x="40" y="450" width="1080" height="48" rx="10"/>
+  <text class="tagText" x="60" y="480">キーワード：全体/組織/部門/本人/リスト/拒否。tenantId + orgId/departmentId + ownerId + regionId/customerId... でフィルタ条件を組み立てる。</text>
+</svg>

@@ -21,10 +21,7 @@
 输出与写入要求（必须）：
 1. 只写入一个文件：`/specs/details/reader.html`
 2. HTML 必须是完整单文件（包含内联 CSS 与内联 JS），不得依赖外部脚本/样式资源
-2.1 为了保证生成稳定性：`/specs/details/reader.html` 必须以模板为基础生成——先按 `/scheme.yaml` 的 `selected.language` 选择模板文件并复制整份内容作为起始模板，然后仅做必要的替换/填充（例如内嵌文件内容 JSON、默认打开文件等）。不要从零开始“自由发挥”生成 HTML。
-   - `en` → `prompts/vspec_detail/index.en-US.html`（若不存在则回退到 `prompts/vspec_detail/index.html`）
-   - `zh-CN` → `prompts/vspec_detail/index.zh-CN.html`
-   - `ja` → `prompts/vspec_detail/index.ja-JP.html`
+2.1 为了保证生成稳定性：`/specs/details/reader.html` 必须以模板为基础生成——复制 `prompts/vspec_detail/index.html` 整份内容作为起始模板（该模板已内置中日英三语切换），然后仅做必要的替换/填充（例如内嵌文件内容 JSON、默认打开文件等）。不要从零开始“自由发挥”生成 HTML。
 3. 页面布局：
    - 左侧：章节导航 + 标题层级目录（必须）
      - 章节导航按“章节结构”分组，而不是按文件名；必须包含并链接到：背景（original.md）、干系人（stakeholders.md）、角色（roles.md）、术语（terms.md）、流程（flows）、场景（scenarios）、数据模型（models）、功能清单（functions）、以及 details 下的各类细节文档

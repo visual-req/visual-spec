@@ -23,17 +23,21 @@
 
 ### 2) 定制标准估算基准（推荐）
 
-估算基准位于：
+估算标准值以 JSON 形式存放：
 
-- `skills/visual-spec/prompts/vspec_plan/estimate.md`
+- `skills/visual-spec/prompts/vspec_plan/estimation_standards.json`
 
-该文件内置了两张“供参考的标准表”（作为团队估算口径基线，fork 后可改）：
-- “标准估值表（Story Points 标尺）”
-- “标准工作项估值参考表”（CRUD、导入导出、审批/状态机、RBAC、数据权限、对接、定时任务等）
+阅读器（单文件 HTML，支持中/英/日切换）：
 
-建议做法：
-- 按你的团队效率、代码生成比例、测试强度、上线流程，把 SP 与典型人天区间调整为更符合现实的数据
-- 对你们的高频领域能力补充工作项类型（例如：工单、报表、支付、内容管理、配置发布等）
+- `skills/visual-spec/prompts/vspec_plan/estimation_standards_reader.html`
+
+`/vspec:plan` 的估算阶段会读取该 JSON，作为统一的 Story Points 口径（仅允许 `0/0.5/1/2/3/5/8/13`）。
+
+如何扩展/修订 JSON（fork 后）：
+- 保持 `allowedStoryPoints` 不变；如需改变点数集合，必须同步调整估算策略与团队流程，否则会造成“点数漂移”
+- 在 `scalePoints` 中调整每个 SP 的语义（范围/描述），用于统一对齐“点数代表什么”
+- 在 `workItemBenchmarks` 中新增你们的高频工作项类型（建议用稳定的 `key`），并补齐 `en/zh-CN/ja` 三语文案，避免跨语言阅读时内容错配
+- 建议同步更新 `version` 与 `updatedAt`，便于审计与回溯
 
 ### 3) 复用与维护“错题本”
 

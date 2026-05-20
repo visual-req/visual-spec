@@ -23,17 +23,21 @@ Suggested rule format:
 
 ### 2) Customize estimation baselines (Recommended)
 
-The estimation baseline lives at:
+Estimation standards are stored as JSON:
 
-- `skills/visual-spec/prompts/vspec_plan/estimate.md`
+- `skills/visual-spec/prompts/vspec_plan/estimation_standards.json`
 
-This file includes two reference tables that can be tuned after forking:
-- Story Points scale
-- Work-item estimation reference (CRUD, import/export, approval/state machine, RBAC, data permission, integrations, cron jobs, etc.)
+Reader (single-file HTML, with EN/中文/日本語 switching):
 
-Recommended approach:
-- Adjust SP baselines to match your team’s efficiency, code-generation ratio, test rigor, and release process
-- Add your own common work item categories (e.g. ticketing, reporting, payments, CMS, config deployment)
+- `skills/visual-spec/prompts/vspec_plan/estimation_standards_reader.html`
+
+During `/vspec:plan` estimation, the model must use this JSON as the shared Story Points baseline (only `0/0.5/1/2/3/5/8/13` are allowed).
+
+How to extend/revise the JSON after forking:
+- Keep `allowedStoryPoints` stable; changing the set requires aligning your estimation process to avoid point drift
+- Tune `scalePoints` to clarify what each SP means for your team
+- Add your high-frequency work item categories under `workItemBenchmarks` using stable `key`s, and fill `en/zh-CN/ja` texts to keep multilingual docs consistent
+- Update `version` and `updatedAt` for auditability
 
 ### 3) Reuse and maintain a “mistake book”
 

@@ -1,18 +1,18 @@
-## 数学公式（Math Formulas）
+## Math Formulas
 
-用于把“可计算规则”明确成符号化表达，并补齐变量定义、单位与边界条件，减少实现偏差。
+Used to clarify "computable rules" into symbolic expressions, filling in variable definitions, units, and boundary conditions to reduce implementation deviations.
 
-适用场景：
-- 计费/优惠/分摊/结算
-- 指标口径（统计、同比环比、归一化、评分）
-- 风控评分、阈值与权重模型
+Applicable Scenarios:
+- Billing/discounts/apportionment/settlement
+- Metric definitions (statistics, YoY/MoM, normalization, scoring)
+- Risk scoring, threshold and weight models
 
-建议包含的信息：
-- 公式本体：变量、常量、函数
-- 变量定义：来源字段、单位、精度、取值范围
-- 边界与异常：除零、空值、负数、溢出与取整策略
-- 示例：给一组输入与期望输出，作为验收用例基线
+Suggested Information to Include:
+- Formula Body: variables, constants, functions
+- Variable Definitions: source fields, units, precision, value ranges
+- Boundaries and Exceptions: division by zero, null values, negative numbers, overflow, and rounding strategies
+- Examples: provide a set of inputs and expected outputs as the acceptance test baseline
 
-落地建议：
-- 对齐四舍五入/精度策略（前端展示 vs 后端存储）
-- 对齐时区/周期窗口（按天/按自然月/按账期）
+Complex Formula Example (SVG: Customs Duty and Tax Calculator)
+
+![Customs Duty and Tax Formula Example](../../assets/en-US/tools/customs-duty-tax-formula-example.svg)
