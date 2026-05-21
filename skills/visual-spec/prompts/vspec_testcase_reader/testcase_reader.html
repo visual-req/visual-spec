@@ -39,6 +39,7 @@
       .tabs { display: inline-flex; border: 1px solid #374151; border-radius: 10px; overflow: hidden; }
       .tabBtn { font-size: 12px; padding: 7px 10px; border: none; background: #111827; color: rgba(255,255,255,0.85); cursor: pointer; }
       .tabBtnActive { background: #0b74d1; color: #fff; }
+      .tabBtnMissing { opacity: 0.55; }
       .tabBtn:disabled { opacity: 0.45; cursor: not-allowed; }
 
       @media (max-width: 1080px) {
@@ -173,9 +174,9 @@
 
       const state = {
         datasets: {
-          unit: { key: "unit", labelKey: "tabUnit", path: "./单元测试/unit_test_cases.json", cases: [], ok: null },
-          integration: { key: "integration", labelKey: "tabIntegration", path: "./集成测试/integration_test_cases.json", cases: [], ok: null },
-          acceptance: { key: "acceptance", labelKey: "tabAcceptance", path: "./验收用例/acceptance_cases.json", cases: [], ok: null },
+          unit: { key: "unit", labelKey: "tabUnit", path: "./单元测试/unit_test_cases.json", resolvedPath: "", cases: [], ok: null },
+          integration: { key: "integration", labelKey: "tabIntegration", path: "./集成测试/integration_test_cases.json", resolvedPath: "", cases: [], ok: null },
+          acceptance: { key: "acceptance", labelKey: "tabAcceptance", path: "./验收用例/acceptance_cases.json", resolvedPath: "", cases: [], ok: null },
         },
         activeKey: "unit",
         selectedCaseId: null,
@@ -354,7 +355,9 @@
         state.activeKey = key;
         state.selectedCaseId = null;
         const ds = state.datasets[state.activeKey];
-        document.getElementById("currentFilePill").textContent = `${t("current")}: ${t(ds.labelKey)} (${ds.ok ? "OK" : t("missing")})`;
+        const pathText = ds.resolvedPath || ds.path || "";
+        const statusText = ds.ok ? "OK" : t("missing");
+        document.getElementById("currentFilePill").textContent = `${t("current")}: ${t(ds.labelKey)} (${statusText})${pathText ? " · " + pathText : ""}`;
         renderDetail(null);
         renderTabs();
         renderTable();
@@ -384,9 +387,81 @@
           const btn = btns[k];
           if (!btn) continue;
           btn.textContent = t(ds.labelKey);
-          btn.className = "tabBtn" + (state.activeKey === k ? " tabBtnActive" : "");
-          btn.disabled = ds.ok === false;
+          const missing = ds.ok === false;
+          btn.className =
+            "tabBtn" +
+            (state.activeKey === k ? " tabBtnActive" : "") +
+            (missing ? " tabBtnMissing" : "");
+          btn.disabled = false;
         }
+      }
+
+      function uniq(list) {
+        const out = [];
+        const seen = new Set();
+        for (const x of list) {
+          const k = String(x);
+          if (seen.has(k)) continue;
+          seen.add(k);
+          out.push(k);
+        }
+        return out;
+      }
+
+      function buildCandidates(dsKey) {
+        const prefixes = ["./", "../", "../../", "../../../"];
+        const spec = {
+          unit: {
+            files: ["unit_test_cases.json", "unit_cases.json"],
+            dirs: ["单元测试", "Unit Tests", "UnitTest", "unit", "unit_test", "unit-tests"],
+          },
+          integration: {
+            files: ["integration_test_cases.json", "integration_cases.json", "i_test_cases.json"],
+            dirs: ["集成测试", "Integration Tests", "IntegrationTest", "integration", "integration_test", "integration-tests", "i_test"],
+          },
+          acceptance: {
+            files: ["acceptance_cases.json", "acceptance_test_cases.json", "uat_cases.json"],
+            dirs: ["验收用例", "验收测试", "Acceptance", "UAT", "acceptance", "acceptance_test", "acceptance-tests", "uat"],
+          },
+        }[dsKey] || { files: [], dirs: [] };
+
+        const rels = [];
+        for (const f of spec.files) {
+          rels.push(f);
+          for (const d of spec.dirs) rels.push(`${d}/${f}`);
+          for (const d of spec.dirs) rels.push(`test/${d}/${f}`);
+        }
+
+        const all = [];
+        for (const p of prefixes) for (const r of rels) all.push(p + r);
+        return uniq([state.datasets[dsKey].path, ...all].filter(Boolean));
+      }
+
+      async function loadDataset(dsKey) {
+        const ds = state.datasets[dsKey];
+        ds.ok = null;
+        ds.cases = [];
+        ds.resolvedPath = "";
+
+        const candidates = buildCandidates(dsKey);
+        for (const path of candidates) {
+          try {
+            const res = await fetch(path, { cache: "no-store" });
+            if (!res.ok) continue;
+            const text = await res.text();
+            const parsed = await parseJsonCases(text);
+            ds.cases = parsed;
+            for (const c of ds.cases) {
+              if (!c.level) c.level = ds.key;
+              if (c.raw && !c.raw.level) c.raw.level = ds.key;
+            }
+            ds.ok = true;
+            ds.resolvedPath = path;
+            return;
+          } catch {
+          }
+        }
+        ds.ok = false;
       }
 
       async function loadAll() {
@@ -394,27 +469,14 @@
           const ds = state.datasets[k];
           ds.ok = null;
           ds.cases = [];
+          ds.resolvedPath = "";
         }
         renderTabs();
         document.getElementById("tableWrap").className = "tableWrap empty";
         document.getElementById("tableWrap").textContent = t("loading");
 
         for (const k of Object.keys(state.datasets)) {
-          const ds = state.datasets[k];
-          try {
-            const res = await fetch(ds.path, { cache: "no-store" });
-            if (!res.ok) throw new Error(String(res.status));
-            const text = await res.text();
-            ds.cases = await parseJsonCases(text);
-            for (const c of ds.cases) {
-              if (!c.level) c.level = ds.key;
-              if (c.raw && !c.raw.level) c.raw.level = ds.key;
-            }
-            ds.ok = true;
-          } catch {
-            ds.cases = [];
-            ds.ok = false;
-          }
+          await loadDataset(k);
         }
 
         const firstOk = Object.keys(state.datasets).find((k) => state.datasets[k].ok);
