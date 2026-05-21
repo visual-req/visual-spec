@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "updatedAt": "2026-05-19",
+  "version": "1.1.0",
+  "updatedAt": "2026-05-20",
   "allowedStoryPoints": [0, 0.5, 1, 2, 3, 5, 8, 13],
   "scalePoints": [
     {
@@ -253,6 +253,111 @@
         "en": "Recommend splitting into orchestration/execution/reconcile/replay items.",
         "zh-CN": "建议拆分为“编排/执行/对账/回放”等子项。",
         "ja": "編成/実行/突合せ/再生に分割推奨。"
+      }
+    },
+    {
+      "key": "complex_calculation_simple",
+      "type": { "en": "Complex calculation (simple)", "zh-CN": "复杂计算（简单）", "ja": "複雑計算（簡単）" },
+      "deliverables": {
+        "en": "Formula spec; variable definitions; edge cases; unit tests",
+        "zh-CN": "公式定义；变量口径；边界/异常；单元测试",
+        "ja": "式定義；変数の口径；境界/例外；単体テスト"
+      },
+      "recommendedSp": 3,
+      "notes": {
+        "en": "Single formula chain; limited data sources; deterministic output.",
+        "zh-CN": "单一公式链路；数据来源有限；输出确定性强。",
+        "ja": "単一の式チェーン。データソースが限定的で決定的。"
+      }
+    },
+    {
+      "key": "complex_calculation_medium",
+      "type": { "en": "Complex calculation (medium)", "zh-CN": "复杂计算（中等）", "ja": "複雑計算（中程度）" },
+      "deliverables": {
+        "en": "Multi-branch rules; rounding/precision policy; audit logs; unit tests",
+        "zh-CN": "多分支规则；精度/舍入口径；审计日志；单元测试",
+        "ja": "多分岐ルール；精度/丸め方針；監査ログ；単体テスト"
+      },
+      "recommendedSp": 5,
+      "notes": {
+        "en": "Multiple variants and exceptions; needs traceability and explainability.",
+        "zh-CN": "多口径变体与例外；需要可追溯与可解释。",
+        "ja": "複数の口径/例外。追跡性と説明性が必要。"
+      }
+    },
+    {
+      "key": "complex_calculation_complex",
+      "type": { "en": "Complex calculation (complex)", "zh-CN": "复杂计算（复杂）", "ja": "複雑計算（複雑）" },
+      "deliverables": {
+        "en": "Rule engine/table; explain output; regression suite; cross-team verification",
+        "zh-CN": "规则引擎/规则表；输出解释；回归用例集；跨方对齐验证",
+        "ja": "ルールエンジン/ルール表；出力説明；回帰テスト；関係者合意"
+      },
+      "recommendedSp": 8,
+      "notes": {
+        "en": "High branching and policy change risk; recommend splitting by rule set.",
+        "zh-CN": "分支多且政策变更风险高；建议按规则集拆分。",
+        "ja": "分岐が多くポリシー変更リスクが高い。ルールセット単位で分割推奨。"
+      }
+    },
+    {
+      "key": "ai_feature_prompt_only",
+      "type": { "en": "AI feature (prompt-only)", "zh-CN": "AI 功能（纯提示词）", "ja": "AI機能（プロンプトのみ）" },
+      "deliverables": {
+        "en": "Prompt design; few-shot examples; output schema; manual evaluation checklist",
+        "zh-CN": "提示词设计；示例；输出结构；人工评估清单",
+        "ja": "プロンプト設計；例；出力スキーマ；手動評価チェックリスト"
+      },
+      "recommendedSp": 3,
+      "notes": {
+        "en": "No retrieval/tools; low coupling; still has nondeterministic output risk.",
+        "zh-CN": "无检索/无工具调用；耦合低；但仍有非确定性风险。",
+        "ja": "検索/ツール呼び出しなし。結合は低いが非決定性リスクあり。"
+      }
+    },
+    {
+      "key": "ai_feature_rag",
+      "type": { "en": "AI feature (RAG / retrieval)", "zh-CN": "AI 功能（RAG/检索增强）", "ja": "AI機能（RAG/検索拡張）" },
+      "deliverables": {
+        "en": "Data sources; chunking/indexing; retrieval evaluation; citations; fallback",
+        "zh-CN": "数据源；切分/索引；检索评估；引用/溯源；降级兜底",
+        "ja": "データソース；分割/索引；検索評価；引用/根拠；フォールバック"
+      },
+      "recommendedSp": 5,
+      "notes": {
+        "en": "Quality depends on corpus and retrieval tuning; add offline test set when possible.",
+        "zh-CN": "质量高度依赖语料与召回调参；尽量补离线评测集。",
+        "ja": "品質はコーパスと検索調整に依存。可能ならオフライン評価セット追加。"
+      }
+    },
+    {
+      "key": "ai_feature_agent_tooling",
+      "type": { "en": "AI feature (agent + tools)", "zh-CN": "AI 功能（Agent+工具链）", "ja": "AI機能（エージェント+ツール）" },
+      "deliverables": {
+        "en": "Tool contracts; guardrails; retries/limits; audit logs; eval scenarios",
+        "zh-CN": "工具契约；安全护栏；重试/限额；审计日志；评测场景",
+        "ja": "ツール契約；ガードレール；リトライ/制限；監査ログ；評価シナリオ"
+      },
+      "recommendedSp": 8,
+      "notes": {
+        "en": "Higher risk due to side effects and dependencies; must include safety and rollback strategy.",
+        "zh-CN": "因副作用与依赖更高风险；必须包含安全与回滚策略。",
+        "ja": "副作用/依存で高リスク。安全策とロールバック戦略が必須。"
+      }
+    },
+    {
+      "key": "ai_feature_model_customization",
+      "type": { "en": "AI feature (model customization)", "zh-CN": "AI 功能（模型定制/微调）", "ja": "AI機能（モデル調整/微調整）" },
+      "deliverables": {
+        "en": "Dataset; labeling policy; training pipeline; eval metrics; rollout monitoring",
+        "zh-CN": "数据集；标注口径；训练流水线；评测指标；灰度监控",
+        "ja": "データセット；ラベリング方針；学習パイプライン；評価指標；段階導入監視"
+      },
+      "recommendedSp": 13,
+      "notes": {
+        "en": "High uncertainty and ongoing costs; strongly recommend splitting into data/eval/train/serve items.",
+        "zh-CN": "不确定性与持续成本高；强烈建议拆分为数据/评测/训练/服务子项。",
+        "ja": "不確実性と継続コストが高い。データ/評価/学習/提供に分割を強く推奨。"
       }
     }
   ]

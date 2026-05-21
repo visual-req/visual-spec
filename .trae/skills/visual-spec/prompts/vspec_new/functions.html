@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Functions</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --text: #111827;
+        --muted: rgba(17, 24, 39, 0.72);
+        --border: rgba(17, 24, 39, 0.14);
+        --primary: #2563eb;
+        --warn: #d97706;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial;
+      }
+      .wrap {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 18px 14px 28px;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 10px;
+      }
+      .sub {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 0 0 14px;
+      }
+      .panel {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--panel);
+        box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
+        overflow: hidden;
+      }
+      .toolbar {
+        padding: 12px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(17, 24, 39, 0.02);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .right {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      select,
+      input[type="text"] {
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        color: var(--text);
+        padding: 8px 10px;
+        font-size: 13px;
+        outline: none;
+      }
+      input[type="text"] {
+        width: min(520px, 72vw);
+      }
+      button {
+        border: 1px solid var(--border);
+        background: rgba(17, 24, 39, 0.04);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 10px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button.primary {
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.30);
+        color: rgba(37, 99, 235, 0.98);
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        color: rgba(17, 24, 39, 0.82);
+        background: rgba(17, 24, 39, 0.03);
+      }
+      .pill.warn {
+        border-color: rgba(217, 119, 6, 0.26);
+        background: rgba(217, 119, 6, 0.08);
+        color: rgba(217, 119, 6, 0.95);
+      }
+      .table-wrap {
+        overflow: auto;
+        max-height: calc(100vh - 240px);
+      }
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        min-width: 980px;
+      }
+      thead th {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        background: #ffffff;
+      }
+      th,
+      td {
+        border-bottom: 1px solid var(--border);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      thead th {
+        font-size: 12px;
+        color: rgba(17, 24, 39, 0.78);
+        border-bottom: 1px solid rgba(17, 24, 39, 0.22);
+      }
+      tbody tr:hover td {
+        background: rgba(17, 24, 39, 0.02);
+      }
+      td.group {
+        background: rgba(37, 99, 235, 0.04);
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+          monospace;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .empty {
+        padding: 14px 12px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      @media (max-width: 980px) {
+        table {
+          min-width: 860px;
+        }
+        input[type="text"] {
+          width: 72vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1 id="title">功能清单</h1>
+      <p class="sub" id="subtitle">
+        本页面会自动加载同目录的 <span class="mono">./functions.json</span> 并以“系统-模块-功能-子功能”结构展示（含单元格合并）。
+      </p>
+
+      <div class="panel">
+        <div class="toolbar">
+          <div class="left">
+            <span class="pill" id="stats">未加载</span>
+            <select id="systemFilter">
+              <option value="">全部系统</option>
+            </select>
+            <select id="terminalFilter">
+              <option value="">全部端</option>
+              <option value="Web">Web</option>
+              <option value="Mobile">Mobile</option>
+              <option value="Web+Mobile">Web+Mobile</option>
+              <option value="Backend">Backend</option>
+              <option value="Job">Job</option>
+            </select>
+          </div>
+          <div class="right">
+            <input id="q" type="text" placeholder="搜索：模块/功能/子功能/说明/入口..." />
+            <button id="reload" class="primary">重新加载</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 150px">系统</th>
+                <th style="width: 150px">模块</th>
+                <th style="width: 220px">功能</th>
+                <th style="width: 240px">子功能</th>
+                <th style="width: 110px">端</th>
+                <th style="width: 220px">入口</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+          <div class="empty" id="empty" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const state = {
+        data: null,
+        rows: [],
+      };
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function normalizeLang(lang) {
+        const s = String(lang || "").trim();
+        if (!s) return "zh-CN";
+        if (s === "zh") return "zh-CN";
+        if (s === "zh-CN" || s === "en" || s === "ja") return s;
+        return "zh-CN";
+      }
+
+      function applyLang(lang) {
+        const l = normalizeLang(lang);
+        document.documentElement.lang = l === "zh-CN" ? "zh-CN" : l;
+        const isEn = l === "en";
+        const isJa = l === "ja";
+        document.getElementById("title").textContent = isEn ? "Function List" : isJa ? "機能一覧" : "功能清单";
+        document.getElementById("subtitle").innerHTML = isEn
+          ? 'This page auto-loads <span class="mono">./functions.json</span> and renders a grouped table with merged cells.'
+          : isJa
+            ? 'このページは同一フォルダの <span class="mono">./functions.json</span> を自動読込し、セル結合付きの階層テーブルで表示します。'
+            : '本页面会自动加载同目录的 <span class="mono">./functions.json</span> 并以“系统-模块-功能-子功能”结构展示（含单元格合并）。';
+        document.getElementById("q").placeholder = isEn
+          ? "Search: module/function/subfunction/description/entry..."
+          : isJa
+            ? "検索：モジュール/機能/サブ機能/説明/入口..."
+            : "搜索：模块/功能/子功能/说明/入口...";
+        document.getElementById("reload").textContent = isEn ? "Reload" : isJa ? "再読み込み" : "重新加载";
+        const sys = document.getElementById("systemFilter");
+        if (sys.options.length) sys.options[0].text = isEn ? "All Systems" : isJa ? "全システム" : "全部系统";
+        const term = document.getElementById("terminalFilter");
+        if (term.options.length) term.options[0].text = isEn ? "All Terminals" : isJa ? "全端末" : "全部端";
+      }
+
+      function parseRows(data) {
+        const out = [];
+        const systems = Array.isArray(data.systems) ? data.systems : [];
+        for (const s of systems) {
+          const sysName = (s.system_name || s.system || s.name || "").toString() || (s.system_key || "").toString();
+          const rows = Array.isArray(s.rows) ? s.rows : [];
+          for (const r of rows) {
+            out.push({
+              system: sysName || "core",
+              module: (r.module || "").toString(),
+              func: (r.function || r.func || "").toString(),
+              sub: (r.subfunction || r.sub || "").toString(),
+              terminal: (r.terminal || r.client || "").toString(),
+              entry: (r.entry || "").toString(),
+              description: (r.description || r.desc || r.note || "").toString(),
+              source: (s.file || "").toString(),
+            });
+          }
+        }
+        out.sort((a, b) => {
+          const ka = `${a.system}\u0000${a.module}\u0000${a.func}\u0000${a.sub}`;
+          const kb = `${b.system}\u0000${b.module}\u0000${b.func}\u0000${b.sub}`;
+          return ka.localeCompare(kb);
+        });
+        return out;
+      }
+
+      function setStats(text, kind) {
+        const el = document.getElementById("stats");
+        el.className = "pill" + (kind ? ` ${kind}` : "");
+        el.textContent = text;
+      }
+
+      function computeRowspans(rows, keyFn) {
+        const spans = new Array(rows.length).fill(0);
+        let i = 0;
+        while (i < rows.length) {
+          let j = i + 1;
+          const k = keyFn(rows[i]);
+          while (j < rows.length && keyFn(rows[j]) === k) j++;
+          spans[i] = j - i;
+          i = j;
+        }
+        return spans;
+      }
+
+      function render() {
+        const tbody = document.getElementById("tbody");
+        const empty = document.getElementById("empty");
+        tbody.innerHTML = "";
+
+        const sysFilter = document.getElementById("systemFilter").value;
+        const terminalFilter = document.getElementById("terminalFilter").value;
+        const q = (document.getElementById("q").value || "").trim().toLowerCase();
+
+        let rows = state.rows.slice();
+        if (sysFilter) rows = rows.filter((r) => r.system === sysFilter);
+        if (terminalFilter) rows = rows.filter((r) => r.terminal === terminalFilter);
+        if (q) {
+          rows = rows.filter((r) => {
+            const blob = `${r.system} ${r.module} ${r.func} ${r.sub} ${r.terminal} ${r.entry} ${r.description}`.toLowerCase();
+            return blob.includes(q);
+          });
+        }
+
+        if (!rows.length) {
+          empty.style.display = "";
+          empty.textContent = "无匹配结果";
+          return;
+        }
+        empty.style.display = "none";
+
+        const sysSpan = computeRowspans(rows, (r) => r.system);
+        const modSpan = computeRowspans(rows, (r) => `${r.system}\u0000${r.module}`);
+        const funcSpan = computeRowspans(rows, (r) => `${r.system}\u0000${r.module}\u0000${r.func}`);
+
+        for (let i = 0; i < rows.length; i++) {
+          const r = rows[i];
+          const tr = document.createElement("tr");
+
+          if (sysSpan[i]) {
+            const td = document.createElement("td");
+            td.className = "group";
+            td.rowSpan = sysSpan[i];
+            td.textContent = r.system || "";
+            tr.appendChild(td);
+          }
+
+          if (modSpan[i]) {
+            const td = document.createElement("td");
+            td.className = "group";
+            td.rowSpan = modSpan[i];
+            td.textContent = r.module || "";
+            tr.appendChild(td);
+          }
+
+          if (funcSpan[i]) {
+            const td = document.createElement("td");
+            td.className = "group";
+            td.rowSpan = funcSpan[i];
+            td.textContent = r.func || "";
+            tr.appendChild(td);
+          }
+
+          const tdSub = document.createElement("td");
+          tdSub.textContent = r.sub || "";
+          tr.appendChild(tdSub);
+
+          const tdTerm = document.createElement("td");
+          tdTerm.textContent = r.terminal || "";
+          tr.appendChild(tdTerm);
+
+          const tdEntry = document.createElement("td");
+          tdEntry.textContent = r.entry || "";
+          tr.appendChild(tdEntry);
+
+          const tdDesc = document.createElement("td");
+          tdDesc.innerHTML = escapeHtml(r.description || "").replaceAll("\n", "<br/>");
+          tr.appendChild(tdDesc);
+
+          tbody.appendChild(tr);
+        }
+      }
+
+      async function load() {
+        try {
+          const res = await fetch("./functions.json", { cache: "no-store" });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          state.data = data;
+          const lang = (data && data.meta && (data.meta.language || data.meta.lang || data.meta.locale)) || "zh-CN";
+          applyLang(lang);
+
+          state.rows = parseRows(data);
+          const total = state.rows.length;
+          setStats(total ? `已加载 ${total} 行` : "空", total ? "" : "warn");
+
+          const sys = document.getElementById("systemFilter");
+          const known = new Set();
+          const sysNames = state.rows.map((r) => r.system).filter(Boolean);
+          sysNames.sort((a, b) => a.localeCompare(b));
+          sys.innerHTML = `<option value="">全部系统</option>`;
+          for (const s of sysNames) {
+            if (known.has(s)) continue;
+            known.add(s);
+            const opt = document.createElement("option");
+            opt.value = s;
+            opt.textContent = s;
+            sys.appendChild(opt);
+          }
+
+          render();
+        } catch (e) {
+          setStats(`加载失败：${e.message || e}`, "warn");
+          const empty = document.getElementById("empty");
+          empty.style.display = "";
+          empty.innerHTML = `无法加载 <span class="mono">./functions.json</span>。请确认它与本页面在同一目录，并通过本地 HTTP 服务打开本页。`;
+        }
+      }
+
+      document.getElementById("reload").addEventListener("click", () => load());
+      document.getElementById("systemFilter").addEventListener("change", () => render());
+      document.getElementById("terminalFilter").addEventListener("change", () => render());
+      document.getElementById("q").addEventListener("input", () => render());
+
+      load();
+    </script>
+  </body>
+</html>
+

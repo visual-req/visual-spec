@@ -113,6 +113,21 @@
         margin-top: 6px;
         white-space: pre-wrap;
       }
+      .navanswer {
+        margin-top: 8px;
+        padding: 8px 10px;
+        border: 1px dashed var(--border);
+        border-radius: 12px;
+        background: rgba(22, 163, 74, 0.06);
+        color: rgba(17, 24, 39, 0.9);
+        font-size: 12px;
+        line-height: 1.4;
+        white-space: pre-wrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
       .langSelect {
         background: rgba(17, 24, 39, 0.04);
         border: 1px solid var(--border);
@@ -224,6 +239,16 @@
         color: rgba(239, 68, 68, 0.95);
         border-color: rgba(239, 68, 68, 0.28);
       }
+      .pill.req {
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.28);
+        color: rgba(37, 99, 235, 0.95);
+      }
+      .pill.opt {
+        background: rgba(217, 119, 6, 0.10);
+        border-color: rgba(217, 119, 6, 0.26);
+        color: rgba(217, 119, 6, 0.95);
+      }
       .list {
         display: flex;
         flex-direction: column;
@@ -293,6 +318,12 @@
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
           monospace;
       }
+      .warnbox {
+        border: 1px solid rgba(217, 119, 6, 0.35);
+        background: rgba(217, 119, 6, 0.08);
+        border-radius: 14px;
+        padding: 10px 12px;
+      }
     </style>
   </head>
   <body>
@@ -337,6 +368,7 @@
                 默认会尝试自动加载：<span class="mono">./questions.json</span>（建议把本 HTML 与 questions.json 放在同一目录，例如：<span class="mono">/specs/background/</span>）
               </div>
               <div class="hint" id="questionsJsonStatus"></div>
+              <div class="hint warnbox" id="mdFallbackHint" style="display:none"></div>
 
               <div class="sep"></div>
 
@@ -414,6 +446,7 @@
           answeredByEmpty: "Answered by is empty (will be left blank on export).",
           statusAutoLoaded: "Auto-loaded: ./questions.json",
           statusAutoLoadFailed: "Auto-load failed: {0}. Use the fallback picker or open via http://",
+          mdFallback: "If <code>questions.json</code> is missing or cannot be loaded, you can still proceed: answer directly in <code>/specs/background/original.md</code> under the <b>Open Questions</b> section (append an <code>Answer:</code> line for each question), save the file, then reply <code>continue</code> in Trae.",
           statusLoaded: "Loaded: {0}",
           statusLoadedFallback: "Loaded (fallback): {0}",
           statusParseFailed: "Parse failed: {0}",
@@ -454,6 +487,7 @@
           answeredByEmpty: "回答者未填写（导出时会留空）",
           statusAutoLoaded: "已自动加载：./questions.json",
           statusAutoLoadFailed: "自动加载失败：{0}。请使用兼容选择，或用 http:// 方式打开",
+          mdFallback: "如果 <code>questions.json</code> 未生成或无法加载，也不影响继续：请直接在 <code>/specs/background/original.md</code> 的<b>待确认问题</b>小节中逐条补充回答（在每个问题下面追加一行 <code>回答：</code>），保存后在 Trae 里回复 <code>继续</code>。",
           statusLoaded: "已加载：{0}",
           statusLoadedFallback: "已加载（兼容模式）：{0}",
           statusParseFailed: "解析失败：{0}",
@@ -494,6 +528,7 @@
           answeredByEmpty: "回答者は未入力（エクスポート時は空欄）",
           statusAutoLoaded: "自動読み込み：./questions.json",
           statusAutoLoadFailed: "自動読み込み失敗：{0}。互換の選択、または http:// で開いてください",
+          mdFallback: "<code>questions.json</code> が未生成/読み込みできない場合でも続行できます：<code>/specs/background/original.md</code> の<b>要確認事項</b>で各質問に <code>回答：</code> 行を追記して保存し、Trae で <code>続けて</code> と返信してください。",
           statusLoaded: "読み込み：{0}",
           statusLoadedFallback: "読み込み（互換）：{0}",
           statusParseFailed: "解析失敗：{0}",
@@ -663,12 +698,27 @@
             ? { context: "背景", question: "質問", answer: "回答", answeredBy: "回答者", answeredAt: "回答日時", status: "状態", asker: "質問者", askedAt: "質問日時" }
             : { context: "背景", question: "提问", answer: "回答", answeredBy: "回答者", answeredAt: "回答时间", status: "状态", asker: "提问者", askedAt: "提问时间" };
 
+        const normalizeType = (t) => {
+          const s = (t || "").toString().trim().toLowerCase();
+          if (!s) return "";
+          if (s === "tf" || s === "true/false" || s === "truefalse" || s === "boolean") return "TF";
+          if (s === "single" || s === "radio" || s === "singlechoice") return "Single";
+          if (s === "multi" || s === "multiple" || s === "checkbox" || s === "multichoice") return "Multi";
+          if (s === "fill" || s === "blank" || s === "fillblank") return "Fill";
+          if (s === "open" || s === "free" || s === "text") return "Open";
+          return "";
+        };
         const parsed = [];
         for (const it of items) {
           const id = Number(it.id);
           if (!Number.isFinite(id)) continue;
           const question = (it.question || "").toString();
           const answer = (it.answer || "").toString();
+          const priorityRaw = (it.priority || "").toString().trim().toLowerCase();
+          const priority = priorityRaw === "optional" ? "optional" : "required";
+          const type = normalizeType(it.type) || "";
+          const optArr = Array.isArray(it.options) ? it.options.map((x) => (x || "").toString()).filter(Boolean) : [];
+          const options = optArr.length ? optArr : detectOptions(question);
           parsed.push({
             id,
             lang: lang === "zh-CN" ? "zh" : lang,
@@ -681,7 +731,9 @@
             asker: (it.asker || "").toString(),
             answeredBy: (it.answered_by || "").toString(),
             answeredAt: (it.answered_at || "").toString(),
-            options: detectOptions(question),
+            priority,
+            type: type || (options.length ? (options.length === 2 ? "TF" : "Single") : "Fill"),
+            options,
             answerPick: "",
             answerFree: answer || "",
           });
@@ -700,16 +752,21 @@
         const sorted = [...items].sort((a, b) => Number(a.id) - Number(b.id));
         for (const it of sorted) {
           const answerText = (it.answerFree || "").trim();
+          const type = (it.type || "").toString().trim() || (it.options && it.options.length ? (it.options.length === 2 ? "TF" : "Single") : "Fill");
+          const options = Array.isArray(it.options) ? it.options.map((x) => (x || "").toString()).filter(Boolean) : [];
           outItems.push({
             id: Number(it.id),
             context: (it.context || "").toString(),
             question: (it.question || "").toString(),
+            type,
+            options: (type === "TF" || type === "Single" || type === "Multi") ? options : [],
             asker: (it.asker || "").toString() || "BA/System Analyst",
             asked_at: (it.askedAt || "").toString(),
             answer: answerText,
             answered_by: answeredBy || (it.answeredBy || "").toString(),
             answered_at: answeredAt || (it.answeredAt || "").toString(),
             status: answerText ? answeredVal : (it.status || unansweredVal).toString() || unansweredVal,
+            priority: ((it.priority || "").toString().trim().toLowerCase() === "optional") ? "optional" : "required",
           });
         }
         return {
@@ -726,19 +783,25 @@
         const l = normalizeLang(lang);
         const headerKey = l === "en" ? "ID" : l === "ja" ? "番号" : "编号";
         const labels = l === "en"
-          ? { context: "Context", question: "Question", asker: "Asker", askedAt: "Asked At", answer: "Answer", answeredBy: "Answered By", answeredAt: "Answered At", status: "Status", defaultAsker: "BA/System Analyst" }
+          ? { context: "Context", question: "Question", priority: "Priority", type: "Type", options: "Options", asker: "Asker", askedAt: "Asked At", answer: "Answer", answeredBy: "Answered By", answeredAt: "Answered At", status: "Status", defaultAsker: "BA/System Analyst", required: "Required", optional: "Optional" }
           : l === "ja"
-            ? { context: "背景", question: "質問", asker: "質問者", askedAt: "質問日時", answer: "回答", answeredBy: "回答者", answeredAt: "回答日時", status: "状態", defaultAsker: "BA/システム分析" }
-            : { context: "背景", question: "提问", asker: "提问者", askedAt: "提问时间", answer: "回答", answeredBy: "回答者", answeredAt: "回答时间", status: "状态", defaultAsker: "BA/系统分析" };
+            ? { context: "背景", question: "質問", priority: "優先度", type: "題型", options: "選択肢", asker: "質問者", askedAt: "質問日時", answer: "回答", answeredBy: "回答者", answeredAt: "回答日時", status: "状態", defaultAsker: "BA/システム分析", required: "必須", optional: "任意" }
+            : { context: "背景", question: "提问", priority: "优先级", type: "题型", options: "选项", asker: "提问者", askedAt: "提问时间", answer: "回答", answeredBy: "回答者", answeredAt: "回答时间", status: "状态", defaultAsker: "BA/系统分析", required: "必答", optional: "选答" };
 
         const sorted = [...items].sort((a, b) => Number(a.id) - Number(b.id));
         const lines = [];
         for (let idx = 0; idx < sorted.length; idx++) {
           const it = sorted[idx];
           const id = Number(it.id);
+          const pri = ((it.priority || "").toString().trim().toLowerCase() === "optional") ? labels.optional : labels.required;
+          const type = (it.type || "").toString().trim() || (it.options && it.options.length ? (it.options.length === 2 ? "TF" : "Single") : "Fill");
+          const optText = Array.isArray(it.options) && it.options.length ? it.options.join("; ") : "";
           lines.push(`${idx + 1}. ${headerKey}: ${id}`);
           lines.push(`   - ${labels.context}：${(it.context || "").toString()}`);
           lines.push(`   - ${labels.question}：${(it.question || "").toString()}`);
+          lines.push(`   - ${labels.priority}：${pri}`);
+          lines.push(`   - ${labels.type}：${type}`);
+          lines.push(`   - ${labels.options}：${optText}`);
           lines.push(`   - ${labels.asker}：${(it.asker || "").toString() || labels.defaultAsker}`);
           lines.push(`   - ${labels.askedAt}：${(it.askedAt || "").toString()}`);
           lines.push(`   - ${labels.answer}：${(it.answerFree || it.answer || "").toString()}`);
@@ -942,11 +1005,20 @@
           const left = document.createElement("div");
           left.innerHTML = `<span class="qid">#${escapeHtml(it.id)}</span>`;
 
+          const pr = document.createElement("div");
+          pr.className = "pill " + (it.priority === "optional" ? "opt" : "req");
+          const lang = normalizeLang(state.questions.lang || currentLang);
+          pr.textContent =
+            it.priority === "optional"
+              ? (lang === "en" ? "Optional" : lang === "ja" ? "任意" : "选答")
+              : (lang === "en" ? "Required" : lang === "ja" ? "必須" : "必答");
+
           const right = document.createElement("div");
           right.className = "pill";
           right.textContent = it.answerFree && it.answerFree.trim() ? t("filled") : t("empty");
 
           line.appendChild(left);
+          line.appendChild(pr);
           line.appendChild(right);
 
           const title = document.createElement("div");
@@ -960,6 +1032,13 @@
           item.appendChild(line);
           if (meta.textContent) item.appendChild(meta);
           if (title.textContent) item.appendChild(title);
+          const answerText = (it.answerFree || "").toString().trim();
+          if (answerText) {
+            const answer = document.createElement("div");
+            answer.className = "navanswer";
+            answer.textContent = answerText;
+            item.appendChild(answer);
+          }
           list.appendChild(item);
         }
       }
@@ -994,17 +1073,31 @@
         opt.className = "opt";
         if (it.options && it.options.length) {
           const name = `q_${it.id}`;
+          const isMulti = (it.type || "") === "Multi";
+          const prevPick = (it.answerPick || "").toString();
+          const splitMulti = (s) => (s || "").toString().split(/\s*[,;；]\s*/).map((x) => x.trim()).filter(Boolean);
+          const pickSet = new Set(isMulti ? splitMulti(prevPick || it.answerFree || "") : []);
           for (const o of it.options) {
             const wrap = document.createElement("label");
             wrap.className = "o";
             const radio = document.createElement("input");
-            radio.type = "radio";
+            radio.type = isMulti ? "checkbox" : "radio";
             radio.name = name;
             radio.value = o;
-            radio.checked = it.answerPick === o;
+            radio.checked = isMulti ? pickSet.has(o) : it.answerPick === o;
             radio.addEventListener("change", () => {
-              it.answerPick = o;
-              if (!it.answerFree.trim()) it.answerFree = o;
+              if (isMulti) {
+                if (radio.checked) pickSet.add(o);
+                else pickSet.delete(o);
+                const joined = Array.from(pickSet.values()).join("; ");
+                it.answerPick = joined;
+                const cur = (it.answerFree || "").toString().trim();
+                const prev = prevPick.trim();
+                if (!cur || cur === prev) it.answerFree = joined;
+              } else {
+                it.answerPick = o;
+                if (!it.answerFree.trim()) it.answerFree = o;
+              }
               renderQuestions();
             });
             const span = document.createElement("span");
@@ -1283,9 +1376,14 @@
           state.questionsJson.name = "questions.json";
           state.questionsJson.text = text;
           setStatus("questionsJson", t("statusAutoLoaded"), "ok");
+          const fb = document.getElementById("mdFallbackHint");
+          fb.style.display = "none";
           rebuild();
         } catch (e) {
           setStatus("questionsJson", t("statusAutoLoadFailed", [e.message || e]), "warn");
+          const fb = document.getElementById("mdFallbackHint");
+          fb.innerHTML = t("mdFallback");
+          fb.style.display = "";
           document.getElementById("saveQuestionsJson").disabled = true;
           document.getElementById("downloadQuestionsJson").disabled = true;
           document.getElementById("downloadQuestionsMd").disabled = true;

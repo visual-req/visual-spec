@@ -31,6 +31,14 @@
    - 资料与模板（导入/导出模板、通知文案、协议、证书等）
 4. 数量控制：
    - 默认补充 8-15 条（除非需求非常简单或已无明显缺口）
+5. 优先级标记（必须）：
+   - 每条必须标记为必答（priority=required）或选答（priority=optional）
+   - 必答：影响范围/规则/验收的关键口径；未回答将阻塞后续生成
+   - 选答：不影响需求分析细节推进，但仍建议后续补齐（可推迟回答），例如法律文书全文、协议条款、计算公式、模板样例等
+6. 题型标记（必须）：
+   - 每条必须标记题型，并尽量把问题设计成可选择/可判断（减少开放问答）
+   - 题型优先级（必须严格遵守）：判断题 > 选择题（单选/多选） > 填空题 > 问答题
+   - 比例约束（必须）：判断题 + 选择题至少占 70%；问答题不得超过 20% 且最多 6 条
 
 输出与写入要求：
 1. 只输出“新增的问题条目”（不要重写旧内容），用于追加到 `/specs/background/questions.md` 的末尾
@@ -43,6 +51,9 @@
 1. ID: <next_id>
    - Context:
    - Question:
+   - Priority: Required/Optional
+   - Type: TF/Single/Multi/Fill/Open
+   - Options: (only for TF/Single/Multi; leave empty for Fill/Open)
    - Asker: BA/System Analyst
    - Asked At:
    - Answer:
@@ -54,6 +65,9 @@
 1. 编号：<next_id>
    - 背景：
    - 提问：
+   - 优先级：必答/选答
+   - 题型：判断/单选/多选/填空/问答
+   - 选项：（仅判断/单选/多选必填；填空/问答留空）
    - 提问者：BA/系统分析
    - 提问时间：
    - 回答：
@@ -65,6 +79,9 @@
 1. 编号：<next_id>
    - 背景：
    - 提问：
+   - 优先级：必答/选答
+   - 题型：判断/单选/多选/填空/问答
+   - 选项：（仅判断/单选/多选必填；填空/问答留空）
    - 提问者：BA/系统分析
    - 提问时间：
    - 回答：
@@ -76,6 +93,9 @@
 1. 番号：<next_id>
    - 背景：
    - 質問：
+   - 優先度：必須/任意
+   - 題型：二択/単一選択/複数選択/記入/自由記述
+   - 選択肢：（二択/単一選択/複数選択のみ必須。記入/自由記述は空）
    - 質問者：BA/システム分析
    - 質問日時：
    - 回答：
@@ -97,6 +117,10 @@
    - `/specs/background/questions.md` 与 `/specs/background/questions.json` 必须保持问题条目一致
    - 若只存在其中之一：必须先根据现有文件生成另一份（内容逐条一致）再继续追加
    - 对 `questions.json`：必须读取现有 JSON，向 `items` 追加新增条目，并更新 `meta.total` 与 `meta.generated_at`
+    - 每个 JSON item 必须包含 `priority` 字段，值必须为 `required` 或 `optional`
+    - 每个 JSON item 必须包含 `type` 与 `options`：
+      - `type` 必须为 `TF` / `Single` / `Multi` / `Fill` / `Open` 之一
+      - `options` 仅当 type 为 TF/Single/Multi 时必须提供（数组），否则为空数组
 6. 固定的 HTML 交互问答页面（用于更容易回答并回写文件）：
    - 目标路径：`/specs/background/question_and_answer.html`
    - 若该文件已存在：先读取并检查是否为“旧版蓝底主题/非模板生成”的遗留文件：

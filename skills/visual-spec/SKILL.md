@@ -49,11 +49,19 @@ Flow:
 3. Load the prompt file at `prompts/vspec_new/background.md`.
 4. Use that prompt to analyze the requirement and expand the business context.
 5. Write the raw requirement and background analysis output to `/specs/background/original.md`.
+5.2 Extract the Open Questions section and write the unified Q&A storage:
+   - JSON: `/specs/background/questions.json`
+   - Markdown: `/specs/background/questions.md` (exported from questions.json)
+   - If the Open Questions section is missing/empty, still create both files (questions.json must be valid JSON with `items: []` and `meta.total=0`).
 5.5 Create `/specs/background/question_and_answer.html` (single-file HTML with inline CSS/JS) so the user can answer questions and write back to markdown:
    - If the file already exists: do NOT overwrite it; reuse it.
    - Only create it when missing by reading the built-in template `prompts/vspec_new/question_and_answer.html`.
    - Do NOT create any `prompt/` or `prompts/` directory in the project; do not write anything under `prompts/**`.
-6. Ask the user to answer the questions from the Open Questions section (use the section title in the selected language). The user should answer via `/specs/background/question_and_answer.html` (select `/specs/background/original.md` in the page and save back), then reply with a continuation signal (e.g. `继续` / `continue`). Then STOP. Do not load any subsequent prompts or generate any further artifacts before that.
+6. Ask the user to answer the questions from the Open Questions section (use the section title in the selected language). The user should answer via `/specs/background/question_and_answer.html` (select `/specs/background/original.md` in the page and save back).
+   - Distinguish required vs optional questions (`priority=required|optional`):
+     - Required: affects scope/rules/acceptance; unanswered required items block subsequent generation
+     - Optional: does not block requirement analysis details, but should be answered later (can be deferred), e.g. full legal document text, agreement clauses, calculation formulas, template samples
+   - Then wait for a continuation signal (e.g. `继续` / `continue`) that indicates required items are answered or the user wants to proceed. Then STOP. Do not load any subsequent prompts or generate any further artifacts before that.
 7. After the user replies (answers or confirmed), load `prompts/vspec_new/stakeholders.md` to analyze stakeholders.
 8. Write the stakeholder result to `/specs/background/stakeholder.md` (markdown table).
 9. Load `prompts/vspec_new/roles.md` to analyze system user roles (direct users) and their work tasks.
@@ -73,7 +81,11 @@ Flow:
 23. Load `prompts/vspec_new/dependencies.md` to analyze external dependency systems.
 24. Write the dependencies result to `/specs/background/dependencies.md`.
 25. Load `prompts/vspec_new/functions.md` to generate feature/function lists grouped by modules and external dependency systems.
-26. Write the function lists to `/specs/functions/`.
+26. Write the function list artifacts to `/specs/functions/`:
+   - `core.md`: core system function list table
+   - `<system_key>.md`: each external dependency system function list table
+   - `functions.json`: the unified structured function list data source
+   - `functions.html`: the viewer page (create only when missing by copying the built-in template `prompts/vspec_new/functions.html`)
 27. Load `prompts/vspec_new/questions.md` to generate question lists and required business materials.
 28. Write the questions result to `/specs/background/questions.md` (markdown list).
 29. Load `prompts/harness/new/post_new_verify.md` to validate whether functions and scenario_details are complete (login/config/master-data/approval). If it outputs any issues, show the issue list and stop.

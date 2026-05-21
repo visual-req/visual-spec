@@ -16,6 +16,7 @@
    - 角色与权限（谁能做什么，审批链路，越权处理）
    - 数据与口径（关键字段、主数据来源、术语歧义）
    - 流程与场景（取消/变更/驳回/紧急叫停/换人执行等）
+   - 操作体验与交互模式（必须明确“如何操作”而不只是“有什么功能”）：一步一步向导 vs 一次性表格/表单、列表/详情/批量操作、批量编辑与导入导出、表格行内编辑/弹窗/抽屉、是否支持草稿/自动保存/撤销、移动端与 Web 的差异体验
    - 约束与合规（管理制度、法律法规、留痕留存）
    - 外部依赖（对接系统、数据方向、失败处理、时效）
    - 交付物资料（需要业务提供的文档、模板、文案、协议等）
@@ -41,30 +42,40 @@
 4. 输出要求：
    - 同一个背景下的多个提问要拆成多行
    - 每行只写一个问题
-   - 优先输出为“选择题”（单选为主，必要时可多选或补充“其他：___”）：
-     - 在“提问/Question/質問”字段末尾追加选项清单，使用以下固定写法之一（按所选语言）：
-       - 语言=en：`Options: A. ...; B. ...; C. ...; D. Other: ____`
-       - 语言=zh / zh-CN：`选项：A. ...；B. ...；C. ...；D. 其他：____`
-       - 语言=ja：`選択肢：A. ...；B. ...；C. ...；D. その他：____`
-     - 若确实无法选择题化（需要开放文本），也必须给出 2-4 个“常见答案选项” + “其他：____”
+   - 每个问题必须标记“优先级/Priority”：
+     - 必答/Required：影响范围/规则/验收的关键口径；未回答将阻塞后续生成
+     - 选答/Optional：不影响需求分析细节推进，但仍建议后续补齐（可推迟回答），例如法律文书全文、协议条款、计算公式、模板样例等
+   - 每个问题必须标记“题型/Type”，并尽量把问题设计成可选择/可判断（减少开放问答）：
+     - Type=TF：判断题（是/否、支持/不支持、允许/不允许）
+     - Type=Single：单选题
+     - Type=Multi：多选题（默认多选）
+     - Type=Fill：填空题（短文本/数字/日期）
+     - Type=Open：问答题（最后兜底）
+   - 题型优先级（必须严格遵守）：TF > Single/Multi > Fill > Open
+   - 比例约束（必须）：TF + (Single/Multi) 至少占 70%；Open 不得超过 20% 且最多 6 条
    - 状态默认都是“未回答/Unanswered/未回答”（按所选语言）
    - “提问时间/回答时间”先留空
    - “回答/回答者/回答时间”先留空
 
 写入要求：
-1. 将结果写入：`/specs/background/questions.md`
-2. 如果 `/specs/background` 不存在，请先创建目录
-2.5 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
-   - 写入：`/specs/background/question_and_answer.html`
-   - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
-   - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致），用于读取/编辑 `original.md` 与 `questions.md` 并回写
-3. 输出为 markdown 列表（字段名与顺序必须严格按所选语言使用以下版本之一）：
+1. 将结果同时写入两份等价内容（必须保持问题条目逐条一致）：
+   - Markdown：`/specs/background/questions.md`
+   - JSON：`/specs/background/questions.json`
+2. 若 `/specs/background/questions.json` 已存在（例如由 /vspec:new 的 background 阶段从 original.md 的“待确认问题”抽取生成）：必须先读取并保留其中条目，再追加本次新生成的问题：
+   - 不得覆盖/丢失已存在条目
+   - 新增问题的 `id` 必须从现有最大 id + 1 开始递增
+   - 若与已有问题语义重复：不得重复追加（语义相同视为重复）
+3. 如果 `/specs/background` 不存在，请先创建目录
+4. Markdown 输出为列表（字段名与顺序必须严格按所选语言使用以下版本之一）：
 
 ```md
 语言=en：
 1. ID: 1
    - Context:
    - Question:
+   - Priority: Required/Optional
+   - Type: TF/Single/Multi/Fill/Open
+   - Options: (only for TF/Single/Multi; leave empty for Fill/Open)
    - Asker: BA/System Analyst
    - Asked At:
    - Answer:
@@ -76,6 +87,9 @@
 1. 编号：1
    - 背景：
    - 提问：
+   - 优先级：必答/选答
+   - 题型：判断/单选/多选/填空/问答
+   - 选项：（仅判断/单选/多选必填；填空/问答留空）
    - 提问者：BA/系统分析
    - 提问时间：
    - 回答：
@@ -87,6 +101,9 @@
 1. 番号：1
    - 背景：
    - 質問：
+   - 優先度：必須/任意
+   - 題型：二択/単一選択/複数選択/記入/自由記述
+   - 選択肢：（二択/単一選択/複数選択のみ必須。記入/自由記述は空）
    - 質問者：BA/システム分析
    - 質問日時：
    - 回答：
@@ -95,19 +112,41 @@
    - 状態：未回答
 ```
 
-4. 编号从 1 开始递增
-5. 提问者默认填“BA/系统分析”
-6. 操作体验强制覆盖（必须）：
+4. JSON 输出格式（必须）：
+   - 顶层为 object：`{ meta, items }`
+   - `meta` 至少包含：`language`（en/zh-CN/ja）、`generated_at`（ISO 字符串）、`total`（数字）
+   - `items` 为 array；每项必须包含字段（字段名固定，不随语言变化）：
+     - `id`：number（从 1 递增，与 Markdown 编号一致）
+     - `context`：string
+     - `question`：string
+     - `priority`：string（必须为 `required` 或 `optional`；用于区分“必答题/选答题”）
+     - `type`：string（必须为 `TF` / `Single` / `Multi` / `Fill` / `Open` 之一）
+     - `options`：array<string>（仅当 type 为 TF/Single/Multi 时必须提供；Fill/Open 可为空数组）
+     - `asker`：string（默认 `BA/System Analyst`）
+     - `asked_at`：string（可空）
+     - `answer`：string（可空）
+     - `answered_by`：string（可空）
+     - `answered_at`：string（可空）
+     - `status`：string（值必须与所选语言一致：Unanswered/未回答/未回答）
+5. 编号从 1 开始递增（Markdown 与 JSON 必须一致）
+6. 提问者默认填“BA/系统分析”（同时在 JSON 中写入 `asker: BA/System Analyst`）
+7. 操作体验强制覆盖（必须）：
    - 至少生成 4 条与“操作体验/交互模式”相关的问题，且必须覆盖以下主题中的至少 3 个：
      - 一步一步向导（Wizard）还是一次性表格/表单展示（Single-page）
      - 核心列表是否需要支持批量操作（批量通过/批量驳回/批量分派/批量导出等）
      - 表格编辑方式：行内编辑 vs 弹窗/抽屉；是否需要批量编辑
      - 草稿/自动保存/恢复草稿/撤销（Undo）与二次确认（Confirm）的口径
      - Web 与 Mobile 的差异：哪些步骤必须在移动端完成、哪些在 Web 完成、是否需要“只读提示/置灰”
-6. 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
-   - 写入：`/specs/background/question_and_answer.html`
+9. 固定的 HTML 交互问答页面（用于更容易回答并导出 questions.json）：
+   - 目标路径：`/specs/background/question_and_answer.html`
+   - 若该文件已存在：先读取并检查是否为“旧版蓝底主题/非模板生成”的遗留文件：
+     - 若包含任一特征字符串：`--bg: #0b1220` 或 `background: linear-gradient(180deg, var(--bg), #060a13)`：视为旧版，必须用最新模板覆盖（升级）
+     - 否则：不得覆盖、不得重复生成，直接复用现有文件
+   - 若该文件不存在：才生成一次
    - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
-   - HTML 内容要求：先读取 `/scheme.yaml` 的 `selected.language`（支持 `en`、`zh-CN`、`ja`；若缺失/非法则按 `en` 处理；`zh` 视为 `zh-CN` 的别名），再按语言复制固定模板文件（保持一致）用于读取/编辑 `original.md` 与 `questions.md` 并回写：
-     - `en` → `prompts/vspec_new/question_and_answer.en-US.html`
-     - `zh-CN` → `prompts/vspec_new/question_and_answer.html`
-     - `ja` → `prompts/vspec_new/question_and_answer.ja-JP.html`
+   - 模板来源：读取本 Skill 内置模板 `prompts/vspec_new/question_and_answer.html` 并写入目标路径（只读读取模板）；页面自动加载同目录下的 `questions.json`，并可导出更新后的 `questions.json`（以及可选导出的 `questions.md`）。该单文件已内置中英日三语及切换功能。
+   - 复制规则（必须）：写入内容必须与模板文件内容完全一致（逐字节一致）；不得由你“重新生成/改写/美化/格式化”HTML
+   - 写入后自检（必须）：
+     - 重新读取目标文件，必须包含 `--bg: #ffffff` 且包含 `--text: #111827`
+     - 若不满足：视为复制失败，必须立即用模板覆盖一次并再次自检直到满足
+   - 禁止在项目中创建 `prompt/` 或 `prompts/` 目录；不得向 `prompts/**` 写入任何文件

@@ -3,25 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VSpec Details</title>
+    <title id="uiTitle">VSpec Details</title>
     <style>
       :root {
-        --bg: #0b1220;
-        --panel: rgba(17, 27, 46, 0.76);
-        --panel2: rgba(10, 16, 28, 0.82);
-        --text: #e6eefc;
-        --muted: #8aa0c3;
-        --border: rgba(255, 255, 255, 0.09);
-        --primary: #3b82f6;
-        --accent: #22c55e;
-        --warn: #f59e0b;
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --panel2: #ffffff;
+        --text: #111827;
+        --muted: rgba(17, 24, 39, 0.72);
+        --border: rgba(17, 24, 39, 0.14);
+        --primary: #2563eb;
+        --accent: #16a34a;
+        --warn: #d97706;
       }
       * {
         box-sizing: border-box;
       }
       body {
         margin: 0;
-        background: linear-gradient(180deg, var(--bg), #060a13);
+        background: var(--bg);
         color: var(--text);
         font-family:
           -apple-system,
@@ -37,9 +37,8 @@
         position: sticky;
         top: 0;
         z-index: 20;
-        background: rgba(245, 158, 11, 0.14);
-        border-bottom: 1px solid rgba(245, 158, 11, 0.35);
-        backdrop-filter: blur(10px);
+        background: rgba(217, 119, 6, 0.10);
+        border-bottom: 1px solid rgba(217, 119, 6, 0.28);
       }
       .top-banner .inner {
         max-width: 1400px;
@@ -53,10 +52,10 @@
       }
       .top-banner .msg {
         font-size: 13px;
-        color: rgba(245, 158, 11, 0.98);
+        color: rgba(217, 119, 6, 0.98);
       }
       .top-banner .msg b {
-        color: rgba(255, 255, 255, 0.92);
+        color: var(--text);
       }
       .wrap {
         max-width: 1400px;
@@ -65,7 +64,7 @@
       }
       .shell {
         display: grid;
-        grid-template-columns: 340px 1fr;
+        grid-template-columns: 340px 1fr 300px;
         gap: 12px;
         min-height: calc(100vh - 90px);
       }
@@ -78,17 +77,17 @@
         border: 1px solid var(--border);
         border-radius: 14px;
         background: var(--panel);
-        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
         overflow: hidden;
       }
       .sidebar-header {
         padding: 12px;
         border-bottom: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(17, 24, 39, 0.02);
       }
       .sidebar-title {
         font-size: 13px;
-        color: #cfe0ff;
+        color: var(--text);
         margin: 0 0 8px;
         display: flex;
         align-items: center;
@@ -109,7 +108,7 @@
         width: 100%;
         border-radius: 10px;
         border: 1px solid var(--border);
-        background: rgba(10, 16, 28, 0.78);
+        background: #ffffff;
         color: var(--text);
         padding: 9px 10px;
         font-size: 13px;
@@ -117,7 +116,7 @@
       }
       button {
         border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(17, 24, 39, 0.04);
         color: var(--text);
         border-radius: 10px;
         padding: 8px 10px;
@@ -125,8 +124,8 @@
         font-size: 13px;
       }
       button.primary {
-        background: rgba(59, 130, 246, 0.18);
-        border-color: rgba(59, 130, 246, 0.45);
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.30);
       }
       .tree {
         padding: 8px 8px 12px;
@@ -135,6 +134,16 @@
       }
       @media (max-width: 980px) {
         .tree {
+          max-height: 46vh;
+        }
+      }
+      .outline-wrap {
+        padding: 8px 8px 12px;
+        overflow: auto;
+        max-height: calc(100vh - 190px);
+      }
+      @media (max-width: 980px) {
+        .outline-wrap {
           max-height: 46vh;
         }
       }
@@ -147,7 +156,7 @@
         user-select: none;
         padding: 7px 8px;
         border-radius: 10px;
-        color: #dbe8ff;
+        color: var(--text);
         font-size: 13px;
         display: flex;
         align-items: center;
@@ -162,7 +171,7 @@
       .node {
         margin-left: 10px;
         padding-left: 8px;
-        border-left: 1px dashed rgba(255, 255, 255, 0.12);
+        border-left: 1px dashed rgba(17, 24, 39, 0.16);
       }
       .file {
         display: flex;
@@ -177,11 +186,11 @@
         font-size: 13px;
       }
       .file:hover {
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(17, 24, 39, 0.04);
       }
       .file.active {
-        background: rgba(59, 130, 246, 0.16);
-        border-color: rgba(59, 130, 246, 0.34);
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.28);
       }
       .main-header {
         padding: 12px 12px 0;
@@ -212,11 +221,11 @@
         border: 1px solid var(--border);
         border-radius: 999px;
         padding: 4px 10px;
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(17, 24, 39, 0.02);
       }
       .path {
         font-size: 13px;
-        color: #dbe8ff;
+        color: var(--text);
         word-break: break-all;
       }
       .content {
@@ -225,7 +234,7 @@
       .doc {
         border: 1px solid var(--border);
         border-radius: 14px;
-        background: rgba(8, 12, 20, 0.6);
+        background: #ffffff;
         padding: 16px 16px 18px;
       }
       .doc h1,
@@ -235,7 +244,7 @@
       .doc h5,
       .doc h6 {
         margin: 18px 0 10px;
-        color: #dbe8ff;
+        color: var(--text);
       }
       .doc h1 {
         font-size: 22px;
@@ -248,23 +257,23 @@
       }
       .doc p {
         margin: 10px 0;
-        color: rgba(230, 238, 252, 0.92);
+        color: rgba(17, 24, 39, 0.92);
         line-height: 1.55;
       }
       .doc a {
-        color: rgba(59, 130, 246, 0.95);
+        color: rgba(37, 99, 235, 0.95);
       }
       .doc code {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
           monospace;
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(17, 24, 39, 0.04);
         padding: 2px 5px;
         border-radius: 6px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(17, 24, 39, 0.10);
       }
       .doc pre {
-        background: #0a1020;
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: #f8fafc;
+        border: 1px solid rgba(17, 24, 39, 0.12);
         border-radius: 12px;
         padding: 12px;
         overflow: auto;
@@ -282,13 +291,13 @@
       }
       .doc th,
       .doc td {
-        border: 1px solid rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(17, 24, 39, 0.14);
         padding: 8px 10px;
         vertical-align: top;
       }
       .doc th {
-        background: rgba(255, 255, 255, 0.04);
-        color: #dbe8ff;
+        background: rgba(17, 24, 39, 0.03);
+        color: var(--text);
         text-align: left;
       }
       .doc ul,
@@ -304,13 +313,13 @@
       .puml img {
         max-width: 100%;
         border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(17, 24, 39, 0.12);
+        background: rgba(17, 24, 39, 0.02);
       }
       iframe {
         width: 100%;
         height: calc(100vh - 240px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(17, 24, 39, 0.12);
         border-radius: 12px;
         background: #fff;
       }
@@ -336,17 +345,17 @@
         display: block;
         padding: 6px 10px;
         border-radius: 10px;
-        color: rgba(230, 238, 252, 0.92);
+        color: rgba(17, 24, 39, 0.92);
         text-decoration: none;
         border: 1px solid transparent;
         font-size: 13px;
       }
       .outline a:hover {
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(17, 24, 39, 0.04);
       }
       .outline a.active {
-        background: rgba(34, 197, 94, 0.12);
-        border-color: rgba(34, 197, 94, 0.28);
+        background: rgba(22, 163, 74, 0.10);
+        border-color: rgba(22, 163, 74, 0.22);
       }
       .file.missing {
         opacity: 0.55;
@@ -361,7 +370,7 @@
         padding: 10px 12px;
         border: 1px solid var(--border);
         border-radius: 14px;
-        background: rgba(10, 16, 28, 0.82);
+        background: rgba(17, 24, 39, 0.02);
         margin-bottom: 12px;
       }
       .md-toolbar .left,
@@ -391,7 +400,7 @@
         min-height: calc(100vh - 330px);
         border-radius: 14px;
         border: 1px solid var(--border);
-        background: rgba(10, 16, 28, 0.78);
+        background: #ffffff;
         color: var(--text);
         padding: 12px;
         font-size: 13px;
@@ -401,17 +410,31 @@
           monospace;
       }
       .mode-btn.active {
-        background: rgba(59, 130, 246, 0.18);
-        border-color: rgba(59, 130, 246, 0.45);
+        background: rgba(37, 99, 235, 0.10);
+        border-color: rgba(37, 99, 235, 0.30);
+      }
+      .langSelect {
+        background: rgba(17, 24, 39, 0.04);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 8px;
+        padding: 6px 8px;
+        font-size: 12px;
+        outline: none;
       }
     </style>
   </head>
   <body>
+    <div style="position: absolute; top: 12px; right: 16px; z-index: 100;">
+      <select id="globalLangSelect" class="langSelect">
+        <option value="en">English</option>
+        <option value="zh-CN">中文</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
     <div class="top-banner">
       <div class="inner">
-        <div class="msg">
-          <b>Word export:</b> run <b>/vspec:doc</b> to generate <b>/docs/current/requirement_detail.docx</b>
-        </div>
+        <div class="msg" id="uiWordExport"></div>
       </div>
     </div>
 
@@ -420,19 +443,16 @@
         <div class="panel">
           <div class="sidebar-header">
             <div class="sidebar-title">
-              <span>Details Index</span>
+              <span id="uiDetailsIndex">Details Index</span>
               <span class="badge" id="fileCount">0 files</span>
             </div>
-            <div class="sidebar-meta">Click a file to render it on the right.</div>
+            <div class="sidebar-meta" id="uiClickToRender">Click a file to render it on the right.</div>
             <div class="search">
               <input id="search" type="text" placeholder="Search path..." />
               <button id="collapseAll">Collapse</button>
             </div>
           </div>
           <div class="tree">
-            <div class="outline-title">Outline</div>
-            <div id="outline" class="outline"></div>
-            <div class="tree-sep"></div>
             <div id="nav"></div>
           </div>
         </div>
@@ -445,27 +465,191 @@
                 <span class="path" id="currentPath">No file selected</span>
               </div>
               <div class="right">
-                <button id="copyPath">Copy Path</button>
+                <button id="copyPath"><span id="uiCopyPath">Copy Path</span></button>
               </div>
             </div>
           </div>
           <div class="content">
             <div class="doc" id="viewer">
-              <div class="empty">
-                Select a document from the left navigation. Markdown supports editing + live preview.
-                <ul>
-                  <li><code>.md</code> rendered as markdown</li>
-                  <li><code>.html</code> rendered via iframe</li>
-                  <li><code>.puml</code> and markdown <code>```plantuml</code> blocks rendered via PlantUML server</li>
-                </ul>
-              </div>
+              <div class="empty" id="uiEmptyDoc"></div>
             </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="sidebar-header">
+            <div class="sidebar-title">
+              <span id="uiOutline">Outline</span>
+            </div>
+          </div>
+          <div class="outline-wrap">
+            <div id="outline" class="outline"></div>
           </div>
         </div>
       </div>
     </div>
 
     <script>
+
+      const i18n = {
+        en: {
+          title: "VSpec Details",
+          wordExport: "<b>Word export:</b> run <b>/vspec:doc</b> to generate <b>/docs/current/requirement_detail.docx</b>",
+          detailsIndex: "Details Index",
+          clickToRender: "Click a file to render it on the right.",
+          searchPath: "Search path...",
+          collapse: "Collapse",
+          outline: "Outline",
+          noFile: "No file selected",
+          copyPath: "Copy Path",
+          emptyDoc: "Select a document from the left navigation. Markdown supports editing + live preview.<ul><li><code>.md</code> rendered as markdown</li><li><code>.html</code> rendered via iframe</li><li><code>.puml</code> and markdown <code>```plantuml</code> blocks rendered via PlantUML server</li></ul>",
+          files: "files",
+          fileType: "FILE",
+          errBrowserFS: "Browser does not support File System Access API. Use Download.",
+          linkedOk: "Linked. You can Save back now.",
+          saveFailed: "Save failed.",
+          savedOk: "Saved.",
+          noLinkedFile: "No linked file. Click Link File first, or use Download.",
+          split: "Split",
+          edit: "Edit",
+          preview: "Preview",
+          linkFile: "Link File",
+          save: "Save",
+          download: "Download",
+          mdHint: "Edit markdown and preview on the right. Save requires linking a local file.",
+          system: "System",
+          modules: "Modules",
+          scenarios: "Scenarios",
+          scenarioHome: "Scenario Entry",
+          scenarioIntro: "Start reading from scenarios. You can open the scenario list or jump into scenario details directly.",
+          openScenarios: "Open /specs/background/scenarios.md",
+          scenarioDetails: "Scenario Details",
+          details: "Details",
+          other: "Other",
+          chapRequirement: "Requirement",
+          chapOriginal: "Original Requirement",
+          chapStakeholders: "Stakeholders",
+          chapRoles: "Roles",
+          chapTerms: "Terms",
+          chapScenarios: "Scenarios",
+          chapDependencies: "Dependencies",
+          chapQuestions: "Questions",
+          chapS2F: "Scenarios ↔ Functions",
+          chapScenarioList: "Scenario List",
+          chapFlowDiagrams: "Flow Diagrams",
+          chapCoreFunctions: "Core Functions",
+          chapFlows: "Flows",
+          chapFunctions: "Functions",
+          chapDetails: "Details",
+          chapModels: "Models"
+        },
+        "zh-CN": {
+          title: "VSpec 详情",
+          wordExport: "<b>Word 导出：</b>运行 <b>/vspec:doc</b> 生成 <b>/docs/current/requirement_detail.docx</b>",
+          detailsIndex: "详情索引",
+          clickToRender: "点击文件，在右侧渲染。",
+          searchPath: "搜索路径...",
+          collapse: "折叠",
+          outline: "大纲",
+          noFile: "未选择文件",
+          copyPath: "复制路径",
+          emptyDoc: "从左侧导航选择文档。Markdown 支持编辑与实时预览。<ul><li><code>.md</code>：以 Markdown 渲染</li><li><code>.html</code>：通过 iframe 渲染</li><li><code>.puml</code> 与 Markdown 的 <code>```plantuml</code>：通过 PlantUML Server 渲染</li></ul>",
+          files: "个文件",
+          fileType: "文件",
+          errBrowserFS: "浏览器不支持 File System Access API，请使用 Download。",
+          linkedOk: "已链接，现在可以使用 Save 直接保存到本地。",
+          saveFailed: "保存失败。",
+          savedOk: "已保存。",
+          noLinkedFile: "未链接本地文件。请先点击 Link File，或使用 Download。",
+          split: "分屏",
+          edit: "编辑",
+          preview: "预览",
+          linkFile: "链接文件",
+          save: "保存",
+          download: "下载",
+          mdHint: "编辑 markdown 并在右侧预览。直接保存需要先链接本地文件。",
+          system: "系统",
+          modules: "模块",
+          scenarios: "场景",
+          scenarioHome: "场景入口",
+          scenarioIntro: "可从场景入口开始阅读：先看场景清单，再按需要进入对应的场景细节与功能细节。",
+          openScenarios: "打开 /specs/background/scenarios.md",
+          scenarioDetails: "场景细节",
+          details: "详细",
+          other: "其他",
+          chapRequirement: "需求",
+          chapOriginal: "原始需求",
+          chapStakeholders: "干系人",
+          chapRoles: "角色",
+          chapTerms: "名词解释",
+          chapScenarios: "场景",
+          chapDependencies: "依赖关系",
+          chapQuestions: "问题",
+          chapS2F: "场景 ↔ 功能",
+          chapScenarioList: "场景列表",
+          chapFlowDiagrams: "流程图",
+          chapCoreFunctions: "核心功能",
+          chapFlows: "流程",
+          chapFunctions: "功能",
+          chapDetails: "细节",
+          chapModels: "模型"
+        },
+        ja: {
+          title: "VSpec 詳細",
+          wordExport: "<b>Word エクスポート：</b> <b>/vspec:doc</b> を実行して <b>/docs/current/requirement_detail.docx</b> を生成します",
+          detailsIndex: "詳細インデックス",
+          clickToRender: "ファイルをクリックして右側に表示します。",
+          searchPath: "パスを検索...",
+          collapse: "折りたたむ",
+          outline: "アウトライン",
+          noFile: "ファイルが選択されていません",
+          copyPath: "パスをコピー",
+          emptyDoc: "左側のナビゲーションからドキュメントを選択してください。Markdownは編集とリアルタイムプレビューをサポートしています。<ul><li><code>.md</code>: Markdownとしてレンダリング</li><li><code>.html</code>: iframe経由でレンダリング</li><li><code>.puml</code> と <code>```plantuml</code>: PlantUML Server経由でレンダリング</li></ul>",
+          files: "ファイル",
+          fileType: "ファイル",
+          errBrowserFS: "ブラウザが File System Access API をサポートしていません。Download を使用してください。",
+          linkedOk: "リンクされました。Save で保存できます。",
+          saveFailed: "保存に失敗しました。",
+          savedOk: "保存しました。",
+          noLinkedFile: "リンクされたファイルがありません。Link File をクリックするか、Download を使用してください。",
+          split: "分割",
+          edit: "編集",
+          preview: "プレビュー",
+          linkFile: "ファイルリンク",
+          save: "保存",
+          download: "ダウンロード",
+          mdHint: "Markdownを編集し、右側でプレビューします。保存にはローカルファイルのリンクが必要です。",
+          system: "システム",
+          modules: "モジュール",
+          scenarios: "シナリオ",
+          scenarioHome: "シナリオ入口",
+          scenarioIntro: "シナリオ入口から読み始められます。まずシナリオ一覧を確認し、必要に応じてシナリオ詳細や機能詳細へ進んでください。",
+          openScenarios: "/specs/background/scenarios.md を開く",
+          scenarioDetails: "シナリオ詳細",
+          details: "詳細",
+          other: "その他",
+          chapRequirement: "要件",
+          chapOriginal: "元の要件",
+          chapStakeholders: "ステークホルダー",
+          chapRoles: "ロール",
+          chapTerms: "用語",
+          chapScenarios: "シナリオ",
+          chapDependencies: "依存関係",
+          chapQuestions: "質問",
+          chapS2F: "シナリオ ↔ 機能",
+          chapScenarioList: "シナリオ一覧",
+          chapFlowDiagrams: "フロー図",
+          chapCoreFunctions: "コア機能",
+          chapFlows: "フロー",
+          chapFunctions: "機能",
+          chapDetails: "詳細",
+          chapModels: "モデル"
+        }
+      };
+
+      let currentLang = "en";
+      function t(key) { return i18n[currentLang][key] || i18n["en"][key] || key; }
+
       window.__VSPEC_DETAILS_FILES__ = window.__VSPEC_DETAILS_FILES__ || {};
 
       const PLANTUML_SERVER = "https://www.plantuml.com/plantuml/svg/";
@@ -485,6 +669,8 @@
       const state = {
         files: {},
         paths: [],
+        tree: null,
+        meta: {},
         activePath: null,
         activeButton: null,
         handles: new Map(),
@@ -507,7 +693,7 @@
         if (ext === "md") return "Markdown";
         if (ext === "html") return "HTML";
         if (ext === "puml") return "PlantUML";
-        return ext ? ext.toUpperCase() : "FILE";
+        return ext ? ext.toUpperCase() : t("fileType");
       }
 
       function setActive(path, button) {
@@ -515,9 +701,17 @@
         state.activeButton = button || null;
         if (state.activeButton) state.activeButton.classList.add("active");
         state.activePath = path;
-        dom.currentPath.textContent = path || "No file selected";
+        dom.currentPath.textContent = path || t("noFile");
         dom.typeBadge.textContent = path ? fileType(path) : "—";
         if (path) location.hash = encodeURIComponent(path);
+      }
+      
+      function findNavButtonByPath(path) {
+        const btns = dom.nav.querySelectorAll("button.file");
+        for (const b of btns) {
+          if (b && b.dataset && b.dataset.path === path) return b;
+        }
+        return null;
       }
 
       function exists(path) {
@@ -600,118 +794,105 @@
         return m;
       }
 
-      function buildChapters() {
-        const original = pickFirst(["/specs/background/original.md"]);
-        const stakeholder = pickFirst(["/specs/background/stakeholder.md", "/specs/background/stakeholders.md"]);
-        const roles = pickFirst(["/specs/background/roles.md"]);
-        const terms = pickFirst(["/specs/background/terms.md"]);
-        const scenarios = pickFirst(["/specs/background/scenarios.md"]);
-        const dependencies = pickFirst(["/specs/background/dependencies.md"]);
-        const questions = pickFirst(["/specs/background/questions.md"]);
-
-        const functions = listByPrefix("/specs/functions/").filter((p) => p.toLowerCase().endsWith(".md"));
-        const flows = listByPrefix("/specs/flows/").filter((p) => p.toLowerCase().endsWith(".puml"));
-        const models = listByPrefix("/specs/models/").filter((p) => p.toLowerCase().endsWith(".md"));
-
-        const detailTypes = [
-          { dir: "rbac", label: "RBAC" },
-          { dir: "data_permission", label: "Data Permission" },
-          { dir: "page_load", label: "Page Load" },
-          { dir: "interaction", label: "Interaction" },
-          { dir: "service_logic", label: "Service Logic" },
-          { dir: "job_logic", label: "Job Logic" },
-          { dir: "message_queue", label: "Message Queue" },
-          { dir: "mq", label: "MQ" },
-          { dir: "cache", label: "Cache" },
-          { dir: "logging_matrix", label: "Logging Matrix" },
-          { dir: "notification_matrix", label: "Notification Matrix" },
-          { dir: "nfp", label: "Non-Functional" },
-          { dir: "validation_matrix", label: "Validation Matrix" },
-          { dir: "judgemental_matrix", label: "Decision Matrix" },
-          { dir: "code_rules", label: "Code Rules" },
-          { dir: "timeline", label: "Timeline" },
-          { dir: "formula", label: "Formula" },
-          { dir: "expression_tree", label: "Expression Tree" },
-          { dir: "file_import", label: "File Import" },
-          { dir: "file_export", label: "File Export" },
-          { dir: "cron_job", label: "Cron Jobs" },
-        ];
-
-        const detailGroups = [];
-        for (const dt of detailTypes) {
-          const prefix = `/specs/details/`;
-          const hits = state.paths.filter((p) => p.startsWith(prefix) && p.includes(`/${dt.dir}/`));
-          if (!hits.length) continue;
-          const byModule = groupBy(hits, (p) => getModuleSlug(p) || "unknown");
-          const modules = Array.from(byModule.entries()).sort((a, b) => a[0].localeCompare(b[0]));
-          const children = modules.map(([module, files]) => ({
-            type: "group",
-            label: module,
-            children: files
-              .slice()
-              .sort((a, b) => a.localeCompare(b))
-              .map((p) => ({ type: "file", label: basename(p), path: p })),
-          }));
-          detailGroups.push({ type: "group", label: dt.label, children });
+      function buildDirectoryTree(paths) {
+        const root = { type: "group", label: "/", dirs: new Map(), files: [] };
+        const ensureDir = (node, label) => {
+          const k = String(label || "");
+          if (!node.dirs.has(k)) node.dirs.set(k, { type: "group", label: k, dirs: new Map(), files: [] });
+          return node.dirs.get(k);
+        };
+        for (const p of paths || []) {
+          const parts = String(p || "").split("/").filter(Boolean);
+          if (!parts.length) continue;
+          let cur = root;
+          for (let i = 0; i < parts.length - 1; i++) {
+            cur = ensureDir(cur, parts[i]);
+          }
+          const name = parts[parts.length - 1];
+          cur.files.push({ type: "file", label: name, path: p });
         }
-
-        const chapters = [];
-        chapters.push({
-          label: "Requirement",
-          children: [
-            { type: "file", label: "Original Requirement", path: original || "/specs/background/original.md", missing: !original },
-            {
-              type: "file",
-              label: "Stakeholders",
-              path: stakeholder || "/specs/background/stakeholders.md",
-              missing: !stakeholder,
-            },
-            { type: "file", label: "Roles", path: roles || "/specs/background/roles.md", missing: !roles },
-            { type: "file", label: "Terms", path: terms || "/specs/background/terms.md", missing: !terms },
-            { type: "file", label: "Scenarios", path: scenarios || "/specs/background/scenarios.md", missing: !scenarios },
-            {
-              type: "file",
-              label: "Dependencies",
-              path: dependencies || "/specs/background/dependencies.md",
-              missing: !dependencies,
-            },
-            { type: "file", label: "Questions", path: questions || "/specs/background/questions.md", missing: !questions },
-          ].filter(Boolean),
+        const finalize = (node) => {
+          const dirChildren = Array.from(node.dirs.values())
+            .sort((a, b) => a.label.localeCompare(b.label))
+            .map(finalize);
+          const fileChildren = (node.files || []).slice().sort((a, b) => a.label.localeCompare(b.label));
+          return { type: "group", label: node.label, children: [...dirChildren, ...fileChildren] };
+        };
+        return finalize(root);
+      }
+      
+      function systemLabel() {
+        const m = state.meta && typeof state.meta === "object" ? state.meta : {};
+        return (m.system_name || m.system || m.title || "").toString().trim() || t("system");
+      }
+      
+      function buildSystemTree(paths) {
+        const root = { type: "group", label: systemLabel(), children: [] };
+        
+        const scenarioHomePath = "/specs/details/__scenarios__";
+        const scenarioNodes = [];
+        scenarioNodes.push({ type: "file", label: t("scenarioHome"), path: scenarioHomePath });
+        if (exists("/specs/background/scenarios.md")) scenarioNodes.push({ type: "file", label: "scenarios.md", path: "/specs/background/scenarios.md" });
+        const scenarioDetailPaths = (paths || []).filter((p) => String(p || "").startsWith("/specs/background/scenario_details/"));
+        if (scenarioDetailPaths.length) {
+          scenarioDetailPaths.sort((a, b) => a.localeCompare(b));
+          const sdChildren = [];
+          for (const p of scenarioDetailPaths) sdChildren.push({ type: "file", label: p.replace("/specs/background/scenario_details/", ""), path: p });
+          scenarioNodes.push({ type: "group", label: t("scenarioDetails"), children: sdChildren });
+        }
+        root.children.push({ type: "group", label: t("scenarios"), children: scenarioNodes });
+        
+        const detailPaths = (paths || []).filter((p) => String(p || "").startsWith("/specs/details/"));
+        const modules = new Map();
+        for (const p of detailPaths) {
+          const parts = String(p || "").split("/").filter(Boolean);
+          if (parts.length < 4) continue;
+          if (parts[0] !== "specs" || parts[1] !== "details") continue;
+          const moduleSlug = parts[2];
+          const detailType = parts[3];
+          const fileName = parts.slice(4).join("/");
+          if (!fileName) continue;
+          const funcSlug = fileName.replace(/\.[^/.]+$/, "");
+          if (!modules.has(moduleSlug)) modules.set(moduleSlug, new Map());
+          const funcs = modules.get(moduleSlug);
+          if (!funcs.has(funcSlug)) funcs.set(funcSlug, []);
+          funcs.get(funcSlug).push({ path: p, detailType, fileName: basename(p) });
+        }
+        
+        const moduleChildren = [];
+        for (const [moduleSlug, funcs] of Array.from(modules.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
+          const functionChildren = [];
+          for (const [funcSlug, files] of Array.from(funcs.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
+            files.sort((a, b) => `${a.detailType}/${a.fileName}`.localeCompare(`${b.detailType}/${b.fileName}`));
+            const detailFiles = files.map((f) => ({ type: "file", label: `${f.detailType}/${f.fileName}`, path: f.path }));
+            functionChildren.push({
+              type: "group",
+              label: funcSlug,
+              children: [
+                { type: "group", label: t("details"), children: detailFiles },
+              ],
+            });
+          }
+          moduleChildren.push({ type: "group", label: moduleSlug, children: functionChildren });
+        }
+        root.children.push({ type: "group", label: t("modules"), children: moduleChildren });
+        
+        const otherPaths = (paths || []).filter((p) => {
+          const s = String(p || "");
+          if (s.startsWith("/specs/details/")) return false;
+          if (s.startsWith("/specs/background/scenario_details/")) return false;
+          if (s === "/specs/background/scenarios.md") return false;
+          return true;
         });
-
-        const coreFunctions = pickFirst(["/specs/functions/core.md"]);
-        chapters.push({
-          label: "Scenarios ↔ Functions",
-          children: [
-            scenarios ? { type: "file", label: "Scenario List", path: scenarios } : null,
-            flows.length
-              ? { type: "group", label: "Flow Diagrams", children: flows.map((p) => ({ type: "file", label: basename(p), path: p })) }
-              : null,
-            coreFunctions ? { type: "file", label: "Core Functions", path: coreFunctions } : null,
-          ].filter(Boolean),
-        });
-
-        chapters.push({
-          label: "Flows",
-          children: flows.map((p) => ({ type: "file", label: basename(p), path: p })),
-        });
-
-        chapters.push({
-          label: "Functions",
-          children: functions.map((p) => ({ type: "file", label: displayTitle(p), path: p })),
-        });
-
-        chapters.push({
-          label: "Details",
-          children: detailGroups,
-        });
-
-        chapters.push({
-          label: "Models",
-          children: models.map((p) => ({ type: "file", label: displayTitle(p), path: p })),
-        });
-
-        return chapters.filter((c) => (c.children || []).length);
+        otherPaths.sort((a, b) => a.localeCompare(b));
+        const otherChildren = [];
+        for (const p of otherPaths) {
+          if (!exists(p)) continue;
+          otherChildren.push({ type: "file", label: p.replace(/^\/specs\//, ""), path: p });
+        }
+        if (otherChildren.length) root.children.push({ type: "group", label: t("other"), children: otherChildren });
+        
+        return root;
       }
 
       function anyChildMatches(node, filterLower) {
@@ -726,6 +907,7 @@
           if (!filterMatch(filterLower, node.label, node.path)) return;
           const btn = document.createElement("button");
           btn.className = "file";
+          btn.dataset.path = node.path;
           const title = exists(node.path) ? displayTitle(node.path) : node.label;
           btn.textContent = title;
           if (!exists(node.path) || node.missing) {
@@ -755,10 +937,8 @@
       function renderSidebar() {
         dom.nav.innerHTML = "";
         const filterLower = (dom.search.value || "").trim().toLowerCase();
-        const chapters = buildChapters();
-        for (const ch of chapters) {
-          renderNavNode({ type: "group", label: ch.label, children: ch.children }, dom.nav, filterLower);
-        }
+        const tree = buildSystemTree(state.paths);
+        renderNavNode(tree, dom.nav, filterLower);
       }
 
       function renderOutline(headings) {
@@ -1076,8 +1256,55 @@
       async function openFile(path, btn) {
         if (!exists(path)) return;
         const content = state.files[path];
+        const resolvedBtn = btn || findNavButtonByPath(path);
+        btn = resolvedBtn || btn;
         setActive(path, btn);
         dom.viewer.innerHTML = "";
+        if (path === "/specs/details/__scenarios__") {
+          const wrap = document.createElement("div");
+          wrap.className = "doc";
+          const h = document.createElement("h1");
+          h.textContent = t("scenarioHome");
+          wrap.appendChild(h);
+          
+          const p1 = document.createElement("p");
+          p1.textContent = t("scenarioIntro");
+          wrap.appendChild(p1);
+          
+          const list = document.createElement("div");
+          list.style.display = "grid";
+          list.style.gap = "10px";
+          
+          const openBtn = document.createElement("button");
+          openBtn.className = "primary";
+          openBtn.textContent = t("openScenarios");
+          openBtn.disabled = !exists("/specs/background/scenarios.md");
+          openBtn.addEventListener("click", () => openFile("/specs/background/scenarios.md", null));
+          list.appendChild(openBtn);
+          
+          const sdPaths = state.paths.filter((p) => String(p || "").startsWith("/specs/background/scenario_details/"));
+          if (sdPaths.length) {
+            const sec = document.createElement("div");
+            sec.innerHTML = `<h2>${escapeHtml(t("scenarioDetails"))}</h2>`;
+            const ul = document.createElement("div");
+            ul.style.display = "grid";
+            ul.style.gap = "8px";
+            sdPaths.sort((a, b) => a.localeCompare(b));
+            for (const sp of sdPaths) {
+              const b = document.createElement("button");
+              b.textContent = sp.replace("/specs/background/scenario_details/", "");
+              b.addEventListener("click", () => openFile(sp, null));
+              ul.appendChild(b);
+            }
+            sec.appendChild(ul);
+            list.appendChild(sec);
+          }
+          
+          wrap.appendChild(list);
+          dom.viewer.appendChild(wrap);
+          renderOutline([]);
+          return;
+        }
         const t = fileType(path);
         if (t === "HTML") {
           const iframe = document.createElement("iframe");
@@ -1113,16 +1340,16 @@
 
           const modeSplit = document.createElement("button");
           modeSplit.className = "mode-btn active";
-          modeSplit.textContent = "Split";
+          modeSplit.textContent = t("split");
           const modeEdit = document.createElement("button");
           modeEdit.className = "mode-btn";
-          modeEdit.textContent = "Edit";
+          modeEdit.textContent = t("edit");
           const modePreview = document.createElement("button");
           modePreview.className = "mode-btn";
-          modePreview.textContent = "Preview";
+          modePreview.textContent = t("preview");
 
           const linkBtn = document.createElement("button");
-          linkBtn.textContent = "Link File";
+          linkBtn.textContent = t("linkFile");
           linkBtn.addEventListener("click", async () => {
             try {
               await linkLocalFileForWriteBack(path);
@@ -1132,14 +1359,14 @@
 
           const saveBtn = document.createElement("button");
           saveBtn.className = "primary";
-          saveBtn.textContent = "Save";
+          saveBtn.textContent = t("save");
 
           const dlBtn = document.createElement("button");
-          dlBtn.textContent = "Download";
+          dlBtn.textContent = t("download");
 
           const hint = document.createElement("div");
           hint.className = "hint";
-          hint.textContent = "Edit markdown and preview on the right. Save requires linking a local file.";
+          hint.textContent = t("mdHint");
 
           left.appendChild(modeSplit);
           left.appendChild(modeEdit);
@@ -1222,6 +1449,7 @@
 
       function setFiles(files) {
         state.files = files || {};
+        if (state.files["/specs/details/__scenarios__"] == null) state.files["/specs/details/__scenarios__"] = "";
         state.paths = Object.keys(state.files)
           .filter(
             (p) =>
@@ -1231,10 +1459,13 @@
               !p.endsWith("/specs/details/reader.html") &&
               p !== "/specs/details/index.html" &&
               p !== "index.html" &&
-              !p.endsWith("/specs/details/index.html"),
+              !p.endsWith("/specs/details/index.html") &&
+              p !== "/specs/details/index.json" &&
+              p !== "index.json" &&
+              !p.endsWith("/specs/details/index.json"),
           )
           .sort((a, b) => a.localeCompare(b));
-        dom.fileCount.textContent = `${state.paths.length} files`;
+        dom.fileCount.textContent = `${state.paths.length} ${t("files")}`;
         renderSidebar();
         renderOutline([]);
         const fromHash = decodeURIComponent((location.hash || "").replace(/^#/, "")) || "";
@@ -1242,12 +1473,38 @@
           openFile(fromHash, null);
           return;
         }
-        const fallback = pickFirst([
-          "/specs/background/original.md",
-          "/specs/background/scenarios.md",
-          "/specs/functions/core.md",
-        ]);
-        if (fallback && state.files[fallback] != null) openFile(fallback, null);
+        if (exists("/specs/details/__scenarios__")) {
+          openFile("/specs/details/__scenarios__", null);
+          return;
+        }
+        const firstFilePath = (node) => {
+          if (!node) return null;
+          if (node.type === "file") return node.path;
+          const cs = Array.isArray(node.children) ? node.children : [];
+          for (const c of cs) {
+            const p = firstFilePath(c);
+            if (p && exists(p)) return p;
+          }
+          return null;
+        };
+        const tree = buildSystemTree(state.paths);
+        const first = firstFilePath(tree) || (state.paths.length ? state.paths[0] : null);
+        if (first && state.files[first] != null) openFile(first, null);
+      }
+      
+      function setIndexPayload(payload) {
+        const p = payload && typeof payload === "object" ? payload : {};
+        state.meta = p.meta && typeof p.meta === "object" ? p.meta : {};
+        const files = p.files && typeof p.files === "object" ? p.files : {};
+        state.tree = null;
+        setFiles(files);
+      }
+      
+      async function loadIndexJson() {
+        const res = await fetch("./index.json", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        setIndexPayload(data);
       }
 
       dom.search.addEventListener("input", () => renderSidebar());
@@ -1262,7 +1519,47 @@
         for (const d of ds) d.open = false;
       });
 
-      setFiles(window.__VSPEC_DETAILS_FILES__);
+      
+      function updateStaticUi() {
+        document.getElementById("uiTitle").textContent = t("title");
+        document.getElementById("uiWordExport").innerHTML = t("wordExport");
+        document.getElementById("uiDetailsIndex").textContent = t("detailsIndex");
+        document.getElementById("uiClickToRender").textContent = t("clickToRender");
+        dom.search.placeholder = t("searchPath");
+        document.getElementById("collapseAll").textContent = t("collapse");
+        document.getElementById("uiOutline").textContent = t("outline");
+        document.getElementById("uiCopyPath").textContent = t("copyPath");
+        if (!state.activePath) {
+          dom.currentPath.textContent = t("noFile");
+        }
+        dom.fileCount.textContent = `${state.paths.length} ${t("files")}`;
+        
+        const emptyDoc = document.getElementById("uiEmptyDoc");
+        if (emptyDoc) emptyDoc.innerHTML = t("emptyDoc");
+      }
+      
+      document.getElementById("globalLangSelect").addEventListener("change", (e) => {
+        currentLang = e.target.value;
+        document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+        updateStaticUi();
+        renderSidebar();
+        if (state.activePath) openFile(state.activePath, state.activeButton);
+      });
+      
+      // Auto-detect lang
+      const navLang = navigator.language || "";
+      if (navLang.startsWith("zh")) currentLang = "zh-CN";
+      else if (navLang.startsWith("ja")) currentLang = "ja";
+      else currentLang = "en";
+      document.getElementById("globalLangSelect").value = currentLang;
+      document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+
+      updateStaticUi();
+      loadIndexJson()
+        .catch(() => {
+          state.tree = null;
+          setFiles(window.__VSPEC_DETAILS_FILES__);
+        });
     </script>
   </body>
 </html>

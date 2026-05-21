@@ -42,6 +42,17 @@
 4. 输出要求：
    - 同一个背景下的多个提问要拆成多行
    - 每行只写一个问题
+   - 每个问题必须标记“优先级/Priority”：
+     - 必答/Required：影响范围/规则/验收的关键口径；未回答将阻塞后续生成
+     - 选答/Optional：不影响需求分析细节推进，但仍建议后续补齐（可推迟回答），例如法律文书全文、协议条款、计算公式、模板样例等
+   - 每个问题必须标记“题型/Type”，并尽量把问题设计成可选择/可判断（减少开放问答）：
+     - Type=TF：判断题（是/否、支持/不支持、允许/不允许）
+     - Type=Single：单选题
+     - Type=Multi：多选题（默认多选）
+     - Type=Fill：填空题（短文本/数字/日期）
+     - Type=Open：问答题（最后兜底）
+   - 题型优先级（必须严格遵守）：TF > Single/Multi > Fill > Open
+   - 比例约束（必须）：TF + (Single/Multi) 至少占 70%；Open 不得超过 20% 且最多 6 条
    - 状态默认都是“未回答/Unanswered/未回答”（按所选语言）
    - “提问时间/回答时间”先留空
    - “回答/回答者/回答时间”先留空
@@ -62,6 +73,9 @@
 1. ID: 1
    - Context:
    - Question:
+   - Priority: Required/Optional
+   - Type: TF/Single/Multi/Fill/Open
+   - Options: (only for TF/Single/Multi; leave empty for Fill/Open)
    - Asker: BA/System Analyst
    - Asked At:
    - Answer:
@@ -73,6 +87,9 @@
 1. 编号：1
    - 背景：
    - 提问：
+   - 优先级：必答/选答
+   - 题型：判断/单选/多选/填空/问答
+   - 选项：（仅判断/单选/多选必填；填空/问答留空）
    - 提问者：BA/系统分析
    - 提问时间：
    - 回答：
@@ -84,6 +101,9 @@
 1. 番号：1
    - 背景：
    - 質問：
+   - 優先度：必須/任意
+   - 題型：二択/単一選択/複数選択/記入/自由記述
+   - 選択肢：（二択/単一選択/複数選択のみ必須。記入/自由記述は空）
    - 質問者：BA/システム分析
    - 質問日時：
    - 回答：
@@ -99,6 +119,9 @@
      - `id`：number（从 1 递增，与 Markdown 编号一致）
      - `context`：string
      - `question`：string
+     - `priority`：string（必须为 `required` 或 `optional`；用于区分“必答题/选答题”）
+     - `type`：string（必须为 `TF` / `Single` / `Multi` / `Fill` / `Open` 之一）
+     - `options`：array<string>（仅当 type 为 TF/Single/Multi 时必须提供；Fill/Open 可为空数组）
      - `asker`：string（默认 `BA/System Analyst`）
      - `asked_at`：string（可空）
      - `answer`：string（可空）

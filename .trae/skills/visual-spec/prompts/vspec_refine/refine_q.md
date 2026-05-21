@@ -5,12 +5,15 @@
 - 本命令对 `original.md` 的追加内容必须使用该语言输出；同时 `questions.md` 的字段名与状态值必须与该语言保持一致；禁止混用其他语言
 
 终止条件（必须）：
-1. 若 `/specs/background/questions.md` 不存在：立即结束，不做任何写入；仅输出一句“未找到 questions.md，/vspec:refine-q 结束”。
-2. 若 `/specs/background/questions.md` 中不存在“待回答的问题”（判断口径：存在状态为“未回答/Unanswered/未回答”或同义之一，或回答字段为空/仅空白）：立即结束，不做任何写入；仅输出一句“无待回答问题，/vspec:refine-q 结束”。
+1. 若 `/specs/background/questions.md` 与 `/specs/background/questions.json` 均不存在：立即结束，不做任何写入；仅输出一句“未找到 questions.md/questions.json，/vspec:refine-q 结束”。
+2. 若存在 `questions.json` 但不存在 `questions.md`：必须先根据 `questions.json` 生成等价的 `questions.md`（字段名/状态值按 `selected.language`），再继续本流程。
+3. 若 `questions.md`（或由 json 生成的 md）中不存在“待回答的问题”（判断口径：存在状态为“未回答/Unanswered/未回答”或同义之一，或回答字段为空/仅空白）：立即结束，不做任何写入；仅输出一句“无待回答问题，/vspec:refine-q 结束”。
 
 输入信息包含：
 - 现有需求归档与分析：`/specs/background/original.md`
-- 问答列表：`/specs/background/questions.md`（包含“回答/状态/回答者/回答时间”等字段）
+- 问答列表（双格式必须保持一致；至少读取其一）：
+  - `/specs/background/questions.md`
+  - `/specs/background/questions.json`
 - 如需核对上下游影响，可参考：`/specs/background/*.md`、`/specs/flows/*.puml`、`/specs/functions/*`
 
 采纳规则（必须）：
@@ -77,3 +80,6 @@
    - 对所有被本次采纳的条目（满足采纳规则的条目），必须将其状态规范化为“已回答/Answered/回答済み”（按所选语言）并标记背景色（字段名与状态值按所选语言）：
      - `<mark>...</mark>` 必须包裹回答字段与状态字段的值
    - 其他条目保持原样（例如“未回答/已跳过/需修改”）。
+3. 同步更新 `/specs/background/questions.json`（必须与 questions.md 保持逐条一致）：
+   - 若 `questions.json` 不存在：必须基于更新后的 `questions.md` 生成等价 JSON（建议字段：`meta` + `items`）
+   - 若 `questions.json` 存在：必须更新其中对应条目的 `answer` 与 `status`（与 md 保持一致；若 md 中含 `<mark>...</mark>`，json 中对应字段值也必须保持一致），并更新 `meta.total` 与 `meta.generated_at`

@@ -24,10 +24,7 @@
 0. 创建材料目录（docs）
    - 如果 `/docs` 不存在，请先创建目录
    - 如果 `/docs/README.md` 不存在，请创建并写入以下内容（保持简短）：
-   - 不要创建 `/docs/change/`（已废弃；即使用户显式要求也不要创建）
-   - 若检测到 `/docs/change/` 已存在：必须移除它
-     - 若目录为空：直接删除该目录
-     - 若目录非空：将其整体移动到 `/docs/legacy/change_deprecated/`（保留原内容），然后删除原 `/docs/change/` 目录
+   - 不要创建 `/docs/change/`（已废弃）
    - 如果 `/docs/refine` 不存在，请创建目录
    - 如果 `/docs/refine/README.md` 不存在，请创建并写入以下内容（说明如何编写 `refine.md`；保持简短，可 fork 后调整）：
 
@@ -491,12 +488,6 @@ catalog:
 8. 输出待确认问题
    - 如果存在信息缺口，列出需要用户下一步补充的问题
    - 问题要具体、可回答、按优先级排序
-   - 优先采用“选择题”（单选为主；必要时可补充“其他：____”的开放输入）：
-     - 每个问题行尽量包含选项清单，使用以下固定写法之一（按所选语言）：
-       - 语言=en：`Options: A. ...; B. ...; C. ...; D. Other: ____`
-       - 语言=zh / zh-CN：`选项：A. ...；B. ...；C. ...；D. 其他：____`
-       - 语言=ja：`選択肢：A. ...；B. ...；C. ...；D. その他：____`
-     - 若确实无法选择题化：也必须给出 2-4 个“常见答案选项” + “其他：____”
    - 提问设计必须覆盖并按以下分组组织（避免随机发散），每组只问“缺口最大、最影响方案”的问题（分组标题按所选语言使用；不要复制中文分组名）：
      - Background / 背景 / 背景：业务目标、触发原因、成功口径、现状流程与痛点
      - Company Profile / 企业类型 / 企業プロファイル：行业/组织形态、集团/多法人/多组织、地域/多语言、管控模式（集权/分权）
@@ -567,13 +558,57 @@ catalog:
 写入要求：
 - 将本次完整输出（包含“原始需求、分析内容、待确认问题”）追加写入到：`/specs/background/original.md`
 - 文件中必须保留原始需求原文与本次分析结果，便于后续 stakeholders/roles 阶段引用
-- 同时写入固定的 HTML 交互问答页面（用于更容易回答并回写 md 文件）：
+- 同时将 `original.md` 中“待确认问题/Open Questions/要確認事項”小节抽取并写入统一的问答存储（必须）：
+  - JSON：`/specs/background/questions.json`（唯一数据源，后续 more-q / refine-q 也都基于它）
+  - Markdown：`/specs/background/questions.md`（从 questions.json 导出的等价内容，便于人类直接编辑；条目必须逐条一致）
+  - JSON 结构（必须）：
+    - 顶层为 object：`{ meta, items }`
+    - `meta` 至少包含：`language`（en/zh-CN/ja）、`generated_at`（ISO 字符串）、`total`（数字）
+    - `items` 为 array；每项必须包含字段（字段名固定，不随语言变化）：
+      - `id`：number（从 1 递增）
+      - `context`：string（写入分组标题，例如 Background/背景/企業プロファイル 等）
+      - `question`：string（问题文本）
+      - `priority`：string（必须为 `required` 或 `optional`；用于区分“必答题/选答题”）
+      - `type`：string（必须为 `TF` / `Single` / `Multi` / `Fill` / `Open` 之一）
+      - `options`：array<string>（仅当 type 为 TF/Single/Multi 时必须提供；Fill/Open 可为空数组）
+      - `asker`：string（默认 `BA/System Analyst`）
+      - `asked_at`：string（可空）
+      - `answer`：string（可空）
+      - `answered_by`：string（可空）
+      - `answered_at`：string（可空）
+      - `status`：string（值必须与所选语言一致：Unanswered/未回答/未回答）
+  - 你必须为每条问题设置 `priority`：
+    - 默认为 `required`
+    - 若该问题属于“资料补充/可延后提供”的内容（例如法律文书全文、协议条款、计算公式、模板样例等），则设为 `optional`
+  - 你必须为每条问题设置 `type` 与 `options`，并尽量把问题设计成可选择/可判断（减少开放问答）：
+    - 题型优先级（必须严格遵守）：TF > Single/Multi > Fill > Open
+    - 比例约束（必须）：TF + (Single/Multi) 至少占 70%；Open 不得超过 20% 且最多 6 条
+    - 若问题属于“是否建议/是否支持/是否需要/是否应该”：设为 `type=TF`，并提供 `options`（是/否）
+    - 若问题属于“包含哪些/支持哪些/是否包括……选项”：设为 `type=Multi`，并列出候选 `options`（必要时加“其他”）
+  - 即使 `original.md` 中没有“待确认问题/Open Questions/要確認事項”小节，或该小节为空：也必须创建上述两份文件：
+    - `/specs/background/questions.json`：写入合法 JSON，`items: []`，并设置 `meta.total=0`
+    - `/specs/background/questions.md`：写入等价的空列表/空内容（但文件必须存在）
+- 同时写入固定的 HTML 交互问答页面（用于回答 `original.md` 中的“待确认问题/Open Questions/要確認事項”，并可回写 markdown）：
   - 写入：`/specs/background/question_and_answer.html`
+  - 若该文件已存在：先读取并检查是否为“旧版蓝底主题/非模板生成”的遗留文件：
+    - 若包含任一特征字符串：`--bg: #0b1220` 或 `background: linear-gradient(180deg, var(--bg), #060a13)`：视为旧版，必须用最新模板覆盖（升级）
+    - 否则：不得覆盖、不得重复生成，直接复用现有文件
+  - 若该文件不存在：才生成一次
   - 该 HTML 必须为完整可直接打开的单文件（包含内联 CSS 与 JS），无需外部资源
-  - HTML 内容要求：从 `prompts/vspec_new/question_and_answer.html` 复制（保持一致），用于读取/编辑 `original.md` 与 `questions.md` 并回写
+  - 模板来源：读取本 Skill 内置模板 `prompts/vspec_new/question_and_answer.html` 并写入目标路径（只读读取模板）
+  - 复制规则（必须）：写入内容必须与模板文件内容完全一致（逐字节一致）；不得由你“重新生成/改写/美化/格式化”HTML
+  - 写入后自检（必须）：
+    - 重新读取目标文件，必须包含 `--bg: #ffffff` 且包含 `--text: #111827`
+    - 若不满足：视为复制失败，必须立即用模板覆盖一次并再次自检直到满足
+  - 禁止在项目中创建 `prompt/` 或 `prompts/` 目录；不得向 `prompts/**` 写入任何文件
 - 交互提示（必须在对话中输出；不要写入 `/specs/background/original.md`）：
+  - 重要：在你输出并写入 `original.md` 之后，必须立刻停止；不要继续生成 stakeholders/roles/terms/flows/scenarios 等后续产物。
+    - 你必须区分“必答题（priority=required）”与“选答题（priority=optional）”：
+      - 必答题：影响范围/规则/验收的关键口径；未回答将阻塞后续生成
+      - 选答题：不影响需求分析细节推进，但仍建议后续补齐（可推迟回答），例如法律文书全文、协议条款、计算公式、模板样例等
+    - 只有“必答题未回答”才阻塞继续；选答题未回答不影响用户回复“继续/continue/続けて”后进入下一步
+  - 告知用户：请打开 `/specs/background/question_and_answer.html`，页面会自动加载同目录下的 `questions.json`；在页面中回答并导出更新后的 `questions.json`（与可选导出的 `questions.md`）；完成后再回复“继续/continue/続けて”
   - 告知用户：回答“待确认问题”可以自己逐条回答，也可以委托 AI 基于当前信息先给出一版“建议答案”，用户再逐条确认/修改
-  - 告知用户：已生成 `/specs/background/question_and_answer.html`，请立刻打开该文件用 HTML 表单回答问题并保存回写；完成后再继续下一步（例如回复“已完成问答”）
   - 给出可复制的建议话术（按所选语言输出对应版本）：
     - 语言=en：`Please propose suggested answers for the Open Questions based on current information. I will confirm or edit each answer.`
     - 语言=zh-CN：`请你先基于目前信息为“待确认问题”逐条给出建议答案，我再逐条确认/修改。`

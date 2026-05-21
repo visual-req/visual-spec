@@ -47,12 +47,20 @@ Flow:
 2. 入力を raw requirement として扱う
 3. `prompts/vspec_new/background.md` を読み込み、要件分析と背景補完を実行
 4. `/specs/background/original.md` に書き込み
+4.2 `original.md` の要確認事項（Open Questions）を抽出し、統一 Q&A を作成：
+   - JSON：`/specs/background/questions.json`
+   - Markdown：`/specs/background/questions.md`（questions.json から等価にエクスポート）
+   - 要確認事項が欠落/空でも必ず 2 ファイルを作成（questions.json は合法 JSON、`items: []` かつ `meta.total=0`）
 5. `/specs/background/question_and_answer.html` を生成（単一 HTML、CSS/JS は内包）。このページで `original.md` / `questions.md` の質問に回答し、md に書き戻せるようにする。
    - 既に存在する場合：上書きせず、そのまま再利用する。
    - 無い場合のみ：本 Skill 内蔵テンプレート `prompts/vspec_new/question_and_answer.html` を読み込み（テンプレートは読み取り専用）、目標パスへ 1 回だけ書き出す。
    - プロジェクト側に `prompt/` または `prompts/` ディレクトリを作成しない。`prompts/**` 配下へは一切書き込まない。
-6. Open Questions/要確認事項の回答を促す（`/specs/background/question_and_answer.html` を開き、`/specs/background/original.md` を選択して回答・保存）。この時点で必ず停止して待機し、回答が揃うまで次のステップへ進まない（「続けて/继续/continue」等で回答完了を明示してもらう）。
-6. ユーザーの回答後（または「続けて/继续/continue」等で回答完了を明示した後）、`prompts/vspec_new/*` に従い `/specs/` 配下の成果物を生成
+6. Open Questions/要確認事項の回答を促す（`/specs/background/question_and_answer.html` を開き、`/specs/background/original.md` を選択して回答・保存）。
+   - 必答/選答（`priority=required|optional`）を区別する：
+     - 必答（required）：範囲/ルール/受入に影響するため、未回答は後続生成をブロック
+     - 選答（optional）：要件分析の詳細推進をブロックしないが、後で回答推奨（先送り可。例：法務文書全文、条項、計算式、テンプレ例）
+   - この時点で必ず停止して待機し、「続けて/继续/continue」等の継続シグナルを待つ（必答が回答済み、または続行に同意したことを示す）。
+7. ユーザーの回答後（または継続シグナルを受領後）、`prompts/vspec_new/*` に従い `/specs/` 配下の成果物を生成（例：`/specs/functions/` に `functions.json` と `functions.html` を含む機能一覧を出力）
 
 ### `/vspec:interview`
 

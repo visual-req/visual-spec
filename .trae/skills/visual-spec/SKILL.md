@@ -49,8 +49,20 @@ Flow:
 3. Load the prompt file at `prompts/vspec_new/background.md`.
 4. Use that prompt to analyze the requirement and expand the business context.
 5. Write the raw requirement and background analysis output to `/specs/background/original.md`.
-6. Ask the user to answer the questions from the Open Questions section (use the section title in the selected language).
-7. After the user replies, load `prompts/vspec_new/stakeholders.md` to analyze stakeholders.
+5.2 Extract the Open Questions section and write the unified Q&A storage:
+   - JSON: `/specs/background/questions.json`
+   - Markdown: `/specs/background/questions.md` (exported from questions.json)
+   - If the Open Questions section is missing/empty, still create both files (questions.json must be valid JSON with `items: []` and `meta.total=0`).
+5.5 Create `/specs/background/question_and_answer.html` (single-file HTML with inline CSS/JS) so the user can answer questions and write back to markdown:
+   - If the file already exists: do NOT overwrite it; reuse it.
+   - Only create it when missing by reading the built-in template `prompts/vspec_new/question_and_answer.html`.
+   - Do NOT create any `prompt/` or `prompts/` directory in the project; do not write anything under `prompts/**`.
+6. Ask the user to answer the questions from the Open Questions section (use the section title in the selected language). The user should answer via `/specs/background/question_and_answer.html` (select `/specs/background/original.md` in the page and save back).
+   - Distinguish required vs optional questions (`priority=required|optional`):
+     - Required: affects scope/rules/acceptance; unanswered required items block subsequent generation
+     - Optional: does not block requirement analysis details, but should be answered later (can be deferred), e.g. full legal document text, agreement clauses, calculation formulas, template samples
+   - Then wait for a continuation signal (e.g. `继续` / `continue`) that indicates required items are answered or the user wants to proceed. Then STOP. Do not load any subsequent prompts or generate any further artifacts before that.
+7. After the user replies (answers or confirmed), load `prompts/vspec_new/stakeholders.md` to analyze stakeholders.
 8. Write the stakeholder result to `/specs/background/stakeholder.md` (markdown table).
 9. Load `prompts/vspec_new/roles.md` to analyze system user roles (direct users) and their work tasks.
 10. Write the roles result to `/specs/background/roles.md`.
@@ -69,7 +81,11 @@ Flow:
 23. Load `prompts/vspec_new/dependencies.md` to analyze external dependency systems.
 24. Write the dependencies result to `/specs/background/dependencies.md`.
 25. Load `prompts/vspec_new/functions.md` to generate feature/function lists grouped by modules and external dependency systems.
-26. Write the function lists to `/specs/functions/`.
+26. Write the function list artifacts to `/specs/functions/`:
+   - `core.md`: core system function list table
+   - `<system_key>.md`: each external dependency system function list table
+   - `functions.json`: the unified structured function list data source
+   - `functions.html`: the viewer page (create only when missing by copying the built-in template `prompts/vspec_new/functions.html`)
 27. Load `prompts/vspec_new/questions.md` to generate question lists and required business materials.
 28. Write the questions result to `/specs/background/questions.md` (markdown list).
 29. Load `prompts/harness/new/post_new_verify.md` to validate whether functions and scenario_details are complete (login/config/master-data/approval). If it outputs any issues, show the issue list and stop.
@@ -145,6 +161,10 @@ Flow:
 2. Read supporting artifacts when available: `/specs/background/*`, `/specs/flows/*.puml`, `/specs/background/scenario_details/`, `/specs/background/roles.md`, and existing `/specs/models/*.md` (if any).
 3. For each function (page or non-page job), first determine which detail artifacts are actually involved, then only generate those artifacts; do not generate documents for non-involved parts.
    - Coverage requirement: for every function row you iterate, you must generate at least `rbac.md` and `data_permission.md`. If you cannot, output an explicit error and stop (do not silently skip).
+   - Step type requirement: you must determine the step type from the function row (e.g. terminal type / page vs backend vs job), and generate the corresponding logic artifacts; do not skip logic:
+     - For `Web` / `Mobile` / `Web+Mobile` steps: always generate `page_load.md` and `interaction.md`.
+     - For `Backend` steps: always generate `service_logic.md` (service logic: inputs/outputs, rules, states, APIs/events, errors, idempotency).
+     - For `Job` steps: always generate `job_logic.md` (job logic: trigger/schedule, data scope, retries/compensation, observability, failure handling).
    - Always generate the baseline docs:
      - `rbac.md`: RBAC permissions down to page areas and controls.
      - `data_permission.md`: data permission rules and scope.
@@ -180,6 +200,28 @@ Flow:
    - Left: directory tree based on `/specs/details/`
    - Right: markdown-rendered reading pane
    - Render PlantUML diagrams (do not show raw PlantUML text)
+
+### `/vspec:doc`
+
+Use this command to generate a Word document (Word-openable single-file `.doc` in HTML format) that aggregates the requirement detail artifacts into a deliverable doc, and write it under `/docs/current/`.
+
+Language:
+- Read `/scheme.yaml` `selected.language` (supports `en`, `zh`, `ja`; default to `en` if missing/invalid).
+- The generated Word document must use the selected language consistently (titles, headings, field labels, table headers).
+
+Flow:
+1. Ensure `/docs/current/` exists.
+2. Read the existing artifacts when available:
+   - Canonical requirement: `/specs/background/original.md`
+   - Function list: `/specs/functions/*`
+   - Detail specs: `/specs/details/**`
+   - Roles & permissions: `/specs/background/roles.md`, `/specs/details/**/rbac.md`
+   - Data permission: `/specs/details/**/data_permission.md`
+   - Scenarios & flows: `/specs/background/scenarios.md`, `/specs/background/scenario_details/**`, `/specs/flows/*.puml`
+   - Dependencies: `/specs/background/dependencies.md`
+   - Models: `/specs/models/*.md`
+3. Load `prompts/vspec_doc/doc.md` and generate the doc as a Word-openable single HTML file.
+4. Write the output file to: `/docs/current/requirement_detail.docx`.
 
 ### `/vspec:verify`
 
@@ -238,10 +280,7 @@ Flow:
    - `/test/单元测试/`
    - `/test/集成测试/`
    - `/test/playwright/`
-3. Copy the built-in testcase reader HTML to `/test/testcase_reader.html` (overwrite), based on `/scheme.yaml` `selected.language`:
-   - `en` → `prompts/vspec_testcase_reader/testcase_reader.en-US.html` (fallback: `prompts/vspec_testcase_reader/testcase_reader.html`)
-   - `zh` → `prompts/vspec_testcase_reader/testcase_reader.zh-CN.html`
-   - `ja` → `prompts/vspec_testcase_reader/testcase_reader.ja-JP.html`
+3. Copy the built-in testcase reader HTML `prompts/vspec_testcase_reader/testcase_reader.html` to `/test/testcase_reader.html` (overwrite). The template has built-in trilingual support.
 4. Load `prompts/vspec_accept/accept.md` to generate scenario-driven acceptance test cases (JSON) covering happy path, exceptions, boundaries, permissions, and data scope.
 5. Write acceptance cases to `/test/验收用例/acceptance_cases.json`.
 
@@ -258,10 +297,7 @@ Flow:
 2. Ensure `/test/` exists, and ensure subfolders exist:
    - `/test/单元测试/`
    - `/test/集成测试/`
-3. Copy the built-in testcase reader HTML to `/test/testcase_reader.html` (overwrite), based on `/scheme.yaml` `selected.language`:
-   - `en` → `prompts/vspec_testcase_reader/testcase_reader.en-US.html` (fallback: `prompts/vspec_testcase_reader/testcase_reader.html`)
-   - `zh` → `prompts/vspec_testcase_reader/testcase_reader.zh-CN.html`
-   - `ja` → `prompts/vspec_testcase_reader/testcase_reader.ja-JP.html`
+3. Copy the built-in testcase reader HTML `prompts/vspec_testcase_reader/testcase_reader.html` to `/test/testcase_reader.html` (overwrite). The template has built-in trilingual support.
 4. Load `prompts/vspec_i_test/i_test.md` to generate unit test cases (JSON) and write to `/test/单元测试/unit_test_cases.json`.
 5. Load `prompts/vspec_i_test/i_test.md` again to generate integration test cases (JSON) and write to `/test/集成测试/integration_test_cases.json`.
 
@@ -316,7 +352,7 @@ Language:
 
 Flow:
 1. Ensure the input entry file exists at `/docs/current/file_list.md`; if missing, generate it with the expected input list template.
-2. Read `/docs/current/file_list.md`, then read the listed sources under `/docs/` (typically `/docs/legacy/*`, `/docs/current/*`, optionally `/docs/templates/*`, `/docs/texts/*`, `/docs/assets/*`) in order and extract structured information (functions, dependencies, UI style, roles/permissions, technical spec).
+2. Read `/docs/current/file_list.md`, then read the listed sources under `/docs/` (typically `/docs/legacy/*`, `/docs/current/*`, optionally `/docs/templates/*`, `/docs/texts/*`, `/docs/assets/*`) in order and extract structured information (functions, dependencies, UI style, roles/permissions, technical spec). Additionally, you must recursively scan `/docs/legacy/` and all its subdirectories and treat those documents as raw input materials (even if they are not explicitly listed yet); when you find legacy files not in `file_list.md`, append them into `/docs/current/file_list.md` and then read them.
 3. If `/specs/background/original.md` exists, treat it as the current canonical requirement and use it as baseline for diff (inherit/new/change/deprecate).
 4. Load `prompts/vspec_upgrade/upgrade.md` and generate/update artifacts under `/specs/`, reusing `/vspec:new` output conventions.
 5. Sync extracted technical spec into `/scheme.yaml` so it can be used by `/vspec:verify` and `/vspec:impl`.
@@ -368,12 +404,11 @@ Flow:
 - `prompts/vspec_new/dependencies.md`: the prompt used after details analysis to generate `/specs/background/dependencies.md`.
 - `prompts/vspec_new/functions.md`: the prompt used after dependencies analysis to generate `/specs/functions/`.
 - `prompts/vspec_new/questions.md`: the prompt used after functions analysis to generate `/specs/background/questions.md`.
-- `prompts/vspec_new/question_and_answer.html`: the fixed HTML Q&A UI template to help users answer questions and write back to `original.md` and `questions.md` (generated by `/vspec:new`).
 - `prompts/vspec_more_q/more_q.md`: the prompt used by `/vspec:more-q` to append more questions to `/specs/background/questions.md`.
-- `prompts/vspec_more_q/question_and_answer.html`: the fixed HTML Q&A UI template to help users answer questions and write back to `original.md` and `questions.md` (generated by `/vspec:more-q`).
 - `prompts/vspec_mrd/mrd.md`: the prompt used by `/vspec:mrd` to generate market/user/competitor/product docs under `/docs/market/`.
 - `prompts/vspec_refine/refine.md`: the prompt used by `/vspec:refine` to refine the requirement based on `refine.md`.
 - `prompts/vspec_refine/refine_q.md`: the prompt used by `/vspec:refine-q` to refine the requirement based on answered questions.
+- `prompts/vspec_doc/doc.md`: the prompt used by `/vspec:doc` to generate a Word-openable `.docx` (HTML) requirement detail document under `/docs/current/`.
 - `prompts/vspec_verify/model.md`: the prompt used by `/vspec:verify` to generate `/specs/models/*.md`.
 - `prompts/vspec_verify/prototype.md`: the prompt used by `/vspec:verify` to generate the stack-selected runnable prototype under `/specs/prototypes/` (must follow `scheme.yaml`).
 - `prompts/vspec_verify/validation.md`: the prompt used by `/vspec:verify` to generate the validation web page with a `scenario.html` entry.
@@ -381,6 +416,8 @@ Flow:
 - `prompts/vspec_detail/data_permission.md`: the prompt used by `/vspec:detail` to generate data permission detail docs.
 - `prompts/vspec_detail/page_load.md`: the prompt used by `/vspec:detail` to generate page loading logic docs.
 - `prompts/vspec_detail/interaction.md`: the prompt used by `/vspec:detail` to generate page interaction logic docs.
+- `prompts/vspec_detail/index.md`: the prompt used by `/vspec:detail` to generate `/specs/details/reader.html` as a markdown/PlantUML-rendered viewer.
+- `prompts/vspec_detail/index.html`: the fixed HTML template used by `/vspec:detail` to stabilize `/specs/details/reader.html` generation (directory tree + markdown renderer).
 - `prompts/vspec_detail/timeline.md`: the prompt used by `/vspec:detail` to generate time-axis HTML docs.
 - `prompts/vspec_detail/formula.md`: the prompt used by `/vspec:detail` to generate formula docs.
 - `prompts/vspec_detail/expression_tree.md`: the prompt used by `/vspec:detail` to generate expression tree docs.
@@ -393,6 +430,8 @@ Flow:
 - `prompts/vspec_detail/mq.md`: the prompt used by `/vspec:detail` to generate MQ message design docs.
 - `prompts/vspec_detail/message_queue.md`: the prompt used by `/vspec:detail` to generate message queue design docs.
 - `prompts/vspec_detail/cache.md`: the prompt used by `/vspec:detail` to generate cache design docs.
+- `prompts/vspec_detail/service_logic.md`: the prompt used by `/vspec:detail` to generate backend service logic docs for `Backend` steps.
+- `prompts/vspec_detail/job_logic.md`: the prompt used by `/vspec:detail` to generate job logic docs for `Job` steps.
 - `prompts/vspec_detail/logging_matrix.md`: the prompt used by `/vspec:detail` to generate logging matrix docs.
 - `prompts/vspec_detail/notification_matrix.md`: the prompt used by `/vspec:detail` to generate notification matrix docs.
 - `prompts/vspec_detail/nfp.md`: the prompt used by `/vspec:detail` to generate non-functional requirements docs.

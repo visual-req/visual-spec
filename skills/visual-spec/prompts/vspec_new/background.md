@@ -568,12 +568,26 @@ catalog:
       - `id`：number（从 1 递增）
       - `context`：string（写入分组标题，例如 Background/背景/企業プロファイル 等）
       - `question`：string（问题文本）
+      - `priority`：string（必须为 `required` 或 `optional`；用于区分“必答题/选答题”）
+      - `type`：string（必须为 `TF` / `Single` / `Multi` / `Fill` / `Open` 之一）
+      - `options`：array<string>（仅当 type 为 TF/Single/Multi 时必须提供；Fill/Open 可为空数组）
       - `asker`：string（默认 `BA/System Analyst`）
       - `asked_at`：string（可空）
       - `answer`：string（可空）
       - `answered_by`：string（可空）
       - `answered_at`：string（可空）
       - `status`：string（值必须与所选语言一致：Unanswered/未回答/未回答）
+  - 你必须为每条问题设置 `priority`：
+    - 默认为 `required`
+    - 若该问题属于“资料补充/可延后提供”的内容（例如法律文书全文、协议条款、计算公式、模板样例等），则设为 `optional`
+  - 你必须为每条问题设置 `type` 与 `options`，并尽量把问题设计成可选择/可判断（减少开放问答）：
+    - 题型优先级（必须严格遵守）：TF > Single/Multi > Fill > Open
+    - 比例约束（必须）：TF + (Single/Multi) 至少占 70%；Open 不得超过 20% 且最多 6 条
+    - 若问题属于“是否建议/是否支持/是否需要/是否应该”：设为 `type=TF`，并提供 `options`（是/否）
+    - 若问题属于“包含哪些/支持哪些/是否包括……选项”：设为 `type=Multi`，并列出候选 `options`（必要时加“其他”）
+  - 即使 `original.md` 中没有“待确认问题/Open Questions/要確認事項”小节，或该小节为空：也必须创建上述两份文件：
+    - `/specs/background/questions.json`：写入合法 JSON，`items: []`，并设置 `meta.total=0`
+    - `/specs/background/questions.md`：写入等价的空列表/空内容（但文件必须存在）
 - 同时写入固定的 HTML 交互问答页面（用于回答 `original.md` 中的“待确认问题/Open Questions/要確認事項”，并可回写 markdown）：
   - 写入：`/specs/background/question_and_answer.html`
   - 若该文件已存在：先读取并检查是否为“旧版蓝底主题/非模板生成”的遗留文件：
@@ -588,7 +602,11 @@ catalog:
     - 若不满足：视为复制失败，必须立即用模板覆盖一次并再次自检直到满足
   - 禁止在项目中创建 `prompt/` 或 `prompts/` 目录；不得向 `prompts/**` 写入任何文件
 - 交互提示（必须在对话中输出；不要写入 `/specs/background/original.md`）：
-  - 重要：在你输出并写入 `original.md` 之后，必须立刻停止；不要继续生成 stakeholders/roles/terms/flows/scenarios 等后续产物。必须等待用户先把“待确认问题/Open Questions/要確認事項”回答完毕（或用户明确回复“继续/continue/続けて”表示已完成问答）后，才能进入下一步。
+  - 重要：在你输出并写入 `original.md` 之后，必须立刻停止；不要继续生成 stakeholders/roles/terms/flows/scenarios 等后续产物。
+    - 你必须区分“必答题（priority=required）”与“选答题（priority=optional）”：
+      - 必答题：影响范围/规则/验收的关键口径；未回答将阻塞后续生成
+      - 选答题：不影响需求分析细节推进，但仍建议后续补齐（可推迟回答），例如法律文书全文、协议条款、计算公式、模板样例等
+    - 只有“必答题未回答”才阻塞继续；选答题未回答不影响用户回复“继续/continue/続けて”后进入下一步
   - 告知用户：请打开 `/specs/background/question_and_answer.html`，页面会自动加载同目录下的 `questions.json`；在页面中回答并导出更新后的 `questions.json`（与可选导出的 `questions.md`）；完成后再回复“继续/continue/続けて”
   - 告知用户：回答“待确认问题”可以自己逐条回答，也可以委托 AI 基于当前信息先给出一版“建议答案”，用户再逐条确认/修改
   - 给出可复制的建议话术（按所选语言输出对应版本）：

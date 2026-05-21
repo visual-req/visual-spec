@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title id="uiTitle">QC Report</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; color: #111827; background: #f9fafb; }
+      header { padding: 14px 18px; background: #111827; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+      header h1 { font-size: 14px; margin: 0; font-weight: 600; }
+      header .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      button { font-size: 12px; padding: 7px 10px; border-radius: 10px; border: 1px solid #374151; background: #111827; color: #fff; cursor: pointer; }
+      button.secondary { background: #fff; color: #111827; border-color: #d1d5db; }
+      button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+      main { padding: 16px; max-width: 1200px; margin: 0 auto; }
+      .panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; }
+      .panel .hd { padding: 12px 14px; border-bottom: 1px solid #e5e7eb; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      
+      .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      label { font-size: 12px; color: #374151; }
+      select, input[type="text"] { font-size: 12px; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; color: #111827; }
+      .pill { font-size: 12px; padding: 4px 8px; border-radius: 999px; background: #f3f4f6; border: 1px solid #e5e7eb; color: #111827; }
+      .pill.P0 { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+      .pill.P1 { background: #ffedd5; color: #9a3412; border-color: #fdba74; }
+      .pill.P2 { background: #fef3c7; color: #9a3412; border-color: #fcd34d; }
+      
+      table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      th, td { padding: 10px 12px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+      th { text-align: left; font-weight: 600; color: #374151; background: #f9fafb; position: sticky; top: 0; z-index: 1; }
+      tbody tr { cursor: pointer; }
+      tbody tr:hover { background: #f3f4f6; }
+      tbody tr.active { background: #eff6ff; }
+      
+      .k { font-size: 12px; color: #374151; font-weight: 600; margin: 12px 0 6px; }
+      .v { font-size: 12px; color: #111827; white-space: pre-wrap; word-break: break-word; background: #f9fafb; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; }
+      .v.danger { background: #fef2f2; border-color: #fecaca; }
+      .empty { padding: 24px; color: #6b7280; font-size: 13px; text-align: center; }
+
+      .tableWrap { max-height: 400px; overflow: auto; border-bottom: 1px solid #e5e7eb; }
+      .detailWrap { padding: 16px; min-height: 200px; }
+      
+      .pagination { padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; background: #f9fafb; }
+      .pagination span { font-size: 12px; color: #374151; }
+    </style>
+  </head>
+  <body>
+    <div style="position: absolute; top: 12px; right: 16px; z-index: 100;">
+      <select id="globalLangSelect" style="background: rgba(255,255,255,0.9); border: 1px solid #d1d5db; color: #111827; border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
+        <option value="en">English</option>
+        <option value="zh-CN">中文</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
+    <header>
+      <h1 id="uiH1">QC Report</h1>
+      <div class="actions">
+        <button id="loadBtn" class="secondary"><span id="uiLoad">Reload JSON</span></button>
+      </div>
+    </header>
+    <main>
+      <section class="panel">
+        <div class="hd">
+          <span class="pill" id="metaInfo">Not loaded</span>
+          <div class="row" style="margin-left:auto">
+            <label id="uiType">Type</label>
+            <select id="typeFilter">
+              <option value="" id="uiAll1">All</option>
+            </select>
+            <label id="uiSeverity">Severity</label>
+            <select id="severityFilter">
+              <option value="" id="uiAll2">All</option>
+              <option value="P0">P0</option>
+              <option value="P1">P1</option>
+              <option value="P2">P2</option>
+            </select>
+            <label id="uiSearch">Search</label>
+            <input id="q" type="text" placeholder="keywords / text" />
+          </div>
+        </div>
+        <div class="tableWrap" id="tableWrap">
+          <div class="empty" id="emptyTable">Click Reload JSON to load qc_report.json</div>
+        </div>
+        <div class="pagination">
+          <span id="pageInfo">Page 1 of 1</span>
+          <div class="actions">
+            <button id="prevBtn" class="secondary">Prev</button>
+            <button id="nextBtn" class="secondary">Next</button>
+          </div>
+        </div>
+        <div class="detailWrap" id="detail">
+          <div class="empty" id="emptyDetail">Select a row to view details.</div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const i18n = {
+        en: {
+          title: "QC Report",
+          load: "Reload JSON",
+          type: "Type",
+          severity: "Severity",
+          search: "Search",
+          searchPlaceholder: "keywords / text",
+          emptyTable: "Click Reload JSON to load qc_report.json",
+          emptyDetail: "Select a row to view details.",
+          all: "All",
+          tableCols: ["ID", "Severity", "Type", "Checkpoint", "Location"],
+          metaLoaded: "Loaded {0} issues ({1})",
+          metaEmpty: "No issues found. Quality check passed!",
+          pageInfo: "Page {0} of {1}",
+          prev: "Prev",
+          next: "Next",
+          kStandard: "Standard Source",
+          kExcerpt: "Excerpt",
+          kNonconformance: "Nonconformance",
+          kFix: "Fix Suggestion",
+          kKeywords: "Keywords",
+          noIssues: "No issues found matching criteria."
+        },
+        "zh-CN": {
+          title: "质量检查报告",
+          load: "重新加载 JSON",
+          type: "问题类型",
+          severity: "严重程度",
+          search: "搜索",
+          searchPlaceholder: "关键词 / 文本",
+          emptyTable: "请点击重新加载 JSON 读取 qc_report.json",
+          emptyDetail: "请点击表格行以查看详情。",
+          all: "全部",
+          tableCols: ["编号", "严重程度", "类型", "检查点", "文件位置"],
+          metaLoaded: "已加载 {0} 个问题（行业：{1}）",
+          metaEmpty: "未发现问题，质量检查通过！",
+          pageInfo: "第 {0} 页，共 {1} 页",
+          prev: "上一页",
+          next: "下一页",
+          kStandard: "检查标准来源",
+          kExcerpt: "问题原文片段",
+          kNonconformance: "不符合说明",
+          kFix: "修复建议",
+          kKeywords: "关键词",
+          noIssues: "未找到符合条件的问题。"
+        },
+        ja: {
+          title: "品質検査レポート",
+          load: "JSONを再読み込み",
+          type: "タイプ",
+          severity: "重要度",
+          search: "検索",
+          searchPlaceholder: "キーワード / テキスト",
+          emptyTable: "「JSONを再読み込み」をクリックして qc_report.json を読み込みます",
+          emptyDetail: "行をクリックして詳細を表示します。",
+          all: "すべて",
+          tableCols: ["ID", "重要度", "タイプ", "チェックポイント", "場所"],
+          metaLoaded: "{0} 件の問題を読み込みました (業界: {1})",
+          metaEmpty: "問題は見つかりませんでした。品質チェック合格！",
+          pageInfo: "{0} / {1} ページ",
+          prev: "前へ",
+          next: "次へ",
+          kStandard: "基準ソース",
+          kExcerpt: "原文の抜粋",
+          kNonconformance: "不適合の理由",
+          kFix: "修正の提案",
+          kKeywords: "キーワード",
+          noIssues: "条件に一致する問題は見つかりませんでした。"
+        }
+      };
+
+      let currentLang = "en";
+      function t(key, ...args) { 
+        let str = i18n[currentLang][key] || i18n["en"][key] || key;
+        args.forEach((arg, i) => {
+          str = str.replace("{" + i + "}", arg);
+        });
+        return str;
+      }
+
+      const state = {
+        meta: {},
+        items: [],
+        filteredItems: [],
+        page: 1,
+        pageSize: 10,
+        selectedId: null
+      };
+
+      function updateI18n() {
+        document.getElementById("uiTitle").textContent = t("title");
+        document.getElementById("uiH1").textContent = t("title");
+        document.getElementById("uiLoad").textContent = t("load");
+        document.getElementById("uiType").textContent = t("type");
+        document.getElementById("uiSeverity").textContent = t("severity");
+        document.getElementById("uiSearch").textContent = t("search");
+        document.getElementById("q").placeholder = t("searchPlaceholder");
+        document.getElementById("uiAll1").textContent = t("all");
+        document.getElementById("uiAll2").textContent = t("all");
+        document.getElementById("prevBtn").textContent = t("prev");
+        document.getElementById("nextBtn").textContent = t("next");
+        
+        if (state.items.length === 0 && !state.meta.total) {
+          document.getElementById("emptyTable").textContent = t("emptyTable");
+        } else if (state.items.length === 0) {
+          document.getElementById("emptyTable").textContent = t("metaEmpty");
+          document.getElementById("metaInfo").textContent = t("metaEmpty");
+        } else {
+          document.getElementById("metaInfo").textContent = t("metaLoaded", state.items.length, state.meta.industry_key || 'N/A');
+        }
+        
+        if (!state.selectedId) {
+          document.getElementById("emptyDetail").textContent = t("emptyDetail");
+        }
+        
+        renderTable();
+        if (state.selectedId) selectItem(state.selectedId);
+      }
+
+      document.getElementById("globalLangSelect").addEventListener("change", (e) => {
+        currentLang = e.target.value;
+        updateI18n();
+      });
+
+      async function loadData() {
+        try {
+          const res = await fetch('./qc_report.json');
+          if (!res.ok) throw new Error('Network response was not ok');
+          const data = await res.json();
+          state.meta = data.meta || {};
+          state.items = data.items || [];
+          
+          if (state.meta.language && ["en", "zh-CN", "ja"].includes(state.meta.language)) {
+            currentLang = state.meta.language;
+            document.getElementById("globalLangSelect").value = currentLang;
+          } else if (state.meta.language === "zh") {
+            currentLang = "zh-CN";
+            document.getElementById("globalLangSelect").value = currentLang;
+          }
+          
+          const types = new Set();
+          state.items.forEach(i => types.add(i.type));
+          const typeSelect = document.getElementById("typeFilter");
+          typeSelect.innerHTML = `<option value="" id="uiAll1">${t("all")}</option>`;
+          Array.from(types).sort().forEach(type => {
+            const opt = document.createElement("option");
+            opt.value = type;
+            opt.textContent = type;
+            typeSelect.appendChild(opt);
+          });
+
+          applyFilters();
+          updateI18n();
+        } catch (e) {
+          alert("Failed to load qc_report.json. Make sure you run this in a server or allow local file access.");
+          console.error(e);
+        }
+      }
+
+      function applyFilters() {
+        const type = document.getElementById("typeFilter").value;
+        const severity = document.getElementById("severityFilter").value;
+        const q = document.getElementById("q").value.toLowerCase();
+        
+        state.filteredItems = state.items.filter(item => {
+          if (type && item.type !== type) return false;
+          if (severity && item.severity !== severity) return false;
+          if (q) {
+            const text = [item.id, item.checkpoint, item.location, item.excerpt, item.nonconformance, item.fix_suggestion, ...(item.keywords || [])].join(" ").toLowerCase();
+            if (!text.includes(q)) return false;
+          }
+          return true;
+        });
+        
+        state.page = 1;
+        renderTable();
+      }
+
+      function renderTable() {
+        const wrap = document.getElementById("tableWrap");
+        wrap.innerHTML = "";
+        
+        if (state.filteredItems.length === 0) {
+          wrap.innerHTML = `<div class="empty">${state.items.length > 0 ? t("noIssues") : (state.meta.total === 0 ? t("metaEmpty") : t("emptyTable"))}</div>`;
+          document.getElementById("pageInfo").textContent = t("pageInfo", 1, 1);
+          document.getElementById("prevBtn").disabled = true;
+          document.getElementById("nextBtn").disabled = true;
+          return;
+        }
+
+        const totalPages = Math.ceil(state.filteredItems.length / state.pageSize);
+        document.getElementById("pageInfo").textContent = t("pageInfo", state.page, totalPages);
+        document.getElementById("prevBtn").disabled = state.page <= 1;
+        document.getElementById("nextBtn").disabled = state.page >= totalPages;
+
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const trh = document.createElement("tr");
+        const headers = i18n[currentLang].tableCols;
+        headers.forEach(h => {
+          const th = document.createElement("th");
+          th.textContent = h;
+          trh.appendChild(th);
+        });
+        thead.appendChild(trh);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        const start = (state.page - 1) * state.pageSize;
+        const end = Math.min(start + state.pageSize, state.filteredItems.length);
+        const pageItems = state.filteredItems.slice(start, end);
+
+        pageItems.forEach(item => {
+          const tr = document.createElement("tr");
+          if (item.id === state.selectedId) tr.className = "active";
+          
+          const sevSpan = document.createElement("span");
+          sevSpan.className = `pill ${item.severity}`;
+          sevSpan.textContent = item.severity;
+          
+          const cols = [
+            item.id,
+            sevSpan,
+            item.type,
+            item.checkpoint,
+            item.location
+          ];
+          
+          cols.forEach(col => {
+            const td = document.createElement("td");
+            if (typeof col === "string") {
+              td.textContent = col;
+            } else {
+              td.appendChild(col);
+            }
+            tr.appendChild(td);
+          });
+          
+          tr.addEventListener("click", () => {
+            document.querySelectorAll("tbody tr").forEach(row => row.classList.remove("active"));
+            tr.classList.add("active");
+            selectItem(item.id);
+          });
+          tbody.appendChild(tr);
+        });
+        
+        table.appendChild(tbody);
+        wrap.appendChild(table);
+      }
+
+      function selectItem(id) {
+        state.selectedId = id;
+        const item = state.items.find(i => i.id === id);
+        if (!item) return;
+
+        const detail = document.getElementById("detail");
+        detail.innerHTML = `
+          <div class="k">${t("kStandard")}</div>
+          <div class="v">${item.standard_source || '-'}</div>
+          
+          <div class="k">${t("kExcerpt")}</div>
+          <div class="v">${item.excerpt || '-'}</div>
+          
+          <div class="k">${t("kNonconformance")}</div>
+          <div class="v danger">${item.nonconformance || '-'}</div>
+          
+          <div class="k">${t("kFix")}</div>
+          <div class="v">${item.fix_suggestion || '-'}</div>
+          
+          <div class="k">${t("kKeywords")}</div>
+          <div class="v" style="background:transparent; border:none; padding:0">${(item.keywords || []).map(k => `<span class="pill" style="margin-right:6px; display:inline-block">${k}</span>`).join('')}</div>
+        `;
+      }
+
+      document.getElementById("loadBtn").addEventListener("click", loadData);
+      document.getElementById("typeFilter").addEventListener("change", applyFilters);
+      document.getElementById("severityFilter").addEventListener("change", applyFilters);
+      document.getElementById("q").addEventListener("input", applyFilters);
+      
+      document.getElementById("prevBtn").addEventListener("click", () => {
+        if (state.page > 1) {
+          state.page--;
+          renderTable();
+        }
+      });
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        const totalPages = Math.ceil(state.filteredItems.length / state.pageSize);
+        if (state.page < totalPages) {
+          state.page++;
+          renderTable();
+        }
+      });
+
+      // Try loading initially
+      setTimeout(loadData, 500);
+    </script>
+  </body>
+</html>

@@ -60,14 +60,14 @@
 估算标准值（JSON）（必须）：
 1. 在估算前，必须读取标准估算 JSON（任选其一，取你当前环境中存在的路径）：
    - Skill 根目录下：`/prompts/vspec_plan/estimation_standards.json`
-   - 本仓库源码路径：`.trae/skills/visual-spec/prompts/vspec_plan/estimation_standards.json`
+   - 本仓库源码路径：`skills/visual-spec/prompts/vspec_plan/estimation_standards.json`
 2. 该 JSON 定义：
    - 允许的故事点集合（`allowedStoryPoints`）
    - 点数语义表（`scalePoints`）
    - 常见工作项的推荐点数参考（`workItemBenchmarks`）
 3. 可用阅读器查看标准值（不要求输出到 `/specs/plan/plan_estimate.md`）：
    - Skill 根目录下：`/prompts/vspec_plan/estimation_standards_reader.html`
-   - 本仓库源码路径：`.trae/skills/visual-spec/prompts/vspec_plan/estimation_standards_reader.html`
+   - 本仓库源码路径：`skills/visual-spec/prompts/vspec_plan/estimation_standards_reader.html`
 
 输出与写入要求：
 1. 写入估算 markdown：`/specs/plan/plan_estimate.md`

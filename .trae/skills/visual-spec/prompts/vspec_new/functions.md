@@ -18,6 +18,9 @@
 输出目标：
 1. 生成“本系统功能清单”（核心产品功能）
 2. 如果存在外部依赖系统：为每个外部系统分别生成一份功能清单（该系统相关的对接/同步/校验/通知/对账等功能）
+3. 同时生成统一结构化数据与阅读页：
+   - JSON：`/specs/functions/functions.json`（唯一结构化数据源）
+   - HTML：`/specs/functions/functions.html`（从 functions.json 加载并展示合并单元格的表格）
 
 分组与写入要求：
 - 生成目录：`/specs/functions/`
@@ -167,6 +170,33 @@
 - 每个文件只输出 1 个 markdown 表格（模块通过“模块”列表达，不要拆成多个表格或多个小节）
 - 表格表头必须固定为：`模块 | 功能 | 子功能 | 说明`
 
+JSON 与 HTML 写入要求（必须）：
+1. 你必须把所有 functions 表格行抽取成统一 JSON（作为唯一结构化数据源）并写入：
+   - `/specs/functions/functions.json`
+2. JSON 结构（必须）：
+   - 顶层：`{ meta, systems }`
+   - `meta` 至少包含：`language`、`generated_at`、`total`
+   - `systems` 为 array；每项代表一个 functions 文件：
+     - `system_key`：string（core 或外部系统英文小写下划线名）
+     - `system_name`：string（展示名）
+     - `file`：string（例如 `/specs/functions/core.md`）
+     - `rows`：array；每行必须包含：
+       - `id`：number（全局唯一，从 1 递增）
+       - `module`：string
+       - `function`：string
+       - `subfunction`：string
+       - `terminal`：string（从说明中解析 `端=`；必须为 Web/Mobile/Web+Mobile/Backend/Job 之一）
+       - `entry`：string（从说明中解析 `入口=`）
+       - `description`：string（去掉说明开头的 `端=...；入口=...；` 后剩余内容）
+3. `meta.total` 必须等于所有 systems.rows 的总行数
+4. HTML 阅读页：
+   - 目标路径：`/specs/functions/functions.html`
+   - 若该文件已存在：不得覆盖、不得重复生成，直接复用
+   - 若不存在：才生成一次
+   - 模板来源：读取本 Skill 内置模板 `prompts/vspec_new/functions.html` 并写入目标路径（只读读取模板）
+   - 复制规则（必须）：写入内容必须与模板文件内容完全一致（逐字节一致）；不得由你“重新生成/改写/美化/格式化”HTML
+   - 该页面默认加载同目录 `./functions.json` 并渲染表格；必须对“系统/模块/功能”三列做合并单元格（rowspan）以提升阅读体验
+
 端分配规则（必须，影响后续原型生成）：
 1. 功能清单必须明确每一行“功能点”由哪个端实现，写在“说明”字段里，且必须放在说明开头，使用固定格式：
    - `端={Web|Mobile|Web+Mobile|Backend|Job}；入口={路由/按钮/接口/任务}；` 后续再补充业务说明
@@ -183,6 +213,10 @@
    - Backend 示例：`端=Backend；入口=API；...`
    - Job 示例：`端=Job；入口=cron；...`
 5. 输出自检（必须做）：检查 `core.md` 每一行都包含 `端=` 且值合法；若缺失必须补齐，不允许留空。
+6. 结构化输出自检（必须做）：
+   - `/specs/functions/functions.json` 必须存在且为合法 JSON
+   - `meta.total` 等于 rows 总数
+   - 每条 rows 必须包含 `terminal` 与 `entry`
 
 Dashboard/工作台分析（必须）：
 1. 必须把“Dashboard/工作台”作为系统级核心能力纳入 `core.md`，不允许漏掉。

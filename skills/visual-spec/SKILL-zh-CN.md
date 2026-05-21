@@ -42,11 +42,19 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 3. 加载提示词文件 `prompts/vspec_new/background.md`。
 4. 使用该提示词分析需求并扩展业务背景。
 5. 将原始需求与背景分析写入 `/specs/background/original.md`。
+5.2 同时将 `original.md` 中的“待确认问题/Open Questions/要確認事項”抽取并写入统一问答存储：
+   - JSON：`/specs/background/questions.json`
+   - Markdown：`/specs/background/questions.md`（从 questions.json 导出，条目逐条一致）
+   - 即使“待确认问题”小节缺失/为空，也必须创建两份文件（questions.json 必须是合法 JSON，`items: []` 且 `meta.total=0`）。
 5.5 同时生成交互式问答页面：`/specs/background/question_and_answer.html`（单文件 HTML，内联 CSS/JS），用于回答并回写。
    - 若该文件已存在：不得覆盖、不得重复生成，直接复用现有文件。
    - 若该文件不存在：才生成一次；模板来源为本 Skill 内置模板 `prompts/vspec_new/question_and_answer.html`（只读读取模板并写入目标路径）。
    - 禁止在项目中创建 `prompt/` 或 `prompts/` 目录；不得向 `prompts/**` 写入任何文件。
-6. 提示用户回答“待确认问题/Open Questions/要確認事項”章节中的问题（按所选语言对应章节标题），并要求通过 `/specs/background/question_and_answer.html` 完成（在页面中选择 `/specs/background/original.md`，填写并保存回写）。然后必须暂停并等待用户回复“继续/continue/続けて”。不得继续加载后续提示词或生成后续产物（不得越过问答直接进入 stakeholders/roles/terms 等阶段）。用户明确回复后再进入下一步。
+6. 提示用户回答“待确认问题/Open Questions/要確認事項”章节中的问题（按所选语言对应章节标题），并要求通过 `/specs/background/question_and_answer.html` 完成（在页面中选择 `/specs/background/original.md`，填写并保存回写）。
+   - 必须区分“必答题（priority=required）”与“选答题（priority=optional）”：
+     - 必答题：影响范围/规则/验收的关键口径；未回答将阻塞后续生成
+     - 选答题：不影响需求分析细节推进，但仍建议后续补齐（可推迟作答，例如法律文书全文、协议条款、计算公式、模板样例等）
+   - 然后必须暂停并等待用户回复“继续/continue/続けて”（表示必答题已完成或同意继续）。不得继续加载后续提示词或生成后续产物（不得越过必答问答直接进入 stakeholders/roles/terms 等阶段）。用户明确回复后再进入下一步。
 7. 用户回复后，加载 `prompts/vspec_new/stakeholders.md` 分析干系人。
 8. 将干系人结果写入 `/specs/background/stakeholder.md`（markdown 表格）。
 9. 加载 `prompts/vspec_new/roles.md` 分析系统用户角色（直接用户）及其工作任务。
@@ -66,7 +74,11 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 23. 加载 `prompts/vspec_new/dependencies.md` 分析外部依赖系统。
 24. 将依赖结果写入 `/specs/background/dependencies.md`。
 25. 加载 `prompts/vspec_new/functions.md` 生成按模块与外部依赖系统分组的功能/特性清单。
-26. 将功能清单写入 `/specs/functions/`。
+26. 将功能清单产物写入 `/specs/functions/`：
+   - `core.md`：核心系统功能清单表
+   - `<system_key>.md`：每个外部依赖系统的功能清单表
+   - `functions.json`：统一的结构化功能清单数据源
+   - `functions.html`：功能清单阅读页（仅在缺失时创建，必须逐字节复制内置模板 `prompts/vspec_new/functions.html`）
 27. 加载 `prompts/vspec_new/questions.md` 生成问题清单与所需业务材料清单。
 28. 将问题清单写入 `/specs/background/questions.md`（markdown 列表）。
 29. 加载 `prompts/harness/new/post_new_verify.md` 验证 functions 与 scenario_details 是否完备（登录/配置/主数据维护/审批等）。若输出了问题列表，则提示问题并立即结束。

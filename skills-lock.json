@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "visual-spec": {
+      "source": "visual-req/visual-spec",
+      "sourceType": "github",
+      "skillPath": "skills/visual-spec/SKILL.md",
+      "computedHash": "fe8c136c4f19971c4ff5d67645779105bbaf0b7541b136783bd4cb393491178e"
+    }
+  }
+}

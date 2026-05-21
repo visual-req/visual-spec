@@ -64,7 +64,7 @@
       }
       .shell {
         display: grid;
-        grid-template-columns: 340px 1fr;
+        grid-template-columns: 340px 1fr 300px;
         gap: 12px;
         min-height: calc(100vh - 90px);
       }
@@ -134,6 +134,16 @@
       }
       @media (max-width: 980px) {
         .tree {
+          max-height: 46vh;
+        }
+      }
+      .outline-wrap {
+        padding: 8px 8px 12px;
+        overflow: auto;
+        max-height: calc(100vh - 190px);
+      }
+      @media (max-width: 980px) {
+        .outline-wrap {
           max-height: 46vh;
         }
       }
@@ -443,9 +453,6 @@
             </div>
           </div>
           <div class="tree">
-            <div class="outline-title" id="uiOutline">Outline</div>
-            <div id="outline" class="outline"></div>
-            <div class="tree-sep"></div>
             <div id="nav"></div>
           </div>
         </div>
@@ -468,6 +475,17 @@
             </div>
           </div>
         </div>
+
+        <div class="panel">
+          <div class="sidebar-header">
+            <div class="sidebar-title">
+              <span id="uiOutline">Outline</span>
+            </div>
+          </div>
+          <div class="outline-wrap">
+            <div id="outline" class="outline"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -487,11 +505,11 @@
           emptyDoc: "Select a document from the left navigation. Markdown supports editing + live preview.<ul><li><code>.md</code> rendered as markdown</li><li><code>.html</code> rendered via iframe</li><li><code>.puml</code> and markdown <code>```plantuml</code> blocks rendered via PlantUML server</li></ul>",
           files: "files",
           fileType: "FILE",
-          errBrowserFS: t("errBrowserFS"),
-          linkedOk: t("linkedOk"),
-          saveFailed: t("saveFailed"),
-          savedOk: t("savedOk"),
-          noLinkedFile: t("noLinkedFile"),
+          errBrowserFS: "Browser does not support File System Access API. Use Download.",
+          linkedOk: "Linked. You can Save back now.",
+          saveFailed: "Save failed.",
+          savedOk: "Saved.",
+          noLinkedFile: "No linked file. Click Link File first, or use Download.",
           split: "Split",
           edit: "Edit",
           preview: "Preview",
@@ -499,6 +517,15 @@
           save: "Save",
           download: "Download",
           mdHint: "Edit markdown and preview on the right. Save requires linking a local file.",
+          system: "System",
+          modules: "Modules",
+          scenarios: "Scenarios",
+          scenarioHome: "Scenario Entry",
+          scenarioIntro: "Start reading from scenarios. You can open the scenario list or jump into scenario details directly.",
+          openScenarios: "Open /specs/background/scenarios.md",
+          scenarioDetails: "Scenario Details",
+          details: "Details",
+          other: "Other",
           chapRequirement: "Requirement",
           chapOriginal: "Original Requirement",
           chapStakeholders: "Stakeholders",
@@ -541,6 +568,15 @@
           save: "保存",
           download: "下载",
           mdHint: "编辑 markdown 并在右侧预览。直接保存需要先链接本地文件。",
+          system: "系统",
+          modules: "模块",
+          scenarios: "场景",
+          scenarioHome: "场景入口",
+          scenarioIntro: "可从场景入口开始阅读：先看场景清单，再按需要进入对应的场景细节与功能细节。",
+          openScenarios: "打开 /specs/background/scenarios.md",
+          scenarioDetails: "场景细节",
+          details: "详细",
+          other: "其他",
           chapRequirement: "需求",
           chapOriginal: "原始需求",
           chapStakeholders: "干系人",
@@ -583,6 +619,15 @@
           save: "保存",
           download: "ダウンロード",
           mdHint: "Markdownを編集し、右側でプレビューします。保存にはローカルファイルのリンクが必要です。",
+          system: "システム",
+          modules: "モジュール",
+          scenarios: "シナリオ",
+          scenarioHome: "シナリオ入口",
+          scenarioIntro: "シナリオ入口から読み始められます。まずシナリオ一覧を確認し、必要に応じてシナリオ詳細や機能詳細へ進んでください。",
+          openScenarios: "/specs/background/scenarios.md を開く",
+          scenarioDetails: "シナリオ詳細",
+          details: "詳細",
+          other: "その他",
           chapRequirement: "要件",
           chapOriginal: "元の要件",
           chapStakeholders: "ステークホルダー",
@@ -624,6 +669,8 @@
       const state = {
         files: {},
         paths: [],
+        tree: null,
+        meta: {},
         activePath: null,
         activeButton: null,
         handles: new Map(),
@@ -657,6 +704,14 @@
         dom.currentPath.textContent = path || t("noFile");
         dom.typeBadge.textContent = path ? fileType(path) : "—";
         if (path) location.hash = encodeURIComponent(path);
+      }
+      
+      function findNavButtonByPath(path) {
+        const btns = dom.nav.querySelectorAll("button.file");
+        for (const b of btns) {
+          if (b && b.dataset && b.dataset.path === path) return b;
+        }
+        return null;
       }
 
       function exists(path) {
@@ -765,6 +820,80 @@
         };
         return finalize(root);
       }
+      
+      function systemLabel() {
+        const m = state.meta && typeof state.meta === "object" ? state.meta : {};
+        return (m.system_name || m.system || m.title || "").toString().trim() || t("system");
+      }
+      
+      function buildSystemTree(paths) {
+        const root = { type: "group", label: systemLabel(), children: [] };
+        
+        const scenarioHomePath = "/specs/details/__scenarios__";
+        const scenarioNodes = [];
+        scenarioNodes.push({ type: "file", label: t("scenarioHome"), path: scenarioHomePath });
+        if (exists("/specs/background/scenarios.md")) scenarioNodes.push({ type: "file", label: "scenarios.md", path: "/specs/background/scenarios.md" });
+        const scenarioDetailPaths = (paths || []).filter((p) => String(p || "").startsWith("/specs/background/scenario_details/"));
+        if (scenarioDetailPaths.length) {
+          scenarioDetailPaths.sort((a, b) => a.localeCompare(b));
+          const sdChildren = [];
+          for (const p of scenarioDetailPaths) sdChildren.push({ type: "file", label: p.replace("/specs/background/scenario_details/", ""), path: p });
+          scenarioNodes.push({ type: "group", label: t("scenarioDetails"), children: sdChildren });
+        }
+        root.children.push({ type: "group", label: t("scenarios"), children: scenarioNodes });
+        
+        const detailPaths = (paths || []).filter((p) => String(p || "").startsWith("/specs/details/"));
+        const modules = new Map();
+        for (const p of detailPaths) {
+          const parts = String(p || "").split("/").filter(Boolean);
+          if (parts.length < 4) continue;
+          if (parts[0] !== "specs" || parts[1] !== "details") continue;
+          const moduleSlug = parts[2];
+          const detailType = parts[3];
+          const fileName = parts.slice(4).join("/");
+          if (!fileName) continue;
+          const funcSlug = fileName.replace(/\.[^/.]+$/, "");
+          if (!modules.has(moduleSlug)) modules.set(moduleSlug, new Map());
+          const funcs = modules.get(moduleSlug);
+          if (!funcs.has(funcSlug)) funcs.set(funcSlug, []);
+          funcs.get(funcSlug).push({ path: p, detailType, fileName: basename(p) });
+        }
+        
+        const moduleChildren = [];
+        for (const [moduleSlug, funcs] of Array.from(modules.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
+          const functionChildren = [];
+          for (const [funcSlug, files] of Array.from(funcs.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
+            files.sort((a, b) => `${a.detailType}/${a.fileName}`.localeCompare(`${b.detailType}/${b.fileName}`));
+            const detailFiles = files.map((f) => ({ type: "file", label: `${f.detailType}/${f.fileName}`, path: f.path }));
+            functionChildren.push({
+              type: "group",
+              label: funcSlug,
+              children: [
+                { type: "group", label: t("details"), children: detailFiles },
+              ],
+            });
+          }
+          moduleChildren.push({ type: "group", label: moduleSlug, children: functionChildren });
+        }
+        root.children.push({ type: "group", label: t("modules"), children: moduleChildren });
+        
+        const otherPaths = (paths || []).filter((p) => {
+          const s = String(p || "");
+          if (s.startsWith("/specs/details/")) return false;
+          if (s.startsWith("/specs/background/scenario_details/")) return false;
+          if (s === "/specs/background/scenarios.md") return false;
+          return true;
+        });
+        otherPaths.sort((a, b) => a.localeCompare(b));
+        const otherChildren = [];
+        for (const p of otherPaths) {
+          if (!exists(p)) continue;
+          otherChildren.push({ type: "file", label: p.replace(/^\/specs\//, ""), path: p });
+        }
+        if (otherChildren.length) root.children.push({ type: "group", label: t("other"), children: otherChildren });
+        
+        return root;
+      }
 
       function anyChildMatches(node, filterLower) {
         if (!node) return false;
@@ -778,6 +907,7 @@
           if (!filterMatch(filterLower, node.label, node.path)) return;
           const btn = document.createElement("button");
           btn.className = "file";
+          btn.dataset.path = node.path;
           const title = exists(node.path) ? displayTitle(node.path) : node.label;
           btn.textContent = title;
           if (!exists(node.path) || node.missing) {
@@ -807,7 +937,7 @@
       function renderSidebar() {
         dom.nav.innerHTML = "";
         const filterLower = (dom.search.value || "").trim().toLowerCase();
-        const tree = buildDirectoryTree(state.paths);
+        const tree = buildSystemTree(state.paths);
         renderNavNode(tree, dom.nav, filterLower);
       }
 
@@ -1126,8 +1256,55 @@
       async function openFile(path, btn) {
         if (!exists(path)) return;
         const content = state.files[path];
+        const resolvedBtn = btn || findNavButtonByPath(path);
+        btn = resolvedBtn || btn;
         setActive(path, btn);
         dom.viewer.innerHTML = "";
+        if (path === "/specs/details/__scenarios__") {
+          const wrap = document.createElement("div");
+          wrap.className = "doc";
+          const h = document.createElement("h1");
+          h.textContent = t("scenarioHome");
+          wrap.appendChild(h);
+          
+          const p1 = document.createElement("p");
+          p1.textContent = t("scenarioIntro");
+          wrap.appendChild(p1);
+          
+          const list = document.createElement("div");
+          list.style.display = "grid";
+          list.style.gap = "10px";
+          
+          const openBtn = document.createElement("button");
+          openBtn.className = "primary";
+          openBtn.textContent = t("openScenarios");
+          openBtn.disabled = !exists("/specs/background/scenarios.md");
+          openBtn.addEventListener("click", () => openFile("/specs/background/scenarios.md", null));
+          list.appendChild(openBtn);
+          
+          const sdPaths = state.paths.filter((p) => String(p || "").startsWith("/specs/background/scenario_details/"));
+          if (sdPaths.length) {
+            const sec = document.createElement("div");
+            sec.innerHTML = `<h2>${escapeHtml(t("scenarioDetails"))}</h2>`;
+            const ul = document.createElement("div");
+            ul.style.display = "grid";
+            ul.style.gap = "8px";
+            sdPaths.sort((a, b) => a.localeCompare(b));
+            for (const sp of sdPaths) {
+              const b = document.createElement("button");
+              b.textContent = sp.replace("/specs/background/scenario_details/", "");
+              b.addEventListener("click", () => openFile(sp, null));
+              ul.appendChild(b);
+            }
+            sec.appendChild(ul);
+            list.appendChild(sec);
+          }
+          
+          wrap.appendChild(list);
+          dom.viewer.appendChild(wrap);
+          renderOutline([]);
+          return;
+        }
         const t = fileType(path);
         if (t === "HTML") {
           const iframe = document.createElement("iframe");
@@ -1272,6 +1449,7 @@
 
       function setFiles(files) {
         state.files = files || {};
+        if (state.files["/specs/details/__scenarios__"] == null) state.files["/specs/details/__scenarios__"] = "";
         state.paths = Object.keys(state.files)
           .filter(
             (p) =>
@@ -1281,7 +1459,10 @@
               !p.endsWith("/specs/details/reader.html") &&
               p !== "/specs/details/index.html" &&
               p !== "index.html" &&
-              !p.endsWith("/specs/details/index.html"),
+              !p.endsWith("/specs/details/index.html") &&
+              p !== "/specs/details/index.json" &&
+              p !== "index.json" &&
+              !p.endsWith("/specs/details/index.json"),
           )
           .sort((a, b) => a.localeCompare(b));
         dom.fileCount.textContent = `${state.paths.length} ${t("files")}`;
@@ -1292,12 +1473,38 @@
           openFile(fromHash, null);
           return;
         }
-        const fallback = pickFirst([
-          "/specs/background/original.md",
-          "/specs/background/scenarios.md",
-          "/specs/functions/core.md",
-        ]);
-        if (fallback && state.files[fallback] != null) openFile(fallback, null);
+        if (exists("/specs/details/__scenarios__")) {
+          openFile("/specs/details/__scenarios__", null);
+          return;
+        }
+        const firstFilePath = (node) => {
+          if (!node) return null;
+          if (node.type === "file") return node.path;
+          const cs = Array.isArray(node.children) ? node.children : [];
+          for (const c of cs) {
+            const p = firstFilePath(c);
+            if (p && exists(p)) return p;
+          }
+          return null;
+        };
+        const tree = buildSystemTree(state.paths);
+        const first = firstFilePath(tree) || (state.paths.length ? state.paths[0] : null);
+        if (first && state.files[first] != null) openFile(first, null);
+      }
+      
+      function setIndexPayload(payload) {
+        const p = payload && typeof payload === "object" ? payload : {};
+        state.meta = p.meta && typeof p.meta === "object" ? p.meta : {};
+        const files = p.files && typeof p.files === "object" ? p.files : {};
+        state.tree = null;
+        setFiles(files);
+      }
+      
+      async function loadIndexJson() {
+        const res = await fetch("./index.json", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        setIndexPayload(data);
       }
 
       dom.search.addEventListener("input", () => renderSidebar());
@@ -1348,7 +1555,11 @@
       document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
 
       updateStaticUi();
-      setFiles(window.__VSPEC_DETAILS_FILES__);
+      loadIndexJson()
+        .catch(() => {
+          state.tree = null;
+          setFiles(window.__VSPEC_DETAILS_FILES__);
+        });
     </script>
   </body>
 </html>
