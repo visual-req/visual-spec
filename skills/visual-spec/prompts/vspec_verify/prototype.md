@@ -604,8 +604,11 @@ CRUD 页面生成偏好（必须）：
 
 UI 规范（必须，用于约束原型风格，避免随意发挥）：
 1. 规范优先级：
-   - 必须优先读取并遵守项目根目录 `/prototype_ui_convention.md`（与 `/scheme.yaml` 同级）
-   - 若 `/prototype_ui_convention.md` 不存在：必须先创建该文件（不要覆盖已存在文件）并写入默认模板，然后再继续生成原型
+   - 必须优先读取并遵守 `/specs/prototypes/convention/` 下的规范文件（若存在冲突，以更具体/更严格者为准）
+   - 若 `/specs/prototypes/convention/` 不存在或缺失规范文件：必须先创建目录并写入以下文件（不要覆盖已存在文件；内容从本 Skill 内置模板逐字节复制）：
+     - `/specs/prototypes/convention/layout.md` ← `prompts/vspec_verify/convention/layout.md`
+     - `/specs/prototypes/convention/controls.md` ← `prompts/vspec_verify/convention/controls.md`
+   - 必须读取并遵守项目根目录 `/prototype_ui_convention.md`（与 `/scheme.yaml` 同级）；若该文件不存在：必须先创建该文件（不要覆盖已存在文件）并写入默认模板，然后再继续生成原型
    - 若存在 `/docs/current/ui_spec.md` 或 `/docs/current/ui_style.md`：必须把其中“更具体/更严格”的约束合并进 `/prototype_ui_convention.md`（作为最终口径），但必须保持文件标准结构不变：只允许写入到文件末尾的“补充约束（项目特定）”小节，不得改动上方模板结构与标题
 2. `/prototype_ui_convention.md` 默认模板（必须生成，允许用户后续手动修改后重跑 /vspec:verify 生效）：
 

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520" role="img" aria-label="Timeline example">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .edge { stroke: #64748b; stroke-width: 2; fill: none; }
+      .edgeDash { stroke: #64748b; stroke-width: 2; fill: none; stroke-dasharray: 6 6; }
+      .arrow { fill: #64748b; }
+      .lane { stroke: #e2e8f0; stroke-width: 1.2; fill: none; }
+      .node { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .milestone { fill: #e0f2fe; stroke: #38bdf8; stroke-width: 1.2; }
+      .span { fill: #ecfccb; stroke: #84cc16; stroke-width: 1.2; }
+      .text { fill: #0f172a; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", sans-serif; }
+      .title { fill: #0f172a; font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", sans-serif; }
+      .hint { fill: #334155; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", sans-serif; }
+      .tiny { fill: #475569; font: 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", sans-serif; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path class="arrow" d="M 0 0 L 10 5 L 0 10 z"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1120" height="520"/>
+  <text class="title" x="40" y="46">Example: Order lifecycle timeline (mainline + parallel async + time spans)</text>
+  <text class="hint" x="40" y="70">Solid arrows = mainline; dashed = parallel/async; spans = time windows; nodes should include trigger/owner/I-O.</text>
+
+  <line class="lane" x1="60" y1="140" x2="1060" y2="140"/>
+  <line class="lane" x1="60" y1="310" x2="1060" y2="310"/>
+  <text class="hint" x="60" y="124">Mainline (business state)</text>
+  <text class="hint" x="60" y="294">Parallel lane (async/system jobs)</text>
+
+  <path class="edge" d="M 120 140 L 1020 140" marker-end="url(#arrow)"/>
+  <circle class="milestone" cx="140" cy="140" r="12"/>
+  <circle class="milestone" cx="340" cy="140" r="12"/>
+  <circle class="milestone" cx="540" cy="140" r="12"/>
+  <circle class="milestone" cx="740" cy="140" r="12"/>
+  <circle class="milestone" cx="940" cy="140" r="12"/>
+
+  <rect class="node" x="110" y="164" width="200" height="76" rx="12"/>
+  <text class="text" x="210" y="194" text-anchor="middle">T0 Submit request</text>
+  <text class="tiny" x="210" y="214" text-anchor="middle">Trigger: user action</text>
+  <text class="tiny" x="210" y="232" text-anchor="middle">Output: ID + status=SUBMITTED</text>
+
+  <rect class="node" x="310" y="164" width="200" height="76" rx="12"/>
+  <text class="text" x="410" y="194" text-anchor="middle">T1 Approved</text>
+  <text class="tiny" x="410" y="214" text-anchor="middle">Owner: approver/system</text>
+  <text class="tiny" x="410" y="232" text-anchor="middle">Output: status=APPROVED</text>
+
+  <rect class="node" x="510" y="164" width="200" height="76" rx="12"/>
+  <text class="text" x="610" y="194" text-anchor="middle">T2 Execution starts</text>
+  <text class="tiny" x="610" y="214" text-anchor="middle">Input: approval + resources</text>
+  <text class="tiny" x="610" y="232" text-anchor="middle">Output: status=RUNNING</text>
+
+  <rect class="node" x="710" y="164" width="200" height="76" rx="12"/>
+  <text class="text" x="810" y="194" text-anchor="middle">T3 Settled</text>
+  <text class="tiny" x="810" y="214" text-anchor="middle">Trigger: reconciliation/callback</text>
+  <text class="tiny" x="810" y="232" text-anchor="middle">Output: status=SETTLED</text>
+
+  <rect class="node" x="910" y="164" width="200" height="76" rx="12"/>
+  <text class="text" x="1010" y="194" text-anchor="middle">T4 Archived</text>
+  <text class="tiny" x="1010" y="214" text-anchor="middle">Condition: retention window</text>
+  <text class="tiny" x="1010" y="232" text-anchor="middle">Output: status=ARCHIVED</text>
+
+  <rect class="span" x="560" y="116" width="260" height="16" rx="8"/>
+  <text class="tiny" x="690" y="110" text-anchor="middle">Span: RUNNING (T2→T3)</text>
+
+  <path class="edgeDash" d="M 340 140 C 360 220, 380 250, 420 310" marker-end="url(#arrow)"/>
+  <path class="edgeDash" d="M 420 310 L 960 310" marker-end="url(#arrow)"/>
+  <circle class="milestone" cx="420" cy="310" r="10"/>
+  <circle class="milestone" cx="620" cy="310" r="10"/>
+  <circle class="milestone" cx="820" cy="310" r="10"/>
+
+  <rect class="node" x="390" y="334" width="210" height="70" rx="12"/>
+  <text class="text" x="495" y="362" text-anchor="middle">Async notification</text>
+  <text class="tiny" x="495" y="382" text-anchor="middle">MQ/callback/notifications</text>
+
+  <rect class="node" x="590" y="334" width="210" height="70" rx="12"/>
+  <text class="text" x="695" y="362" text-anchor="middle">Reconciliation job</text>
+  <text class="tiny" x="695" y="382" text-anchor="middle">Scheduled/compensation</text>
+
+  <rect class="node" x="790" y="334" width="210" height="70" rx="12"/>
+  <text class="text" x="895" y="362" text-anchor="middle">Audit log</text>
+  <text class="tiny" x="895" y="382" text-anchor="middle">Persistence/traceability</text>
+
+  <text class="hint" x="60" y="468">Legend: solid=mainline; dashed=parallel/async; dots=milestones; spans=time periods.</text>
+</svg>

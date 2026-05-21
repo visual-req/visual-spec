@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .card{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .title{font:800 16px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .node{fill:#ffffff;stroke:#e5e7eb;stroke-width:2}
+      .node2{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .hit{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:2}
+      .miss{fill:#fff1f2;stroke:#fecdd3;stroke-width:2}
+      .text{font:800 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .code{font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;fill:#111827}
+      .edge{stroke:#111827;stroke-width:2.5;fill:none}
+      .lbl{font:700 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#2563eb}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111827"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="300"/>
+  <text class="title" x="40" y="40">Statement coverage: which statements ran at least once?</text>
+  <text class="muted" x="40" y="62">Reference example: if (a&gt;1 &amp;&amp; b==0) x=x/a;  if (a==2 || x&gt;1) x=x+1</text>
+
+  <rect class="card" x="40" y="84" width="880" height="186" rx="16"/>
+
+  <rect class="node2" x="120" y="112" width="250" height="50" rx="14"/>
+  <text class="text" x="245" y="142" text-anchor="middle">Decision 1</text>
+  <text class="muted" x="245" y="158" text-anchor="middle">a &gt; 1 &amp;&amp; b === 0</text>
+
+  <rect class="hit" x="420" y="106" width="220" height="62" rx="14"/>
+  <text class="text" x="530" y="134" text-anchor="middle">Statement 1</text>
+  <text class="code" x="530" y="154" text-anchor="middle">x = x / a</text>
+
+  <rect class="hit" x="680" y="106" width="220" height="62" rx="14"/>
+  <text class="text" x="790" y="134" text-anchor="middle">Statement 2</text>
+  <text class="code" x="790" y="154" text-anchor="middle">x = x + 1</text>
+
+  <path class="edge" d="M370 138 L410 138" marker-end="url(#arrow)"/>
+  <path class="edge" d="M640 138 L670 138" marker-end="url(#arrow)"/>
+
+  <rect class="node" x="120" y="186" width="780" height="68" rx="14"/>
+  <text class="muted" x="140" y="212">Sample cases (as in the referenced article)</text>
+  <text class="lbl" x="140" y="236">case1: (2, 0, 3) → both statements run (100%)</text>
+  <text class="lbl" x="520" y="236">case2: (2, 1, 3) → only x=x+1 runs (50%)</text>
+
+  <rect class="miss" x="420" y="106" width="0" height="0" rx="0"/>
+</svg>

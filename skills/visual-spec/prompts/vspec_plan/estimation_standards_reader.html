@@ -6,15 +6,15 @@
     <title>Estimation Standards</title>
     <style>
       :root {
-        --bg: #0b1220;
-        --panel: rgba(255, 255, 255, 0.08);
-        --panel2: rgba(255, 255, 255, 0.06);
-        --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.72);
-        --line: rgba(255, 255, 255, 0.14);
-        --accent: rgba(47, 120, 255, 0.9);
-        --danger: rgba(244, 63, 94, 0.85);
-        --ok: rgba(34, 197, 94, 0.85);
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --panel2: #f9fafb;
+        --text: rgba(17, 24, 39, 0.96);
+        --muted: rgba(17, 24, 39, 0.62);
+        --line: rgba(17, 24, 39, 0.12);
+        --accent: rgba(37, 99, 235, 0.95);
+        --danger: rgba(190, 18, 60, 0.9);
+        --ok: rgba(22, 163, 74, 0.9);
         --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       }
@@ -22,9 +22,7 @@
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        background: radial-gradient(1100px 560px at 16% -10%, rgba(47, 120, 255, 0.25), transparent 55%),
-          radial-gradient(900px 520px at 85% 0%, rgba(34, 197, 94, 0.18), transparent 55%),
-          var(--bg);
+        background: var(--bg);
         color: var(--text);
         font-family: var(--sans);
       }
@@ -32,8 +30,7 @@
       header {
         padding: 20px 18px 10px;
         border-bottom: 1px solid var(--line);
-        background: rgba(11, 18, 32, 0.55);
-        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.92);
         position: sticky;
         top: 0;
         z-index: 10;
@@ -62,8 +59,8 @@
       }
 
       select, button, input[type="file"] {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: #ffffff;
+        border: 1px solid var(--line);
         color: var(--text);
         border-radius: 10px;
         padding: 8px 10px;
@@ -75,8 +72,8 @@
       }
 
       button.primary {
-        border-color: rgba(47, 120, 255, 0.55);
-        background: rgba(47, 120, 255, 0.18);
+        border-color: rgba(37, 99, 235, 0.35);
+        background: rgba(37, 99, 235, 0.08);
       }
 
       .note {
@@ -109,8 +106,8 @@
       .tab {
         padding: 8px 10px;
         border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--line);
+        background: var(--panel2);
         font-size: 12px;
         color: var(--muted);
         cursor: pointer;
@@ -118,8 +115,8 @@
       }
 
       .tab.active {
-        border-color: rgba(47, 120, 255, 0.55);
-        background: rgba(47, 120, 255, 0.18);
+        border-color: rgba(37, 99, 235, 0.35);
+        background: rgba(37, 99, 235, 0.08);
         color: var(--text);
       }
 
@@ -130,12 +127,12 @@
         overflow: hidden;
         border-radius: 12px;
         border: 1px solid var(--line);
-        background: rgba(0, 0, 0, 0.18);
+        background: #ffffff;
       }
 
       th, td {
         padding: 10px 10px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+        border-bottom: 1px solid var(--line);
         vertical-align: top;
         font-size: 12.5px;
         line-height: 1.35;
@@ -143,38 +140,38 @@
 
       th {
         font-weight: 800;
-        color: rgba(255, 255, 255, 0.9);
-        background: rgba(255, 255, 255, 0.06);
+        color: rgba(17, 24, 39, 0.9);
+        background: var(--panel2);
       }
 
       tr:last-child td { border-bottom: none; }
-      code { font-family: var(--mono); font-size: 12px; color: rgba(255, 255, 255, 0.92); }
+      code { font-family: var(--mono); font-size: 12px; color: rgba(17, 24, 39, 0.92); }
 
       .pill {
         display: inline-flex;
         align-items: center;
         padding: 2px 8px;
         border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--line);
+        background: var(--panel2);
         font-family: var(--mono);
         font-size: 12px;
-        color: rgba(255, 255, 255, 0.88);
+        color: rgba(17, 24, 39, 0.88);
       }
 
       .error {
-        color: rgba(255, 255, 255, 0.9);
-        background: rgba(244, 63, 94, 0.12);
-        border: 1px solid rgba(244, 63, 94, 0.28);
+        color: rgba(17, 24, 39, 0.92);
+        background: rgba(190, 18, 60, 0.08);
+        border: 1px solid rgba(190, 18, 60, 0.22);
         padding: 10px 12px;
         border-radius: 12px;
         margin-top: 10px;
       }
 
       .ok {
-        color: rgba(255, 255, 255, 0.9);
-        background: rgba(34, 197, 94, 0.10);
-        border: 1px solid rgba(34, 197, 94, 0.25);
+        color: rgba(17, 24, 39, 0.92);
+        background: rgba(22, 163, 74, 0.08);
+        border: 1px solid rgba(22, 163, 74, 0.22);
         padding: 10px 12px;
         border-radius: 12px;
         margin-top: 10px;
@@ -196,9 +193,6 @@
           </select>
         </label>
         <button class="primary" id="reloadBtn" type="button">Reload</button>
-        <label>
-          <input id="fileInput" type="file" accept="application/json" />
-        </label>
         <span class="pill" id="jsonPathPill">estimation_standards.json</span>
       </div>
       <div class="note" id="helpText"></div>
@@ -219,9 +213,9 @@
       const i18n = {
         "en": {
           pageTitle: "Estimation Standards",
-          help: "Default loads <code>estimation_standards.json</code> from the same folder. If your browser blocks it, pick the JSON file with the file input.",
+          help: "Loads <code>estimation_standards.json</code> from the same folder.",
           okLoaded: "Loaded estimation standards.",
-          errLoad: "Failed to load JSON. Use the file picker to select estimation_standards.json.",
+          errLoad: "Failed to load JSON. Make sure estimation_standards.json exists in the same folder and the page is served via HTTP.",
           tabScale: "Scale",
           tabBenchmarks: "Benchmarks",
           thSp: "SP",
@@ -234,9 +228,9 @@
         },
         "zh-CN": {
           pageTitle: "标准估算值（Story Points）",
-          help: "默认从同目录加载 <code>estimation_standards.json</code>。如果浏览器限制读取，请用文件选择器手动选择该 JSON。",
+          help: "从同目录加载 <code>estimation_standards.json</code>。",
           okLoaded: "已加载标准估算值。",
-          errLoad: "加载 JSON 失败，请用文件选择器选择 estimation_standards.json。",
+          errLoad: "加载 JSON 失败，请确保同目录存在 estimation_standards.json，并通过 HTTP 方式打开页面。",
           tabScale: "标准点数表",
           tabBenchmarks: "工作项参考表",
           thSp: "故事点",
@@ -249,9 +243,9 @@
         },
         "ja": {
           pageTitle: "標準見積（Story Points）",
-          help: "同じフォルダの <code>estimation_standards.json</code> を読み込みます。ブラウザ制限で失敗した場合はファイル選択で JSON を指定してください。",
+          help: "同じフォルダの <code>estimation_standards.json</code> を読み込みます。",
           okLoaded: "標準見積を読み込みました。",
-          errLoad: "JSON の読み込みに失敗しました。ファイル選択で estimation_standards.json を指定してください。",
+          errLoad: "JSON の読み込みに失敗しました。同じフォルダに estimation_standards.json が存在し、HTTP で開いていることを確認してください。",
           tabScale: "ポイント表",
           tabBenchmarks: "作業項目の目安",
           thSp: "SP",
@@ -381,20 +375,6 @@
         }
       }
 
-      async function loadFromFile(file) {
-        setStatus("", "");
-        try {
-          const text = await file.text();
-          data = JSON.parse(text);
-          setStatus("ok", t("okLoaded"));
-          render();
-        } catch (e) {
-          data = null;
-          setStatus("err", t("errLoad"));
-          render();
-        }
-      }
-
       el.languageSelect.addEventListener("change", () => {
         currentLang = el.languageSelect.value;
         document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
@@ -403,12 +383,6 @@
 
       el.reloadBtn.addEventListener("click", () => {
         loadDefaultJson();
-      });
-
-      el.fileInput.addEventListener("change", (e) => {
-        const f = e.target.files && e.target.files[0];
-        if (!f) return;
-        loadFromFile(f);
       });
 
       document.querySelectorAll(".tab").forEach((tab) => {

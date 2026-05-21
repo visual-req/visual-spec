@@ -31,7 +31,7 @@
 3. 页面布局：
    - 左侧：树形目录（来自 `index.json` 的 `tree`；若无则由路径自动构建）
    - 中间：渲染器/阅读区（模板已内置 Markdown 编辑 + 预览 + PlantUML 渲染）
-   - 右侧：大纲（当前打开的 Markdown 标题层级目录）；必须在右侧单独一列展示，禁止放在目录树上方
+   - 大纲：当前打开的 Markdown 标题层级目录；必须以“浮层（overlay）”方式展示（不占据页面网格列），并提供按钮可随时打开/关闭
 4. 渲染规则：
    - `*.md`：以 Markdown 渲染方式显示（不是纯文本）
    - `*.html`：使用 `iframe srcdoc` 渲染（而不是当作文本显示）
@@ -54,9 +54,25 @@
       - 文件：`{ "type": "file", "label": "<name>", "path": "<abs_path>" }`
     - `tree` 必须按“系统 → 模块 → 功能 → 详细”四级结构组织 `/specs/details/**`：
       - 顶层 group 的 label 为“系统名”（可从 `original.md` 的标题或项目名推断；若无法推断则用 `System`/`系统`/`システム`）
-      - 第二层：模块（来自 `/specs/details/<module_slug>/`）
-      - 第三层：功能（来自文件名 `<function_slug>`，不含扩展名）
-      - 第四层：固定一个 group：`详细/Details/詳細`，其 children 为该功能的各类明细文档（rbac/data_permission/page_load/interaction/...），文件节点 label 建议为 `<detail_type>/<file_name>`
+      - 第二层：模块（label 必须使用“所选语言下的模块名”，禁止使用目录 slug）：
+        - 你必须读取 `/specs/functions/functions.json`（若不存在则从 `/specs/functions/*.md` 解析）建立映射：`rows[].module`
+        - 对 `/specs/details/<module_slug>/...`：在 `tree` 中该模块节点的 label 必须为对应的 `module` 原文（按 `selected.language` 输出），而不是 `<module_slug>`
+      - 第三层：功能（label 必须使用“所选语言下的功能名/子功能名”，禁止使用 `f22/f23` 之类的占位标识）：
+        - 若 `<function_slug>` 形如 `f<number>`（例如 `f22.md`）：必须在 `functions.json` 中用 `rows[].id === <number>` 定位到对应行，并用该行的 `function/subfunction` 生成 label
+        - label 推荐格式（按语言）：
+          - en：`<Feature>`（若有 Subfeature 则：`<Feature> — <Subfeature>`）
+          - zh-CN：`<功能>`（若有子功能则：`<功能>：<子功能>`）
+          - ja：`<機能>`（サブ機能があれば：`<機能>：<サブ機能>`）
+        - 若无法映射到 functions 行：才允许退化为文件名（去扩展名），但禁止输出 `f<number>`；必须继续尝试从文件内容标题/第一段提取可读名称
+      - 第四层：固定一个 group：`详细/Details/詳細`，其 children 为该功能的各类明细文档（rbac/data_permission/... + 页面类 01/02 编号明细），文件节点 label 建议为 `<detail_type>/<file_name>`
+        - 页面加载明细目录名（必须按语言一致）：
+          - en：`01_Load`
+          - zh-CN（或 zh）：`01_加载`
+          - ja：`01_読み込み`
+        - 页面交互明细目录名（必须按语言一致）：
+          - en：`02_Interaction`
+          - zh-CN（或 zh）：`02_交互`
+          - ja：`02_操作`
     - 场景入口页（必须）：
       - 你必须在 `files` 中额外提供一个虚拟文件：`/specs/details/__scenarios__`，内容为空字符串
       - 并在 `tree` 的“系统”下添加一个分组 `场景/Scenarios/シナリオ`，其中第一个文件节点指向 `/specs/details/__scenarios__`（label 为 `场景入口/Scenario Entry/シナリオ入口`）
@@ -108,7 +124,9 @@
      - 模块下应按明细类型分组（rbac/data_permission/page_load/interaction/...），避免单目录下堆叠过多不相关文件
    - 检查每个功能的关键明细是否完整（若缺失则必须补齐生成，不得跳过）：
      - 至少包含 `rbac.md` 与 `data_permission.md`
-     - Web/Mobile 类页面必须包含 `page_load.md` 与 `interaction.md`
+     - Web/Mobile 类页面必须包含“01/02 编号明细”（按所选语言的目录名写入；见上文）：
+       - 01：加载（Load）
+       - 02：交互（Interaction）
    - 检查每个叶子文档内容是否过多：
      - 若某个叶子文档内容明显过长/重复（例如出现大量冗余解释、重复段落、同义反复）：必须在不丢失关键规则与边界的前提下压缩与结构化（表格/清单/矩阵优先），使其更易阅读与实现
 

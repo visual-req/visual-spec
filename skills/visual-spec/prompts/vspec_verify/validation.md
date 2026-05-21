@@ -11,7 +11,7 @@
    - 左侧：场景列表（展示编号、名称）
    - 右侧：当前选中场景的详细展开，包含：
      - 场景节点链条（按顺序展示 apply/approve/cancel/change/execute-start/execute-end 等节点）
-     - 每个节点对应的页面“缩略图 + 名称”
+     - 点击节点：在右侧的“原型预览”区域展示对应界面原型（可切换 Web/Mobile；并可一键新标签页打开）
 3. 左侧场景列表必须与 `/specs/background/scenarios.md` 完全一致：
    - 不允许遗漏任何一条场景（即使原型未实现该场景的全部页面，也必须显示在列表中）
    - 编号、场景名、节点链条的文本必须逐条对齐 scenarios.md（允许做必要的格式化，但不得改写含义）
@@ -23,7 +23,8 @@
 
 实现约束：
 - 必须使用固定 HTML 模板以保证预览页面稳定性（必须）：
-  - 模板内置了中日英三语切换功能，在生成时直接复制 `prompts/vspec_verify/scenario.html` 的内容并写入 `/specs/prototypes/scenario.html` 即可。
+  - 模板内置了中日英三语切换功能。在生成时必须逐字节复制 `prompts/vspec_verify/scenario.html` 并写入 `/specs/prototypes/scenario.html`。
+  - 严禁使用任何其他目录下的 `scenario.html` 模板（必须）。
   - 禁止改动模板的 DOM 结构与样式；场景数据必须通过外部 JSON 文件加载，文件名固定为 `scenario.json`（与 `scenario.html` 同目录）。
 - `scenario.html` 不要做成简单跳转页，必须承载上述左右布局与交互。
 - 场景数据必须来源于 `/specs/background/scenarios.md`（必要时结合 `/specs/background/scenario_details/` 或旧版 `scenario_details.md` 进行节点补齐/纠正）。
@@ -37,9 +38,9 @@
    - change → `/change`
    - cancel → `/cancel`
 2. 若原型中按 functions 拆分出更细页面（例如 apply/list、apply/form、approve/detail），则在 `scenario.html` 的右侧为每个节点选择“最贴近该节点操作”的页面作为缩略图来源
-3. 缩略图实现方式（必须）：
-   - 使用“空白占位缩略图”（模板内置），并在卡片中展示页面名称与路由路径
-   - 每张卡片必须提供“打开页面（Web）”按钮：点击后跳转到该路由的正常页面（全屏内容，带完整 Header + Menu），禁止跳到嵌入式/iframe 页面
+3. 原型查看方式（必须）：
+  - 节点列表必须展示页面名称与路由路径（route/mobileRoute/pageName）
+  - 节点必须提供“新标签页打开”入口：点击后跳转到该路由的正常页面（全屏内容，带完整 Header + Menu）
 4. 移动端入口（命中则必须）：
    - 若存在移动端页面（`/m/*`），必须在场景详情区为相关节点提供“打开移动端页面”入口（跳转到对应 `/m/*` 路由），方便评审直接访问移动端页面。
 

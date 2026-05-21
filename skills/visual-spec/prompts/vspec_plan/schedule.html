@@ -6,14 +6,14 @@
     <title>visual-spec Plan Schedule</title>
     <style>
       :root {
-        --bg: #0b1220;
-        --panel: #101a2d;
-        --text: #e6edf7;
-        --muted: rgba(230, 237, 247, 0.7);
-        --border: rgba(230, 237, 247, 0.12);
-        --accent: #7aa7ff;
-        --warn: #ffcc66;
-        --chip: rgba(122, 167, 255, 0.18);
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --text: #111827;
+        --muted: rgba(17, 24, 39, 0.6);
+        --border: rgba(17, 24, 39, 0.12);
+        --accent: #2563eb;
+        --warn: #b45309;
+        --chip: rgba(37, 99, 235, 0.08);
       }
       * {
         box-sizing: border-box;
@@ -65,6 +65,38 @@
         border-radius: 14px;
         padding: 14px 14px 10px;
       }
+      .panel.fold {
+        padding: 0;
+      }
+      .panel.fold summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 14px 14px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .panel.fold summary::-webkit-details-marker {
+        display: none;
+      }
+      .panel.fold summary h2 {
+        margin: 0;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+      }
+      .panel.fold .foldBody {
+        padding: 0 14px 14px;
+      }
+      .panel.fold .chev {
+        color: var(--muted);
+        font-size: 12px;
+        user-select: none;
+      }
+      .panel.fold:not([open]) .chev {
+        transform: rotate(-90deg);
+        display: inline-block;
+      }
       .panel h2 {
         margin: 0 0 10px;
         font-size: 14px;
@@ -100,13 +132,12 @@
         overflow: hidden;
         border: 1px solid var(--border);
         border-radius: 14px;
-        background: rgba(16, 26, 45, 0.45);
+        background: #ffffff;
       }
       thead th {
         position: sticky;
         top: 0;
-        background: rgba(16, 26, 45, 0.95);
-        backdrop-filter: blur(8px);
+        background: #f9fafb;
         border-bottom: 1px solid var(--border);
         padding: 12px 12px;
         text-align: left;
@@ -121,7 +152,7 @@
         vertical-align: top;
       }
       tbody th {
-        background: rgba(16, 26, 45, 0.75);
+        background: #f9fafb;
         color: var(--text);
         width: 160px;
         font-size: 13px;
@@ -138,8 +169,8 @@
         min-width: 220px;
       }
       .card {
-        border: 1px solid rgba(230, 237, 247, 0.16);
-        background: rgba(16, 26, 45, 0.88);
+        border: 1px solid var(--border);
+        background: #ffffff;
         border-radius: 12px;
         padding: 10px 10px;
         margin-bottom: 10px;
@@ -168,6 +199,19 @@
           "Courier New", monospace;
         font-size: 11px;
       }
+      .sprintToggle {
+        margin-right: 8px;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        color: var(--text);
+        border-radius: 8px;
+        padding: 3px 7px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      tr.collapsed td {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -175,7 +219,7 @@
       <div class="title">
         <h1 id="pageTitle">Plan Schedule</h1>
         <div class="sub" id="pageSub">Story map (JSON-driven)</div>
-        <select id="langSelect" style="margin-left: auto; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #e6edf7; border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
+        <select id="langSelect" style="margin-left: auto; background: #ffffff; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 4px 6px; font-size: 12px; outline: none;">
           <option value="en">English</option>
           <option value="zh-CN">中文</option>
           <option value="ja">日本語</option>
@@ -183,15 +227,25 @@
       </div>
       <div class="banner" id="fallbackBanner"></div>
 
-      <div class="panel">
-        <h2 id="overviewTitle">Overview</h2>
-        <div class="kv" id="overviewKv"></div>
-      </div>
+      <details class="panel fold" open>
+        <summary>
+          <h2 id="overviewTitle">Overview</h2>
+          <span class="chev">▼</span>
+        </summary>
+        <div class="foldBody">
+          <div class="kv" id="overviewKv"></div>
+        </div>
+      </details>
 
-      <div class="panel">
-        <h2 id="assumptionsTitle">Assumptions & Missing Inputs</h2>
-        <div class="chips" id="assumptionChips"></div>
-      </div>
+      <details class="panel fold" open>
+        <summary>
+          <h2 id="assumptionsTitle">Assumptions & Missing Inputs</h2>
+          <span class="chev">▼</span>
+        </summary>
+        <div class="foldBody">
+          <div class="chips" id="assumptionChips"></div>
+        </div>
+      </details>
 
       <table>
         <thead>
@@ -343,9 +397,21 @@
 
         for (const sprint of data.sprints || []) {
           const tr = document.createElement("tr");
+          tr.dataset.sprintId = safeText(sprint.id);
 
           const th = document.createElement("th");
-          th.textContent = safeText(sprint.name || sprint.id);
+          const toggle = document.createElement("button");
+          toggle.type = "button";
+          toggle.className = "sprintToggle";
+          toggle.textContent = "▾";
+          toggle.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const collapsed = tr.classList.toggle("collapsed");
+            toggle.textContent = collapsed ? "▸" : "▾";
+          });
+          th.appendChild(toggle);
+          th.appendChild(document.createTextNode(safeText(sprint.name || sprint.id)));
           const meta = document.createElement("div");
           meta.className = "sprintMeta";
           const goalLine = sprint.goal ? `${labels.goal}: ${safeText(sprint.goal)}` : "";
@@ -436,7 +502,7 @@
         }
         globalData = data;
         
-        currentLang = data?.meta?.language || navigator.language.startsWith("zh") ? "zh-CN" : navigator.language.startsWith("ja") ? "ja" : "en";
+        currentLang = data?.meta?.language || (navigator.language.startsWith("zh") ? "zh-CN" : navigator.language.startsWith("ja") ? "ja" : "en");
         document.getElementById("langSelect").value = currentLang;
         renderAll(usedFallback);
       }

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .card{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .title{font:800 16px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .grid{fill:#ffffff;stroke:#e5e7eb;stroke-width:2}
+      .head{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .ok{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:2}
+      .text{font:700 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .t2{font:600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .lbl{font:700 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#2563eb}
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="320"/>
+  <text class="title" x="40" y="40">Condition/branch coverage: branch outcomes + atomic flips</text>
+  <text class="muted" x="40" y="62">Reference example: cover decision True/False and also flip atomic conditions inside compound expressions</text>
+
+  <rect class="card" x="40" y="84" width="880" height="206" rx="16"/>
+
+  <rect class="head" x="120" y="110" width="240" height="34" rx="10"/>
+  <text class="text" x="240" y="132" text-anchor="middle">Branches</text>
+  <rect class="head" x="380" y="110" width="240" height="34" rx="10"/>
+  <text class="text" x="500" y="132" text-anchor="middle">Atomic flips</text>
+  <rect class="head" x="640" y="110" width="240" height="34" rx="10"/>
+  <text class="text" x="760" y="132" text-anchor="middle">Outcome</text>
+
+  <rect class="ok" x="120" y="154" width="240" height="54" rx="12"/>
+  <text class="t2" x="240" y="176" text-anchor="middle">Decision True hit</text>
+  <text class="t2" x="240" y="196" text-anchor="middle">Decision False hit</text>
+
+  <rect class="ok" x="380" y="154" width="240" height="54" rx="12"/>
+  <text class="t2" x="500" y="176" text-anchor="middle">A: True/False</text>
+  <text class="t2" x="500" y="196" text-anchor="middle">B: True/False</text>
+
+  <rect class="grid" x="640" y="154" width="240" height="54" rx="12"/>
+  <text class="t2" x="760" y="186" text-anchor="middle">A practical baseline</text>
+
+  <rect class="grid" x="120" y="224" width="760" height="46" rx="12"/>
+  <text class="lbl" x="140" y="252">Example: case1(2,0,3)+case2(1,0,1) for branches; then add cases to flip b==0 and x&gt;1 boundaries to avoid masking.</text>
+</svg>

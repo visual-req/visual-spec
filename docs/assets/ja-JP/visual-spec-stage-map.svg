@@ -169,11 +169,19 @@
     <text class="boxTextYellow" x="1018" y="410" text-anchor="middle">取込</text>
     <text class="boxTextYellow" x="1018" y="428" text-anchor="middle">出力</text>
     <rect class="boxBlue" x="1090" y="392" width="100" height="40"/>
-    <text class="boxTextBlue" x="1140" y="416" text-anchor="middle">基盤</text>
+    <text class="boxTextBlue" x="1140" y="416" text-anchor="middle">定期ジョブ</text>
     <rect class="boxYellow" x="1198" y="392" width="100" height="40"/>
-    <text class="boxTextYellow" x="1248" y="406" text-anchor="middle">定期ジョブ</text>
-    <text class="boxTextYellow" x="1248" y="418" text-anchor="middle">メッセージ</text>
-    <text class="boxTextYellow" x="1248" y="430" text-anchor="middle">キュー/キャッシュ</text>
+    <text class="boxTextYellow" x="1248" y="416" text-anchor="middle">定期ジョブ</text>
+
+    <rect class="boxBlue" x="1090" y="442" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="466" text-anchor="middle">メッセージ</text>
+    <rect class="boxYellow" x="1198" y="442" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="466" text-anchor="middle">キュー</text>
+
+    <rect class="boxBlue" x="860" y="442" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="466" text-anchor="middle">キャッシュ</text>
+    <rect class="boxYellow" x="968" y="442" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="466" text-anchor="middle">キャッシュ</text>
 
     <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1070 442 L 1070 510"/>
     <rect class="outBox" x="990" y="518" width="160" height="38"/>

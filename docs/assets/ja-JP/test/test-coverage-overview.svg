@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="580" viewBox="0 0 960 580">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .title{font:800 20px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .box{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .box2{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .box3{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:2}
+      .h{font:800 14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .t{font:600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .arrow{stroke:#111827;stroke-width:2.5;fill:none}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111827"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="580"/>
+  <text class="title" x="40" y="52">カバレッジ強度の階段（弱い → 強い）</text>
+  <text class="muted" x="40" y="76">強い指標ほどコストが上がるため、実務では重要経路 + 高リスク分岐 + 境界条件を重視</text>
+
+  <rect class="box" x="120" y="110" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="138">1) 命令（ステートメント）</text>
+  <text class="t" x="150" y="158">保証：コードが走った  ｜  取りこぼし：分岐の組合せ・意味差分</text>
+
+  <path class="arrow" d="M480 174 L480 204" marker-end="url(#arrow)"/>
+
+  <rect class="box2" x="120" y="210" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="238">2) 分岐（ブランチ）</text>
+  <text class="t" x="150" y="258">保証：各判定 True/False  ｜  取りこぼし：原子条件の影響</text>
+
+  <path class="arrow" d="M480 274 L480 304" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="120" y="310" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="338">3) 条件（コンディション）</text>
+  <text class="t" x="150" y="358">保証：原子条件の反転  ｜  取りこぼし：判定全体の結果が未網羅</text>
+
+  <path class="arrow" d="M480 374 L480 404" marker-end="url(#arrow)"/>
+
+  <rect class="box2" x="120" y="410" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="438">4) 条件分岐（Condition/Branch）</text>
+  <text class="t" x="150" y="458">保証：分岐結果 + 原子条件反転  ｜  取りこぼし：全パス組合せではない</text>
+
+  <path class="arrow" d="M480 474 L480 504" marker-end="url(#arrow)"/>
+
+  <rect class="box3" x="120" y="510" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="538">5) パス（Path）</text>
+  <text class="t" x="150" y="558">保証：実行可能経路の網羅  ｜  限界：経路爆発のため重要経路中心になりがち</text>
+
+  <path class="arrow" d="M840 542 C900 542, 900 220, 840 220" marker-end="url(#arrow)"/>
+  <text class="muted" x="742" y="204">コスト ↑</text>
+</svg>

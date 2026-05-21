@@ -2,7 +2,11 @@
 
 本页用于解释常见覆盖率指标的含义、差异与局限，并用同一个代码样例说明：达到某类覆盖率并不等价于“逻辑都测到了”。
 
+![覆盖率强度阶梯（示意）](../../assets/zh-CN/test/test-coverage-overview.svg)
+
 ### 1) 指令覆盖（Statement Coverage）
+
+![指令覆盖示意图](../../assets/zh-CN/test/test-coverage-statement.svg)
 
 定义：被执行到的“可执行语句/指令”占比。
 
@@ -12,6 +16,8 @@
 
 ### 2) 分支覆盖（Branch Coverage）
 
+![分支覆盖示意图](../../assets/zh-CN/test/test-coverage-branch.svg)
+
 定义：每个判定点（例如 `if`、`switch`）的每个分支（True/False 或 case）是否至少执行过一次。
 
 要点：
@@ -20,6 +26,8 @@
 
 ### 3) 条件覆盖（Condition Coverage）
 
+![条件覆盖示意图](../../assets/zh-CN/test/test-coverage-condition.svg)
+
 定义：复合条件表达式中的每个原子条件（例如 `A`、`B`）是否分别取到过 True 与 False。
 
 要点：
@@ -27,6 +35,8 @@
 - 常见做法是配合分支覆盖一起看。
 
 ### 4) 条件分支覆盖（Condition/Branch Coverage）
+
+![条件分支覆盖示意图](../../assets/zh-CN/test/test-coverage-condition-branch.svg)
 
 定义：同时满足：
 - 分支覆盖（每个判定点 True/False 都跑过）
@@ -38,6 +48,8 @@
 
 ### 5) 路径覆盖（Path Coverage）
 
+![路径覆盖示意图](../../assets/zh-CN/test/test-coverage-path.svg)
+
 定义：从入口到出口的“可行执行路径”覆盖情况（考虑分支组合）。
 
 要点：
@@ -48,44 +60,44 @@
 
 ## 示例：同一段代码下，不同覆盖率意味着什么
 
+![判定树与用例覆盖（示意）](../../assets/zh-CN/test/test-coverage-example-tree.svg)
+
 示例代码：
 
 ```ts
-export function canSubmit(isDraft: boolean, hasPermission: boolean, quotaOk: boolean) {
-  if (isDraft && hasPermission) {
-    if (quotaOk) return true;
-    return false;
-  }
-  return false;
+export function calcX(a: number, b: number, x: number) {
+  if (a > 1 && b === 0) x = x / a;
+  if (a === 2 || x > 1) x = x + 1;
+  return x;
 }
 ```
 
 其中：
-- 判定点 1：`isDraft && hasPermission`
-- 判定点 2：`quotaOk`
+- 判定点 1：`a > 1 && b === 0`
+- 判定点 2：`a === 2 || x > 1`
 
 ### A) 达到 100% 分支覆盖的最小用例集（示意）
 
-| 用例 | isDraft | hasPermission | quotaOk | 期望 | 覆盖说明 |
+| 用例 | a | b | x | 期望（返回 x） | 覆盖说明 |
 | --- | --- | --- | --- | --- | --- |
-| T1 | true | true | true | true | 命中判定点1=True，判定点2=True |
-| T2 | true | true | false | false | 命中判定点2=False |
-| T3 | false | true | (无关) | false | 命中判定点1=False（短路） |
+| T1 | 2 | 0 | 3 | 2 | 判定点1=True；判定点2=True；两条语句都执行 |
+| T2 | 2 | 1 | 3 | 4 | 判定点1=False；判定点2=True；只执行 `x=x+1` |
+| T3 | 1 | 0 | 1 | 1 | 判定点1=False；判定点2=False；两条语句都不执行 |
 
 这组用例通常能达到：
 - 指令覆盖：高（几乎全跑到）
 - 分支覆盖：判定点 1/2 的 True/False 都覆盖
 
 但它仍可能遗漏：
-- `isDraft=true, hasPermission=false` 的情况（同为判定点1=False，但业务语义可能不同）
+- 对复合条件的子条件翻转（例如 `b===0` 的 True/False 变化），以及对 `x>1` 的边界
 
 ### B) 让条件覆盖更有意义：补齐子条件翻转
 
 为了让原子条件都取到 True/False，增加一条：
 
-| 用例 | isDraft | hasPermission | quotaOk | 期望 | 覆盖说明 |
+| 用例 | a | b | x | 期望（返回 x） | 覆盖说明 |
 | --- | --- | --- | --- | --- | --- |
-| T4 | true | false | (无关) | false | 翻转 hasPermission=False（短路） |
+| T4 | 3 | 0 | 1 | 1.333... | 翻转 `a===2` 为 False，同时让 `x>1` 为 True（判定点2=True） |
 
 这会更接近条件分支覆盖：既有分支 True/False，又让子条件取值变化被验证。
 

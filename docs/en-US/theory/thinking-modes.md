@@ -6,10 +6,14 @@ This document describes several thinking modes that `/vspec:new` uses to turn na
 
 ### 1) Boundary thinking
 
+![Boundary thinking diagram](../../assets/en-US/thinking/thinking-boundary.svg)
+
 - Clarify scope and non-scope, applicability, and edge conditions
 - Identify boundaries: role boundaries, data boundaries, time boundaries, org boundaries, permission boundaries
 
 ### 2) Symmetry thinking
+
+![Symmetry thinking diagram](../../assets/en-US/thinking/thinking-symmetry.svg)
 
 - Derive rollback/compensation from the happy path
 - Mirror “create” with “edit/cancel/rollback/reverse/refund”
@@ -17,15 +21,21 @@ This document describes several thinking modes that `/vspec:new` uses to turn na
 
 ### 3) Constraint thinking
 
+![Constraint thinking diagram](../../assets/en-US/thinking/thinking-constraints.svg)
+
 - Make implicit constraints explicit: validation rules, authorization rules, state machine constraints, data semantics
 - Make system constraints explicit: reliability, auditability, compliance, traceability, alerting
 
 ### 4) Diversity thinking
 
+![Diversity thinking diagram](../../assets/en-US/thinking/thinking-diversity.svg)
+
 - Cover variations across roles, scenarios, channels, devices, org structures, and operating modes
 - Focus on role differences (especially for dashboards and prototypes)
 
 ### 5) Closed-loop thinking
+
+![Closed-loop thinking diagram](../../assets/en-US/thinking/thinking-closed-loop.svg)
 
 Business requirements often focus only on the “core moment” and miss the two ends:
 
@@ -41,6 +51,8 @@ Typical prompts:
 - “How do we know the process is truly finished (async notifications, retries, compensation, reconciliation)?”
 
 ### 6) Action–course mapping (example output)
+
+![Action–course mapping diagram](../../assets/en-US/thinking/thinking-action-course-mapping.svg)
 
 In course-based products, requirements often describe “the course” but omit the concrete actions that make the course usable. A simple action–course mapping helps reveal missing entry points, permissions, validations, and state transitions.
 

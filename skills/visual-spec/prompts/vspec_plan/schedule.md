@@ -51,7 +51,10 @@
 1. 写入 `/specs/plan/plan_story_map.json`（数据）与 `/specs/plan/plan_schedule.html`（模板）：
    - JSON：只包含结构化数据（Sprint/模块/卡片/参数摘要/假设说明），不包含大段 HTML
    - HTML：必须是可直接打开的完整 HTML（包含 basic CSS），无需外部资源依赖
-   - HTML 模板规范：以本仓库模板文件为基线生成页面结构与样式，基于 `/skills/visual-spec/prompts/vspec_plan/schedule.html` 模板为基础复制生成（该模板已内置中日英三语切换）。
+   - HTML 模板规范（必须严格复用预设模板，禁止另起炉灶生成新 HTML）：
+     - `/specs/plan/plan_schedule.html` 必须以模板文件逐字节复制为基线生成：`prompts/vspec_plan/schedule.html`（或本仓库源码路径 `skills/visual-spec/prompts/vspec_plan/schedule.html` 二选一，取存在的路径）
+     - 允许修改范围仅限：替换模板中 `<script type="application/json" id="storyMapData">...</script>` 的 JSON 内容为本次生成的 `plan_story_map.json` 等价数据；除该 JSON 块外，禁止改动其他任何 HTML/CSS/JS（包括 class、id、布局结构、i18n 字典、渲染逻辑）
+     - 禁止生成或写入任何其他排期相关的 HTML 文件（例如 `plan_schedule_v2.html`、`story_map.html` 等）
 2. HTML 必须通过 JSON 加载并渲染：
    - 默认用 `fetch("./plan_story_map.json")` 加载数据并渲染
    - 同时在 HTML 内内置一份等价的 JSON 作为 fallback（例如放在 `<script type="application/json" id="storyMapData">...</script>`），当 `fetch` 失败（典型为 file:// 直接打开）时，自动使用内置数据渲染，并在页面顶部用醒目提示说明当前为 fallback 数据

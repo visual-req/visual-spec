@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .card{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .title{font:800 16px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .d{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .s{fill:#ffffff;stroke:#e5e7eb;stroke-width:2}
+      .hit{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:2}
+      .text{font:800 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .code{font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;fill:#111827}
+      .edge{stroke:#111827;stroke-width:2.5;fill:none}
+      .lbl{font:700 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#2563eb}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111827"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="320"/>
+  <text class="title" x="40" y="40">Decision/branch coverage: did True and False both occur for each decision?</text>
+  <text class="muted" x="40" y="62">Reference example: two decisions → 4 outcomes (T1/F1/T2/F2). Two cases can cover all.</text>
+
+  <rect class="card" x="40" y="84" width="880" height="206" rx="16"/>
+
+  <rect class="d" x="120" y="116" width="320" height="56" rx="14"/>
+  <text class="text" x="280" y="142" text-anchor="middle">Decision 1</text>
+  <text class="code" x="280" y="162" text-anchor="middle">a &gt; 1 &amp;&amp; b === 0</text>
+
+  <rect class="d" x="520" y="116" width="320" height="56" rx="14"/>
+  <text class="text" x="680" y="142" text-anchor="middle">Decision 2</text>
+  <text class="code" x="680" y="162" text-anchor="middle">a === 2 || x &gt; 1</text>
+
+  <rect class="hit" x="140" y="190" width="140" height="46" rx="14"/>
+  <text class="text" x="210" y="218" text-anchor="middle">T1</text>
+  <rect class="hit" x="300" y="190" width="140" height="46" rx="14"/>
+  <text class="text" x="370" y="218" text-anchor="middle">F1</text>
+
+  <rect class="hit" x="540" y="190" width="140" height="46" rx="14"/>
+  <text class="text" x="610" y="218" text-anchor="middle">T2</text>
+  <rect class="hit" x="700" y="190" width="140" height="46" rx="14"/>
+  <text class="text" x="770" y="218" text-anchor="middle">F2</text>
+
+  <path class="edge" d="M280 172 L210 190" marker-end="url(#arrow)"/>
+  <path class="edge" d="M280 172 L370 190" marker-end="url(#arrow)"/>
+  <path class="edge" d="M680 172 L610 190" marker-end="url(#arrow)"/>
+  <path class="edge" d="M680 172 L770 190" marker-end="url(#arrow)"/>
+
+  <rect class="s" x="120" y="246" width="720" height="30" rx="12"/>
+  <text class="lbl" x="140" y="266">case1: (2,0,3) covers T1+T2; case2: (1,0,1) covers F1+F2 → 100% decision/branch coverage</text>
+</svg>

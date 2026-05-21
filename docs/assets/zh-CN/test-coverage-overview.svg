@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="580" viewBox="0 0 960 580">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .title{font:800 20px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .box{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .box2{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .box3{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:2}
+      .h{font:800 14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .t{font:600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .arrow{stroke:#111827;stroke-width:2.5;fill:none}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111827"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="580"/>
+  <text class="title" x="40" y="52">覆盖率指标的“强度阶梯”（从低到高）</text>
+  <text class="muted" x="40" y="76">越往下越强，但成本更高；实务上常用“关键路径 + 高风险分支 + 边界条件”替代全路径穷举</text>
+
+  <rect class="box" x="120" y="110" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="138">1) 指令覆盖（Statement）</text>
+  <text class="t" x="150" y="158">保证：代码跑到过  ｜  可能遗漏：分支组合与语义差异</text>
+
+  <path class="arrow" d="M480 174 L480 204" marker-end="url(#arrow)"/>
+
+  <rect class="box2" x="120" y="210" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="238">2) 分支覆盖（Branch）</text>
+  <text class="t" x="150" y="258">保证：每个判定点 True/False 都执行过  ｜  可能遗漏：复合条件里子条件的影响</text>
+
+  <path class="arrow" d="M480 274 L480 304" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="120" y="310" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="338">3) 条件覆盖（Condition）</text>
+  <text class="t" x="150" y="358">保证：每个原子条件都取到过 True/False  ｜  可能遗漏：整体分支 True/False 未必都覆盖</text>
+
+  <path class="arrow" d="M480 374 L480 404" marker-end="url(#arrow)"/>
+
+  <rect class="box2" x="120" y="410" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="438">4) 条件分支覆盖（Condition/Branch）</text>
+  <text class="t" x="150" y="458">保证：分支 True/False + 子条件翻转都覆盖  ｜  可能遗漏：仍不等于所有路径组合</text>
+
+  <path class="arrow" d="M480 474 L480 504" marker-end="url(#arrow)"/>
+
+  <rect class="box3" x="120" y="510" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="538">5) 路径覆盖（Path）</text>
+  <text class="t" x="150" y="558">保证：可行路径的分支组合被验证  ｜  局限：路径数量可能指数增长，通常只能覆盖关键路径</text>
+
+  <path class="arrow" d="M840 542 C900 542, 900 220, 840 220" marker-end="url(#arrow)"/>
+  <text class="muted" x="742" y="204">成本上升</text>
+</svg>

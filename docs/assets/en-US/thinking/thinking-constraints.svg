@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .card{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .title{font:700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .box{fill:#ffffff;stroke:#e5e7eb;stroke-width:2}
+      .boxBlue{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .boxGreen{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:2}
+      .text{font:700 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .text2{font:600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .rail{stroke:#2563eb;stroke-width:4}
+      .arrow{stroke:#111827;stroke-width:2.5;fill:none}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111827"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="360"/>
+  <text class="title" x="40" y="56">Constraint thinking</text>
+  <text class="muted" x="40" y="80">Constraints are guardrails: they restrict moves, but keep the system correct and stable</text>
+
+  <rect class="card" x="40" y="104" width="880" height="216" rx="16"/>
+
+  <line class="rail" x1="120" y1="208" x2="840" y2="208"/>
+  <line class="rail" x1="120" y1="232" x2="840" y2="232"/>
+  <text class="muted" x="480" y="198" text-anchor="middle">Make constraints explicit so they can be reviewed and tested</text>
+
+  <rect class="box" x="120" y="140" width="170" height="76" rx="14"/>
+  <text class="text" x="205" y="172" text-anchor="middle">Input</text>
+  <text class="text2" x="205" y="196" text-anchor="middle">Data / action / event</text>
+
+  <rect class="boxBlue" x="330" y="132" width="300" height="92" rx="16"/>
+  <text class="text" x="480" y="160" text-anchor="middle">Explicit rules</text>
+  <text class="text2" x="480" y="184" text-anchor="middle">Validation / auth / state machine</text>
+  <text class="text2" x="480" y="206" text-anchor="middle">Semantics / errors / idempotency</text>
+
+  <rect class="box" x="670" y="140" width="170" height="76" rx="14"/>
+  <text class="text" x="755" y="172" text-anchor="middle">Output</text>
+  <text class="text2" x="755" y="196" text-anchor="middle">Result / state / effects</text>
+
+  <path class="arrow" d="M290 178 L320 178" marker-end="url(#arrow)"/>
+  <path class="arrow" d="M630 178 L660 178" marker-end="url(#arrow)"/>
+
+  <rect class="boxGreen" x="330" y="240" width="510" height="64" rx="16"/>
+  <text class="text" x="585" y="268" text-anchor="middle">System constraints (NFR)</text>
+  <text class="text2" x="585" y="292" text-anchor="middle">Reliability / audit / compliance / traceability / observability</text>
+</svg>

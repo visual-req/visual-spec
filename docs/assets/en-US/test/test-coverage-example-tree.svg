@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="460" viewBox="0 0 960 460">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .card{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .title{font:800 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .node{fill:#ffffff;stroke:#e5e7eb;stroke-width:2}
+      .node2{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .ok{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:2}
+      .bad{fill:#fff1f2;stroke:#fecdd3;stroke-width:2}
+      .h{font:800 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .t{font:600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .edge{stroke:#111827;stroke-width:2.5;fill:none}
+      .lbl{font:700 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#2563eb}
+      .code{font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;fill:#111827}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111827"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="460"/>
+  <text class="title" x="40" y="52">Decision tree for the example: where do cases hit?</text>
+  <text class="muted" x="40" y="76">Reference example: if (a&gt;1 &amp;&amp; b==0) x=x/a;  if (a==2 || x&gt;1) x=x+1</text>
+
+  <rect class="card" x="40" y="96" width="880" height="324" rx="16"/>
+
+  <rect class="node2" x="260" y="126" width="440" height="58" rx="14"/>
+  <text class="h" x="480" y="152" text-anchor="middle">Decision 1</text>
+  <text class="code" x="480" y="170" text-anchor="middle">a &gt; 1 &amp;&amp; b === 0</text>
+
+  <rect class="node" x="120" y="236" width="280" height="76" rx="14"/>
+  <text class="h" x="260" y="262" text-anchor="middle">Statement 1 (on True)</text>
+  <text class="code" x="260" y="286" text-anchor="middle">x = x / a</text>
+
+  <rect class="node2" x="560" y="236" width="280" height="76" rx="14"/>
+  <text class="h" x="700" y="262" text-anchor="middle">Decision 2</text>
+  <text class="code" x="700" y="286" text-anchor="middle">a === 2 || x &gt; 1</text>
+
+  <rect class="ok" x="540" y="332" width="200" height="64" rx="14"/>
+  <text class="h" x="640" y="360" text-anchor="middle">True</text>
+  <text class="code" x="640" y="382" text-anchor="middle">x = x + 1</text>
+
+  <rect class="bad" x="760" y="332" width="120" height="64" rx="14"/>
+  <text class="h" x="820" y="368" text-anchor="middle">False</text>
+
+  <path class="edge" d="M380 184 L240 236" marker-end="url(#arrow)"/>
+  <path class="edge" d="M580 184 L660 236" marker-end="url(#arrow)"/>
+  <path class="edge" d="M400 274 L550 274" marker-end="url(#arrow)"/>
+  <path class="edge" d="M700 312 L640 332" marker-end="url(#arrow)"/>
+  <path class="edge" d="M740 312 L820 332" marker-end="url(#arrow)"/>
+
+  <text class="lbl" x="246" y="222">T1 hits (2,0,3)</text>
+  <text class="lbl" x="648" y="222">T2/T3 hit</text>
+  <text class="lbl" x="610" y="324">T1/T2</text>
+  <text class="lbl" x="804" y="324">T3</text>
+
+  <text class="muted" x="80" y="414">Tip: condition coverage requires flipping atomic conditions (e.g., b===0 True/False, x&gt;1 boundaries), not only decision True/False.</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="580" viewBox="0 0 960 580">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .title{font:800 20px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .box{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .box2{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .box3{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:2}
+      .h{font:800 14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .t{font:600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .arrow{stroke:#111827;stroke-width:2.5;fill:none}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111827"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="580"/>
+  <text class="title" x="40" y="52">Coverage strength ladder (weaker → stronger)</text>
+  <text class="muted" x="40" y="76">Stronger metrics cost more; in practice, teams cover critical paths + high-risk branches + boundary cases</text>
+
+  <rect class="box" x="120" y="110" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="138">1) Statement coverage</text>
+  <text class="t" x="150" y="158">Guarantees: code ran  ｜  Still misses: decision combinations and semantics</text>
+
+  <path class="arrow" d="M480 174 L480 204" marker-end="url(#arrow)"/>
+
+  <rect class="box2" x="120" y="210" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="238">2) Branch coverage</text>
+  <text class="t" x="150" y="258">Guarantees: each decision True/False ran  ｜  Still misses: atomic-condition influence</text>
+
+  <path class="arrow" d="M480 274 L480 304" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="120" y="310" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="338">3) Condition coverage</text>
+  <text class="t" x="150" y="358">Guarantees: each atomic cond flips  ｜  Still misses: overall decision outcomes may be incomplete</text>
+
+  <path class="arrow" d="M480 374 L480 404" marker-end="url(#arrow)"/>
+
+  <rect class="box2" x="120" y="410" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="438">4) Condition/branch coverage</text>
+  <text class="t" x="150" y="458">Guarantees: branch outcomes + atomic flips  ｜  Still misses: not all path combinations</text>
+
+  <path class="arrow" d="M480 474 L480 504" marker-end="url(#arrow)"/>
+
+  <rect class="box3" x="120" y="510" width="720" height="64" rx="14"/>
+  <text class="h" x="150" y="538">5) Path coverage</text>
+  <text class="t" x="150" y="558">Guarantees: feasible paths covered  ｜  Limitation: path explosion; usually only key paths are covered</text>
+
+  <path class="arrow" d="M840 542 C900 542, 900 220, 840 220" marker-end="url(#arrow)"/>
+  <text class="muted" x="742" y="204">Cost ↑</text>
+</svg>

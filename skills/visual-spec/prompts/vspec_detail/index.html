@@ -64,7 +64,7 @@
       }
       .shell {
         display: grid;
-        grid-template-columns: 340px 1fr 300px;
+        grid-template-columns: 340px 1fr;
         gap: 12px;
         min-height: calc(100vh - 90px);
       }
@@ -422,6 +422,34 @@
         font-size: 12px;
         outline: none;
       }
+
+      .outline-overlay {
+        position: fixed;
+        right: 16px;
+        top: 92px;
+        width: 360px;
+        height: calc(100vh - 120px);
+        z-index: 120;
+        display: none;
+      }
+      .outline-overlay.open {
+        display: block;
+      }
+      .outline-overlay .outline-wrap {
+        max-height: calc(100vh - 220px);
+      }
+      @media (max-width: 980px) {
+        .outline-overlay {
+          left: 12px;
+          right: 12px;
+          width: auto;
+          top: 92px;
+          height: calc(100vh - 120px);
+        }
+        .outline-overlay .outline-wrap {
+          max-height: calc(100vh - 240px);
+        }
+      }
     </style>
   </head>
   <body>
@@ -465,6 +493,7 @@
                 <span class="path" id="currentPath">No file selected</span>
               </div>
               <div class="right">
+                <button id="toggleOutline" class="primary"><span id="uiOutline">Outline</span></button>
                 <button id="copyPath"><span id="uiCopyPath">Copy Path</span></button>
               </div>
             </div>
@@ -476,16 +505,18 @@
           </div>
         </div>
 
-        <div class="panel">
-          <div class="sidebar-header">
-            <div class="sidebar-title">
-              <span id="uiOutline">Outline</span>
-            </div>
-          </div>
-          <div class="outline-wrap">
-            <div id="outline" class="outline"></div>
-          </div>
+      </div>
+    </div>
+
+    <div id="outlineOverlay" class="panel outline-overlay">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <span id="uiOutline2">Outline</span>
+          <button id="closeOutline">Close</button>
         </div>
+      </div>
+      <div class="outline-wrap">
+        <div id="outline" class="outline"></div>
       </div>
     </div>
 
@@ -500,6 +531,7 @@
           searchPath: "Search path...",
           collapse: "Collapse",
           outline: "Outline",
+          close: "Close",
           noFile: "No file selected",
           copyPath: "Copy Path",
           emptyDoc: "Select a document from the left navigation. Markdown supports editing + live preview.<ul><li><code>.md</code> rendered as markdown</li><li><code>.html</code> rendered via iframe</li><li><code>.puml</code> and markdown <code>```plantuml</code> blocks rendered via PlantUML server</li></ul>",
@@ -551,6 +583,7 @@
           searchPath: "搜索路径...",
           collapse: "折叠",
           outline: "大纲",
+          close: "关闭",
           noFile: "未选择文件",
           copyPath: "复制路径",
           emptyDoc: "从左侧导航选择文档。Markdown 支持编辑与实时预览。<ul><li><code>.md</code>：以 Markdown 渲染</li><li><code>.html</code>：通过 iframe 渲染</li><li><code>.puml</code> 与 Markdown 的 <code>```plantuml</code>：通过 PlantUML Server 渲染</li></ul>",
@@ -602,6 +635,7 @@
           searchPath: "パスを検索...",
           collapse: "折りたたむ",
           outline: "アウトライン",
+          close: "閉じる",
           noFile: "ファイルが選択されていません",
           copyPath: "パスをコピー",
           emptyDoc: "左側のナビゲーションからドキュメントを選択してください。Markdownは編集とリアルタイムプレビューをサポートしています。<ul><li><code>.md</code>: Markdownとしてレンダリング</li><li><code>.html</code>: iframe経由でレンダリング</li><li><code>.puml</code> と <code>```plantuml</code>: PlantUML Server経由でレンダリング</li></ul>",
@@ -657,6 +691,9 @@
       const dom = {
         nav: document.getElementById("nav"),
         outline: document.getElementById("outline"),
+        outlineOverlay: document.getElementById("outlineOverlay"),
+        toggleOutline: document.getElementById("toggleOutline"),
+        closeOutline: document.getElementById("closeOutline"),
         search: document.getElementById("search"),
         fileCount: document.getElementById("fileCount"),
         viewer: document.getElementById("viewer"),
@@ -740,8 +777,8 @@
       }
 
       function displayTitle(path) {
-        const t = fileType(path);
-        if (t === "Markdown") {
+        const ft = fileType(path);
+        if (ft === "Markdown") {
           const title = firstHeadingTitle(state.files[path] || "");
           return title || basename(path);
         }
@@ -882,6 +919,7 @@
           if (s.startsWith("/specs/details/")) return false;
           if (s.startsWith("/specs/background/scenario_details/")) return false;
           if (s === "/specs/background/scenarios.md") return false;
+          if (!s.endsWith(".puml")) return false;
           return true;
         });
         otherPaths.sort((a, b) => a.localeCompare(b));
@@ -1016,7 +1054,16 @@
         await writer.close();
         const resp = new Response(cs.readable);
         const buf = await resp.arrayBuffer();
-        return new Uint8Array(buf);
+        const bytes = new Uint8Array(buf);
+        if (bytes.length >= 6) {
+          const cmf = bytes[0];
+          const flg = bytes[1];
+          const isZlib = ((cmf & 0x0f) === 8) && (((cmf << 8) + flg) % 31 === 0);
+          if (isZlib && bytes.length > 6) {
+            return bytes.slice(2, bytes.length - 4);
+          }
+        }
+        return bytes;
       }
 
       async function plantUmlSvgUrl(source) {
@@ -1305,14 +1352,14 @@
           renderOutline([]);
           return;
         }
-        const t = fileType(path);
-        if (t === "HTML") {
+        const ft = fileType(path);
+        if (ft === "HTML") {
           const iframe = document.createElement("iframe");
           iframe.srcdoc = content || "";
           dom.viewer.appendChild(iframe);
           return;
         }
-        if (t === "PlantUML") {
+        if (ft === "PlantUML") {
           const wrap = document.createElement("div");
           wrap.className = "puml";
           const img = document.createElement("img");
@@ -1330,7 +1377,7 @@
           }
           return;
         }
-        if (t === "Markdown") {
+        if (ft === "Markdown") {
           const toolbar = document.createElement("div");
           toolbar.className = "md-toolbar";
           const left = document.createElement("div");
@@ -1519,6 +1566,18 @@
         for (const d of ds) d.open = false;
       });
 
+      function setOutlineOpen(open) {
+        if (!dom.outlineOverlay) return;
+        dom.outlineOverlay.classList.toggle("open", !!open);
+      }
+      if (dom.toggleOutline) {
+        dom.toggleOutline.addEventListener("click", () => {
+          const isOpen = dom.outlineOverlay && dom.outlineOverlay.classList.contains("open");
+          setOutlineOpen(!isOpen);
+        });
+      }
+      if (dom.closeOutline) dom.closeOutline.addEventListener("click", () => setOutlineOpen(false));
+
       
       function updateStaticUi() {
         document.getElementById("uiTitle").textContent = t("title");
@@ -1528,6 +1587,9 @@
         dom.search.placeholder = t("searchPath");
         document.getElementById("collapseAll").textContent = t("collapse");
         document.getElementById("uiOutline").textContent = t("outline");
+        const outline2 = document.getElementById("uiOutline2");
+        if (outline2) outline2.textContent = t("outline");
+        if (dom.closeOutline) dom.closeOutline.textContent = t("close");
         document.getElementById("uiCopyPath").textContent = t("copyPath");
         if (!state.activePath) {
           dom.currentPath.textContent = t("noFile");

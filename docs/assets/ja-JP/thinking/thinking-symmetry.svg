@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .card{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .title{font:700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .boxA{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .boxB{fill:#fff7ed;stroke:#fed7aa;stroke-width:2}
+      .text{font:600 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .arrow{stroke:#111827;stroke-width:2.5;fill:none}
+      .accent{stroke:#2563eb;stroke-width:3;fill:none}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111827"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="360"/>
+  <text class="title" x="40" y="56">対称思考（Symmetry）</text>
+  <text class="muted" x="40" y="80">主経路を鏡像化して、逆方向/失敗/補償の抜けを埋める</text>
+
+  <rect class="card" x="40" y="104" width="880" height="216" rx="16"/>
+
+  <rect class="boxA" x="88" y="148" width="240" height="64" rx="14"/>
+  <text class="text" x="208" y="176" text-anchor="middle">作成 / 提出 / 実行</text>
+  <text class="muted" x="208" y="198" text-anchor="middle">主経路（Happy Path）</text>
+
+  <rect class="boxB" x="632" y="148" width="240" height="64" rx="14"/>
+  <text class="text" x="752" y="176" text-anchor="middle">変更 / 取消 / 返金</text>
+  <text class="muted" x="752" y="198" text-anchor="middle">逆方向・補償</text>
+
+  <path class="arrow" d="M338 180 L622 180" marker-end="url(#arrow)"/>
+  <path class="arrow" d="M622 204 L338 204" marker-end="url(#arrow)"/>
+  <text class="muted" x="480" y="166" text-anchor="middle">鏡像</text>
+
+  <rect class="boxA" x="88" y="236" width="240" height="64" rx="14"/>
+  <text class="text" x="208" y="264" text-anchor="middle">成功 / 冪等</text>
+  <text class="muted" x="208" y="286" text-anchor="middle">繰り返し可能</text>
+
+  <rect class="boxB" x="632" y="236" width="240" height="64" rx="14"/>
+  <text class="text" x="752" y="264" text-anchor="middle">失敗 / 再試行 / ロールバック</text>
+  <text class="muted" x="752" y="286" text-anchor="middle">復旧戦略</text>
+
+  <path class="accent" d="M338 268 L622 268" marker-end="url(#arrowBlue)"/>
+  <text class="muted" x="480" y="254" text-anchor="middle">対称化で、必然的なケースを補完する</text>
+</svg>

@@ -25,22 +25,37 @@
       .pill.P1 { background: #ffedd5; color: #9a3412; border-color: #fdba74; }
       .pill.P2 { background: #fef3c7; color: #9a3412; border-color: #fcd34d; }
       
-      table { width: 100%; border-collapse: collapse; font-size: 12px; }
-      th, td { padding: 10px 12px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
-      th { text-align: left; font-weight: 600; color: #374151; background: #f9fafb; position: sticky; top: 0; z-index: 1; }
-      tbody tr { cursor: pointer; }
-      tbody tr:hover { background: #f3f4f6; }
-      tbody tr.active { background: #eff6ff; }
+      .stats { padding: 10px 14px; border-bottom: 1px solid #e5e7eb; background: #f9fafb; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+      .stats .left { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      .stats .right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      .count { font-size: 12px; color: #374151; }
+      .count strong { color: #111827; }
       
       .k { font-size: 12px; color: #374151; font-weight: 600; margin: 12px 0 6px; }
       .v { font-size: 12px; color: #111827; white-space: pre-wrap; word-break: break-word; background: #f9fafb; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; }
       .v.danger { background: #fef2f2; border-color: #fecaca; }
       .empty { padding: 24px; color: #6b7280; font-size: 13px; text-align: center; }
 
-      .tableWrap { max-height: 400px; overflow: auto; border-bottom: 1px solid #e5e7eb; }
-      .detailWrap { padding: 16px; min-height: 200px; }
+      .listWrap { padding: 8px 10px 12px; }
+      details.item { border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin: 10px 4px; background: #fff; }
+      details.item[open] { border-color: #c7d2fe; box-shadow: 0 1px 0 rgba(17,24,39,0.04); }
+      summary.itemSum { list-style: none; cursor: pointer; padding: 10px 12px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; background: #fff; }
+      summary.itemSum::-webkit-details-marker { display: none; }
+      .sumLeft { min-width: 0; display: flex; gap: 10px; align-items: flex-start; }
+      .sumMain { min-width: 0; }
+      .sumTitle { font-size: 12px; color: #111827; font-weight: 600; line-height: 1.4; word-break: break-word; }
+      .sumMeta { margin-top: 4px; font-size: 12px; color: #6b7280; word-break: break-word; }
+      .sumRight { flex: 0 0 auto; display: flex; gap: 6px; align-items: center; }
+      .tag { font-size: 12px; padding: 3px 8px; border-radius: 999px; border: 1px solid #e5e7eb; background: #fff; color: #111827; }
+      .tag.muted { background: #f9fafb; color: #374151; }
+      .itemBody { padding: 12px; border-top: 1px solid #e5e7eb; background: #fff; }
+      .kv { display: grid; grid-template-columns: 160px 1fr; gap: 10px 12px; }
+      .kv .k { margin: 0; }
+      .kv .v { margin: 0; }
+      .kwWrap { background: transparent; border: none; padding: 0; }
+      .kwWrap .pill { margin-right: 6px; margin-bottom: 6px; display: inline-block; }
       
-      .pagination { padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; background: #f9fafb; }
+      .pagination { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e5e7eb; background: #f9fafb; }
       .pagination span { font-size: 12px; color: #374151; }
     </style>
   </head>
@@ -74,22 +89,42 @@
               <option value="P1">P1</option>
               <option value="P2">P2</option>
             </select>
+            <label id="uiKeyword">Keyword</label>
+            <select id="keywordFilter">
+              <option value="" id="uiAll3">All</option>
+            </select>
+            <label id="uiPath">Path</label>
+            <input id="pathQ" type="text" placeholder="e.g. /specs/functions" />
             <label id="uiSearch">Search</label>
             <input id="q" type="text" placeholder="keywords / text" />
           </div>
         </div>
-        <div class="tableWrap" id="tableWrap">
-          <div class="empty" id="emptyTable">Click Reload JSON to load qc_report.json</div>
+        <div class="stats">
+          <div class="left">
+            <span class="count" id="countInfo">0 / 0</span>
+          </div>
+          <div class="right">
+            <button id="resetBtn" class="secondary"><span id="uiReset">Reset</span></button>
+            <button id="expandBtn" class="secondary"><span id="uiExpandAll">Expand all</span></button>
+            <button id="collapseBtn" class="secondary"><span id="uiCollapseAll">Collapse all</span></button>
+          </div>
+        </div>
+        <div class="listWrap" id="listWrap">
+          <div class="empty" id="emptyList">Click Reload JSON to load qc_report.json</div>
         </div>
         <div class="pagination">
           <span id="pageInfo">Page 1 of 1</span>
           <div class="actions">
+            <label id="uiPageSize">Page size</label>
+            <select id="pageSize">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+            </select>
             <button id="prevBtn" class="secondary">Prev</button>
             <button id="nextBtn" class="secondary">Next</button>
           </div>
-        </div>
-        <div class="detailWrap" id="detail">
-          <div class="empty" id="emptyDetail">Select a row to view details.</div>
         </div>
       </section>
     </main>
@@ -100,22 +135,32 @@
           load: "Reload JSON",
           type: "Type",
           severity: "Severity",
+          keyword: "Keyword",
+          path: "Path",
           search: "Search",
           searchPlaceholder: "keywords / text",
-          emptyTable: "Click Reload JSON to load qc_report.json",
-          emptyDetail: "Select a row to view details.",
+          pathPlaceholder: "e.g. /specs/functions",
+          emptyList: "Click Reload JSON to load qc_report.json",
           all: "All",
-          tableCols: ["ID", "Severity", "Type", "Checkpoint", "Location"],
           metaLoaded: "Loaded {0} issues ({1})",
           metaEmpty: "No issues found. Quality check passed!",
           pageInfo: "Page {0} of {1}",
           prev: "Prev",
           next: "Next",
+          pageSize: "Page size",
+          reset: "Reset",
+          expandAll: "Expand all",
+          collapseAll: "Collapse all",
+          countInfo: "{0} shown / {1} total",
           kStandard: "Standard Source",
           kExcerpt: "Excerpt",
           kNonconformance: "Nonconformance",
           kFix: "Fix Suggestion",
           kKeywords: "Keywords",
+          kCheckpoint: "Checkpoint",
+          kType: "Type",
+          kSeverity: "Severity",
+          kLocation: "Location",
           noIssues: "No issues found matching criteria."
         },
         "zh-CN": {
@@ -123,22 +168,32 @@
           load: "重新加载 JSON",
           type: "问题类型",
           severity: "严重程度",
+          keyword: "关键词",
+          path: "路径",
           search: "搜索",
           searchPlaceholder: "关键词 / 文本",
-          emptyTable: "请点击重新加载 JSON 读取 qc_report.json",
-          emptyDetail: "请点击表格行以查看详情。",
+          pathPlaceholder: "例如 /specs/functions",
+          emptyList: "请点击重新加载 JSON 读取 qc_report.json",
           all: "全部",
-          tableCols: ["编号", "严重程度", "类型", "检查点", "文件位置"],
           metaLoaded: "已加载 {0} 个问题（行业：{1}）",
           metaEmpty: "未发现问题，质量检查通过！",
           pageInfo: "第 {0} 页，共 {1} 页",
           prev: "上一页",
           next: "下一页",
+          pageSize: "每页条数",
+          reset: "重置",
+          expandAll: "全部展开",
+          collapseAll: "全部折叠",
+          countInfo: "展示 {0} 条 / 总计 {1} 条",
           kStandard: "检查标准来源",
           kExcerpt: "问题原文片段",
           kNonconformance: "不符合说明",
           kFix: "修复建议",
           kKeywords: "关键词",
+          kCheckpoint: "检查点",
+          kType: "类型",
+          kSeverity: "严重程度",
+          kLocation: "文件位置",
           noIssues: "未找到符合条件的问题。"
         },
         ja: {
@@ -146,22 +201,32 @@
           load: "JSONを再読み込み",
           type: "タイプ",
           severity: "重要度",
+          keyword: "キーワード",
+          path: "パス",
           search: "検索",
           searchPlaceholder: "キーワード / テキスト",
-          emptyTable: "「JSONを再読み込み」をクリックして qc_report.json を読み込みます",
-          emptyDetail: "行をクリックして詳細を表示します。",
+          pathPlaceholder: "例: /specs/functions",
+          emptyList: "「JSONを再読み込み」をクリックして qc_report.json を読み込みます",
           all: "すべて",
-          tableCols: ["ID", "重要度", "タイプ", "チェックポイント", "場所"],
           metaLoaded: "{0} 件の問題を読み込みました (業界: {1})",
           metaEmpty: "問題は見つかりませんでした。品質チェック合格！",
           pageInfo: "{0} / {1} ページ",
           prev: "前へ",
           next: "次へ",
+          pageSize: "件数/ページ",
+          reset: "リセット",
+          expandAll: "すべて展開",
+          collapseAll: "すべて折りたたむ",
+          countInfo: "{0} 件表示 / 全 {1} 件",
           kStandard: "基準ソース",
           kExcerpt: "原文の抜粋",
           kNonconformance: "不適合の理由",
           kFix: "修正の提案",
           kKeywords: "キーワード",
+          kCheckpoint: "チェックポイント",
+          kType: "タイプ",
+          kSeverity: "重要度",
+          kLocation: "場所",
           noIssues: "条件に一致する問題は見つかりませんでした。"
         }
       };
@@ -180,8 +245,8 @@
         items: [],
         filteredItems: [],
         page: 1,
-        pageSize: 10,
-        selectedId: null
+        pageSize: 50,
+        openIds: new Set()
       };
 
       function updateI18n() {
@@ -190,34 +255,42 @@
         document.getElementById("uiLoad").textContent = t("load");
         document.getElementById("uiType").textContent = t("type");
         document.getElementById("uiSeverity").textContent = t("severity");
+        document.getElementById("uiKeyword").textContent = t("keyword");
+        document.getElementById("uiPath").textContent = t("path");
         document.getElementById("uiSearch").textContent = t("search");
         document.getElementById("q").placeholder = t("searchPlaceholder");
+        document.getElementById("pathQ").placeholder = t("pathPlaceholder");
         document.getElementById("uiAll1").textContent = t("all");
         document.getElementById("uiAll2").textContent = t("all");
+        document.getElementById("uiAll3").textContent = t("all");
         document.getElementById("prevBtn").textContent = t("prev");
         document.getElementById("nextBtn").textContent = t("next");
+        document.getElementById("uiPageSize").textContent = t("pageSize");
+        document.getElementById("uiReset").textContent = t("reset");
+        document.getElementById("uiExpandAll").textContent = t("expandAll");
+        document.getElementById("uiCollapseAll").textContent = t("collapseAll");
         
         if (state.items.length === 0 && !state.meta.total) {
-          document.getElementById("emptyTable").textContent = t("emptyTable");
+          document.getElementById("emptyList").textContent = t("emptyList");
         } else if (state.items.length === 0) {
-          document.getElementById("emptyTable").textContent = t("metaEmpty");
           document.getElementById("metaInfo").textContent = t("metaEmpty");
         } else {
           document.getElementById("metaInfo").textContent = t("metaLoaded", state.items.length, state.meta.industry_key || 'N/A');
         }
-        
-        if (!state.selectedId) {
-          document.getElementById("emptyDetail").textContent = t("emptyDetail");
-        }
-        
-        renderTable();
-        if (state.selectedId) selectItem(state.selectedId);
+
+        renderList();
       }
 
       document.getElementById("globalLangSelect").addEventListener("change", (e) => {
         currentLang = e.target.value;
         updateI18n();
       });
+
+      function getAllKeywords(items) {
+        const out = new Set();
+        items.forEach(it => (it.keywords || []).forEach(k => out.add(String(k))));
+        return Array.from(out).filter(Boolean).sort((a, b) => a.localeCompare(b));
+      }
 
       async function loadData() {
         try {
@@ -226,6 +299,7 @@
           const data = await res.json();
           state.meta = data.meta || {};
           state.items = data.items || [];
+          state.openIds = new Set();
           
           if (state.meta.language && ["en", "zh-CN", "ja"].includes(state.meta.language)) {
             currentLang = state.meta.language;
@@ -246,6 +320,15 @@
             typeSelect.appendChild(opt);
           });
 
+          const keywordSelect = document.getElementById("keywordFilter");
+          keywordSelect.innerHTML = `<option value="" id="uiAll3">${t("all")}</option>`;
+          getAllKeywords(state.items).forEach(k => {
+            const opt = document.createElement("option");
+            opt.value = k;
+            opt.textContent = k;
+            keywordSelect.appendChild(opt);
+          });
+
           applyFilters();
           updateI18n();
         } catch (e) {
@@ -257,11 +340,21 @@
       function applyFilters() {
         const type = document.getElementById("typeFilter").value;
         const severity = document.getElementById("severityFilter").value;
+        const keyword = document.getElementById("keywordFilter").value;
+        const pathQ = document.getElementById("pathQ").value.trim().toLowerCase();
         const q = document.getElementById("q").value.toLowerCase();
         
         state.filteredItems = state.items.filter(item => {
           if (type && item.type !== type) return false;
           if (severity && item.severity !== severity) return false;
+          if (keyword) {
+            const kws = item.keywords || [];
+            if (!kws.map(String).includes(keyword)) return false;
+          }
+          if (pathQ) {
+            const loc = String(item.location || "").toLowerCase();
+            if (!loc.includes(pathQ)) return false;
+          }
           if (q) {
             const text = [item.id, item.checkpoint, item.location, item.excerpt, item.nonconformance, item.fix_suggestion, ...(item.keywords || [])].join(" ").toLowerCase();
             if (!text.includes(q)) return false;
@@ -270,122 +363,175 @@
         });
         
         state.page = 1;
-        renderTable();
+        renderList();
       }
 
-      function renderTable() {
-        const wrap = document.getElementById("tableWrap");
+      function normalizeSeverity(s) {
+        const sev = String(s || "").toUpperCase();
+        if (sev === "P0") return 0;
+        if (sev === "P1") return 1;
+        if (sev === "P2") return 2;
+        return 9;
+      }
+
+      function compareItems(a, b) {
+        const sa = normalizeSeverity(a.severity);
+        const sb = normalizeSeverity(b.severity);
+        if (sa !== sb) return sa - sb;
+        return String(a.id || "").localeCompare(String(b.id || ""));
+      }
+
+      function renderList() {
+        const wrap = document.getElementById("listWrap");
         wrap.innerHTML = "";
         
         if (state.filteredItems.length === 0) {
-          wrap.innerHTML = `<div class="empty">${state.items.length > 0 ? t("noIssues") : (state.meta.total === 0 ? t("metaEmpty") : t("emptyTable"))}</div>`;
+          wrap.innerHTML = `<div class="empty">${state.items.length > 0 ? t("noIssues") : (state.meta.total === 0 ? t("metaEmpty") : t("emptyList"))}</div>`;
+          document.getElementById("countInfo").textContent = t("countInfo", 0, state.items.length || 0);
           document.getElementById("pageInfo").textContent = t("pageInfo", 1, 1);
           document.getElementById("prevBtn").disabled = true;
           document.getElementById("nextBtn").disabled = true;
           return;
         }
 
-        const totalPages = Math.ceil(state.filteredItems.length / state.pageSize);
+        const sorted = state.filteredItems.slice().sort(compareItems);
+        const totalPages = Math.ceil(sorted.length / state.pageSize);
         document.getElementById("pageInfo").textContent = t("pageInfo", state.page, totalPages);
         document.getElementById("prevBtn").disabled = state.page <= 1;
         document.getElementById("nextBtn").disabled = state.page >= totalPages;
+        document.getElementById("countInfo").textContent = t("countInfo", sorted.length, state.items.length || 0);
 
-        const table = document.createElement("table");
-        const thead = document.createElement("thead");
-        const trh = document.createElement("tr");
-        const headers = i18n[currentLang].tableCols;
-        headers.forEach(h => {
-          const th = document.createElement("th");
-          th.textContent = h;
-          trh.appendChild(th);
-        });
-        thead.appendChild(trh);
-        table.appendChild(thead);
-
-        const tbody = document.createElement("tbody");
         const start = (state.page - 1) * state.pageSize;
-        const end = Math.min(start + state.pageSize, state.filteredItems.length);
-        const pageItems = state.filteredItems.slice(start, end);
+        const end = Math.min(start + state.pageSize, sorted.length);
+        const pageItems = sorted.slice(start, end);
 
         pageItems.forEach(item => {
-          const tr = document.createElement("tr");
-          if (item.id === state.selectedId) tr.className = "active";
-          
-          const sevSpan = document.createElement("span");
-          sevSpan.className = `pill ${item.severity}`;
-          sevSpan.textContent = item.severity;
-          
-          const cols = [
-            item.id,
-            sevSpan,
-            item.type,
-            item.checkpoint,
-            item.location
-          ];
-          
-          cols.forEach(col => {
-            const td = document.createElement("td");
-            if (typeof col === "string") {
-              td.textContent = col;
-            } else {
-              td.appendChild(col);
-            }
-            tr.appendChild(td);
+          const d = document.createElement("details");
+          d.className = "item";
+          if (state.openIds.has(item.id)) d.open = true;
+
+          const s = document.createElement("summary");
+          s.className = "itemSum";
+
+          const sumLeft = document.createElement("div");
+          sumLeft.className = "sumLeft";
+
+          const sev = document.createElement("span");
+          sev.className = `pill ${item.severity}`;
+          sev.textContent = item.severity || "-";
+
+          const sumMain = document.createElement("div");
+          sumMain.className = "sumMain";
+
+          const title = document.createElement("div");
+          title.className = "sumTitle";
+          title.textContent = `${item.id || "-"} · ${item.type || "-"} · ${item.checkpoint || "-"}`;
+
+          const meta = document.createElement("div");
+          meta.className = "sumMeta";
+          meta.textContent = String(item.location || "-");
+
+          sumMain.appendChild(title);
+          sumMain.appendChild(meta);
+
+          sumLeft.appendChild(sev);
+          sumLeft.appendChild(sumMain);
+
+          const sumRight = document.createElement("div");
+          sumRight.className = "sumRight";
+
+          const tType = document.createElement("span");
+          tType.className = "tag muted";
+          tType.textContent = item.type || "-";
+
+          sumRight.appendChild(tType);
+
+          s.appendChild(sumLeft);
+          s.appendChild(sumRight);
+
+          const body = document.createElement("div");
+          body.className = "itemBody";
+          body.innerHTML = `
+            <div class="kv">
+              <div class="k">${t("kSeverity")}</div>
+              <div class="v">${item.severity || "-"}</div>
+              <div class="k">${t("kType")}</div>
+              <div class="v">${item.type || "-"}</div>
+              <div class="k">${t("kCheckpoint")}</div>
+              <div class="v">${item.checkpoint || "-"}</div>
+              <div class="k">${t("kLocation")}</div>
+              <div class="v">${item.location || "-"}</div>
+              <div class="k">${t("kStandard")}</div>
+              <div class="v">${item.standard_source || "-"}</div>
+              <div class="k">${t("kExcerpt")}</div>
+              <div class="v">${item.excerpt || "-"}</div>
+              <div class="k">${t("kNonconformance")}</div>
+              <div class="v danger">${item.nonconformance || "-"}</div>
+              <div class="k">${t("kFix")}</div>
+              <div class="v">${item.fix_suggestion || "-"}</div>
+              <div class="k">${t("kKeywords")}</div>
+              <div class="v kwWrap">${(item.keywords || []).map(k => `<span class="pill">${String(k)}</span>`).join("")}</div>
+            </div>
+          `;
+
+          d.appendChild(s);
+          d.appendChild(body);
+
+          d.addEventListener("toggle", () => {
+            if (!item.id) return;
+            if (d.open) state.openIds.add(item.id);
+            else state.openIds.delete(item.id);
           });
-          
-          tr.addEventListener("click", () => {
-            document.querySelectorAll("tbody tr").forEach(row => row.classList.remove("active"));
-            tr.classList.add("active");
-            selectItem(item.id);
-          });
-          tbody.appendChild(tr);
+
+          wrap.appendChild(d);
         });
-        
-        table.appendChild(tbody);
-        wrap.appendChild(table);
-      }
-
-      function selectItem(id) {
-        state.selectedId = id;
-        const item = state.items.find(i => i.id === id);
-        if (!item) return;
-
-        const detail = document.getElementById("detail");
-        detail.innerHTML = `
-          <div class="k">${t("kStandard")}</div>
-          <div class="v">${item.standard_source || '-'}</div>
-          
-          <div class="k">${t("kExcerpt")}</div>
-          <div class="v">${item.excerpt || '-'}</div>
-          
-          <div class="k">${t("kNonconformance")}</div>
-          <div class="v danger">${item.nonconformance || '-'}</div>
-          
-          <div class="k">${t("kFix")}</div>
-          <div class="v">${item.fix_suggestion || '-'}</div>
-          
-          <div class="k">${t("kKeywords")}</div>
-          <div class="v" style="background:transparent; border:none; padding:0">${(item.keywords || []).map(k => `<span class="pill" style="margin-right:6px; display:inline-block">${k}</span>`).join('')}</div>
-        `;
       }
 
       document.getElementById("loadBtn").addEventListener("click", loadData);
       document.getElementById("typeFilter").addEventListener("change", applyFilters);
       document.getElementById("severityFilter").addEventListener("change", applyFilters);
+      document.getElementById("keywordFilter").addEventListener("change", applyFilters);
+      document.getElementById("pathQ").addEventListener("input", applyFilters);
       document.getElementById("q").addEventListener("input", applyFilters);
+      document.getElementById("pageSize").addEventListener("change", (e) => {
+        const n = Number(e.target.value);
+        state.pageSize = Number.isFinite(n) && n > 0 ? n : 50;
+        state.page = 1;
+        renderList();
+      });
       
       document.getElementById("prevBtn").addEventListener("click", () => {
         if (state.page > 1) {
           state.page--;
-          renderTable();
+          renderList();
         }
       });
       document.getElementById("nextBtn").addEventListener("click", () => {
         const totalPages = Math.ceil(state.filteredItems.length / state.pageSize);
         if (state.page < totalPages) {
           state.page++;
-          renderTable();
+          renderList();
         }
+      });
+
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        document.getElementById("typeFilter").value = "";
+        document.getElementById("severityFilter").value = "";
+        document.getElementById("keywordFilter").value = "";
+        document.getElementById("pathQ").value = "";
+        document.getElementById("q").value = "";
+        state.openIds = new Set();
+        applyFilters();
+      });
+
+      document.getElementById("expandBtn").addEventListener("click", () => {
+        state.filteredItems.forEach(it => { if (it && it.id) state.openIds.add(it.id); });
+        renderList();
+      });
+
+      document.getElementById("collapseBtn").addEventListener("click", () => {
+        state.openIds = new Set();
+        renderList();
       });
 
       // Try loading initially

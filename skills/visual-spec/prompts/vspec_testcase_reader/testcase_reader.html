@@ -13,24 +13,13 @@
       button.secondary { background: #fff; color: #111827; border-color: #d1d5db; }
       button:disabled { opacity: 0.6; cursor: not-allowed; }
 
-      main { display: grid; grid-template-columns: 320px 1fr; gap: 12px; padding: 12px; }
+      main { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px; }
       .panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; min-height: 520px; }
       .panel .hd { padding: 12px 14px; border-bottom: 1px solid #e5e7eb; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
       .panel .bd { padding: 12px 14px; }
 
-      .tree { padding: 10px 8px; }
-      .tree ul { list-style: none; margin: 0; padding-left: 14px; }
-      .tree li { margin: 2px 0; }
-      .tree .node { display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 6px; border-radius: 8px; cursor: pointer; }
-      .tree .node:hover { background: #f3f4f6; }
-      .tree .node.active { background: #e5e7eb; }
-      .tree .caret { width: 10px; color: #6b7280; user-select: none; }
-      .tree .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .tree .muted { color: #6b7280; }
-
       .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
       label { font-size: 12px; color: #374151; }
-      input[type="file"] { display: none; }
       select, input[type="text"] { font-size: 12px; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; color: #111827; }
       .pill { font-size: 12px; padding: 4px 8px; border-radius: 999px; background: #f3f4f6; border: 1px solid #e5e7eb; color: #111827; }
       table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -46,6 +35,11 @@
       .rightBody { padding: 0; }
       .tableWrap { max-height: 360px; overflow: auto; border-top: 1px solid #e5e7eb; }
       .detailWrap { padding: 12px 14px; border-top: 1px solid #e5e7eb; }
+
+      .tabs { display: inline-flex; border: 1px solid #374151; border-radius: 10px; overflow: hidden; }
+      .tabBtn { font-size: 12px; padding: 7px 10px; border: none; background: #111827; color: rgba(255,255,255,0.85); cursor: pointer; }
+      .tabBtnActive { background: #0b74d1; color: #fff; }
+      .tabBtn:disabled { opacity: 0.45; cursor: not-allowed; }
 
       @media (max-width: 1080px) {
         main { grid-template-columns: 1fr; }
@@ -64,30 +58,18 @@
     <header>
       <h1 id="uiH1">Testcase Reader</h1>
       <div class="actions">
-        <button id="pickDirBtn"><span id="uiPickDir">Pick /test folder</span></button>
-        <button id="pickFilesBtn" class="secondary"><span id="uiPickFiles">Pick JSON files</span></button>
-        <input id="pickFilesInput" type="file" multiple accept="application/json,.json" />
+        <div class="tabs" role="tablist" aria-label="Test levels">
+          <button id="tabUnit" class="tabBtn" type="button"></button>
+          <button id="tabIntegration" class="tabBtn" type="button"></button>
+          <button id="tabAcceptance" class="tabBtn" type="button"></button>
+        </div>
       </div>
     </header>
     <main>
-      <aside class="panel">
-        <div class="hd">
-          <span class="pill">/test</span>
-          <span id="treeHint" class="muted" style="font-size:12px">Pick the /test folder to load JSON files.</span>
-        </div>
-        <div class="bd tree" id="tree"></div>
-      </aside>
       <section class="panel split">
         <div class="hd">
-          <span class="pill" id="currentFilePill">No file selected</span>
+          <span class="pill" id="currentFilePill">-</span>
           <div class="row" style="margin-left:auto">
-            <label id="uiLevel">Level</label>
-            <select id="level">
-              <option value="" id="uiAll1">All</option>
-              <option value="acceptance">acceptance</option>
-              <option value="integration">integration</option>
-              <option value="unit">unit</option>
-            </select>
             <label id="uiPriority">Priority</label>
             <select id="priority">
               <option value="" id="uiAll2">All</option>
@@ -111,15 +93,16 @@
       const i18n = {
         en: {
           title: "Testcase Reader",
-          pickDir: "Pick /test folder",
-          pickFiles: "Pick JSON files",
-          treeHint: "Pick the /test folder to load JSON files.",
-          noFile: "No file selected",
-          level: "Level",
+          tabUnit: "Unit",
+          tabIntegration: "Integration",
+          tabAcceptance: "Acceptance",
+          current: "Current",
+          loading: "Loading...",
+          missing: "Missing",
           priority: "Priority",
           search: "Search",
           searchPlaceholder: "id / title / function / scenario",
-          emptyTable: "Select a JSON file from the left tree.",
+          emptyTable: "No test cases loaded.",
           emptyDetail: "Select a test case row to view details.",
           all: "All",
           tableCols: ["ID", "Level", "Priority", "Title", "Function", "Scenario"],
@@ -135,15 +118,16 @@
         },
         "zh-CN": {
           title: "测试用例阅读器",
-          pickDir: "选择 /test 文件夹",
-          pickFiles: "选择 JSON 文件",
-          treeHint: "请选择包含测试用例 JSON 的 /test 文件夹。",
-          noFile: "未选择文件",
-          level: "级别",
+          tabUnit: "单元测试",
+          tabIntegration: "集成测试",
+          tabAcceptance: "验收用例",
+          current: "当前",
+          loading: "加载中...",
+          missing: "缺失",
           priority: "优先级",
           search: "搜索",
           searchPlaceholder: "编号 / 标题 / 功能 / 场景",
-          emptyTable: "请从左侧树中选择一个 JSON 文件。",
+          emptyTable: "未加载任何测试用例。",
           emptyDetail: "请点击表格行以查看用例详情。",
           all: "全部",
           tableCols: ["编号", "级别", "优先级", "标题", "关联功能", "关联场景"],
@@ -159,15 +143,16 @@
         },
         ja: {
           title: "テストケースリーダー",
-          pickDir: "/test フォルダを選択",
-          pickFiles: "JSONファイルを選択",
-          treeHint: "テストケースJSONを含む /test フォルダを選択してください。",
-          noFile: "ファイルが選択されていません",
-          level: "レベル",
+          tabUnit: "単体",
+          tabIntegration: "結合",
+          tabAcceptance: "受入",
+          current: "現在",
+          loading: "読み込み中...",
+          missing: "なし",
           priority: "優先度",
           search: "検索",
           searchPlaceholder: "ID / タイトル / 機能 / シナリオ",
-          emptyTable: "左側のツリーから JSON ファイルを選択してください。",
+          emptyTable: "テストケースが読み込まれていません。",
           emptyDetail: "行をクリックしてテストケースの詳細を表示します。",
           all: "すべて",
           tableCols: ["ID", "レベル", "優先度", "タイトル", "関連機能", "関連シナリオ"],
@@ -187,10 +172,13 @@
       function t(key) { return i18n[currentLang][key] || i18n["en"][key] || key; }
 
       const state = {
-        files: new Map(),
-        cases: [],
+        datasets: {
+          unit: { key: "unit", labelKey: "tabUnit", path: "./单元测试/unit_test_cases.json", cases: [], ok: null },
+          integration: { key: "integration", labelKey: "tabIntegration", path: "./集成测试/integration_test_cases.json", cases: [], ok: null },
+          acceptance: { key: "acceptance", labelKey: "tabAcceptance", path: "./验收用例/acceptance_cases.json", cases: [], ok: null },
+        },
+        activeKey: "unit",
         selectedCaseId: null,
-        selectedFileKey: null,
       };
 
       function normalizeCase(c) {
@@ -253,23 +241,27 @@
       }
 
       function renderTable() {
-        const level = document.getElementById("level").value;
         const priority = document.getElementById("priority").value;
         const q = document.getElementById("q").value.trim();
-        const list = state.cases.filter((c) => matchFilter(c, level, priority, q));
+        const cases = state.datasets[state.activeKey] ? state.datasets[state.activeKey].cases : [];
+        const list = cases.filter((c) => matchFilter(c, "", priority, q));
         renderSummary(list);
 
         const wrap = document.getElementById("tableWrap");
         if (list.length === 0) {
           wrap.className = "tableWrap empty";
-          wrap.textContent = "No matching test cases.";
+          wrap.textContent = t("emptyTable");
           return;
         }
 
         const table = document.createElement("table");
         const thead = document.createElement("thead");
         const trh = document.createElement("tr");
-        const headers = ["ID", "Level", "Function", "Title", "Priority", "Category", "Scenario"];
+        const headers = currentLang === "zh-CN"
+          ? ["编号", "级别", "关联功能", "标题", "优先级", "类别", "关联场景"]
+          : currentLang === "ja"
+            ? ["ID", "レベル", "関連機能", "タイトル", "優先度", "分類", "関連シナリオ"]
+            : ["ID", "Level", "Function", "Title", "Priority", "Category", "Scenario"];
         for (const h of headers) {
           const th = document.createElement("th");
           th.textContent = h;
@@ -310,7 +302,7 @@
         const el = document.getElementById("detail");
         if (!c) {
           el.className = "detailWrap empty";
-          el.textContent = "Select a test case row to view details.";
+          el.textContent = t("emptyDetail");
           return;
         }
         const raw = c.raw;
@@ -347,190 +339,113 @@
 
       function selectCase(id) {
         state.selectedCaseId = id;
-        const c = state.cases.find((x) => x.id === id);
+        const cases = state.datasets[state.activeKey] ? state.datasets[state.activeKey].cases : [];
+        const c = cases.find((x) => x.id === id);
         renderDetail(c);
-      }
-
-      function buildTree(paths) {
-        const root = { name: "", type: "dir", children: new Map(), path: "" };
-        for (const p of paths) {
-          const parts = p.split("/").filter(Boolean);
-          let cur = root;
-          let acc = "";
-          for (let i = 0; i < parts.length; i++) {
-            const part = parts[i];
-            acc = acc ? `${acc}/${part}` : part;
-            const isLast = i === parts.length - 1;
-            const isFile = isLast && part.endsWith(".json");
-            const key = isFile ? stripJsonExt(part) : part;
-            const nextPath = isFile ? `${acc}` : `${acc}`;
-            if (!cur.children.has(key)) {
-              cur.children.set(key, {
-                name: key,
-                type: isFile ? "file" : "dir",
-                children: new Map(),
-                path: nextPath,
-              });
-            }
-            cur = cur.children.get(key);
-          }
-        }
-        return root;
-      }
-
-      function renderTree() {
-        const treeEl = document.getElementById("tree");
-        const keys = Array.from(state.files.keys()).sort((a, b) => a.localeCompare(b));
-        if (keys.length === 0) {
-          treeEl.innerHTML = `<div class="empty">Pick the /test folder or select JSON files.</div>`;
-          return;
-        }
-        const tree = buildTree(keys);
-
-        function renderNode(node) {
-          if (node.type === "file") {
-            const div = document.createElement("div");
-            div.className = "node" + (state.selectedFileKey === node.path ? " active" : "");
-            div.innerHTML = `<span class="caret"></span><span class="name">${escapeHtml(node.name)}</span>`;
-            div.addEventListener("click", () => loadFile(node.path));
-            const li = document.createElement("li");
-            li.appendChild(div);
-            return li;
-          }
-
-          const li = document.createElement("li");
-          const caret = document.createElement("span");
-          caret.className = "caret";
-          caret.textContent = "▾";
-          const div = document.createElement("div");
-          div.className = "node";
-          const name = document.createElement("span");
-          name.className = "name";
-          name.textContent = node.name || "/test";
-          div.appendChild(caret);
-          div.appendChild(name);
-          li.appendChild(div);
-
-          const ul = document.createElement("ul");
-          const childNodes = Array.from(node.children.values()).sort((a, b) => {
-            if (a.type !== b.type) return a.type === "dir" ? -1 : 1;
-            return a.name.localeCompare(b.name);
-          });
-          for (const child of childNodes) ul.appendChild(renderNode(child));
-          li.appendChild(ul);
-
-          let expanded = true;
-          div.addEventListener("click", () => {
-            expanded = !expanded;
-            caret.textContent = expanded ? "▾" : "▸";
-            ul.style.display = expanded ? "" : "none";
-          });
-          return li;
-        }
-
-        const topUl = document.createElement("ul");
-        const rootChildren = Array.from(tree.children.values()).sort((a, b) => {
-          if (a.type !== b.type) return a.type === "dir" ? -1 : 1;
-          return a.name.localeCompare(b.name);
-        });
-        for (const child of rootChildren) topUl.appendChild(renderNode(child));
-        treeEl.innerHTML = "";
-        treeEl.appendChild(topUl);
       }
 
       async function parseJsonCases(text) {
         const parsed = JSON.parse(text);
-        const cases = Array.isArray(parsed.cases) ? parsed.cases : [];
+        const cases = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.cases) ? parsed.cases : []);
         return cases.map(normalizeCase).filter((c) => c.id);
       }
 
-      async function loadFile(fileKey) {
-        const entry = state.files.get(fileKey);
-        if (!entry) return;
-        state.selectedFileKey = fileKey;
+      function setActive(key) {
+        state.activeKey = key;
         state.selectedCaseId = null;
-        renderTree();
-        document.getElementById("currentFilePill").textContent = stripJsonExt(fileKey.split("/").pop() || fileKey);
+        const ds = state.datasets[state.activeKey];
+        document.getElementById("currentFilePill").textContent = `${t("current")}: ${t(ds.labelKey)} (${ds.ok ? "OK" : t("missing")})`;
         renderDetail(null);
-        document.getElementById("tableWrap").className = "tableWrap empty";
-        document.getElementById("tableWrap").textContent = "Loading...";
-        try {
-          let text = "";
-          if (entry.kind === "handle") {
-            const f = await entry.handle.getFile();
-            text = await f.text();
-          } else {
-            text = await entry.file.text();
-          }
-          state.cases = await parseJsonCases(text);
-        } catch {
-          state.cases = [];
-        }
+        renderTabs();
         renderTable();
       }
 
-      async function pickDirectory() {
-        if (!window.showDirectoryPicker) return;
-        const dir = await window.showDirectoryPicker();
-        const files = new Map();
-        async function walk(handle, prefix) {
-          for await (const [name, child] of handle.entries()) {
-            const p = prefix ? `${prefix}/${name}` : name;
-            if (child.kind === "directory") {
-              await walk(child, p);
-            } else if (child.kind === "file" && name.endsWith(".json")) {
-              files.set(p, { kind: "handle", handle: child });
+      function applyLang() {
+        document.getElementById("uiTitle").textContent = t("title");
+        document.title = t("title");
+        document.getElementById("uiH1").textContent = t("title");
+        document.getElementById("uiPriority").textContent = t("priority");
+        document.getElementById("uiSearch").textContent = t("search");
+        const q = document.getElementById("q");
+        q.placeholder = t("searchPlaceholder");
+        document.getElementById("uiAll2").textContent = t("all");
+        renderTabs();
+        setActive(state.activeKey);
+      }
+
+      function renderTabs() {
+        const btns = {
+          unit: document.getElementById("tabUnit"),
+          integration: document.getElementById("tabIntegration"),
+          acceptance: document.getElementById("tabAcceptance"),
+        };
+        for (const k of Object.keys(btns)) {
+          const ds = state.datasets[k];
+          const btn = btns[k];
+          if (!btn) continue;
+          btn.textContent = t(ds.labelKey);
+          btn.className = "tabBtn" + (state.activeKey === k ? " tabBtnActive" : "");
+          btn.disabled = ds.ok === false;
+        }
+      }
+
+      async function loadAll() {
+        for (const k of Object.keys(state.datasets)) {
+          const ds = state.datasets[k];
+          ds.ok = null;
+          ds.cases = [];
+        }
+        renderTabs();
+        document.getElementById("tableWrap").className = "tableWrap empty";
+        document.getElementById("tableWrap").textContent = t("loading");
+
+        for (const k of Object.keys(state.datasets)) {
+          const ds = state.datasets[k];
+          try {
+            const res = await fetch(ds.path, { cache: "no-store" });
+            if (!res.ok) throw new Error(String(res.status));
+            const text = await res.text();
+            ds.cases = await parseJsonCases(text);
+            for (const c of ds.cases) {
+              if (!c.level) c.level = ds.key;
+              if (c.raw && !c.raw.level) c.raw.level = ds.key;
             }
+            ds.ok = true;
+          } catch {
+            ds.cases = [];
+            ds.ok = false;
           }
         }
-        await walk(dir, "");
-        state.files = files;
-        state.cases = [];
-        state.selectedCaseId = null;
-        state.selectedFileKey = null;
-        document.getElementById("currentFilePill").textContent = "No file selected";
-        renderSummary([]);
-        document.getElementById("tableWrap").className = "tableWrap empty";
-        document.getElementById("tableWrap").textContent = "Select a JSON file from the left tree.";
-        renderDetail(null);
-        renderTree();
+
+        const firstOk = Object.keys(state.datasets).find((k) => state.datasets[k].ok);
+        state.activeKey = firstOk || "unit";
+        renderTabs();
+        setActive(state.activeKey);
       }
 
-      async function pickFiles(fileList) {
-        const files = new Map();
-        for (const f of fileList) {
-          if (!f.name.endsWith(".json")) continue;
-          files.set(f.name, { kind: "file", file: f });
-        }
-        state.files = files;
-        state.cases = [];
-        state.selectedCaseId = null;
-        state.selectedFileKey = null;
-        document.getElementById("currentFilePill").textContent = "No file selected";
-        renderSummary([]);
-        document.getElementById("tableWrap").className = "tableWrap empty";
-        document.getElementById("tableWrap").textContent = "Select a JSON file from the left tree.";
-        renderDetail(null);
-        renderTree();
-      }
-
-      document.getElementById("pickDirBtn").addEventListener("click", async () => {
-        try {
-          await pickDirectory();
-        } catch {
-        }
+      const langSelect = document.getElementById("globalLangSelect");
+      (function initLang() {
+        const navLang = navigator.language || "";
+        if (navLang.startsWith("zh")) currentLang = "zh-CN";
+        else if (navLang.startsWith("ja")) currentLang = "ja";
+        else currentLang = "en";
+        langSelect.value = currentLang;
+        document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+      })();
+      langSelect.addEventListener("change", () => {
+        currentLang = langSelect.value;
+        document.documentElement.lang = currentLang === "zh-CN" ? "zh-CN" : currentLang;
+        applyLang();
       });
-      document.getElementById("pickFilesBtn").addEventListener("click", () => document.getElementById("pickFilesInput").click());
-      document.getElementById("pickFilesInput").addEventListener("change", (e) => pickFiles(e.target.files || []));
-      document.getElementById("level").addEventListener("change", renderTable);
+
+      document.getElementById("tabUnit").addEventListener("click", () => setActive("unit"));
+      document.getElementById("tabIntegration").addEventListener("click", () => setActive("integration"));
+      document.getElementById("tabAcceptance").addEventListener("click", () => setActive("acceptance"));
       document.getElementById("priority").addEventListener("change", renderTable);
       document.getElementById("q").addEventListener("input", renderTable);
 
-      if (!window.showDirectoryPicker) {
-        document.getElementById("treeHint").textContent = "Your browser does not support folder picking. Use “Pick JSON files”.";
-        document.getElementById("pickDirBtn").disabled = true;
-      }
-      renderTree();
+      applyLang();
+      loadAll();
     </script>
   </body>
 </html>

@@ -164,11 +164,19 @@
     <text class="boxTextYellow" x="1018" y="410" text-anchor="middle">File</text>
     <text class="boxTextYellow" x="1018" y="428" text-anchor="middle">Import/Export</text>
     <rect class="boxBlue" x="1090" y="392" width="100" height="40"/>
-    <text class="boxTextBlue" x="1140" y="416" text-anchor="middle">Infra</text>
+    <text class="boxTextBlue" x="1140" y="416" text-anchor="middle">Cron Job</text>
     <rect class="boxYellow" x="1198" y="392" width="100" height="40"/>
-    <text class="boxTextYellow" x="1248" y="406" text-anchor="middle">Cron</text>
-    <text class="boxTextYellow" x="1248" y="418" text-anchor="middle">MQ</text>
-    <text class="boxTextYellow" x="1248" y="430" text-anchor="middle">Cache</text>
+    <text class="boxTextYellow" x="1248" y="416" text-anchor="middle">Cron Job</text>
+
+    <rect class="boxBlue" x="1090" y="442" width="100" height="40"/>
+    <text class="boxTextBlue" x="1140" y="466" text-anchor="middle">Message Queue</text>
+    <rect class="boxYellow" x="1198" y="442" width="100" height="40"/>
+    <text class="boxTextYellow" x="1248" y="466" text-anchor="middle">Message Queue</text>
+
+    <rect class="boxBlue" x="860" y="442" width="100" height="40"/>
+    <text class="boxTextBlue" x="910" y="466" text-anchor="middle">Cache</text>
+    <rect class="boxYellow" x="968" y="442" width="100" height="40"/>
+    <text class="boxTextYellow" x="1018" y="466" text-anchor="middle">Cache</text>
 
     <path class="arrowBlue" marker-end="url(#arrowHeadBlue)" d="M 1070 442 L 1070 510"/>
     <rect class="outBox" x="990" y="518" width="160" height="38"/>

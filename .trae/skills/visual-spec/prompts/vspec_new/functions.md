@@ -193,8 +193,11 @@ JSON 与 HTML 写入要求（必须）：
    - 目标路径：`/specs/functions/functions.html`
    - 若该文件已存在：不得覆盖、不得重复生成，直接复用
    - 若不存在：才生成一次
-   - 模板来源：读取本 Skill 内置模板 `prompts/vspec_new/functions.html` 并写入目标路径（只读读取模板）
-   - 复制规则（必须）：写入内容必须与模板文件内容完全一致（逐字节一致）；不得由你“重新生成/改写/美化/格式化”HTML
+   - 模板来源（必须严格选用 new 目录下模板，禁止串用其他命令目录的 HTML）：
+     - 必须读取并逐字节复制：`prompts/vspec_new/functions.html`
+     - 或（当你无法访问 Skill 根目录时）读取并逐字节复制：`skills/visual-spec/prompts/vspec_new/functions.html`
+   - 复制规则（必须）：写入内容必须与所选模板文件内容完全一致（逐字节一致）；不得由你“重新生成/改写/美化/格式化”HTML
+   - 写入后自检（必须）：重新读取 `/specs/functions/functions.html`，其内容必须与模板逐字节一致；若不一致：必须立即用模板覆盖并再次自检直到一致
    - 该页面默认加载同目录 `./functions.json` 并渲染表格；必须对“系统/模块/功能”三列做合并单元格（rowspan）以提升阅读体验
 
 端分配规则（必须，影响后续原型生成）：

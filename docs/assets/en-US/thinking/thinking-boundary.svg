@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .card{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .title{font:700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .text{font:500 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .pill{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .pillText{font:700 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#1d4ed8}
+      .line{stroke:#2563eb;stroke-width:3}
+      .dash{stroke:#93c5fd;stroke-width:3;stroke-dasharray:8 6}
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="360"/>
+  <rect class="card" x="140" y="64" width="680" height="232" rx="16"/>
+  <text class="title" x="160" y="98">Boundary thinking</text>
+  <text class="muted" x="160" y="122">Draw the boundary first: in-scope, out-of-scope, and “not applicable” conditions</text>
+
+  <rect class="card" x="260" y="148" width="440" height="124" rx="14"/>
+  <text class="title" x="282" y="180">Scope</text>
+  <text class="text" x="282" y="206">Goals / Non-goals</text>
+  <text class="text" x="282" y="228">Included / Excluded</text>
+  <text class="text" x="282" y="250">Edge conditions: when it applies / when it doesn’t</text>
+
+  <rect class="pill" x="168" y="156" width="92" height="28" rx="14"/>
+  <text class="pillText" x="214" y="175" text-anchor="middle">Role</text>
+  <rect class="pill" x="168" y="198" width="92" height="28" rx="14"/>
+  <text class="pillText" x="214" y="217" text-anchor="middle">Data</text>
+  <rect class="pill" x="168" y="240" width="92" height="28" rx="14"/>
+  <text class="pillText" x="214" y="259" text-anchor="middle">Time</text>
+
+  <rect class="pill" x="700" y="156" width="112" height="28" rx="14"/>
+  <text class="pillText" x="756" y="175" text-anchor="middle">Org</text>
+  <rect class="pill" x="700" y="198" width="112" height="28" rx="14"/>
+  <text class="pillText" x="756" y="217" text-anchor="middle">Permission</text>
+  <rect class="pill" x="700" y="240" width="112" height="28" rx="14"/>
+  <text class="pillText" x="756" y="259" text-anchor="middle">Channel</text>
+
+  <line class="dash" x1="260" y1="170" x2="260" y2="170"/>
+  <line class="dash" x1="260" y1="212" x2="260" y2="212"/>
+  <line class="dash" x1="260" y1="254" x2="260" y2="254"/>
+  <line class="dash" x1="700" y1="170" x2="700" y2="170"/>
+  <line class="dash" x1="700" y1="212" x2="700" y2="212"/>
+  <line class="dash" x1="700" y1="254" x2="700" y2="254"/>
+
+  <path class="line" d="M156 286 C250 320, 710 320, 804 286" fill="none"/>
+  <text class="muted" x="480" y="336" text-anchor="middle">Clear boundaries turn debates into alignment and trade-offs</text>
+</svg>

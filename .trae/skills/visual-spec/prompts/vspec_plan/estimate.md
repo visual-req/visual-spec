@@ -65,10 +65,12 @@
    - 允许的故事点集合（`allowedStoryPoints`）
    - 点数语义表（`scalePoints`）
    - 常见工作项的推荐点数参考（`workItemBenchmarks`）
-3. 可用阅读器查看标准值（不要求输出到 `/specs/plan/plan_estimate.md`）：
+3. 可用阅读器查看标准值（必须复用预设 HTML，禁止另起炉灶生成新 HTML）：
    - Skill 根目录下：`/prompts/vspec_plan/estimation_standards_reader.html`
    - 本仓库源码路径：`skills/visual-spec/prompts/vspec_plan/estimation_standards_reader.html`
+   - 若本次执行需要输出阅读器到项目成果物目录：必须逐字节复制该模板到 `/specs/plan/estimation_standards_reader.html`，禁止生成其他名称或结构不同的 HTML 文件
 
 输出与写入要求：
 1. 写入估算 markdown：`/specs/plan/plan_estimate.md`
 2. 若 `/specs/plan` 不存在，请先创建目录
+3. 除 `/specs/plan/plan_schedule.html`（排期页模板复用）与可选的 `/specs/plan/estimation_standards_reader.html`（阅读器模板复用）外：禁止生成或写入任何其他 HTML 文件

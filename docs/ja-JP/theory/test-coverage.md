@@ -2,7 +2,11 @@
 
 本ページでは、代表的なカバレッジ指標の意味と限界を整理し、同じコード例で「100% カバレッジでもロジック漏れが起きる」ことを説明します。
 
+![カバレッジ強度の階段（例）](../../assets/ja-JP/test/test-coverage-overview.svg)
+
 ### 1) 命令（ステートメント）カバレッジ
+
+![命令カバレッジの図](../../assets/ja-JP/test/test-coverage-statement.svg)
 
 定義：実行可能な文（ステートメント）が実行された割合。
 
@@ -12,6 +16,8 @@
 
 ### 2) 分岐（ブランチ）カバレッジ
 
+![分岐カバレッジの図](../../assets/ja-JP/test/test-coverage-branch.svg)
+
 定義：各判定点（`if`、`switch` など）について、各分岐（True/False や各 `case`）が少なくとも 1 回は実行されること。
 
 ポイント：
@@ -20,6 +26,8 @@
 
 ### 3) 条件カバレッジ
 
+![条件カバレッジの図](../../assets/ja-JP/test/test-coverage-condition.svg)
+
 定義：複合条件式内の各原子条件（例：`A`、`B`）が、それぞれ True と False を取ること。
 
 ポイント：
@@ -27,6 +35,8 @@
 - 実務では分岐カバレッジと合わせて見ることが多いです。
 
 ### 4) 条件分岐カバレッジ（Condition/Branch Coverage）
+
+![条件分岐カバレッジの図](../../assets/ja-JP/test/test-coverage-condition-branch.svg)
 
 定義：以下の両方を満たすこと。
 - 分岐カバレッジ（各判定点の True/False を網羅）
@@ -38,6 +48,8 @@
 
 ### 5) パスカバレッジ
 
+![パスカバレッジの図](../../assets/ja-JP/test/test-coverage-path.svg)
+
 定義：入口から出口までの「実行可能な経路（分岐の組合せ）」の網羅度。
 
 ポイント：
@@ -48,44 +60,44 @@
 
 ## 例：同じコードでも、指標が違えば意味が違う
 
+![判定木とケースの命中（例）](../../assets/ja-JP/test/test-coverage-example-tree.svg)
+
 例のコード：
 
 ```ts
-export function canSubmit(isDraft: boolean, hasPermission: boolean, quotaOk: boolean) {
-  if (isDraft && hasPermission) {
-    if (quotaOk) return true;
-    return false;
-  }
-  return false;
+export function calcX(a: number, b: number, x: number) {
+  if (a > 1 && b === 0) x = x / a;
+  if (a === 2 || x > 1) x = x + 1;
+  return x;
 }
 ```
 
 判定点：
-- 判定 1：`isDraft && hasPermission`
-- 判定 2：`quotaOk`
+- 判定 1：`a > 1 && b === 0`
+- 判定 2：`a === 2 || x > 1`
 
 ### A) 分岐カバレッジ 100% の最小セット（例）
 
-| ケース | isDraft | hasPermission | quotaOk | 期待値 | カバー内容 |
+| ケース | a | b | x | 期待値（返る x） | カバー内容 |
 | --- | --- | --- | --- | --- | --- |
-| T1 | true | true | true | true | 判定1=True、判定2=True |
-| T2 | true | true | false | false | 判定2=False |
-| T3 | false | true | (n/a) | false | 判定1=False（短絡） |
+| T1 | 2 | 0 | 3 | 2 | 判定1=True、判定2=True、2つの文が実行 |
+| T2 | 2 | 1 | 3 | 4 | 判定1=False、判定2=True、`x=x+1` のみ実行 |
+| T3 | 1 | 0 | 1 | 1 | 判定1=False、判定2=False、どの文も実行されない |
 
 このセットで達成しがちなもの：
 - 高い命令カバレッジ
 - 判定 1/2 の分岐（True/False）を網羅
 
-ただし、次のような意味の違いを取りこぼす可能性があります：
-- `isDraft=true, hasPermission=false`（判定1=False でも業務意味が異なる）
+ただし、次のような取りこぼしがあります：
+- 複合条件内の原子条件（例：`b===0`）の True/False 反転、`x>1` の境界
 
 ### B) 条件を「反転」させて、条件カバレッジを意味あるものにする
 
 追加で 1 ケース：
 
-| ケース | isDraft | hasPermission | quotaOk | 期待値 | カバー内容 |
+| ケース | a | b | x | 期待値（返る x） | カバー内容 |
 | --- | --- | --- | --- | --- | --- |
-| T4 | true | false | (n/a) | false | hasPermission=False を明示（短絡） |
+| T4 | 3 | 0 | 1 | 1.333... | `a===2` を False にしつつ `x>1` を True にして判定2=True を検証 |
 
 これにより、分岐網羅に加えて原子条件の反転も確認でき、条件分岐カバレッジに近づきます。
 

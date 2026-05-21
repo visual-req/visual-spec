@@ -17,6 +17,16 @@ In visual-spec, Verification (build the right spec) and Validation (build the ri
 
 ![Scenario-driven review entry](../../assets/en-US/visual-spec-scenarios.svg)
 
+![Scenario review entry (example)](../../assets/en-US/images/scenario-based-v-v.png)
+
+### Why “Scenario - Node - Function - Detail” is a great reading structure
+
+- Scenario: start from business goals and user value. This is the best entry for Validation. Reviewing “do key scenarios work end-to-end?” yields fast, actionable conclusions.
+- Node: break a scenario into a step chain. Feedback can land precisely on “which step is wrong / what’s missing”, instead of vague “the whole thing feels off”.
+- Function: map nodes to the system’s function list (`/specs/functions`). This aligns “business steps” with “system capabilities” and makes cross-system dependencies explicit.
+- Detail: drill each function down to implementable/testable specs (`/specs/details`) such as RBAC, data permissions, page load & interaction, service/job logic, etc. This supports Verification.
+- The four layers form a natural traceability path: review from scenario → locate the node → map back to function list → drill down to the concrete detail docs. Changes and regression checks stay localized.
+
 ### Concrete examples (not generic statements)
 
 - Example: your spec says “Task has a `priority` field”, but the generated model `/specs/models/task.md` omits `priority`  

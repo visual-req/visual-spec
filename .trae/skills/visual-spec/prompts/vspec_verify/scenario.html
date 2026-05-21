@@ -265,6 +265,16 @@
         justify-content: space-between;
         gap: 12px;
         padding: 12px 12px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .step:hover {
+        border-color: rgba(11, 116, 209, 0.30);
+        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
+      }
+      .stepActive {
+        border-color: rgba(11, 116, 209, 0.46);
+        background: rgba(11, 116, 209, 0.06);
       }
       .stepLeft {
         display: flex;
@@ -301,6 +311,108 @@
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
+      }
+      .nodePreviewGrid {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: 1fr 1.1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .previewPanel {
+        border: 1px solid rgba(17, 24, 39, 0.10);
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        min-width: 0;
+      }
+      .previewHeader {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(17, 24, 39, 0.10);
+        background: rgba(17, 24, 39, 0.02);
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .previewTitleWrap {
+        min-width: 0;
+      }
+      .previewTitle {
+        font-size: 13px;
+        font-weight: 800;
+        color: rgba(17, 24, 39, 0.92);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .previewMeta {
+        margin-top: 4px;
+        font-size: 12px;
+        color: rgba(17, 24, 39, 0.64);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .previewToolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(17, 24, 39, 0.10);
+      }
+      .tabs {
+        display: inline-flex;
+        border: 1px solid rgba(17, 24, 39, 0.12);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .tabBtn {
+        border: none;
+        background: rgba(17, 24, 39, 0.02);
+        padding: 8px 10px;
+        font-weight: 800;
+        font-size: 12px;
+        cursor: pointer;
+        color: rgba(17, 24, 39, 0.88);
+      }
+      .tabBtnActive {
+        background: var(--primary);
+        color: #ffffff;
+      }
+      .tabBtn[disabled] {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .previewFrameWrap {
+        height: 520px;
+        background: rgba(17, 24, 39, 0.02);
+        position: relative;
+      }
+      .previewFrame {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: #ffffff;
+      }
+      .previewEmpty {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 18px;
+        color: rgba(17, 24, 39, 0.62);
+        font-size: 13px;
+        text-align: center;
+      }
+      @media (max-width: 980px) {
+        .nodePreviewGrid {
+          grid-template-columns: 1fr;
+        }
+        .previewFrameWrap {
+          height: 440px;
+        }
       }
       .btn {
         appearance: none;
@@ -421,12 +533,36 @@
                 </div>
               </div>
 
-              <div class="sectionTitle" id="uiSteps"></div>
-              <div id="nodes" class="steps"></div>
+              <div class="nodePreviewGrid">
+                <div>
+                  <div class="sectionTitle" id="uiSteps"></div>
+                  <div id="nodes" class="steps"></div>
 
-              <div class="noteBox">
-                <div class="noteLabel" id="uiNotes"></div>
-                <textarea id="note" class="textArea"></textarea>
+                  <div class="noteBox">
+                    <div class="noteLabel" id="uiNotes"></div>
+                    <textarea id="note" class="textArea"></textarea>
+                  </div>
+                </div>
+
+                <div class="previewPanel" aria-label="Prototype preview">
+                  <div class="previewHeader">
+                    <div class="previewTitleWrap">
+                      <div class="previewTitle" id="uiPreview">Prototype</div>
+                      <div class="previewMeta" id="previewMeta">-</div>
+                    </div>
+                  </div>
+                  <div class="previewToolbar">
+                    <div class="tabs" role="tablist" aria-label="Preview mode">
+                      <button id="tabWeb" class="tabBtn" type="button"></button>
+                      <button id="tabMobile" class="tabBtn" type="button"></button>
+                    </div>
+                    <a id="openNewTab" class="btn btnPrimary" href="javascript:void(0)" target="_blank" rel="noopener" aria-disabled="true"></a>
+                  </div>
+                  <div class="previewFrameWrap">
+                    <iframe id="previewFrame" class="previewFrame" title="Prototype preview" style="display: none"></iframe>
+                    <div id="previewEmpty" class="previewEmpty"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -454,6 +590,9 @@
             triggerKey: "Trigger",
             expectedKey: "Expected result",
             steps: "Steps",
+            preview: "Prototype",
+            previewEmpty: "Select a step to preview its prototype. You can also open it in a new tab.",
+            openNewTab: "Open in new tab",
             openPrototype: "View prototype",
             openWeb: "Web",
             openMobile: "Mobile"
@@ -475,6 +614,9 @@
             triggerKey: "触发条件",
             expectedKey: "预期结果",
             steps: "流程步骤",
+            preview: "原型预览",
+            previewEmpty: "点击流程节点即可预览对应界面原型，也可以在新标签页打开。",
+            openNewTab: "新标签页打开",
             openPrototype: "查看原型",
             openWeb: "Web",
             openMobile: "Mobile"
@@ -496,6 +638,9 @@
             triggerKey: "トリガー",
             expectedKey: "期待結果",
             steps: "手順",
+            preview: "プロトタイプ",
+            previewEmpty: "手順（ノード）をクリックすると該当画面をプレビューできます。別タブで開くことも可能です。",
+            openNewTab: "新しいタブで開く",
             openPrototype: "原型を見る",
             openWeb: "Web",
             openMobile: "Mobile"
@@ -597,10 +742,22 @@
         const $sceneParticipantsVal = document.getElementById("sceneParticipantsVal");
         const $sceneTriggerVal = document.getElementById("sceneTriggerVal");
         const $sceneExpectedVal = document.getElementById("sceneExpectedVal");
+        const $previewMeta = document.getElementById("previewMeta");
+        const $previewFrame = document.getElementById("previewFrame");
+        const $previewEmpty = document.getElementById("previewEmpty");
+        const $tabWeb = document.getElementById("tabWeb");
+        const $tabMobile = document.getElementById("tabMobile");
+        const $openNewTab = document.getElementById("openNewTab");
+        const $uiPreview = document.getElementById("uiPreview");
 
         let scenarios = [];
         let store = loadStore();
         let activeId = "";
+        let activeNodeIndex = 0;
+        let activeNodeMode = "web";
+
+        if ($tabWeb) $tabWeb.addEventListener("click", () => { activeNodeMode = "web"; renderScene(); });
+        if ($tabMobile) $tabMobile.addEventListener("click", () => { activeNodeMode = "mobile"; renderScene(); });
 
         function getSceneStore(id) {
           const v = store[id] || {};
@@ -630,6 +787,11 @@
           document.getElementById("uiTriggerKey").textContent = t("triggerKey");
           document.getElementById("uiExpectedKey").textContent = t("expectedKey");
           document.getElementById("uiSteps").textContent = t("steps");
+          if ($uiPreview) $uiPreview.textContent = t("preview");
+          if ($tabWeb) $tabWeb.textContent = t("openWeb");
+          if ($tabMobile) $tabMobile.textContent = t("openMobile");
+          if ($openNewTab) $openNewTab.textContent = t("openNewTab");
+          if ($previewEmpty) $previewEmpty.textContent = t("previewEmpty");
         }
 
         function renderList() {
@@ -642,6 +804,8 @@
             row.className = "item" + (s.id === activeId ? " itemActive" : "");
             row.addEventListener("click", () => {
               activeId = s.id;
+              activeNodeIndex = 0;
+              activeNodeMode = "web";
               render();
             });
 
@@ -689,10 +853,13 @@
             return;
           }
 
+          const maxIdx = Math.max(0, scene.nodes.length - 1);
+          activeNodeIndex = Math.min(Math.max(0, activeNodeIndex || 0), maxIdx);
+
           for (let idx = 0; idx < scene.nodes.length; idx++) {
             const n = scene.nodes[idx];
             const step = document.createElement("div");
-            step.className = "step";
+            step.className = "step" + (idx === activeNodeIndex ? " stepActive" : "");
 
             const left = document.createElement("div");
             left.className = "stepLeft";
@@ -757,9 +924,64 @@
               right.appendChild(a);
             }
 
+            step.addEventListener("click", (e) => {
+              const target = e.target;
+              if (target && target.tagName === "A") return;
+              activeNodeIndex = idx;
+              if (routeWeb) activeNodeMode = "web";
+              else if (routeMobile) activeNodeMode = "mobile";
+              renderScene();
+            });
+
             step.appendChild(left);
             step.appendChild(right);
             $nodes.appendChild(step);
+          }
+        }
+
+        function getActiveNode(scene) {
+          const nodes = scene && Array.isArray(scene.nodes) ? scene.nodes : [];
+          if (!nodes.length) return null;
+          const idx = Math.min(Math.max(0, activeNodeIndex || 0), nodes.length - 1);
+          return nodes[idx] || null;
+        }
+
+        function updatePreview(scene) {
+          const node = getActiveNode(scene);
+          const routeWeb = String(node?.route || "").trim();
+          const routeMobile = String(node?.mobileRoute || "").trim();
+          const hasWeb = !!routeWeb;
+          const hasMobile = !!routeMobile;
+
+          if ($tabWeb) $tabWeb.disabled = !hasWeb;
+          if ($tabMobile) $tabMobile.disabled = !hasMobile;
+
+          if (activeNodeMode === "web" && !hasWeb && hasMobile) activeNodeMode = "mobile";
+          if (activeNodeMode === "mobile" && !hasMobile && hasWeb) activeNodeMode = "web";
+
+          if ($tabWeb) $tabWeb.className = "tabBtn" + (activeNodeMode === "web" ? " tabBtnActive" : "");
+          if ($tabMobile) $tabMobile.className = "tabBtn" + (activeNodeMode === "mobile" ? " tabBtnActive" : "");
+
+          const route = activeNodeMode === "mobile" ? routeMobile : routeWeb;
+          if ($previewMeta) $previewMeta.textContent = route || "-";
+
+          if ($openNewTab) {
+            const href = route || routeWeb || routeMobile;
+            $openNewTab.href = href ? href : "javascript:void(0)";
+            if (href) $openNewTab.removeAttribute("aria-disabled");
+            else $openNewTab.setAttribute("aria-disabled", "true");
+          }
+
+          if ($previewFrame) {
+            if (route) {
+              $previewFrame.src = route;
+              $previewFrame.style.display = "";
+              if ($previewEmpty) $previewEmpty.style.display = "none";
+            } else {
+              $previewFrame.removeAttribute("src");
+              $previewFrame.style.display = "none";
+              if ($previewEmpty) $previewEmpty.style.display = "";
+            }
           }
         }
 
@@ -785,6 +1007,7 @@
           $note.value = saved.note || "";
           setStatusUi(saved.status);
           renderNodes(scene);
+          updatePreview(scene);
         }
 
         function render() {
@@ -834,6 +1057,8 @@
             const scenariosRaw = Array.isArray(data?.scenarios) ? data.scenarios : [];
             scenarios = scenariosRaw.map(normalizeScenario).filter((s) => s.id || s.name);
             activeId = scenarios.length ? scenarios[0].id : "";
+            activeNodeIndex = 0;
+            activeNodeMode = "web";
             $generatedAt.textContent = data?.meta?.generatedAt ? String(data.meta.generatedAt) : "-";
 
             if (scenarios.length) {
