@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .card{fill:#f8fafc;stroke:#e5e7eb;stroke-width:2}
+      .title{font:700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#111827}
+      .text{font:500 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#374151}
+      .muted{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#6b7280}
+      .pill{fill:#eff6ff;stroke:#bfdbfe;stroke-width:2}
+      .pillText{font:700 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;fill:#1d4ed8}
+      .line{stroke:#2563eb;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="360"/>
+  <rect class="card" x="140" y="64" width="680" height="232" rx="16"/>
+  <text class="title" x="160" y="98">Lifecycle thinking</text>
+  <text class="muted" x="160" y="122">Define states, transitions, permissions, and traceability from creation to closure</text>
+
+  <rect class="pill" x="190" y="170" width="110" height="30" rx="15"/>
+  <text class="pillText" x="245" y="190" text-anchor="middle">Draft</text>
+  <rect class="pill" x="320" y="170" width="110" height="30" rx="15"/>
+  <text class="pillText" x="375" y="190" text-anchor="middle">Submitted</text>
+  <rect class="pill" x="450" y="170" width="110" height="30" rx="15"/>
+  <text class="pillText" x="505" y="190" text-anchor="middle">In progress</text>
+  <rect class="pill" x="580" y="170" width="110" height="30" rx="15"/>
+  <text class="pillText" x="635" y="190" text-anchor="middle">Done</text>
+  <rect class="pill" x="710" y="170" width="110" height="30" rx="15"/>
+  <text class="pillText" x="765" y="190" text-anchor="middle">Archived</text>
+
+  <path class="line" marker-end="url(#arrow)" d="M305 185 L315 185"/>
+  <path class="line" marker-end="url(#arrow)" d="M435 185 L445 185"/>
+  <path class="line" marker-end="url(#arrow)" d="M565 185 L575 185"/>
+  <path class="line" marker-end="url(#arrow)" d="M695 185 L705 185"/>
+
+  <path class="line" marker-end="url(#arrow)" d="M770 212 C760 252, 600 280, 480 280 C360 280, 220 252, 215 212"/>
+
+  <text class="text" x="190" y="230">For each state: allowed actions, editable fields, failure handling, logs and notifications</text>
+  <text class="muted" x="480" y="268" text-anchor="middle">Terminal is not the end: withdraw / void / terminate / restore / retry are lifecycle stages</text>
+  <text class="muted" x="480" y="336" text-anchor="middle">Once lifecycle is clear: state machine, RBAC, data semantics and test cases align quickly</text>
+</svg>

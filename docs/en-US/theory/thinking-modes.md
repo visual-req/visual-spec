@@ -50,7 +50,25 @@ Typical prompts:
 - “After success/failure, what post-actions must the system perform?”
 - “How do we know the process is truly finished (async notifications, retries, compensation, reconciliation)?”
 
-### 6) Action–course mapping (example output)
+### 6) Lifecycle thinking
+
+![Lifecycle thinking diagram](../../assets/en-US/thinking/thinking-lifecycle.svg)
+
+Lifecycle thinking helps you describe an object/document/entity from creation to closure, so you don’t stop at “create/submit” and forget “withdraw/void/terminate/archive/restore/retry”.
+
+- Goal: define a complete state machine and attach RBAC, data semantics, audit logs, notifications, and reconciliation to lifecycle stages
+- What to define (checklist):
+  - State set: from initial to terminal states (e.g., Draft → Submitted → In progress → Done/Terminated → Archived)
+  - Transitions: actor (who), conditions (when), actions (what), and rollback/failure behavior
+  - Allowed operations per state: button visibility/disable reasons, editable fields, withdraw/change windows
+  - Data semantics by state: read-only fields, when metrics are computed, when export/reconciliation is allowed
+  - Traceability: what to log for every transition (actor, reason, before/after, approval evidence, timestamp)
+- Typical prompts:
+  - “Can it be edited after submission? If yes, which state does it return to, and does it require re-approval?”
+  - “What are the terminal states? Can a terminal state be undone/restored? Do we need archiving and retention?”
+  - “Which actions need idempotency/retry? How are retry failures marked and alerted?”
+
+### 7) Action–course mapping (example output)
 
 ![Action–course mapping diagram](../../assets/en-US/thinking/thinking-action-course-mapping.svg)
 
