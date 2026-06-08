@@ -85,6 +85,8 @@ Stage map (SVG):
 | `/vspec:plan` | Generate estimation and schedule | Turn scope into a reviewable plan | `/specs/plan/plan_estimate.md`, `/specs/plan/plan_schedule.html` |
 | `/vspec:upgrade` | Upgrade/redesign based on legacy + new inputs | Rebuild specs from existing materials | regenerated `/specs/` + synced technical selections |
 
+If you only want the standalone planning capability (estimation + schedule) without the full visual-spec workflow, use: https://github.com/visual-req/project-plan
+
 If you only want the standalone quality check capability (without the full visual-spec workflow), use: https://github.com/visual-req/spec-review
 
 ## Documentation

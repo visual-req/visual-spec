@@ -83,6 +83,8 @@ npx skills add visual-req/visual-spec --skill visual-spec
 | `/vspec:plan` | 見積・排期 | スコープをレビュー可能な計画にする | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
 | `/vspec:upgrade` | 既存資料から specs を再生成/更新 | 既存資料から仕様を再構築/更新する | `/specs/` 更新 + 技術選定を `/scheme.yaml` に同期 |
 
+見積・排期（Plan）機能だけを単独で使いたい場合（visual-spec のフルワークフロー不要）は、こちらを利用してください： https://github.com/visual-req/project-plan
+
 品質チェック（QC）機能だけを単独で使いたい場合（visual-spec のフルワークフロー不要）は、こちらを利用してください： https://github.com/visual-req/spec-review
 
 ## Documentation

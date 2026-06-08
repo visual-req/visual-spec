@@ -95,6 +95,8 @@ npx skills add visual-req/visual-spec --skill visual-spec
 | `/vspec:plan` | 生成估算与排期 | 把范围变成可评审的计划 | `/specs/plan/plan_estimate.md`、`/specs/plan/plan_schedule.html` |
 | `/vspec:upgrade` | 基于遗留与新增资料升级/重构 | 用现有资料重建/升级 specs | 归一化输入并生成/更新 `/specs/`，同步技术选型 |
 
+如果你只想单独使用“估算与排期（Plan）”能力（不需要整套 visual-spec 工作流），请使用：https://github.com/visual-req/project-plan
+
 如果你只想单独使用“质量检查（QC）”能力（不需要整套 visual-spec 工作流），请使用：https://github.com/visual-req/spec-review
 
 ## upgrade 与 refine 的区别
