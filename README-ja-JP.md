@@ -1,8 +1,20 @@
-# visual-spec（日本語）
-
-[English](README.md) | [中文](README-zh-CN.md) | [日本語](README-ja-JP.md)
-
-「一文要件」から実行可能プロトタイプと追跡可能な仕様へ。段階的な `/vspec:*` ワークフローで手戻りと齟齬を減らします。
+<p align="center">
+  <img src="docs/assets/ja-JP/visual-spec-workflow.svg" alt="visual-spec" width="720" />
+</p>
+<h3 align="center">visual-spec（日本語）</h3>
+<p align="center">「一文要件」から実行可能プロトタイプと追跡可能な仕様へ。段階的な <code>/vspec:*</code> ワークフローで手戻りと齟齬を減らします。</p>
+<p align="center">
+  <a href="https://github.com/visual-req/visual-spec/releases"><img src="https://img.shields.io/github/v/release/visual-req/visual-spec" alt="Release"></a>
+  <a href="https://github.com/visual-req/visual-spec"><img src="https://img.shields.io/github/stars/visual-req/visual-spec?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/visual-req/visual-spec/issues"><img src="https://img.shields.io/github/issues/visual-req/visual-spec?style=flat-square" alt="Issues"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"></a>
+</p>
+<p align="center">
+  <a href="README.md">English</a> · <a href="README-zh-CN.md">中文</a> · <a href="README-ja-JP.md">日本語</a>
+  <br/>
+  <a href="docs/ja-JP/getting-started.md">クイックスタート</a> · <a href="docs/ja-JP/commands.md">コマンド</a> · <a href="docs/ja-JP/workflows.md">ワークフロー</a> · <a href="docs/ja-JP/theory.md">方法論</a>
+</p>
+<hr />
 
 バージョン：0.1.13（2026-04-12）· License: MIT（[LICENSE](LICENSE)）
 

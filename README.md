@@ -1,8 +1,20 @@
-# visual-spec
-
-[English](README.md) | [中文](README-zh-CN.md) | [日本語](README-ja-JP.md)
-
-Turn a one-sentence idea into runnable prototypes and traceable specs with a staged `/vspec:*` workflow.
+<p align="center">
+  <img src="docs/assets/en-US/visual-spec-workflow.svg" alt="visual-spec" width="720" />
+</p>
+<h3 align="center">visual-spec</h3>
+<p align="center">Turn a one-sentence idea into runnable prototypes and traceable specs with a staged <code>/vspec:*</code> workflow.</p>
+<p align="center">
+  <a href="https://github.com/visual-req/visual-spec/releases"><img src="https://img.shields.io/github/v/release/visual-req/visual-spec" alt="Release"></a>
+  <a href="https://github.com/visual-req/visual-spec"><img src="https://img.shields.io/github/stars/visual-req/visual-spec?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/visual-req/visual-spec/issues"><img src="https://img.shields.io/github/issues/visual-req/visual-spec?style=flat-square" alt="Issues"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"></a>
+</p>
+<p align="center">
+  <a href="README.md">English</a> · <a href="README-zh-CN.md">中文</a> · <a href="README-ja-JP.md">日本語</a>
+  <br/>
+  <a href="docs/en-US/getting-started.md">Getting started</a> · <a href="docs/en-US/commands.md">Commands</a> · <a href="docs/en-US/workflows.md">Workflows</a> · <a href="docs/en-US/theory.md">Theory</a>
+</p>
+<hr />
 
 Version: 0.1.13 (2026-04-12) · License: MIT ([LICENSE](LICENSE))
 

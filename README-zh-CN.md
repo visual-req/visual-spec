@@ -1,8 +1,20 @@
-# visual-spec（中文）
-
-[English](README.md) | [中文](README-zh-CN.md) | [日本語](README-ja-JP.md)
-
-把“一句话需求”转成可运行原型与可追踪规格，用分阶段 `/vspec:*` 工作流降低沟通与返工。
+<p align="center">
+  <img src="docs/assets/zh-CN/visual-spec-workflow.svg" alt="visual-spec" width="720" />
+</p>
+<h3 align="center">visual-spec（中文）</h3>
+<p align="center">把“一句话需求”转成可运行原型与可追踪规格，用分阶段 <code>/vspec:*</code> 工作流降低沟通与返工。</p>
+<p align="center">
+  <a href="https://github.com/visual-req/visual-spec/releases"><img src="https://img.shields.io/github/v/release/visual-req/visual-spec" alt="Release"></a>
+  <a href="https://github.com/visual-req/visual-spec"><img src="https://img.shields.io/github/stars/visual-req/visual-spec?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/visual-req/visual-spec/issues"><img src="https://img.shields.io/github/issues/visual-req/visual-spec?style=flat-square" alt="Issues"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"></a>
+</p>
+<p align="center">
+  <a href="README.md">English</a> · <a href="README-zh-CN.md">中文</a> · <a href="README-ja-JP.md">日本語</a>
+  <br/>
+  <a href="docs/zh-CN/getting-started.md">快速开始</a> · <a href="docs/zh-CN/commands.md">命令说明</a> · <a href="docs/zh-CN/workflows.md">工作流</a> · <a href="docs/zh-CN/theory.md">方法论</a>
+</p>
+<hr />
 
 版本：0.1.13（2026-04-12）· License: MIT（[LICENSE](LICENSE)）
 
