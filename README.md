@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="docs/assets/en-US/visual-spec-workflow.svg" alt="visual-spec" width="720" />
-</p>
 <h3 align="center">visual-spec</h3>
 <p align="center">Turn a one-sentence idea into runnable prototypes and traceable specs with a staged <code>/vspec:*</code> workflow.</p>
 <p align="center">

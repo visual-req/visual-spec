@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="docs/assets/ja-JP/visual-spec-workflow.svg" alt="visual-spec" width="720" />
-</p>
 <h3 align="center">visual-spec（日本語）</h3>
 <p align="center">「一文要件」から実行可能プロトタイプと追跡可能な仕様へ。段階的な <code>/vspec:*</code> ワークフローで手戻りと齟齬を減らします。</p>
 <p align="center">

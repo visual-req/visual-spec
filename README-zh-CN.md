@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="docs/assets/zh-CN/visual-spec-workflow.svg" alt="visual-spec" width="720" />
-</p>
 <h3 align="center">visual-spec（中文）</h3>
 <p align="center">把“一句话需求”转成可运行原型与可追踪规格，用分阶段 <code>/vspec:*</code> 工作流降低沟通与返工。</p>
 <p align="center">
