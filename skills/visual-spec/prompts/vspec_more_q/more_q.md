@@ -117,6 +117,8 @@
    - `/specs/background/questions.md` 与 `/specs/background/questions.json` 必须保持问题条目一致
    - 若只存在其中之一：必须先根据现有文件生成另一份（内容逐条一致）再继续追加
    - 对 `questions.json`：必须读取现有 JSON，向 `items` 追加新增条目，并更新 `meta.total` 与 `meta.generated_at`
+    - 每个 JSON item 的 `id` 必须是 JSON 数字类型（例如 `"id": 10`），从现有最大 `id + 1` 开始递增；禁止写成字符串（如 `"id": "10"`、`"id": "Q10"`）或带前缀/前导零，否则前端阅读页 `question_and_answer.html` 会因 `Number(id)` 校验失败而丢弃全部条目
+    - 追加写入后自检（必须）：重新读取 `questions.json`，逐条校验 `typeof item.id === "number"` 且为有限整数；若发现任何 `id` 为字符串或非数字，必须立即改写为数字并重新写入，直到全部满足
     - 每个 JSON item 必须包含 `priority` 字段，值必须为 `required` 或 `optional`
     - 每个 JSON item 必须包含 `type` 与 `options`：
       - `type` 必须为 `TF` / `Single` / `Multi` / `Fill` / `Open` 之一

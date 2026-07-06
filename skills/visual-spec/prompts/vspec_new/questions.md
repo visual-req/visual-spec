@@ -117,6 +117,8 @@
    - `meta` 至少包含：`language`（en/zh-CN/ja）、`generated_at`（ISO 字符串）、`total`（数字）
    - `items` 为 array；每项必须包含字段（字段名固定，不随语言变化）：
      - `id`：number（从 1 递增，与 Markdown 编号一致）
+       - 强约束（必须）：`id` 必须是 JSON 数字类型（例如 `"id": 1`），禁止写成字符串（例如 `"id": "1"`、`"id": "Q01"`、`"id": "Q1"`）
+       - 禁止任何前缀（如 `Q`、`No.`）、前导零（如 `01`）或非数字字符；否则前端阅读页 `question_and_answer.html` 会因 `Number(id)` 校验失败而丢弃全部条目，导致“未解析到条目”
      - `context`：string
      - `question`：string
      - `priority`：string（必须为 `required` 或 `optional`；用于区分“必答题/选答题”）
@@ -129,6 +131,7 @@
      - `answered_at`：string（可空）
      - `status`：string（值必须与所选语言一致：Unanswered/未回答/未回答）
 5. 编号从 1 开始递增（Markdown 与 JSON 必须一致）
+   - JSON 写入后自检（必须）：重新读取 `questions.json`，逐条校验 `typeof item.id === "number"` 且为有限整数；若发现任何 `id` 为字符串或非数字，必须立即改写为数字并重新写入，直到全部满足
 6. 提问者默认填“BA/系统分析”（同时在 JSON 中写入 `asker: BA/System Analyst`）
 7. 操作体验强制覆盖（必须）：
    - 至少生成 4 条与“操作体验/交互模式”相关的问题，且必须覆盖以下主题中的至少 3 个：
