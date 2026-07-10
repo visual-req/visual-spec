@@ -1425,12 +1425,22 @@
           if (state.questionsJson.handle) {
             await writeToHandle(state.questionsJson.handle, text);
             setStatus("questionsJson", t("statusSaved", [state.questionsJson.name]), "ok");
+          } else if ("showSaveFilePicker" in window) {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: state.questionsJson.name || "questions.json",
+              types: [{ description: "JSON", accept: { "application/json": [".json"] } }],
+            });
+            await writeToHandle(handle, text);
+            state.questionsJson.handle = handle;
+            state.questionsJson.name = handle.name || state.questionsJson.name || "questions.json";
+            setStatus("questionsJson", t("statusSaved", [state.questionsJson.name]), "ok");
           } else {
             downloadJson(state.questionsJson.name || "questions.json", obj);
             setStatus("questionsJson", t("statusExported"), "warn");
           }
           rebuild();
         } catch (e) {
+          if (e && (e.name === "AbortError" || e.name === "NotAllowedError")) return;
           setStatus("questionsJson", t("statusParseFailed", [e.message || e]), "bad");
         }
       });
