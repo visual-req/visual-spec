@@ -56,7 +56,7 @@ Flow:
 5.5 Create `/specs/background/question_and_answer.html` (single-file HTML with inline CSS/JS) so the user can answer questions and write back to markdown:
    - If the file already exists: do NOT overwrite it; reuse it.
    - Only create it when missing by reading the built-in template `prompts/vspec_new/question_and_answer.html`.
-   - Do NOT create any `prompt/` or `prompts/` directory in the project; do not write anything under `prompts/**`.
+   - Under no circumstances create a `prompt/` or `prompts/` folder within the working project, and never place any generated file under a `prompts/` path.
 6. Ask the user to answer the questions from the Open Questions section (use the section title in the selected language). The user should answer via `/specs/background/question_and_answer.html` (select `/specs/background/original.md` in the page and save back).
    - Distinguish required vs optional questions (`priority=required|optional`):
      - Required: affects scope/rules/acceptance; unanswered required items block subsequent generation
@@ -120,7 +120,7 @@ Flow:
      - Prefer `/docs/refine/refine.md` (if present).
      - If `/docs/refine/refine.md` is missing, ask the user to paste the refinement content (what to change) in the prompt window, and treat that pasted content as the refine input.
      - You may additionally read `/docs/refine/` as supporting materials when explicitly referenced/needed (prefer `/docs/refine/file_list.md` if present; else read files in name order).
-2. If `prompts/vspec_refine/refine.md` is missing, stop immediately and do nothing.
+2. If `prompts/vspec_refine/refine.md` cannot be located, exit this command without producing any outputs.
 3. Load `prompts/vspec_refine/refine.md` to apply the refinement, update the canonical requirement, and update impacted artifacts.
 4. Append the refinement result to `/specs/background/original.md`, and update impacted `/specs/details/` and `/specs/prototypes/` accordingly; if `/specs/backend/` exists and is non-empty, sync-update impacted backend code as well.
 
@@ -129,8 +129,8 @@ Flow:
 Use this command to refine and update the requirement based on answered questions.
 
 Flow:
-1. If `/specs/background/questions.md` is missing, stop immediately and do nothing.
-2. If `/specs/background/questions.md` contains no pending/unanswered questions, stop immediately and do nothing.
+1. If `/specs/background/questions.md` is not present, exit this command without producing any outputs.
+2. If `/specs/background/questions.md` lists no pending or unanswered items, exit this command without producing any outputs.
 3. Read `/specs/background/questions.md` and pick answered items.
 4. Load `prompts/vspec_refine/refine_q.md` to merge answers into the canonical requirement.
 5. Append the refinement result to `/specs/background/original.md`.
@@ -324,7 +324,7 @@ Language:
 - Test case titles/descriptions should follow the selected language as much as possible.
 
 Flow:
-1. Read `/test/验收用例/acceptance_cases.json`, `/specs/functions/*`, `/specs/details/`, and detect the existing test frameworks in the repository.
+1. Read `/test/验收用例/acceptance_cases.json` and `/specs/functions/*` and `/specs/details/`, and detect the existing test frameworks in the repository.
 2. Load `prompts/vspec_test/test.md` to generate automation tests using the existing frameworks and conventions.
 3. Write test code to the project test directories (or `/tests/` if no standard exists) and ensure it can run with existing scripts.
 4. Load `prompts/harness/append-test/post_append_test_coverage_check.md` to verify whether test coverage is sufficiently complete; if it outputs any issues, continue.

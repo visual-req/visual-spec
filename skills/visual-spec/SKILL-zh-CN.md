@@ -49,7 +49,7 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 5.5 同时生成交互式问答页面：`/specs/background/question_and_answer.html`（单文件 HTML，内联 CSS/JS），用于回答并回写。
    - 若该文件已存在：不得覆盖、不得重复生成，直接复用现有文件。
    - 若该文件不存在：才生成一次；模板来源为本 Skill 内置模板 `prompts/vspec_new/question_and_answer.html`（只读读取模板并写入目标路径）。
-   - 禁止在项目中创建 `prompt/` 或 `prompts/` 目录；不得向 `prompts/**` 写入任何文件。
+   - 任何情况下均不得在工作项目中创建 `prompt/` 或 `prompts/` 目录；生成的文件一律不得落入 `prompts/` 路径下。
 6. 提示用户回答“待确认问题/Open Questions/要確認事項”章节中的问题（按所选语言对应章节标题），并要求通过 `/specs/background/question_and_answer.html` 完成（在页面中选择 `/specs/background/original.md`，填写并保存回写）。
    - 必须区分“必答题（priority=required）”与“选答题（priority=optional）”：
      - 必答题：影响范围/规则/验收的关键口径；未回答将阻塞后续生成
@@ -113,7 +113,7 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
      - 优先读取 `/docs/refine/refine.md`（如存在）。
      - 若 `/docs/refine/refine.md` 不存在：先提示用户在提示词窗口/对话窗口粘贴本次需要修改的内容（变更点或完整新口径均可），并将该粘贴内容视为 refine 输入继续执行。
      - 可按需读取 `/docs/refine/` 作为补充材料（仅在被引用/明确需要时读取；若存在优先读 `/docs/refine/file_list.md`；否则按文件名顺序读取）。
-2. 若 `prompts/vspec_refine/refine.md` 不存在：立即结束，不执行任何写入。
+2. 若无法定位到 `prompts/vspec_refine/refine.md`：退出本命令，且不生成任何输出。
 3. 加载 `prompts/vspec_refine/refine.md` 应用补充信息、更新需求口径并同步更新受影响的产物。
 4. 将 refine 结果追加到 `/specs/background/original.md`，并更新受影响的 `/specs/details/` 与 `/specs/prototypes/`；若 `/specs/backend/` 已存在且非空，则同步更新受影响的后端代码。
 
@@ -122,8 +122,8 @@ description: "将原始需求分析为可评审的视觉规格，并生成相关
 用于基于“已回答的问题”补充与更新需求。
 
 流程：
-1. 若 `/specs/background/questions.md` 不存在：立即结束，不执行任何写入。
-2. 若 `/specs/background/questions.md` 中不存在待回答的问题：立即结束，不执行任何写入。
+1. 若 `/specs/background/questions.md` 不存在：退出本命令，且不生成任何输出。
+2. 若 `/specs/background/questions.md` 中不存在待回答的问题：退出本命令，且不生成任何输出。
 3. 读取 `/specs/background/questions.md` 并选择已回答项。
 4. 加载 `prompts/vspec_refine/refine_q.md` 将答案合并进最新口径。
 5. 将结果追加到 `/specs/background/original.md`。

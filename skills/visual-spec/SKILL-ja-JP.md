@@ -54,7 +54,7 @@ Flow:
 5. `/specs/background/question_and_answer.html` を生成（単一 HTML、CSS/JS は内包）。このページで `original.md` / `questions.md` の質問に回答し、md に書き戻せるようにする。
    - 既に存在する場合：上書きせず、そのまま再利用する。
    - 無い場合のみ：本 Skill 内蔵テンプレート `prompts/vspec_new/question_and_answer.html` を読み込み（テンプレートは読み取り専用）、目標パスへ 1 回だけ書き出す。
-   - プロジェクト側に `prompt/` または `prompts/` ディレクトリを作成しない。`prompts/**` 配下へは一切書き込まない。
+   - 作業プロジェクト内に `prompt/` または `prompts/` フォルダを作成しないこと。生成ファイルを `prompts/` 配下へ出力しないこと。
 6. Open Questions/要確認事項の回答を促す（`/specs/background/question_and_answer.html` を開き、`/specs/background/original.md` を選択して回答・保存）。
    - 必答/選答（`priority=required|optional`）を区別する：
      - 必答（required）：範囲/ルール/受入に影響するため、未回答は後続生成をブロック
@@ -97,7 +97,7 @@ Flow:
 回答済みの質問に基づき要件を更新します。
 
 Flow:
-1. `/specs/background/questions.md` が無い場合は停止
+1. `/specs/background/questions.md` が存在しない場合は本コマンドを終了し、何も出力しない
 2. 回答済み項目を抽出
 3. `prompts/vspec_refine/refine_q.md` を読み込み、回答を口径へマージ
 4. `/specs/background/original.md` に追記
@@ -108,7 +108,7 @@ Flow:
 追加の確認質問を生成し、`/specs/background/questions.md` に追記します（重複排除・番号継続）。
 
 Flow:
-1. `/specs/background/questions.md` が無い場合は停止（先に `/vspec:new` を促す）
+1. `/specs/background/questions.md` が存在しない場合は本コマンドを終了し（先に `/vspec:new` を促す）、何も出力しない
 2. `prompts/vspec_more_q/more_q.md` を読み込み、追加質問を生成
 3. 新規項目のみを `questions.md` 末尾へ追記（既存は書き換えない）
 4. ユーザーが回答し、その後 `/vspec:refine-q` を実行するための指示を出す
