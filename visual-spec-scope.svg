@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2320" height="1430" viewBox="0 0 2320 1430">
+  <defs>
+    <linearGradient id="hdrGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#0b4fd8"/>
+    </linearGradient>
+    <style>
+      .bg { fill: #ffffff; }
+      .title { font: 800 26px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .hdrName { font: 800 21px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #ffffff; }
+      .hdrCmd { font: 10.5px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; fill: rgba(255, 255, 255, 0.9); }
+      .hdrCmdS { font: 9px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; fill: rgba(255, 255, 255, 0.92); }
+      .hdrLabel { font: 800 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #ffffff; }
+      .hdrSub { font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: rgba(255, 255, 255, 0.8); }
+      .rowLabel { font: 500 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .dotMain { fill: #2563eb; }
+      .dotSub { fill: none; stroke: #60a5fa; stroke-width: 2.5; }
+      .gridV { stroke: #e2e8f0; stroke-width: 1; }
+      .gridVLabel { stroke: #cbd5e1; stroke-width: 1.2; }
+      .gridH { stroke: #eef2f7; stroke-width: 1; }
+      .gridHdrSep { stroke: rgba(255, 255, 255, 0.28); stroke-width: 1; }
+      .perimeter { fill: none; stroke: #94a3b8; stroke-width: 1.6; }
+      .note { font: 13.5px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="2320" height="1430"/>
+
+  <text class="title" x="40" y="46">visual-spec 覆盖范围 · 工程阶段 × 关键功能点</text>
+  <text class="subtitle" x="40" y="74">以「场景为主线、/vspec:* 命令分阶段驱动」。表头第 1–8 列 = docs/zh-CN/theory.md「阶段地图」的 8 个工程阶段（粗体为阶段触发命令，同列小字为并入该阶段的关联附加命令），第 9 列 = 其余附加命令；下方表格每一行对应一个关键功能点。</text>
+
+  <!-- ===== 表头（第一行）= 工程阶段步骤 ===== -->
+  <rect x="40" y="96" width="2220" height="128" fill="url(#hdrGrad)"/>
+  <text class="hdrLabel" x="250" y="152" text-anchor="middle">关键功能点</text>
+  <text class="hdrSub" x="250" y="176" text-anchor="middle">（表格行）</text>
+
+  <text class="hdrName" x="560" y="142" text-anchor="middle">1 需求结构化</text>
+  <text class="hdrCmd" x="560" y="168" text-anchor="middle">/vspec:new</text>
+  <text class="hdrCmdS" x="560" y="194" text-anchor="middle">/vspec:more-q · refine-q · upgrade</text>
+
+  <text class="hdrName" x="760" y="142" text-anchor="middle">2 方案验证</text>
+  <text class="hdrCmd" x="760" y="182" text-anchor="middle">/vspec:verify</text>
+
+  <text class="hdrName" x="960" y="142" text-anchor="middle">3 规格细化</text>
+  <text class="hdrCmd" x="960" y="182" text-anchor="middle">/vspec:detail</text>
+
+  <text class="hdrName" x="1160" y="142" text-anchor="middle">4 验收与测试</text>
+  <text class="hdrCmd" x="1160" y="182" text-anchor="middle">/vspec:accept</text>
+
+  <text class="hdrName" x="1360" y="142" text-anchor="middle">5 实现输入</text>
+  <text class="hdrCmd" x="1360" y="160" text-anchor="middle">/vspec:impl</text>
+  <text class="hdrCmdS" x="1360" y="182" text-anchor="middle">/vspec:i-test · append-test · script</text>
+
+  <text class="hdrName" x="1560" y="142" text-anchor="middle">6 质量检查</text>
+  <text class="hdrCmd" x="1560" y="182" text-anchor="middle">/vspec:qc</text>
+
+  <text class="hdrName" x="1760" y="142" text-anchor="middle">7 变更同步</text>
+  <text class="hdrCmd" x="1760" y="182" text-anchor="middle">/vspec:refine</text>
+
+  <text class="hdrName" x="1960" y="142" text-anchor="middle">8 估算与排期</text>
+  <text class="hdrCmd" x="1960" y="182" text-anchor="middle">/vspec:plan</text>
+
+  <text class="hdrName" x="2160" y="142" text-anchor="middle">9 附加命令</text>
+  <text class="hdrCmd" x="2160" y="182" text-anchor="middle">/vspec:mrd</text>
+
+  <line class="gridHdrSep" x1="460" y1="96" x2="460" y2="224"/>
+  <line class="gridHdrSep" x1="660" y1="96" x2="660" y2="224"/>
+  <line class="gridHdrSep" x1="860" y1="96" x2="860" y2="224"/>
+  <line class="gridHdrSep" x1="1060" y1="96" x2="1060" y2="224"/>
+  <line class="gridHdrSep" x1="1260" y1="96" x2="1260" y2="224"/>
+  <line class="gridHdrSep" x1="1460" y1="96" x2="1460" y2="224"/>
+  <line class="gridHdrSep" x1="1660" y1="96" x2="1660" y2="224"/>
+  <line class="gridHdrSep" x1="1860" y1="96" x2="1860" y2="224"/>
+  <line class="gridHdrSep" x1="2060" y1="96" x2="2060" y2="224"/>
+
+  <!-- ===== 表格主体：每一行 = 一个关键功能点 ===== -->
+  <text class="rowLabel" x="52" y="253">MRD 调研文档（市场 / 竞品 / 用户 / 产品设计 → /docs/market）</text>
+  <circle class="dotMain" cx="2160" cy="248" r="9"/>
+
+  <text class="rowLabel" x="52" y="301">业务上下文与目标补全（background / original.md）</text>
+  <circle class="dotMain" cx="560" cy="296" r="9"/>
+
+  <text class="rowLabel" x="52" y="349">干系人 · 角色 · 术语识别（stakeholders / roles / terms）</text>
+  <circle class="dotMain" cx="560" cy="344" r="9"/>
+
+  <text class="rowLabel" x="52" y="397">业务流程与泳道图建模（flows.puml）</text>
+  <circle class="dotMain" cx="560" cy="392" r="9"/>
+
+  <text class="rowLabel" x="52" y="445">场景枚举与场景级细节（前置 / 约束 / 变体 / 边界 / 对称性）</text>
+  <circle class="dotMain" cx="560" cy="440" r="9"/>
+
+  <text class="rowLabel" x="52" y="493">外部依赖分析与功能清单拆分（dependencies / functions.json）</text>
+  <circle class="dotMain" cx="560" cy="488" r="9"/>
+
+  <text class="rowLabel" x="52" y="541">待确认问题与问答闭环（questions + more-q 追加 / refine-q 合并）</text>
+  <circle class="dotMain" cx="560" cy="536" r="9"/>
+
+  <text class="rowLabel" x="52" y="589">数据模型（实体 / 字段 / 关系 / 枚举 / 状态机）</text>
+  <circle class="dotMain" cx="760" cy="584" r="9"/>
+
+  <text class="rowLabel" x="52" y="637">可运行原型与角色化页面（按 scheme.yaml 选栈）</text>
+  <circle class="dotMain" cx="760" cy="632" r="9"/>
+
+  <text class="rowLabel" x="52" y="685">场景评审入口与原型自检（scenario.html · 移动端 · 金额 · 可点击）</text>
+  <circle class="dotMain" cx="760" cy="680" r="9"/>
+
+  <text class="rowLabel" x="52" y="733">RBAC 与数据权限细化（页面 → 区域 → 控件；数据范围）</text>
+  <circle class="dotMain" cx="960" cy="728" r="9"/>
+
+  <text class="rowLabel" x="52" y="781">页面加载 · 交互 · 校验 · 提交后闭环</text>
+  <circle class="dotMain" cx="960" cy="776" r="9"/>
+
+  <text class="rowLabel" x="52" y="829">复杂规则可视化（决策/判定矩阵、时间轴、表达式树、编号、公式）</text>
+  <circle class="dotMain" cx="960" cy="824" r="9"/>
+
+  <text class="rowLabel" x="52" y="877">横切能力规格（缓存 / MQ / 导入导出 / 定时 / 通知 / 日志 / 认证 / 支付 / NFP）</text>
+  <circle class="dotMain" cx="960" cy="872" r="9"/>
+
+  <text class="rowLabel" x="52" y="925">服务逻辑与作业逻辑（状态机 / 幂等 / 补偿 / 重试 → 实现落地）</text>
+  <circle class="dotMain" cx="960" cy="920" r="9"/>
+  <circle class="dotSub" cx="1360" cy="920" r="9"/>
+
+  <text class="rowLabel" x="52" y="973">细节阅读器（reader.html：目录树 + Markdown / PlantUML 渲染）</text>
+  <circle class="dotMain" cx="960" cy="968" r="9"/>
+
+  <text class="rowLabel" x="52" y="1021">验收用例（acceptance_cases.json + testcase_reader.html）</text>
+  <circle class="dotMain" cx="1160" cy="1016" r="9"/>
+
+  <text class="rowLabel" x="52" y="1069">前后端集成实现（后端核心 API + 前端页面联调）</text>
+  <circle class="dotMain" cx="1360" cy="1064" r="9"/>
+
+  <text class="rowLabel" x="52" y="1117">质量检查报告（qc_report：遗漏 / 矛盾 / 不可测问题清单）</text>
+  <circle class="dotMain" cx="1560" cy="1112" r="9"/>
+
+  <text class="rowLabel" x="52" y="1165">变更同步与修订（refine 归因变更并同步下游产物）</text>
+  <circle class="dotMain" cx="1760" cy="1160" r="9"/>
+  <circle class="dotSub" cx="560" cy="1160" r="9"/>
+  <circle class="dotSub" cx="760" cy="1160" r="9"/>
+  <circle class="dotSub" cx="960" cy="1160" r="9"/>
+
+  <text class="rowLabel" x="52" y="1213">需求估算与排期（用户故事地图 + 排期 HTML）</text>
+  <circle class="dotMain" cx="1960" cy="1208" r="9"/>
+
+  <text class="rowLabel" x="52" y="1261">单元/集成用例与自动化测试代码（i-test JSON · script · append-test）</text>
+  <circle class="dotMain" cx="1360" cy="1256" r="9"/>
+  <circle class="dotSub" cx="1160" cy="1256" r="9"/>
+
+  <text class="rowLabel" x="52" y="1309">升级重构（upgrade 基于 /docs/legacy · /docs/current 重建 /specs/）</text>
+  <circle class="dotMain" cx="560" cy="1304" r="9"/>
+
+  <!-- ===== 网格线 ===== -->
+  <line class="gridVLabel" x1="460" y1="224" x2="460" y2="1328"/>
+  <line class="gridV" x1="660" y1="224" x2="660" y2="1328"/>
+  <line class="gridV" x1="860" y1="224" x2="860" y2="1328"/>
+  <line class="gridV" x1="1060" y1="224" x2="1060" y2="1328"/>
+  <line class="gridV" x1="1260" y1="224" x2="1260" y2="1328"/>
+  <line class="gridV" x1="1460" y1="224" x2="1460" y2="1328"/>
+  <line class="gridV" x1="1660" y1="224" x2="1660" y2="1328"/>
+  <line class="gridV" x1="1860" y1="224" x2="1860" y2="1328"/>
+  <line class="gridV" x1="2060" y1="224" x2="2060" y2="1328"/>
+
+  <line class="gridH" x1="40" y1="272" x2="2260" y2="272"/>
+  <line class="gridH" x1="40" y1="320" x2="2260" y2="320"/>
+  <line class="gridH" x1="40" y1="368" x2="2260" y2="368"/>
+  <line class="gridH" x1="40" y1="416" x2="2260" y2="416"/>
+  <line class="gridH" x1="40" y1="464" x2="2260" y2="464"/>
+  <line class="gridH" x1="40" y1="512" x2="2260" y2="512"/>
+  <line class="gridH" x1="40" y1="560" x2="2260" y2="560"/>
+  <line class="gridH" x1="40" y1="608" x2="2260" y2="608"/>
+  <line class="gridH" x1="40" y1="656" x2="2260" y2="656"/>
+  <line class="gridH" x1="40" y1="704" x2="2260" y2="704"/>
+  <line class="gridH" x1="40" y1="752" x2="2260" y2="752"/>
+  <line class="gridH" x1="40" y1="800" x2="2260" y2="800"/>
+  <line class="gridH" x1="40" y1="848" x2="2260" y2="848"/>
+  <line class="gridH" x1="40" y1="896" x2="2260" y2="896"/>
+  <line class="gridH" x1="40" y1="944" x2="2260" y2="944"/>
+  <line class="gridH" x1="40" y1="992" x2="2260" y2="992"/>
+  <line class="gridH" x1="40" y1="1040" x2="2260" y2="1040"/>
+  <line class="gridH" x1="40" y1="1088" x2="2260" y2="1088"/>
+  <line class="gridH" x1="40" y1="1136" x2="2260" y2="1136"/>
+  <line class="gridH" x1="40" y1="1184" x2="2260" y2="1184"/>
+  <line class="gridH" x1="40" y1="1232" x2="2260" y2="1232"/>
+  <line class="gridH" x1="40" y1="1280" x2="2260" y2="1280"/>
+
+  <rect class="perimeter" x="40" y="96" width="2220" height="1232"/>
+
+  <!-- ===== 图例与说明 ===== -->
+  <line x1="40" y1="1348" x2="2260" y2="1348" stroke="#e2e8f0" stroke-width="1"/>
+  <circle class="dotMain" cx="52" cy="1369" r="8"/>
+  <text class="note" x="70" y="1374">核心覆盖：该关键功能点由对应列阶段的触发命令生成 / 交付</text>
+  <circle class="dotSub" cx="52" cy="1397" r="8"/>
+  <text class="note" x="70" y="1402">关联 / 同步影响：该阶段会同步波及此功能点产物（如 refine / upgrade 的级联更新）</text>
+  <text class="note" x="2260" y="1402" text-anchor="end">列 1–8 = theory.md「阶段地图」8 阶段主链（含触发命令）；附加命令并入对应阶段列（more-q/refine-q/upgrade→需求结构化，i-test/append-test/script→实现输入），其余 mrd 在列 9；产物落于 /docs · /specs · /test，命令可组合、可迭代执行</text>
+</svg>
