@@ -30,7 +30,7 @@
 
 ### 抽象后的共性（基于 thinking-modes）
 
-抽象的核心不是把流程画得更复杂，而是用一套稳定的思维方式把“差异点”系统化地暴露出来。建议结合 [thinking-modes.md](file:///Users/stephenwang/Documents/trae_projects/my_skills/docs/zh-CN/theory/thinking-modes.md) 来做补全：
+抽象的核心不是把流程画得更复杂，而是用一套稳定的思维方式把“差异点”系统化地暴露出来。建议结合 [thinking-modes.md](file:///Users/stephenwang/Documents/trae_projects/visual-spec/docs/zh-CN/theory/thinking-modes.md) 来做补全：
 
 - 边界思维：明确目标/非目标、角色边界、权限边界、时间边界与数据边界，避免只覆盖“看起来合理”的主路径。
 - 对称思维：从正向流程推导逆向与补偿流程（撤销/回滚/重复提交/幂等），让控制路径完整可验证。

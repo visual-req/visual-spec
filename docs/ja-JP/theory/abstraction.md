@@ -29,7 +29,7 @@
 
 ### 抽象後の共通特性（thinking-modes に基づく）
 
-抽象化後、承認/回付型フローの多くは「安定した主経路 + 列挙可能な制御パス + チェックリスト化できる実行制約」という同じ構造になります。差分を漏れなく露出させるために、[thinking-modes.md](file:///Users/stephenwang/Documents/trae_projects/my_skills/docs/ja-JP/theory/thinking-modes.md) を併用します。
+抽象化後、承認/回付型フローの多くは「安定した主経路 + 列挙可能な制御パス + チェックリスト化できる実行制約」という同じ構造になります。差分を漏れなく露出させるために、[thinking-modes.md](file:///Users/stephenwang/Documents/trae_projects/visual-spec/docs/ja-JP/theory/thinking-modes.md) を併用します。
 
 - 境界思考：スコープ/ロール/権限/時間/データ境界を明確化
 - 対称思考：逆方向の流れと補償（撤回/ロールバック/冪等）を導出

@@ -29,7 +29,7 @@ To make model outputs stable, treat this diagram as a checklist in prompts:
 
 ### Shared properties (via thinking-modes)
 
-After abstraction, most approval/routing workflows share the same structure: a stable main path + enumerable control paths + a checklist of execution constraints. Use [thinking-modes.md](file:///Users/stephenwang/Documents/trae_projects/my_skills/docs/en-US/theory/thinking-modes.md) to make the “differences” explicit:
+After abstraction, most approval/routing workflows share the same structure: a stable main path + enumerable control paths + a checklist of execution constraints. Use [thinking-modes.md](file:///Users/stephenwang/Documents/trae_projects/visual-spec/docs/en-US/theory/thinking-modes.md) to make the “differences” explicit:
 
 - Boundary thinking: scope/roles/permissions/time/data boundaries
 - Symmetry thinking: reverse flows and compensations (revoke/rollback/idempotency)

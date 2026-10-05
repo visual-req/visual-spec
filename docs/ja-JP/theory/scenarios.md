@@ -2,7 +2,7 @@
 title: シナリオ分岐（Scenarios）
 ---
 
-このページでは、[abstraction.md](file:///Users/stephenwang/Documents/trae_projects/my_skills/docs/ja-JP/theory/abstraction.md) の分析方法によって「シナリオ集合」を体系的に抽出し、それらのシナリオに含まれる境界条件や制約を情報資産として整理することで、要件の詳細化・プロトタイプ生成・受入テスト設計へどう接続するかを説明します。
+このページでは、[abstraction.md](file:///Users/stephenwang/Documents/trae_projects/visual-spec/docs/ja-JP/theory/abstraction.md) の分析方法によって「シナリオ集合」を体系的に抽出し、それらのシナリオに含まれる境界条件や制約を情報資産として整理することで、要件の詳細化・プロトタイプ生成・受入テスト設計へどう接続するかを説明します。
 
 また、「主経路 + シナリオ分岐 + 役割の泳道」で要件を会話するやり方は、ビジネス側にも理解しやすい形です。多くの場合、業務は「どんなシナリオが起きるか / 誰が何をするか / どんな例外があるか」という切り口で理解し、API やテーブル設計、実装詳細から入りません。
 

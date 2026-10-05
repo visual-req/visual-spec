@@ -2,7 +2,7 @@
 title: Scenarios (Branching Cases)
 ---
 
-This page explains how the analysis method in [abstraction.md](file:///Users/stephenwang/Documents/trae_projects/my_skills/docs/en-US/theory/abstraction.md) helps you systematically derive a “scenario set”, and how those scenarios capture boundaries and constraints that power downstream detailed specs, prototyping, and acceptance tests.
+This page explains how the analysis method in [abstraction.md](file:///Users/stephenwang/Documents/trae_projects/visual-spec/docs/en-US/theory/abstraction.md) helps you systematically derive a “scenario set”, and how those scenarios capture boundaries and constraints that power downstream detailed specs, prototyping, and acceptance tests.
 
 This “main path + scenario branches + role swimlanes” way of communication is also business-friendly: stakeholders tend to understand systems in terms of “what scenarios happen / who does what / what exceptions exist”, rather than starting from APIs, tables, or implementation details.
 

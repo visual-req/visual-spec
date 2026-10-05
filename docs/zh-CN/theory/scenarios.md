@@ -2,7 +2,7 @@
 title: 场景分支（Scenarios）
 ---
 
-本页用于阐释：基于 [abstraction.md](file:///Users/stephenwang/Documents/trae_projects/my_skills/docs/zh-CN/theory/abstraction.md) 的分析方法，可以系统化地抽取出“场景集合”，并把这些场景对应的边界与约束沉淀为可复用的信息资产，支撑后续的需求详细分析、原型生成与验收测试用例设计。
+本页用于阐释：基于 [abstraction.md](file:///Users/stephenwang/Documents/trae_projects/visual-spec/docs/zh-CN/theory/abstraction.md) 的分析方法，可以系统化地抽取出“场景集合”，并把这些场景对应的边界与约束沉淀为可复用的信息资产，支撑后续的需求详细分析、原型生成与验收测试用例设计。
 
 同时，这种以“主链路 + 场景分支 + 角色泳道”的方式去沟通需求，对业务方更友好：业务更习惯用“发生了什么场景/谁在做/会出现什么例外”来理解系统，而不是从接口、表结构或实现细节出发。
 
